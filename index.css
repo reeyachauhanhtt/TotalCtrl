@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+#root {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -600px 0;
+    }
+
+    100% {
+        background-position: 600px 0;
+    }
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* thick scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    background: #f1f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8a8a8a;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4b4b4b;
+}
+
+
+.tx-12 {
+    font-size: 12px;
+}
+
+.tx-left {
+    text-align: left;
+}
+
+.tx-right {
+    text-align: right;
+}
+
+.tx-center {
+    text-align: center;
+}
+
+.pd-y-5 {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.inventorytbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.mg-b-0 {
+    margin-bottom: 0;
+}
+
+/* Remove number input spinners */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
