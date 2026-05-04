@@ -34,6 +34,8 @@ export default function InventoryMainSection({
   const { data: suppliers = [] } = useQuery({
     queryKey: ['suppliers'],
     queryFn: fetchSuppliers,
+    staleTime: 0,
+    refetchOnMount: true,
   });
 
   console.log('suppliers sample:', suppliers[0]);
@@ -43,14 +45,20 @@ export default function InventoryMainSection({
     isLoading: loadingStock,
     isFetching: fetchingStock,
   } = useQuery({
-    queryKey: ['stockValue', selectedInventory?.id],
+    queryKey: ['stock-value', selectedInventory?.id],
     queryFn: () => fetchStockValue(selectedInventory.id),
     enabled: !!selectedInventory?.id,
+    staleTime: 0,
+    refetchOnMount: true,
   });
+  console.log('stockData:', stockData);
 
   const stockValue = Number(stockData?.Data?.totalStockValue ?? 0);
 
-  const itemCount = products.filter((p) => Number(p.quantity ?? 0) > 0).length;
+  const itemCount =
+    stockData?.Data?.totalItems ??
+    products.filter((p) => Number(p.quantity ?? 0) > 0).length;
+
   const isDownloadDisabled = itemCount === 0;
 
   const STOCK_OPTIONS = [
@@ -62,12 +70,19 @@ export default function InventoryMainSection({
 
   const handleDownloadCSV = async () => {
     console.log('handleDownloadCSV clicked');
+
     const blob = await downloadInventoryCSV({
       inventoryId: selectedInventory?.id,
       name: searchQuery,
       supplierIds: selectedSupplier?.Id,
       stockFilter,
     });
+
+    // console.log('Blob type:', blob.type);
+    // console.log('Blob size:', blob.size);
+
+    const text = await blob.text();
+    // console.log('Blob content:', text);
 
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

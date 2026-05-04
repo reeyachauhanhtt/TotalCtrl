@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
+import { Tooltip } from 'react-tooltip';
 import * as XLSX from 'xlsx';
 
-import templateFile from '../../assets/TotalCtrl_Item_Import_Template_en.xlsx';
+// import templateFile from '../../assets/TotalCtrl_Item_Import_Template_en.xlsx';
 import { parseExcel } from '../../services/importFileService';
 import GreenButton from '../Common/GreenButton';
 
@@ -40,7 +41,7 @@ const ImportItemsModal = ({
 
     setFile(selectedFile);
 
-    if (selectedFile.name !== TEMPLATE_NAME) {
+    if (!selectedFile.name.endsWith('.xlsx')) {
       setError(true);
       setUploading(false);
       setSuccess(false);
@@ -136,7 +137,8 @@ const ImportItemsModal = ({
           <GreenButton
             onClick={() => {
               const link = document.createElement('a');
-              link.href = templateFile;
+              link.href =
+                'https://dev.totalctrl.com/restaurant/resources/productexcel/TotalCtrl_Item_Import_Template_en.xlsx';
               link.download = TEMPLATE_NAME;
               link.click();
             }}
@@ -223,8 +225,12 @@ const ImportItemsModal = ({
                   ) : null}
                 </div>
 
-                <div className='relative group min-w-0'>
-                  <div className='flex items-center gap-1 max-w-55 min-w-0'>
+                <div className='min-w-0'>
+                  <div
+                    data-tooltip-id='filename-tooltip'
+                    data-tooltip-content={file.name}
+                    className='flex items-center gap-1 max-w-55 min-w-0'
+                  >
                     <span className='text-[14px] text-gray-900 truncate'>
                       {file.name}
                     </span>
@@ -233,12 +239,11 @@ const ImportItemsModal = ({
                     </span>
                   </div>
 
-                  <div className='absolute left-1/2 -translate-x-1/2 -top-11 hidden group-hover:block z-50'>
-                    <div className='bg-black text-white text-[12px] px-3 py-2 rounded shadow-md whitespace-nowrap'>
-                      {file.name}
-                    </div>
-                    <div className='w-2 h-2 bg-black rotate-45 absolute left-1/2 -translate-x-1/2 top-full -mt-1' />
-                  </div>
+                  <Tooltip
+                    id='filename-tooltip'
+                    place='top'
+                    style={{ backgroundColor: '#000', fontSize: 12 }}
+                  />
                 </div>
               </div>
 

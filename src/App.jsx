@@ -26,6 +26,7 @@ function Layout() {
 
   const [transferToast, setTransferToast] = useState(null);
 
+  // Auto-dismiss after 4 seconds
   useEffect(() => {
     if (!transferToast) return;
     const timer = setTimeout(() => setTransferToast(null), 4000);
@@ -62,9 +63,7 @@ function Layout() {
     <div className='h-screen flex'>
       <Sidebar />
       <div className='ml-50 flex flex-col flex-1 h-screen overflow-hidden'>
-        {renderHeader()}
-
-        {/* TRANSFER TOAST — sits right below the header, full width */}
+        {/* TRANSFER TOAST — sits above the header, full width */}
         {transferToast && (
           <div
             className='shrink-0 bg-black text-white'
@@ -86,6 +85,8 @@ function Layout() {
             </div>
           </div>
         )}
+
+        {renderHeader()}
 
         <div className='flex-1 overflow-hidden'>
           <Routes>

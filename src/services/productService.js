@@ -1,45 +1,10 @@
 import axiosInstance from '../api/axiosInstance';
 
-// export const fetchProducts = async (inventoryId) => {
-//   try {
-//     if (!inventoryId) throw new Error('inventoryId is required');
-
-//     const [inStockRes, outOfStockRes] = await Promise.all([
-//       axiosInstance.get('/inventory-management/store-products', {
-//         params: {
-//           inventoryId,
-//           isInStock: 1,
-//           sortBy: 'productName',
-//           sortOrder: 'ASC',
-//           limit: 100,
-//           offset: 0,
-//           language: 'en',
-//         },
-//       }),
-//       axiosInstance.get('/inventory-management/store-products', {
-//         params: {
-//           inventoryId,
-//           isInStock: 0,
-//           sortBy: 'productName',
-//           sortOrder: 'ASC',
-//           limit: 100,
-//           offset: 0,
-//           language: 'en',
-//         },
-//       }),
-//     ]);
-
-//     const inStock = inStockRes.data?.Data || inStockRes.data?.data || [];
-//     const outOfStock =
-//       outOfStockRes.data?.Data || outOfStockRes.data?.data || [];
-
-//     return [...inStock, ...outOfStock];
-//   } catch (err) {
-//     console.error('Product fetch failed:', err);
-//     throw err;
-//   }
-// };
-export const fetchProducts = async (inventoryId, supplierIds = null) => {
+export const fetchProducts = async ({
+  inventoryId,
+  supplierIds = null,
+  offset = 0,
+}) => {
   try {
     if (!inventoryId) throw new Error('inventoryId is required');
 
@@ -48,8 +13,8 @@ export const fetchProducts = async (inventoryId, supplierIds = null) => {
       isInStock: '0,1,2',
       sortBy: 'productName',
       sortOrder: 'ASC',
-      limit: 100,
-      offset: 0,
+      limit: 20,
+      offset,
       name: '',
     };
 
@@ -59,6 +24,7 @@ export const fetchProducts = async (inventoryId, supplierIds = null) => {
       '/inventory-management/store-products',
       { params },
     );
+
     return res.data?.Data || [];
   } catch (err) {
     console.error('Product fetch failed:', err);

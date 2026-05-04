@@ -121,10 +121,24 @@ export default function TransferItemModal({
     },
 
     onSuccess: (data) => {
-      // console.log('Transfer response:', data);
-      // console.log('transferId:', data?.Data?.transferId);
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({
+        queryKey: ['products', fromInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', fromInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['products', toInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', toInventory?.id],
+      });
+
       onClose();
+
       if (onTransferSuccess) {
         onTransferSuccess({ transferId: data?.Data?.transferId });
       }

@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import ExternalOrderTabs from '../components/ExternalOrder/ExternalOrderTab';
 import ExternalOrderTable from '../components/ExternalOrder/ExternalOrderTable';
 import ExternalOrderDetail from '../components/ExternalOrder/ExternalOrderDetail';
+import AddOrderManuallyModal from '../components/ExternalOrder/AddOrderManuallyModal';
 import { fetchExternalOrders } from '../services/externalOrderService';
 import { setDetailOpen, setSelectedOrder } from '../store/externalOrderSlice';
 
@@ -33,6 +34,7 @@ function formatTotal(total, currency) {
 
 export default function ExternalOrderPage() {
   const [activeTab, setActiveTab] = useState('Scheduled');
+  const [showAddModal, setShowAddModal] = useState(false);
   const dispatch = useDispatch();
 
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
@@ -75,6 +77,7 @@ export default function ExternalOrderPage() {
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
       <ExternalOrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
       <ExternalOrderTable
         orders={orders}
         isLoading={isLoading}
@@ -84,6 +87,12 @@ export default function ExternalOrderPage() {
           dispatch(setSelectedOrder(order));
         }}
         activeTab={activeTab}
+        onAddOrderClick={() => setShowAddModal(true)}
+      />
+
+      <AddOrderManuallyModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
       />
     </div>
   );

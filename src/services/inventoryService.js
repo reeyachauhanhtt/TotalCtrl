@@ -6,21 +6,9 @@ console.log('TOKEN:', TOKEN);
 //Fetch inventories
 export async function fetchInventory() {
   try {
-    const res = await fetch(`/inventory/me/access`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${TOKEN}`,
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch inventory');
-    }
-
-    const data = await res.json();
-    console.log('RAW API:', data);
-    return data;
+    const res = await axiosInstance.get('/inventory/me/access');
+    console.log('RAW API:', res.data);
+    return res.data;
   } catch (err) {
     console.error('API ERROR:', err);
     throw err;

@@ -1,4 +1,7 @@
+import { Tooltip } from 'react-tooltip';
 import ExternalOrderRow from './ExternalOrderRow';
+import GreenButton from '../Common/GreenButton';
+import WhiteButton from '../Common/WhiteButton';
 
 const COLUMNS = [
   { label: 'Supplier', align: 'left', width: '30%' },
@@ -17,6 +20,7 @@ export default function ExternalOrderTable({
   isError,
   onRowClick,
   activeTab,
+  onAddOrderClick,
 }) {
   function renderBody() {
     if (isLoading) {
@@ -78,11 +82,11 @@ export default function ExternalOrderTable({
               {/* Buttons — only for Scheduled tab */}
               {activeTab === 'Scheduled' && (
                 <>
-                  {/* Upload Order */}
-                  <div className='relative group mb-5'>
-                    <a
-                      href='#'
-                      className='flex items-center gap-2 px-6.5 py-3 bg-[#23a956] hover:bg-[#1e9449] text-white text-sm font-semibold rounded tracking-wide transition whitespace-nowrap'
+                  <div className='mb-5'>
+                    <GreenButton
+                      data-tooltip-id='table-upload-tooltip'
+                      data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
+                      className='px-6.5 py-3 text-sm font-semibold rounded tracking-wide'
                     >
                       <img
                         src='/icons/upload.svg'
@@ -91,23 +95,26 @@ export default function ExternalOrderTable({
                         height={16}
                       />
                       <span>Upload order</span>
-                    </a>
-                    <div className='absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-62 bg-[#19191c] text-white text-xs rounded px-3 py-3 leading-4 z-50 hidden group-hover:block font-normal'>
-                      <p>
-                        Does your supplier send you PDF confirmation receipts
-                        for your orders?
-                      </p>
-                      <p>
-                        Upload the PDF file here and we'll automatically extract
-                        the order and product data for you.{' '}
-                      </p>
-                      <div className='absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#19191c] rotate-45' />
-                    </div>
+                    </GreenButton>
+
+                    <Tooltip
+                      id='table-upload-tooltip'
+                      place='top'
+                      style={{
+                        backgroundColor: '#19191c',
+                        fontSize: 12,
+                        maxWidth: 248,
+                      }}
+                    />
                   </div>
 
-                  {/* Add Order Manually */}
-                  <div className='relative group'>
-                    <button className='flex items-center gap-2 h-10 px-6.5 border border-[#d7d7db] rounded bg-transparent cursor-pointer text-sm font-semibold tracking-wide text-[#6b6b6f] hover:bg-gray-50 transition whitespace-nowrap'>
+                  <div>
+                    <WhiteButton
+                      data-tooltip-id='table-add-order-tooltip'
+                      data-tooltip-content='Use this option to add orders without PDF order confirmation from supplier'
+                      className='h-10 w-full px-6.5 text-sm font-semibold tracking-wide flex items-center justify-center gap-2'
+                      onClick={() => onAddOrderClick?.()}
+                    >
                       <img
                         src='/icons/plus-dark.svg'
                         alt=''
@@ -115,12 +122,17 @@ export default function ExternalOrderTable({
                         height={16}
                       />
                       <span>Add order manually</span>
-                    </button>
-                    <div className='absolute top-full left-1/2 -translate-x-1/2 mt-2 w-51.75 bg-[#19191c] text-white text-xs rounded px-3 py-3 leading-4 z-50 hidden group-hover:block font-normal'>
-                      Use this option to add orders without PDF order
-                      confirmation from supplier
-                      <div className='absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#19191c] rotate-45' />
-                    </div>
+                    </WhiteButton>
+
+                    <Tooltip
+                      id='table-add-order-tooltip'
+                      place='bottom'
+                      style={{
+                        backgroundColor: '#19191c',
+                        fontSize: 12,
+                        maxWidth: 207,
+                      }}
+                    />
                   </div>
                 </>
               )}

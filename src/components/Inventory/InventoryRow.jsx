@@ -9,23 +9,6 @@ import {
 } from '../../services/productService';
 import ConfirmModal from '../Common/ConfirmModal';
 
-// ─── Exact dev values reverse-engineered from DevTools ───────────────────────
-// .dark-text              → color: #19191c, font-size: 14px, line-height: 20px
-// .grey-text              → color: #6b6b6f, font-size: 12px, line-height: 20px
-// .neutral-lbl.highlighted      → bg: #e6e3ff, color: #362a96, font-size: 11px,
-//                                  line-height: 16px, padding: 2px 8px,
-//                                  border-radius: 4px, font-weight: 600,
-//                                  text-transform: uppercase, letter-spacing: .08em
-// .neutral-lbl.inventory-danger → same shape but different color (red tones)
-// .neutral-lbl.highlightedstock → bg: #e7e7ec, color: #57575b, font-size: 11px,
-//                                  line-height: 16px, padding: 2px 8px,
-//                                  border-radius: 4px, font-weight: 600,
-//                                  text-transform: uppercase, letter-spacing: .08em
-// .pd-y-5                 → padding-top: 5px, padding-bottom: 5px
-// .multiple               → display: block, margin: 0 0 20px
-// Row border              → border-top: 1px solid #dee2e6
-// ─────────────────────────────────────────────────────────────────────────────
-
 function formatQty(num) {
   return num.toFixed(2).replace('.', ',');
 }
@@ -330,12 +313,27 @@ export default function InventoryRow({ item, selected, onSelect }) {
 
   const updateMutation = useMutation({
     mutationFn: updateStoreProduct,
+
     onSuccess: () => {
+      console.log('All query keys in cache:');
+      console.log(
+        queryClient
+          .getQueryCache()
+          .getAll()
+          .map((q) => q.queryKey),
+      );
+
       queryClient.invalidateQueries({
-        queryKey: ['stockValue', selectedInventory?.id],
+        queryKey: ['products', selectedInventory?.id],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', selectedInventory?.id],
+      });
+
       setIsEditing(false);
     },
+
     onError: (err) => console.error('Update failed:', err),
   });
 
@@ -344,6 +342,9 @@ export default function InventoryRow({ item, selected, onSelect }) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['products', selectedInventory?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', selectedInventory?.id],
       });
       setShowDeleteModal(false);
       setShowMenu(false);

@@ -4,6 +4,7 @@ export default function SupplierDropdown({
   suppliers = [],
   selectedSupplier,
   setSelectedSupplier,
+  className = '',
 }) {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
@@ -23,7 +24,7 @@ export default function SupplierDropdown({
   }, []);
 
   return (
-    <div ref={wrapperRef} className='relative w-60'>
+    <div ref={wrapperRef} className={`relative w-60 ${className}`}>
       <button
         onClick={() => setOpen((p) => !p)}
         className='flex items-center justify-between w-full h-10 px-4 text-sm text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'

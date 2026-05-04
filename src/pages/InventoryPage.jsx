@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import InventoryMainSection from '../components/inventory/InventoryMainSection';
 import InventoryTable from '../components/inventory/InventoryTable';
@@ -23,8 +23,10 @@ export default function InventoryPage({ onTransferSuccess }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [showTransfer, setShowTransfer] = useState(false);
-  const queryClient = useQueryClient();
 
+  const scrollRef = useRef(null);
+
+  //  Inventory change reset
   useEffect(() => {
     if (!selectedInventory?.id) return;
     setInventoryLoading(true);
@@ -46,16 +48,49 @@ export default function InventoryPage({ onTransferSuccess }) {
     window._searchTimer = setTimeout(() => setDebouncedSearch(value), 300);
   };
 
+  // INFINITE QUERY (MAIN FIX)
   const {
-    data: rawProducts = [],
+    data,
     isLoading,
     isFetching,
-  } = useQuery({
-    queryKey: ['products', selectedInventory?.id, selectedSupplier?.Id],
-    queryFn: () => fetchProducts(selectedInventory.id, selectedSupplier?.Id),
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['products', selectedInventory?.id, selectedSupplier?.Id || null],
+
+    queryFn: ({ pageParam = 0 }) =>
+      fetchProducts({
+        inventoryId: selectedInventory.id,
+        supplierIds: selectedSupplier?.Id,
+        offset: pageParam,
+      }),
+
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < 20) return undefined;
+      return allPages.length * 20;
+    },
+
     enabled: !!selectedInventory?.id,
-    keepPreviousData: false,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
+
+  //  FLATTEN DATA
+  const rawProducts = data?.pages?.flat() || [];
+
+  //  SCROLL HANDLER
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    if (el.scrollHeight - el.scrollTop <= el.clientHeight + 100) {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    }
+  };
 
   const products = rawProducts
     .map((item, index) => ({
@@ -93,12 +128,11 @@ export default function InventoryPage({ onTransferSuccess }) {
       return aOut ? 1 : -1;
     });
 
-  const batch = rawProducts[0]?.products?.[0];
-  console.log('batch keys:', Object.keys(batch || {}));
-
   const { data: unitData } = useQuery({
     queryKey: ['measurementUnits'],
     queryFn: fetchMeasurementUnits,
+    staleTime: 0,
+    refetchOnMount: true,
   });
 
   const units =
@@ -122,9 +156,11 @@ export default function InventoryPage({ onTransferSuccess }) {
           : stockFilter === 'in'
             ? qty >= LOW_STOCK_THRESHOLD
             : true;
+
     const matchesSearch =
       debouncedSearch.trim() === '' ||
       item.name.toLowerCase().includes(debouncedSearch.toLowerCase());
+
     return matchesStock && matchesSearch;
   });
 
@@ -133,7 +169,7 @@ export default function InventoryPage({ onTransferSuccess }) {
   }
 
   return (
-    <div className='h-full flex flex-col overflow-hidden'>
+    <div className='h-full flex flex-col '>
       <InventoryMainSection
         setShowModal={setShowModal}
         products={products}
@@ -154,35 +190,35 @@ export default function InventoryPage({ onTransferSuccess }) {
         onTransferSuccess={onTransferSuccess}
       />
 
-      <div className='flex-1 min-h-0'>
-        {isFetching ? (
-          <div className='mt-4 bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden h-full flex flex-col'>
-            <div className='bg-gray-50 border-b border-gray-200 grid grid-cols-[44px_2.4fr_1.4fr_1.4fr_1fr_1fr_1.1fr_52px] pl-4 pr-1.5 py-3 text-[11px] uppercase text-gray-500 tracking-wide shrink-0'>
-              <div />
-              <div>Item</div>
-              <div>Arrival Info</div>
-              <div>Expiration Info</div>
-              <div>Quantity</div>
-              <div className='text-right'>Unit Price</div>
-              <div className='text-right text-green-600'>Total Value</div>
-              <div />
-            </div>
-            <div className='overflow-y-auto flex-1'>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <TableRowSkeleton key={i} asTr={false} />
-              ))}
-            </div>
-          </div>
+      <div
+        className='flex-1 min-h-0 overflow-y-auto mt-5 bg-white shadow-sm'
+        ref={scrollRef}
+        onScroll={handleScroll}
+      >
+        {isFetching && rawProducts.length === 0 ? (
+          <InventoryPageSkeleton />
         ) : filteredProducts.length === 0 ? (
           <p className='p-10 text-center text-gray-400 text-sm'>
             No results found
           </p>
         ) : (
-          <InventoryTable
-            data={filteredProducts}
-            stockFilter={stockFilter}
-            debouncedSearch={debouncedSearch}
-          />
+          <>
+            <InventoryTable
+              data={filteredProducts}
+              stockFilter={stockFilter}
+              debouncedSearch={debouncedSearch}
+              // scrollRef={scrollRef}
+              // onScroll={handleScroll}
+            />
+
+            {isFetchingNextPage && (
+              <div className='p-4'>
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <TableRowSkeleton key={i} asTr={false} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 

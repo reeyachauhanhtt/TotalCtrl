@@ -277,7 +277,7 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
     mutationFn: createStoreProduct,
     onSuccess: () => {
       queryClient.invalidateQueries(['products', selectedInventory?.id]);
-      queryClient.invalidateQueries(['stockValue', selectedInventory?.id]);
+      queryClient.invalidateQueries(['stock-value', selectedInventory?.id]);
     },
   });
 
