@@ -24,6 +24,8 @@ export async function fetchExternalOrders({
   return data;
 }
 
+//fetch external orders
+
 export async function fetchOrderDetail(orderId) {
   const { data } = await axiosInstance.get(`/orders/store-orders/${orderId}`);
   return data;
@@ -38,6 +40,18 @@ export async function fetchDeliveredOrderDetail({ orderId, orderStatus }) {
         orderStatus: ORDER_STATUS_MAP[orderStatus] ?? orderStatus,
       },
     },
+  );
+  return data;
+}
+
+//add orders
+
+//edit orders
+
+//delete orders
+export async function deleteOrder(orderId) {
+  const { data } = await axiosInstance.delete(
+    `/orders/store-orders/${orderId}`,
   );
   return data;
 }

@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
+
 import {
   fetchOrderDetail,
   fetchDeliveredOrderDetail,
+  deleteOrder,
 } from '../../services/externalOrderService';
+import ConfirmModal from '../Common/ConfirmModal';
+import EditOrderModal from '../ExternalOrder/EditOrderModal';
 
 const STATUS_LABEL_MAP = {
   scheduled: 'Scheduled',
@@ -211,6 +215,10 @@ function GroupedTable({ group, currency }) {
 
 export default function ExternalOrderDetail({ order, onBack }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const orderStatus = order.status;
   const isScheduledOrder = orderStatus === 'Scheduled';
@@ -266,10 +274,13 @@ export default function ExternalOrderDetail({ order, onBack }) {
   const placedDate = isScheduled
     ? detail?.placedDate
     : deliveredDetail?.placedDate;
+
   const scheduledDate = isScheduled
     ? detail?.scheduledDate
     : deliveredDetail?.scheduledDate;
+
   const total = isScheduled ? detail?.total : deliveredDetail?.total;
+
   const itemsCount = isScheduled
     ? products.length || order.itemsCount
     : (deliveredDetail?.items ?? order.itemsCount);
@@ -279,6 +290,18 @@ export default function ExternalOrderDetail({ order, onBack }) {
 
   const tdBase =
     'text-[12px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
+
+  const handleDeleteOrder = async () => {
+    try {
+      await deleteOrder(order.id);
+      queryClient.invalidateQueries({ queryKey: ['external-orders'] }); // 👈 add this
+      setShowDeleteModal(false);
+      onBack({ toast: { number: orderNumber, supplier: supplierName } });
+    } catch (error) {
+      console.error('Failed to delete order:', error);
+      setShowDeleteModal(false);
+    }
+  };
 
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
@@ -393,7 +416,10 @@ export default function ExternalOrderDetail({ order, onBack }) {
           {/* Right — Actions — Scheduled only */}
           {isScheduled && (
             <div className='flex items-start justify-end gap-1'>
-              <button className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'>
+              <button
+                onClick={() => setShowEditModal(true)}
+                className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'
+              >
                 <img src='/icons/dark-edit.svg' alt='edit' />
               </button>
               <div className='relative'>
@@ -421,7 +447,10 @@ export default function ExternalOrderDetail({ order, onBack }) {
                   >
                     <div
                       className='flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-[#dcf1e3] text-[#19191c]'
-                      onClick={() => console.log('Delete order')}
+                      onClick={() => {
+                        setShowDropdown(false);
+                        setShowDeleteModal(true);
+                      }}
                     >
                       <img
                         src='/icons/dark-bin.svg'
@@ -546,6 +575,37 @@ export default function ExternalOrderDetail({ order, onBack }) {
           </div>
         )}
       </div>
+
+      <EditOrderModal
+        open={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        order={{
+          ...order,
+          products,
+          placedDate,
+          scheduledDate,
+          inventoryName,
+          supplier: supplierName,
+          number: orderNumber,
+        }}
+        inventories={[]} // pass your inventories list here
+        suppliers={[]} // pass your suppliers list here
+        onSave={(payload) => {
+          console.log('save payload:', payload);
+          // wire updateOrder API here when ready
+          setShowEditModal(false);
+        }}
+      />
+
+      <ConfirmModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title={`Delete order #${orderNumber} from ${supplierName}?`}
+        description='This action is irreversible and you will lose all the information related to this order.'
+        confirmLabel='Delete order'
+        cancelLabel='Cancel'
+        onConfirm={handleDeleteOrder}
+      />
     </div>
   );
 }

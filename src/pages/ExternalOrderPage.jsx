@@ -35,6 +35,7 @@ function formatTotal(total, currency) {
 export default function ExternalOrderPage() {
   const [activeTab, setActiveTab] = useState('Scheduled');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
   const dispatch = useDispatch();
 
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
@@ -70,8 +71,34 @@ export default function ExternalOrderPage() {
     dispatch(setSelectedOrder(null));
   }
 
+  // ✅ place this before the if (isDetailOpen) check
   if (isDetailOpen && selectedOrder) {
-    return <ExternalOrderDetail order={selectedOrder} onBack={handleBack} />;
+    return (
+      <>
+        <ExternalOrderDetail
+          order={selectedOrder}
+          onBack={(result) => {
+            dispatch(setDetailOpen(false));
+            dispatch(setSelectedOrder(null));
+            if (result?.toast) {
+              setToastMessage(result.toast);
+              setTimeout(() => setToastMessage(null), 4000);
+            }
+          }}
+        />
+        {toastMessage && (
+          <div
+            className='fixed bottom-0 right-0 z-50'
+            style={{ left: '200px' }}
+          >
+            <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-[24px] px-8 py-4 rounded-sm'>
+              Order <strong>#{toastMessage?.number}</strong> from{' '}
+              <strong>{toastMessage?.supplier}</strong> has been deleted.
+            </div>
+          </div>
+        )}
+      </>
+    );
   }
 
   return (
@@ -94,6 +121,15 @@ export default function ExternalOrderPage() {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
       />
+
+      {toastMessage && (
+        <div className='fixed bottom-0 right-0 z-50' style={{ left: '220px' }}>
+          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-[24px] px-8 py-4 rounded-sm'>
+            Order <strong>#{toastMessage?.number}</strong> from{' '}
+            <strong>{toastMessage?.supplier}</strong> has been deleted.
+          </div>
+        </div>
+      )}
     </div>
   );
 }

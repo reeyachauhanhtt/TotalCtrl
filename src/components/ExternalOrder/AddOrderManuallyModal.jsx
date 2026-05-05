@@ -6,8 +6,10 @@ import { FiX } from 'react-icons/fi';
 import { fetchInventory } from '../../services/inventoryService';
 import { fetchSuppliers } from '../../services/supplierService';
 import { setSelectedInventory } from '../../store/inventorySlice';
+import { fetchMeasurementUnits } from '../../services/masterDataService';
 import SupplierSearchDropdown from '../ExternalOrder/SupplierSearchDropdown';
 import TransferInventoryDropdown from '../Inventory/TransferInvDropdown';
+import OrderItemsTable from '../Common/OrderItemTable';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import {
@@ -133,7 +135,9 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
   const [step, setStep] = useState(1);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [invDropdownOpen, setInvDropdownOpen] = useState(false);
-
+  const [rows, setRows] = useState([
+    { item: null, quantity: '', unit: null, price: '', total: 0 },
+  ]);
   const [supplierError, setSupplierError] = useState(false);
 
   // Date field values
@@ -159,12 +163,27 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
     refetchOnMount: 'always',
   });
 
+  const { data: unitData } = useQuery({
+    queryKey: ['measurementUnits'],
+    queryFn: fetchMeasurementUnits,
+    staleTime: 0,
+  });
+
   const inventories = data?.Data || data?.data || [];
   const editorInventories = inventories.filter(
     (inv) =>
       inv.permission?.toLowerCase() === 'editor' ||
       inv.permission?.toLowerCase() === 'owner',
   );
+
+  const units =
+    unitData?.purchaseUnit?.length > 0
+      ? unitData.purchaseUnit.map((u) => ({
+          label: u.name,
+          value: u.name,
+          id: u.id,
+        }))
+      : [];
 
   function handleClose() {
     setStep(1);
@@ -197,22 +216,17 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  // const result = validateOrderDates({
-  //   orderedOn,
-  //   scheduledFor,
-  // });
+  function handleRowChange(id, updated) {
+    setRows((prev) => prev.map((r) => (r.id === id ? updated : r)));
+  }
 
-  // const hasDateError = !isOrderDatesValid(result);
+  function handleDeleteRow(id) {
+    setRows((prev) => prev.filter((r) => r.id !== id));
+  }
 
-  // if (hasDateError) {
-  //   setDateErrors(result);
-  //   hasError = true;
-  // } else {
-  //   setDateErrors({
-  //     orderedOn: emptyDateErrors(),
-  //     scheduledFor: emptyDateErrors(),
-  //   });
-  // }
+  function handleAddRow() {
+    setRows((prev) => [...prev, emptyRow()]);
+  }
 
   return (
     <div
@@ -352,6 +366,30 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
               </div>
             </>
           )}
+
+          {step === 3 && (
+            <div style={{ paddingRight: 0, paddingTop: 0 }}>
+              {/* Title — dev: margin-left:48px, margin-top:48px */}
+              <div style={{ marginLeft: 48, marginTop: 48 }}>
+                <h2
+                  className='font-semibold tracking-[-0.01em] text-[#19191c] text-left'
+                  style={{ fontSize: 24, lineHeight: '32px', marginBottom: 24 }}
+                >
+                  Ordered items
+                </h2>
+              </div>
+
+              {/* Table container — dev: width:95%, margin:auto */}
+              <div style={{ width: '95%', margin: '0 auto' }}>
+                <OrderItemsTable
+                  rows={rows}
+                  onChange={setRows}
+                  units={units}
+                  mode='order'
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
@@ -359,7 +397,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
           <WhiteButton onClick={handleClose}>Cancel</WhiteButton>
 
           {showFooterError && (
-            <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-[18px] rounded px-3 py-2 flex items-center'>
+            <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-4.5 rounded px-3 py-2 flex items-center'>
               <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
               <span className='ml-2'>
                 Fill in all the required fields before you continue
@@ -376,6 +414,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                 Previous step
               </WhiteButton>
             )}
+
             <GreenButton
               onClick={() => {
                 // STEP 1 → no validation
@@ -427,7 +466,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                 }
               }}
             >
-              Continue
+              {step === 3 ? 'Save' : 'Continue'}
             </GreenButton>
           </div>
         </div>
