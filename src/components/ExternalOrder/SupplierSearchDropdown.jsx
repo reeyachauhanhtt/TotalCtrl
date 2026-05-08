@@ -6,6 +6,8 @@ export default function SupplierSearchDropdown({
   onSelect,
   className = '',
   supplierError = false,
+  borderError = false,
+  onBlur,
 }) {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,7 +24,7 @@ export default function SupplierSearchDropdown({
 
   // reset search when closed
   useEffect(() => {
-    if (!open) setSearchTerm('');
+    if (!open && !selectedSupplier) setSearchTerm('');
   }, [open]);
 
   // outside click
@@ -46,21 +48,33 @@ export default function SupplierSearchDropdown({
       {/* INPUT */}
       <div className='w-full relative'>
         <input
-          value={searchTerm}
+          value={
+            searchTerm ||
+            (selectedSupplier
+              ? selectedSupplier.Name || selectedSupplier.ShortCode
+              : '')
+          }
+          placeholder='Enter supplier name'
           onClick={() => setOpen(true)}
+          onBlur={() => {
+            if (selectedSupplier) {
+              setSearchTerm(''); // clear searchTerm so value falls back to selectedSupplier.Name
+            }
+
+            if (!selectedSupplier) {
+              onBlur?.();
+            }
+          }}
           onChange={(e) => {
             const value = e.target.value;
-
             setSearchTerm(value);
             setOpen(true);
-
             if (selectedSupplier) {
               onSelect(null);
             }
           }}
-          placeholder={selectedSupplier?.Name || 'Select supplier'}
-          className={`w-full px-4 py-3 text-[14px] leading-6 text-[#1b1b1b] outline-none rounded border ${
-            supplierError
+          className={`w-full px-4 py-3 text-[14px] leading-6 text-[#19191c] outline-none rounded border ${
+            supplierError || borderError
               ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
               : 'border-[#d7d8e0] focus:border-green-600 focus:ring-1 focus:ring-green-600'
           }`}
@@ -89,7 +103,7 @@ export default function SupplierSearchDropdown({
                   onClick={() => {
                     onSelect(s);
                     setSearchTerm(s.Name || s.ShortCode); //  IMPORTANT
-                    setOpen(false);
+                    setOpen(true);
                   }}
                   className={`px-4 py-3 text-[13px] leading-5 cursor-pointer flex justify-between items-center hover:bg-gray-200 ${
                     isSelected ? 'bg-gray-200' : ''

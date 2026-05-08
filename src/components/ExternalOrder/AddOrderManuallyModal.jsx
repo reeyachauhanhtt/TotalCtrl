@@ -1,132 +1,25 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FiX } from 'react-icons/fi';
 
 import { fetchInventory } from '../../services/inventoryService';
 import { fetchSuppliers } from '../../services/supplierService';
 import { setSelectedInventory } from '../../store/inventorySlice';
 import { fetchMeasurementUnits } from '../../services/masterDataService';
+import { createOrder } from '../../services/externalOrderService';
 import SupplierSearchDropdown from '../ExternalOrder/SupplierSearchDropdown';
 import TransferInventoryDropdown from '../Inventory/TransferInvDropdown';
-import OrderItemsTable from '../Common/OrderItemTable';
+import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import DateFields, { emptyDate, emptyDateErrors } from '../Common/DateFields';
 import {
   validateOrderDates,
   isOrderDatesValid,
 } from '../../utils/orderDateValidation';
 
-// ─── DateFields ────────────────────────────────────────────────────────────────
-
-function DateFields({ label, value, onChange, errors = {} }) {
-  // value: { day: '', month: '', year: '' }
-  // errors: { day?: string, month?: string, year?: string }
-
-  function handleChange(field, raw) {
-    onChange({ ...value, [field]: raw });
-  }
-
-  return (
-    <div>
-      <label className='block font-semibold text-[18px] leading-6 tracking-[-0.01em] text-[#19191c] mb-3'>
-        {label}
-      </label>
-      <div className='flex items-start gap-4'>
-        {/* Day */}
-        <div className='mb-7'>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
-            Day*
-          </label>
-          <input
-            type='number'
-            placeholder='dd'
-            min={1}
-            max={31}
-            value={value.day}
-            onChange={(e) => handleChange('day', e.target.value)}
-            className={[
-              'border rounded px-4 py-3 text-[14px] leading-6 text-[#333] outline-none',
-              errors.day
-                ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
-                : 'border-[#d7d8e0]',
-            ].join(' ')}
-            style={{ width: '70px' }}
-          />
-          {errors.day && (
-            <p className='mt-1 text-[11px] text-[#fc5c63] font-medium leading-4'>
-              {errors.day}
-            </p>
-          )}
-        </div>
-
-        {/* Month */}
-        <div className='mb-7'>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
-            Month*
-          </label>
-          <input
-            type='number'
-            placeholder='mm'
-            min={1}
-            max={12}
-            value={value.month}
-            onChange={(e) => handleChange('month', e.target.value)}
-            className={[
-              'border rounded px-4 py-3 text-[14px] leading-6 text-[#333] outline-none',
-              errors.month
-                ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
-                : 'border-[#d7d8e0]',
-            ].join(' ')}
-            style={{ width: '72px' }}
-          />
-          {errors.month && (
-            <p className='mt-1 text-[11px] text-[#fc5c63] font-medium leading-4'>
-              {errors.month}
-            </p>
-          )}
-        </div>
-
-        {/* Year */}
-        <div className='mb-7'>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
-            Year*
-          </label>
-          <input
-            type='number'
-            placeholder='yyyy'
-            min={1900}
-            value={value.year}
-            onChange={(e) => handleChange('year', e.target.value)}
-            className={[
-              'border rounded px-4 py-3 text-[14px] leading-6 text-[#333] outline-none',
-              errors.year
-                ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
-                : 'border-[#d7d8e0]',
-            ].join(' ')}
-            style={{ width: '166px' }}
-          />
-          {errors.year && (
-            <p className='mt-1 text-[11px] text-[#fc5c63] font-medium leading-4'>
-              {errors.year}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Empty date state helper ───────────────────────────────────────────────────
-
-const emptyDate = () => ({ day: '', month: '', year: '' });
-const emptyDateErrors = () => ({
-  day: undefined,
-  month: undefined,
-  year: undefined,
-});
-
-// ─── AddOrderManuallyModal ─────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 
 export default function AddOrderManuallyModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
@@ -135,10 +28,12 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
   const [step, setStep] = useState(1);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [invDropdownOpen, setInvDropdownOpen] = useState(false);
-  const [rows, setRows] = useState([
-    { item: null, quantity: '', unit: null, price: '', total: 0 },
-  ]);
+  const [rows, setRows] = useState([emptyRow()]);
   const [supplierError, setSupplierError] = useState(false);
+  const [hasReachedStep3, setHasReachedStep3] = useState(false);
+
+  const [orderNumber, setOrderNumber] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   // Date field values
   const [orderedOn, setOrderedOn] = useState(emptyDate());
@@ -150,6 +45,8 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
     orderedOn: emptyDateErrors(),
     scheduledFor: emptyDateErrors(),
   });
+
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ['inventories'],
@@ -187,6 +84,9 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
 
   function handleClose() {
     setStep(1);
+    setHasReachedStep3(false);
+    setOrderNumber('');
+    setSelectedSupplier(null);
     setOrderedOn(emptyDate());
     setScheduledFor(emptyDate());
     setDateErrors({
@@ -232,9 +132,6 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
     <div
       className='flex items-center fixed z-1000 left-0 top-0 w-full h-full'
       style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) handleClose();
-      }}
     >
       <div
         className='flex flex-col bg-white rounded-lg shadow-md mx-auto'
@@ -313,8 +210,14 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                     <SupplierSearchDropdown
                       suppliers={suppliersData}
                       selectedSupplier={selectedSupplier}
-                      onSelect={setSelectedSupplier}
+                      onSelect={(s) => {
+                        setSelectedSupplier(s);
+                        setSupplierError(false); // clear error on select
+                      }}
                       supplierError={supplierError}
+                      onBlur={() => {
+                        if (!selectedSupplier) setSupplierError(true); //  show error on blur
+                      }}
                       className='w-85!'
                     />
                   </div>
@@ -326,7 +229,9 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                     <input
                       type='text'
                       placeholder='Enter Order number'
-                      className='border border-[#d7d8e0] rounded px-4 py-3 w-full text-[14px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600'
+                      value={orderNumber}
+                      onChange={(e) => setOrderNumber(e.target.value)}
+                      className='border border-[#d7d8e0] rounded px-4 py-3 w-full text-[13px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600'
                     />
                   </div>
                 </div>
@@ -337,29 +242,29 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                     <DateFields
                       label='Ordered on'
                       value={orderedOn}
-                      onChange={(val) => {
-                        setOrderedOn(val);
-                        // Clear individual field error as user types
+                      onChange={(val) => setOrderedOn(val)}
+                      errors={dateErrors.orderedOn}
+                      onFieldBlur={(field, msg) =>
                         setDateErrors((prev) => ({
                           ...prev,
-                          orderedOn: { ...prev.orderedOn },
-                        }));
-                      }}
-                      errors={dateErrors.orderedOn}
+                          orderedOn: { ...prev.orderedOn, [field]: msg },
+                        }))
+                      }
                     />
                   </div>
+
                   <div>
                     <DateFields
                       label='Scheduled for'
                       value={scheduledFor}
-                      onChange={(val) => {
-                        setScheduledFor(val);
+                      onChange={(val) => setScheduledFor(val)}
+                      errors={dateErrors.scheduledFor}
+                      onFieldBlur={(field, msg) =>
                         setDateErrors((prev) => ({
                           ...prev,
-                          scheduledFor: { ...prev.scheduledFor },
-                        }));
-                      }}
-                      errors={dateErrors.scheduledFor}
+                          scheduledFor: { ...prev.scheduledFor, [field]: msg },
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -408,7 +313,22 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
           <div className='flex items-center gap-3'>
             {step > 1 && (
               <WhiteButton
-                onClick={() => setStep((s) => s - 1)}
+                onClick={() => {
+                  if (step === 2 && !hasReachedStep3) {
+                    //  clear only if never reached step 3
+                    setSelectedSupplier(null);
+                    setOrderNumber('');
+                    setOrderedOn(emptyDate());
+                    setScheduledFor(emptyDate());
+                    setDateErrors({
+                      orderedOn: emptyDateErrors(),
+                      scheduledFor: emptyDateErrors(),
+                    });
+                    setSupplierError(false);
+                    setShowFooterError(false);
+                  }
+                  setStep((s) => s - 1);
+                }}
                 className='mr-6'
               >
                 Previous step
@@ -416,7 +336,8 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
             )}
 
             <GreenButton
-              onClick={() => {
+              disabled={isSaving}
+              onClick={async () => {
                 // STEP 1 → no validation
                 if (step === 1) {
                   setStep(2);
@@ -454,19 +375,88 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                   setShowFooterError(hasError);
 
                   if (!hasError) {
+                    if (!hasReachedStep3) setHasReachedStep3(true);
                     setStep(3);
                   }
-
                   return;
                 }
 
-                // STEP 3 fallback (if needed)
-                if (step < 3) {
-                  setStep((s) => s + 1);
+                if (step === 3) {
+                  const hasValidRows = rows.some((r) => r.name && r.quantity);
+                  if (!hasValidRows) {
+                    setShowFooterError(true);
+                    return;
+                  }
+
+                  const orderedDate = `${orderedOn.year}-${String(orderedOn.month).padStart(2, '0')}-${String(orderedOn.day).padStart(2, '0')}`;
+                  const scheduledDate = `${scheduledFor.year}-${String(scheduledFor.month).padStart(2, '0')}-${String(scheduledFor.day).padStart(2, '0')}`;
+
+                  const payload = {
+                    number: orderNumber,
+                    requestDate: orderedDate,
+                    deliveryDate: scheduledDate,
+                    receivedDate: null,
+                    inventoryId: selectedInventory?.id,
+                    supplierId: selectedSupplier?.Id,
+                    currency: null,
+                    total: rows.reduce(
+                      (sum, r) => sum + (parseFloat(r.total) || 0),
+                      0,
+                    ),
+                    source: 0,
+                    products: rows
+                      .filter((r) => r.name && r.quantity)
+                      .map((r) => ({
+                        id: null,
+                        name: r.name,
+                        sku: r.sku ?? '',
+                        brand: '',
+                        orderQuantity: parseFloat(r.quantity) || 0,
+                        acceptedQuantity: parseFloat(r.quantity) || 0,
+                        pricePerPurchaseUnit: parseFloat(r.price) || 0,
+                        pricePerStockTakingUnit: 0,
+                        pricePerBaseUnit: 0,
+                        subtotal: String(parseFloat(r.total || 0).toFixed(2)),
+                        purchaseUnitId: r.unitId || null,
+                        stockTakingUnitId: r.unitId || null,
+                        baseUnitId: null,
+                        stockTakingQuantityPerPurchaseUnit: 1,
+                        taxRate: '0',
+                        vatRate: '',
+                        notes: '',
+                        checked: 0,
+                        quantityIssueId: null,
+                        qualityIssueId: null,
+                      })),
+                  };
+
+                  try {
+                    setIsSaving(true);
+
+                    console.log('rows:', JSON.stringify(rows, null, 2));
+                    console.log(
+                      'selectedInventory:',
+                      JSON.stringify(selectedInventory, null, 2),
+                    );
+                    console.log('units:', JSON.stringify(units, null, 2));
+                    console.log('payload:', JSON.stringify(payload, null, 2));
+
+                    await createOrder(payload);
+                    queryClient.invalidateQueries({
+                      queryKey: ['external-orders'],
+                    });
+                    handleClose();
+                  } catch (err) {
+                    console.error('Failed to create order:', err);
+                    setShowFooterError(true);
+                  } finally {
+                    setIsSaving(false);
+                  }
+                  return;
                 }
               }}
             >
-              {step === 3 ? 'Save' : 'Continue'}
+              {step === 3 ? (isSaving ? 'Saving...' : 'Save') : 'Continue'}
             </GreenButton>
           </div>
         </div>

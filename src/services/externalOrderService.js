@@ -45,8 +45,19 @@ export async function fetchDeliveredOrderDetail({ orderId, orderStatus }) {
 }
 
 //add orders
+export async function createOrder(payload) {
+  const { data } = await axiosInstance.post('/orders/store-orders', payload);
+  return data;
+}
 
 //edit orders
+export async function updateOrder(orderId, payload) {
+  const { data } = await axiosInstance.put(
+    `/orders/store-orders/${orderId}`,
+    payload,
+  );
+  return data;
+}
 
 //delete orders
 export async function deleteOrder(orderId) {

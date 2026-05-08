@@ -7,6 +7,8 @@ import ExternalOrderTabs from '../components/ExternalOrder/ExternalOrderTab';
 import ExternalOrderTable from '../components/ExternalOrder/ExternalOrderTable';
 import ExternalOrderDetail from '../components/ExternalOrder/ExternalOrderDetail';
 import AddOrderManuallyModal from '../components/ExternalOrder/AddOrderManuallyModal';
+import UploadOrderModal from '../components/ExternalOrder/UploadOrderModal';
+import UploadingOrdersDrawer from '../components/ExternalOrder/UploadingOrderDrawer';
 import { fetchExternalOrders } from '../services/externalOrderService';
 import { setDetailOpen, setSelectedOrder } from '../store/externalOrderSlice';
 
@@ -34,7 +36,13 @@ function formatTotal(total, currency) {
 
 export default function ExternalOrderPage() {
   const [activeTab, setActiveTab] = useState('Scheduled');
+  const [uploadingOrders, setUploadingOrders] = useState([
+    { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
+    { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
+    { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
+  ]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
   const dispatch = useDispatch();
 
@@ -71,7 +79,7 @@ export default function ExternalOrderPage() {
     dispatch(setSelectedOrder(null));
   }
 
-  // ✅ place this before the if (isDetailOpen) check
+  //  place this before the if (isDetailOpen) check
   if (isDetailOpen && selectedOrder) {
     return (
       <>
@@ -91,7 +99,7 @@ export default function ExternalOrderPage() {
             className='fixed bottom-0 right-0 z-50'
             style={{ left: '200px' }}
           >
-            <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-[24px] px-8 py-4 rounded-sm'>
+            <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm'>
               Order <strong>#{toastMessage?.number}</strong> from{' '}
               <strong>{toastMessage?.supplier}</strong> has been deleted.
             </div>
@@ -115,6 +123,7 @@ export default function ExternalOrderPage() {
         }}
         activeTab={activeTab}
         onAddOrderClick={() => setShowAddModal(true)}
+        onUploadClick={() => setShowUploadModal(true)}
       />
 
       <AddOrderManuallyModal
@@ -122,9 +131,18 @@ export default function ExternalOrderPage() {
         onClose={() => setShowAddModal(false)}
       />
 
+      <UploadOrderModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+      />
+
+      {uploadingOrders.length > 0 && (
+        <UploadingOrdersDrawer isOpen={true} orders={uploadingOrders} />
+      )}
+
       {toastMessage && (
         <div className='fixed bottom-0 right-0 z-50' style={{ left: '220px' }}>
-          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-[24px] px-8 py-4 rounded-sm'>
+          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm'>
             Order <strong>#{toastMessage?.number}</strong> from{' '}
             <strong>{toastMessage?.supplier}</strong> has been deleted.
           </div>

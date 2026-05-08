@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Tooltip } from 'react-tooltip';
 
@@ -30,8 +30,34 @@ function DateInput({
   onDayChange,
   onMonthChange,
   onYearChange,
+  hasError,
+  onDayBlur,
+  onMonthBlur,
+  onYearBlur,
 }) {
   const [monthOpen, setMonthOpen] = useState(false);
+
+  const monthRef = useRef(null);
+
+  const inputErrClass = 'border-2 border-[#e2232e] bg-[#fff0f1] text-[#a71a23]';
+  const inputNormalClass =
+    'border border-[#d7d8e0] text-[#333] focus:border-green-600 focus:ring-1 focus:ring-green-600';
+  const dayClass = `w-22 rounded-sm px-3 py-3 text-[14px] leading-6 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${hasError ? inputErrClass : inputNormalClass}`;
+  const monthTriggerClass = `flex items-center justify-between h-12.5 w-full rounded-[3px] bg-white px-5 cursor-pointer ${hasError ? 'border-2 border-[#e2232e] bg-[#fff0f1]' : 'border border-[#d7d7db]'}`;
+  const yearClass = `w-25 rounded-sm px-3 py-3 text-[14px] leading-6 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  ${hasError ? inputErrClass : inputNormalClass}`;
+
+  //months dropdown closing on backdrop click
+
+  useEffect(() => {
+    if (!monthOpen) return;
+    function handleClickOutside(e) {
+      if (monthRef.current && !monthRef.current.contains(e.target)) {
+        setMonthOpen(false);
+      }
+    }
+    document.addEventListener('click', handleClickOutside); // 👈 'click' not 'mousedown'
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [monthOpen]);
 
   return (
     <div className='mb-7'>
@@ -45,29 +71,37 @@ function DateInput({
           placeholder='Day'
           value={day}
           onChange={(e) => onDayChange(e.target.value)}
-          className='w-22 border border-[#d7d8e0] rounded-sm px-3 py-3 text-[14px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+          onBlur={onDayBlur}
+          className={`w-22 rounded-sm px-3 py-3 text-[14px] leading-6 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${hasError ? inputErrClass : inputNormalClass}`}
         />
+
         {/* Month dropdown */}
-        <div className='relative flex-1 min-w-32.5'>
+        <div className='relative flex-1 min-w-32.5' ref={monthRef}>
           <div
             onClick={() => setMonthOpen((p) => !p)}
-            className='flex items-center justify-between h-12.5 w-full border border-[#d7d7db] rounded-[3px] bg-white px-5 cursor-pointer'
+            className={`flex items-center justify-between h-12.5 w-full rounded-[3px] px-5 cursor-pointer ${hasError ? 'border-2 border-[#e2232e] bg-[#fff0f1]' : 'border border-[#d7d7db]'}`}
           >
-            <span className='text-[14px] text-[#19191c]'>
+            <span
+              className={`text-[14px] ${hasError ? 'text-[#a71a23]' : 'text-[#19191c]'}`}
+            >
               {month || 'Month'}
             </span>
             <img
               src='/icons/chevron-down-small.svg'
               alt=''
-              className='w-4 h-4'
+              className='w-6 h-6'
             />
           </div>
+
+          {/* dropdown directly here, no extra wrapper */}
           {monthOpen && (
             <div className='absolute top-full mt-2 w-full bg-white border border-[#d7d7db] rounded-sm shadow-[0_2px_8px_rgba(0,0,0,0.12)] z-50 max-h-53.75 overflow-y-auto'>
               {MONTHS.map((m) => (
                 <div
                   key={m}
-                  onClick={() => {
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onMonthChange(m);
                     setMonthOpen(false);
                   }}
@@ -79,13 +113,15 @@ function DateInput({
             </div>
           )}
         </div>
+
         {/* Year */}
         <input
           type='number'
           placeholder='Year'
           value={year}
           onChange={(e) => onYearChange(e.target.value)}
-          className='w-25 border border-[#d7d8e0] rounded-sm px-3 py-3 text-[14px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+          onBlur={onYearBlur}
+          className={`w-25 rounded-sm px-3 py-3 text-[14px] leading-6 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${hasError ? inputErrClass : inputNormalClass}`}
         />
       </div>
     </div>
@@ -105,6 +141,11 @@ export default function EditOrderModal({
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [orderNumber, setOrderNumber] = useState('');
   const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [supplierError, setSupplierError] = useState(false);
+  const [orderNumberError, setOrderNumberError] = useState(false);
+
+  const [orderedDateError, setOrderedDateError] = useState(false);
+  const [scheduledDateError, setScheduledDateError] = useState(false);
 
   // Ordered on
   const [orderedDay, setOrderedDay] = useState('');
@@ -117,6 +158,19 @@ export default function EditOrderModal({
   const [scheduledYear, setScheduledYear] = useState('');
 
   const [items, setItems] = useState([]);
+
+  const inventoryRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (inventoryRef.current && !inventoryRef.current.contains(e.target)) {
+        setInventoryOpen(false);
+      }
+    }
+    if (inventoryOpen)
+      document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [inventoryOpen]);
 
   // Prefill from order prop
   useEffect(() => {
@@ -147,7 +201,36 @@ export default function EditOrderModal({
     setItems(order.products ?? []);
   }, [open, order]);
 
-  const isDirty = orderNumber !== (order?.number ?? '');
+  const isDirty =
+    orderNumber !== (order?.number ?? '') ||
+    selectedSupplier?.Name !== (order?.supplier ?? '') ||
+    selectedInventory?.id !==
+      (inventories.find((i) => i.name === order?.inventoryName)?.id ?? null) ||
+    orderedDay !==
+      (order?.placedDate
+        ? String(new Date(order.placedDate).getDate()).padStart(2, '0')
+        : '') ||
+    orderedMonth !==
+      (order?.placedDate
+        ? MONTHS[new Date(order.placedDate).getMonth()]
+        : '') ||
+    orderedYear !==
+      (order?.placedDate
+        ? String(new Date(order.placedDate).getFullYear())
+        : '') ||
+    scheduledDay !==
+      (order?.scheduledDate
+        ? String(new Date(order.scheduledDate).getDate()).padStart(2, '0')
+        : '') ||
+    scheduledMonth !==
+      (order?.scheduledDate
+        ? MONTHS[new Date(order.scheduledDate).getMonth()]
+        : '') ||
+    scheduledYear !==
+      (order?.scheduledDate
+        ? String(new Date(order.scheduledDate).getFullYear())
+        : '');
+
   const isValid =
     selectedSupplier &&
     orderNumber &&
@@ -185,7 +268,27 @@ export default function EditOrderModal({
   }
 
   function handleSave() {
-    if (!isValid) return;
+    let hasError = false;
+
+    if (!selectedSupplier) {
+      setSupplierError(true);
+      hasError = true;
+    }
+    if (!orderNumber) {
+      setOrderNumberError(true);
+      hasError = true;
+    }
+    if (!orderedDay || !orderedMonth || !orderedYear) {
+      setOrderedDateError(true);
+      hasError = true;
+    }
+    if (!scheduledDay || !scheduledMonth || !scheduledYear) {
+      setScheduledDateError(true);
+      hasError = true;
+    }
+
+    if (hasError) return;
+
     onSave?.({
       inventoryId: selectedInventory?.id,
       supplier: selectedSupplier?.Name,
@@ -195,6 +298,25 @@ export default function EditOrderModal({
       items,
     });
   }
+
+  const errHighlight = (msg) => (
+    <div
+      style={{
+        display: 'block',
+        fontWeight: 600,
+        paddingTop: '8px',
+        padding: '11px',
+        background: '#fff0f1',
+        color: '#a71a23',
+        borderRadius: '4px',
+        fontSize: '14px',
+        lineHeight: '20px',
+        marginTop: '8px',
+      }}
+    >
+      {msg}
+    </div>
+  );
 
   if (!open) return null;
 
@@ -207,7 +329,7 @@ export default function EditOrderModal({
             Edit scheduled order
           </h2>
           <span
-            onClick={() => setShowDiscardModal(true)}
+            onClick={() => (isDirty ? setShowDiscardModal(true) : onClose())}
             className='cursor-pointer text-gray-700'
           >
             <FiX size={20} strokeWidth={2.5} />
@@ -230,7 +352,7 @@ export default function EditOrderModal({
                 <h2 className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left mb-3'>
                   Inventory
                 </h2>
-                <p className='text-[16px] font-normal leading-6 text-[#6b6b6f] mb-4'>
+                <p className='text-[14.5px] font-normal leading-6 text-[#6b6b6f] mb-4'>
                   Which inventory should be automatically updated when this
                   order is delivered?
                 </p>
@@ -240,10 +362,11 @@ export default function EditOrderModal({
                   <label className='block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                     Inventory
                   </label>
-                  <div className='relative'>
+                  <div className='relative' ref={inventoryRef}>
+                    {/* Trigger */}
                     <div
                       onClick={() => setInventoryOpen((p) => !p)}
-                      className='flex items-center justify-between h-12 w-full border border-[#d7d7db] rounded-[3px] bg-white px-5 cursor-pointer'
+                      className='flex items-center justify-between h-12 w-100 border border-[#d7d7db] rounded-[3px] bg-white px-5 cursor-pointer'
                     >
                       <span className='text-[14px] text-[#19191c]'>
                         {selectedInventory?.name ?? 'Select inventory'}
@@ -251,24 +374,56 @@ export default function EditOrderModal({
                       <img
                         src='/icons/chevron-down-small.svg'
                         alt=''
-                        className='w-4 h-4'
+                        className='w-6 h-6'
                       />
                     </div>
+
+                    {/* Dropdown list */}
                     {inventoryOpen && (
-                      <div className='absolute top-full mt-2 w-full bg-white border border-[#d7d7db] rounded-sm shadow-[0_2px_8px_rgba(0,0,0,0.12)] z-50 max-h-53.75 overflow-y-auto'>
-                        {inventories.map((inv) => (
-                          <div
-                            key={inv.id}
-                            onClick={() => {
-                              setSelectedInventory(inv);
-                              setInventoryOpen(false);
-                            }}
-                            className={`flex justify-between items-center px-5 py-2 text-[14px] text-[#19191c] cursor-pointer hover:bg-gray-100 ${selectedInventory?.id === inv.id ? 'bg-[#eaf7ee]' : ''}`}
-                          >
-                            {inv.name}
-                          </div>
-                        ))}
-                      </div>
+                      <ul
+                        className='absolute w-100 bg-white border border-[#d7d7db] rounded-sm shadow-[0_2px_8px_rgba(0,0,0,0.12)] z-50 overflow-y-scroll p-0 m-0 list-none'
+                        style={{
+                          maxHeight: '215px',
+                          marginTop: '8px',
+                          padding: '15px 0',
+                        }}
+                      >
+                        {inventories.map((inv) => {
+                          const isSelected = selectedInventory?.id === inv.id;
+                          return (
+                            <li
+                              key={inv.id}
+                              onClick={() => {
+                                setSelectedInventory(inv);
+                                setInventoryOpen(false);
+                              }}
+                              className='w-full cursor-pointer'
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                fontWeight: 400,
+                                fontSize: '14px',
+                                lineHeight: '20px',
+                                color: '#19191c',
+                                padding: '8px 20px',
+                                backgroundColor: isSelected
+                                  ? '#eaf7ee'
+                                  : 'transparent',
+                                whiteSpace: 'break-spaces',
+                              }}
+                            >
+                              <span>{inv.name}</span>
+                              {isSelected && (
+                                <img
+                                  src='/icons/check-small.svg'
+                                  alt=''
+                                  className='w-6 h-6'
+                                />
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
                     )}
                   </div>
                 </div>
@@ -301,9 +456,18 @@ export default function EditOrderModal({
                     <SupplierSearchDropdown
                       suppliers={suppliers}
                       selectedSupplier={selectedSupplier}
-                      onSelect={setSelectedSupplier}
+                      onSelect={(s) => {
+                        setSelectedSupplier(s);
+                        setSupplierError(!s);
+                      }}
+                      borderError={supplierError}
+                      onBlur={() => {
+                        if (!selectedSupplier) setSupplierError(true);
+                      }}
                       className='w-full!'
                     />
+                    {supplierError &&
+                      errHighlight('Please enter a supplier name')}
                   </div>
 
                   {/* Ordered on */}
@@ -312,10 +476,34 @@ export default function EditOrderModal({
                     day={orderedDay}
                     month={orderedMonth}
                     year={orderedYear}
-                    onDayChange={setOrderedDay}
-                    onMonthChange={setOrderedMonth}
-                    onYearChange={setOrderedYear}
+                    onDayChange={(v) => {
+                      setOrderedDay(v);
+                      if (!v) setOrderedDateError(true);
+                      else setOrderedDateError(false);
+                    }}
+                    onMonthChange={(v) => {
+                      setOrderedMonth(v);
+                      if (!v) setOrderedDateError(true);
+                      else setOrderedDateError(false);
+                    }}
+                    onYearChange={(v) => {
+                      setOrderedYear(v);
+                      if (!v) setOrderedDateError(true);
+                      else setOrderedDateError(false);
+                    }}
+                    onDayBlur={() => {
+                      if (!orderedDay) setOrderedDateError(true);
+                    }}
+                    onMonthBlur={() => {
+                      if (!orderedMonth) setOrderedDateError(true);
+                    }}
+                    onYearBlur={() => {
+                      if (!orderedYear) setOrderedDateError(true);
+                    }}
+                    hasError={orderedDateError}
                   />
+                  {orderedDateError &&
+                    errHighlight('Please enter a complete date')}
                 </div>
 
                 {/* Right col — Order number + Scheduled for */}
@@ -329,9 +517,20 @@ export default function EditOrderModal({
                       type='text'
                       placeholder='Enter Order number'
                       value={orderNumber}
-                      onChange={(e) => setOrderNumber(e.target.value)}
-                      className='w-full border border-[#d7d8e0] rounded-sm px-4 py-3 text-[14px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600'
+                      onChange={(e) => {
+                        setOrderNumber(e.target.value);
+                        setOrderNumberError(!e.target.value);
+                      }}
+                      onBlur={() => {
+                        if (!orderNumber) setOrderNumberError(true);
+                      }}
+                      className={`w-full rounded-sm px-4 py-3 text-[14px] leading-6 outline-none ${
+                        orderNumberError
+                          ? 'border-2 border-[#e2232e] bg-[#fff0f1] text-[#333]'
+                          : 'border border-[#d7d8e0] text-[#333] focus:border-green-600 focus:ring-1 focus:ring-green-600'
+                      }`}
                     />
+                    {orderNumberError && errHighlight('This field is required')}
                   </div>
 
                   {/* Scheduled for */}
@@ -340,10 +539,34 @@ export default function EditOrderModal({
                     day={scheduledDay}
                     month={scheduledMonth}
                     year={scheduledYear}
-                    onDayChange={setScheduledDay}
-                    onMonthChange={setScheduledMonth}
-                    onYearChange={setScheduledYear}
+                    onDayChange={(v) => {
+                      setScheduledDay(v);
+                      if (!v) setScheduledDateError(true);
+                      else setScheduledDateError(false);
+                    }}
+                    onMonthChange={(v) => {
+                      setScheduledMonth(v);
+                      if (!v) setScheduledDateError(true);
+                      else setScheduledDateError(false);
+                    }}
+                    onYearChange={(v) => {
+                      setScheduledYear(v);
+                      if (!v) setScheduledDateError(true);
+                      setScheduledDateError(false);
+                    }}
+                    onDayBlur={() => {
+                      if (!scheduledDay) setScheduledDateError(true);
+                    }}
+                    onMonthBlur={() => {
+                      if (!scheduledMonth) setScheduledDateError(true);
+                    }}
+                    onYearBlur={() => {
+                      if (!scheduledYear) setScheduledDateError(true);
+                    }}
+                    hasError={scheduledDateError}
                   />
+                  {scheduledDateError &&
+                    errHighlight('Please enter a complete date')}
                 </div>
               </div>
             </div>
@@ -472,25 +695,32 @@ export default function EditOrderModal({
 
         {/* Footer */}
         <div className='flex items-center justify-between px-12 py-3.5 border-t border-[#e7e7ec]'>
-          <WhiteButton onClick={() => setShowDiscardModal(true)}>
+          <WhiteButton
+            onClick={() => (isDirty ? setShowDiscardModal(true) : onClose())}
+          >
             Cancel
           </WhiteButton>
 
-          <GreenButton onClick={handleSave} disabled={!isValid}>
+          <GreenButton
+            onClick={handleSave}
+            disabled={!isDirty}
+            className='disabled:bg-[#a8d5b5] disabled:cursor-not-allowed disabled:opacity-100'
+          >
             Save changes
           </GreenButton>
         </div>
 
         <Tooltip
           id='add-item-tooltip'
+          place='top'
           positionStrategy='fixed'
-          float
+          classNameArrow='tooltip-arrow'
           style={{
             backgroundColor: '#222',
             color: '#fff',
             fontSize: '13px',
             borderRadius: '4px',
-            padding: '8px 12px',
+            padding: '12px',
             zIndex: 9999,
           }}
         />

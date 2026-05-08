@@ -9,6 +9,7 @@ import AddOrderManuallyModal from '../ExternalOrder/AddOrderManuallyModal';
 import InventoryDropdown from '../Common/InventoryDropDown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import UploadOrderModal from './UploadOrderModal';
 
 export default function ExternalOrderHeader() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function ExternalOrderHeader() {
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
 
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   const { data, error } = useQuery({
     queryKey: ['inventories'],
@@ -76,6 +78,7 @@ export default function ExternalOrderHeader() {
               data-tooltip-id='upload-order-tooltip'
               data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
               className='h-10 px-10 flex items-center gap-2 font-semibold'
+              onClick={() => setShowUploadModal(true)}
             >
               <img src='/icons/upload.svg' alt='' width={16} height={16} />
               <span>Upload order</span>
@@ -97,6 +100,11 @@ export default function ExternalOrderHeader() {
       <AddOrderManuallyModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
+      />
+
+      <UploadOrderModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
       />
     </div>
   );

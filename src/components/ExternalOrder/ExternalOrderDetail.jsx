@@ -5,8 +5,11 @@ import { format } from 'date-fns';
 import {
   fetchOrderDetail,
   fetchDeliveredOrderDetail,
+  updateOrder,
   deleteOrder,
 } from '../../services/externalOrderService';
+import { fetchInventory } from '../../services/inventoryService';
+import { fetchSuppliers } from '../../services/supplierService';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
 
@@ -217,8 +220,24 @@ export default function ExternalOrderDetail({ order, onBack }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
 
   const queryClient = useQueryClient();
+
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventories'],
+    queryFn: fetchInventory,
+  });
+
+  const { data: suppliersData = [] } = useQuery({
+    queryKey: ['suppliers'],
+    queryFn: fetchSuppliers,
+    staleTime: 0,
+  });
+
+  const inventories = (inventoryData?.Data || inventoryData?.data || []).sort(
+    (a, b) => a.name?.localeCompare(b.name),
+  );
 
   const orderStatus = order.status;
   const isScheduledOrder = orderStatus === 'Scheduled';
@@ -588,12 +607,74 @@ export default function ExternalOrderDetail({ order, onBack }) {
           supplier: supplierName,
           number: orderNumber,
         }}
-        inventories={[]} // pass your inventories list here
-        suppliers={[]} // pass your suppliers list here
+        inventories={inventories}
+        suppliers={suppliersData}
         onSave={(payload) => {
           console.log('save payload:', payload);
-          // wire updateOrder API here when ready
+
           setShowEditModal(false);
+          setToastMessage({ type: 'update' });
+          setTimeout(() => setToastMessage(null), 4000);
+        }}
+        onSave={async (payload) => {
+          try {
+            const updatePayload = {
+              number: payload.orderNumber,
+              deliveryDate: `${payload.scheduledFor} 01:00:00`,
+              requestDate: `${payload.orderedOn} 01:00:00`,
+              receivedDate: null,
+              inventoryId: payload.inventoryId ?? selectedInventory?.id,
+              supplierId:
+                suppliersData.find((s) => s.Name === payload.supplier)?.Id ??
+                payload.supplier,
+              currency: null,
+              total: payload.items.reduce(
+                (sum, item) => sum + (parseFloat(item.subtotal) || 0),
+                0,
+              ),
+              source: 0,
+              products: payload.items
+                .filter((item) => item.name)
+                .map((item) => ({
+                  id: item.id ?? null,
+                  name: item.name,
+                  sku: item.sku ?? '',
+                  brand: '',
+                  orderQuantity: parseFloat(item.orderQuantity) || 0,
+                  acceptedQuantity: parseFloat(item.orderQuantity) || 0,
+                  pricePerPurchaseUnit:
+                    parseFloat(item.pricePerPurchaseUnit) || 0,
+                  pricePerStockTakingUnit: 0,
+                  pricePerBaseUnit: 0,
+                  subtotal: String(parseFloat(item.subtotal || 0).toFixed(2)),
+                  purchaseUnitId: item.purchaseUnitId ?? null,
+                  stockTakingUnitId: item.purchaseUnitId ?? null,
+                  baseUnitId: null,
+                  stockTakingQuantityPerPurchaseUnit: 1,
+                  taxRate: '0',
+                  vatRate: '',
+                  notes: '',
+                  checked: 0,
+                  quantityIssueId: null,
+                  qualityIssueId: null,
+                })),
+            };
+
+            await updateOrder(order.id, updatePayload);
+            queryClient.invalidateQueries({
+              queryKey: ['order-detail', order.id],
+            });
+            queryClient.invalidateQueries({ queryKey: ['external-orders'] });
+            setShowEditModal(false);
+            setToastMessage({ type: 'update' });
+            setTimeout(() => setToastMessage(null), 4000);
+          } catch (err) {
+            console.error('Failed to update order:', err);
+          }
+
+          setShowEditModal(false);
+          setToastMessage({ type: 'update' });
+          setTimeout(() => setToastMessage(null), 4000);
         }}
       />
 
@@ -606,6 +687,14 @@ export default function ExternalOrderDetail({ order, onBack }) {
         cancelLabel='Cancel'
         onConfirm={handleDeleteOrder}
       />
+
+      {toastMessage?.type === 'update' && (
+        <div className='fixed bottom-0 right-0 z-50' style={{ left: '200px' }}>
+          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm'>
+            The order has been updated.
+          </div>
+        </div>
+      )}
     </div>
   );
 }

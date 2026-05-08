@@ -24,9 +24,9 @@ export default function TransferInventoryDropdown({
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  const filteredList = excludeId
-    ? inventories.filter((inv) => inv.id !== excludeId)
-    : inventories;
+  const filteredList = (
+    excludeId ? inventories.filter((inv) => inv.id !== excludeId) : inventories
+  ).sort((a, b) => a.name?.localeCompare(b.name));
 
   return (
     <div className='mb-6'>

@@ -21,6 +21,7 @@ export default function ExternalOrderTable({
   onRowClick,
   activeTab,
   onAddOrderClick,
+  onUploadClick,
 }) {
   function renderBody() {
     if (isLoading) {
@@ -87,6 +88,7 @@ export default function ExternalOrderTable({
                       data-tooltip-id='table-upload-tooltip'
                       data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
                       className='px-6.5 py-3 text-sm font-semibold rounded tracking-wide'
+                      onClick={() => onUploadClick?.()}
                     >
                       <img
                         src='/icons/upload.svg'

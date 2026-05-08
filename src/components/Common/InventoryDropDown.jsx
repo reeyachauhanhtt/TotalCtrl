@@ -38,9 +38,9 @@ export default function InventoryDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [open]);
 
-  const filteredInventories = inventories.filter((inv) =>
-    inv.name?.toLowerCase().includes(debouncedSearch),
-  );
+  const filteredInventories = inventories
+    .filter((inv) => inv.name?.toLowerCase().includes(debouncedSearch))
+    .sort((a, b) => a.name?.localeCompare(b.name));
 
   function InventoryItem({ inv }) {
     const isSelected = selectedInventory?.id === inv.id;
