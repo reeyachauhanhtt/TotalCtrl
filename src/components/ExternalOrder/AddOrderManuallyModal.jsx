@@ -274,8 +274,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
 
           {step === 3 && (
             <div style={{ paddingRight: 0, paddingTop: 0 }}>
-              {/* Title — dev: margin-left:48px, margin-top:48px */}
-              <div style={{ marginLeft: 48, marginTop: 48 }}>
+              <div style={{ marginLeft: 48, marginTop: 10 }}>
                 <h2
                   className='font-semibold tracking-[-0.01em] text-[#19191c] text-left'
                   style={{ fontSize: 24, lineHeight: '32px', marginBottom: 24 }}
@@ -284,8 +283,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                 </h2>
               </div>
 
-              {/* Table container — dev: width:95%, margin:auto */}
-              <div style={{ width: '95%', margin: '0 auto' }}>
+              <div style={{ width: '100%', margin: '0' }}>
                 <OrderItemsTable
                   rows={rows}
                   onChange={setRows}

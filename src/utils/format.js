@@ -14,10 +14,11 @@ export const formatDate = (dateStr) => {
 
 // PRICE → "124,50 kr"
 export const formatPrice = (value) => {
-  if (value === null || value === undefined) return '--';
-
+  if (value === null || value === undefined || value === '') return '--';
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(num)) return '--';
   return (
-    Number(value).toLocaleString('nb-NO', {
+    num.toLocaleString('nb-NO', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }) + ' kr'

@@ -12,6 +12,7 @@ import { fetchInventory } from '../../services/inventoryService';
 import { fetchSuppliers } from '../../services/supplierService';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
+import { ExternalOrderDetailSkeleton } from '../Common/Skeleton';
 
 const STATUS_LABEL_MAP = {
   scheduled: 'Scheduled',
@@ -24,9 +25,14 @@ function formatDate(dateStr) {
   return format(new Date(dateStr), 'dd MMM yyyy');
 }
 
-function formatOrderedDate(dateStr) {
+function formatOrderedDate(dateStr, status) {
   if (!dateStr) return '—';
-  return format(new Date(dateStr), 'EEE dd MMM yyyy');
+
+  if (status === 'Partially Delivered') {
+    return format(new Date(dateStr), 'EEE dd MMM yyyy');
+  }
+
+  return format(new Date(dateStr), 'dd MMM yyyy');
 }
 
 function formatScheduledDate(dateStr) {
@@ -117,7 +123,7 @@ function GroupedTable({ group, currency }) {
             <>
               <tr key={p.id}>
                 <td
-                  className='text-[14px] leading-4 text-[#19191c] font-normal border-b border-[#e6e6ed] align-top text-left'
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-left`}
                   style={{
                     width: '40%',
                     padding: '2.5% 0% 2% 30px',
@@ -128,7 +134,7 @@ function GroupedTable({ group, currency }) {
                   <label className='font-bold! text-[#19191c]'>{p.name}</label>
                 </td>
                 <td
-                  className='text-[14px] leading-4 text-[#19191c] font-normal border-b border-[#e6e6ed] align-top text-right'
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     padding: '2.5% 0% 2%',
@@ -142,7 +148,7 @@ function GroupedTable({ group, currency }) {
                     : p.purchaseUnitPlural}
                 </td>
                 <td
-                  className='text-[14px] leading-4 text-[#19191c] font-normal border-b border-[#e6e6ed] align-top text-right'
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     padding: '2.5% 0% 2%',
@@ -153,7 +159,7 @@ function GroupedTable({ group, currency }) {
                   {formatTotal(p.pricePerPurchaseUnit, currency)}
                 </td>
                 <td
-                  className='text-[14px] leading-4 border-b border-[#e6e6ed] align-top text-right'
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     color: '#19191c',
@@ -175,12 +181,13 @@ function GroupedTable({ group, currency }) {
                       paddingTop: '0',
                       paddingBottom: '24px',
                       borderBottom: '1px solid #e6e6ed',
+                      borderTop: 'none',
                       height: 'auto',
                     }}
                   >
                     <div
                       style={{
-                        width: '70%',
+                        width: '95%',
                         margin: '0 0 0 30px',
                         padding: '5px 0',
                       }}
@@ -195,14 +202,17 @@ function GroupedTable({ group, currency }) {
                           borderRadius: '4px',
                           display: 'flex',
                           alignItems: 'center',
+                          padding: '4px 12px 4px 0',
                         }}
                       >
                         <img
-                          src='/icons/error-icon.svg'
+                          src='/icons/error.svg'
                           alt=''
                           style={{ marginLeft: '18px', width: '20px' }}
                         />
-                        <label style={{ margin: '9px' }}>Not fresh</label>
+                        <label style={{ margin: '9px' }}>
+                          {p.qualityIssue || p.quantityIssue || 'Not fresh'}
+                        </label>
                       </div>
                     </div>
                   </td>
@@ -216,7 +226,7 @@ function GroupedTable({ group, currency }) {
   );
 }
 
-export default function ExternalOrderDetail({ order, onBack }) {
+export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -242,15 +252,18 @@ export default function ExternalOrderDetail({ order, onBack }) {
   const orderStatus = order.status;
   const isScheduledOrder = orderStatus === 'Scheduled';
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ['order-detail', order.id],
     queryFn: () => fetchOrderDetail(order.id),
     enabled: !!order.id && isScheduledOrder,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
   });
 
   const {
     data: deliveredData,
     isLoading: isDeliveredLoading,
+    isFetching: isDeliveredFetching,
     isError: isDeliveredError,
   } = useQuery({
     queryKey: ['order-delivered-detail', order.id, orderStatus],
@@ -260,6 +273,8 @@ export default function ExternalOrderDetail({ order, onBack }) {
         orderStatus: orderStatus,
       }),
     enabled: !!order.id && !isScheduledOrder,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
   });
 
   const detail = data?.Data;
@@ -304,7 +319,10 @@ export default function ExternalOrderDetail({ order, onBack }) {
     ? products.length || order.itemsCount
     : (deliveredDetail?.items ?? order.itemsCount);
 
-  const isLoadingAny = isScheduled ? isLoading : isDeliveredLoading;
+  const isLoadingAny = isScheduled
+    ? isLoading || isFetching
+    : isDeliveredLoading || isDeliveredFetching;
+
   const isErrorAny = isScheduled ? isError : isDeliveredError;
 
   const tdBase =
@@ -321,6 +339,8 @@ export default function ExternalOrderDetail({ order, onBack }) {
       setShowDeleteModal(false);
     }
   };
+
+  if (isLoadingAny) return <ExternalOrderDetailSkeleton />;
 
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
@@ -382,7 +402,7 @@ export default function ExternalOrderDetail({ order, onBack }) {
                   label: 'Ordered',
                   value: isScheduled
                     ? formatDate(placedDate)
-                    : formatOrderedDate(placedDate),
+                    : formatOrderedDate(placedDate, status),
                 },
                 {
                   label: 'Scheduled',
@@ -487,11 +507,7 @@ export default function ExternalOrderDetail({ order, onBack }) {
         </div>
 
         {/* Items Table */}
-        {isLoadingAny ? (
-          <div className='text-center text-[#737373] text-sm py-16'>
-            Loading items...
-          </div>
-        ) : isErrorAny ? (
+        {isErrorAny ? (
           <div className='text-center text-red-500 text-sm py-16'>
             Failed to load order details.
           </div>
@@ -588,8 +604,16 @@ export default function ExternalOrderDetail({ order, onBack }) {
           </div>
         ) : (
           <div style={{ maxHeight: 'calc(100vh - 360px)', overflow: 'auto' }}>
-            {groups.map((group, i) => (
+            {/* {groups.map((group, i) => (
               <GroupedTable key={i} group={group} currency={currency} />
+            ))} */}
+
+            {groups.map((group) => (
+              <GroupedTable
+                key={group.title}
+                group={group}
+                currency={currency}
+              />
             ))}
           </div>
         )}

@@ -208,7 +208,6 @@ export function StockValueSkeleton() {
   return <SkeletonBar style={{ height: 20, width: 112, marginTop: 4 }} />;
 }
 
-// 🔥 KEEP THIS AS IS (as you requested)
 export function TransferProductListSkeleton() {
   return (
     <div className='flex items-center justify-center py-16'>
@@ -244,6 +243,238 @@ export function AddItemRowSkeleton() {
       <SkeletonBar style={{ height: 28, width: 112 }} />
       <SkeletonBar style={{ height: 28, width: 96 }} />
       <SkeletonBar style={{ height: 28, width: 28 }} />
+    </div>
+  );
+}
+
+// ─── External Orders List Skeleton ──────────────────────────────────────────────────────────────────────────────────
+
+export function ExternalOrderRowSkeleton() {
+  return (
+    <tr style={{ borderBottom: '1px solid #e6e6ed' }}>
+      {/* Supplier — wide */}
+      <td
+        style={{
+          paddingLeft: 35,
+          paddingTop: 22,
+          paddingBottom: 22,
+          width: '30%',
+        }}
+      >
+        <SkeletonBar style={{ height: 14, width: 350 }} />
+      </td>
+      {/* Order Number */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '12%' }}>
+        <SkeletonBar style={{ height: 12, width: 90, marginLeft: 'auto' }} />
+      </td>
+      {/* Total Value */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '12%' }}>
+        <SkeletonBar style={{ height: 12, width: 90, marginLeft: 'auto' }} />
+      </td>
+      {/* Ordered */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '13%' }}>
+        <SkeletonBar style={{ height: 12, width: 90, marginLeft: 'auto' }} />
+      </td>
+      {/* Scheduled */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '13%' }}>
+        <SkeletonBar style={{ height: 12, width: 90, marginLeft: 'auto' }} />
+      </td>
+      {/* Order Status badge */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '10%' }}>
+        <SkeletonBar
+          style={{ height: 12, width: 90, marginLeft: 'auto', borderRadius: 4 }}
+        />
+      </td>
+      {/* Empty */}
+      <td style={{ width: '5%' }} />
+      {/* Arrow */}
+      <td style={{ paddingTop: 22, paddingBottom: 22, width: '5%' }}>
+        <SkeletonBar style={{ height: 12, width: 50, marginLeft: 'auto' }} />
+      </td>
+    </tr>
+  );
+}
+
+export function ExternalOrderListSkeleton() {
+  return (
+    <div
+      className='flex-1 overflow-visible'
+      style={{ height: 'calc(100vh - 186px)' }}
+    >
+      {/* Header bar */}
+      <div className='border-t border-b border-[#e6e6ed] bg-[#f8f9fa]'>
+        <table
+          className='border-collapse text-[13px]'
+          style={{ width: '94.5%', marginLeft: '35px' }}
+        >
+          <thead>
+            <tr>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-left'
+                style={{ width: '30%' }}
+              >
+                Supplier
+              </th>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+                style={{ width: '12%' }}
+              >
+                Order Number
+              </th>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+                style={{ width: '12%' }}
+              >
+                Total Value
+              </th>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+                style={{ width: '13%' }}
+              >
+                Ordered
+              </th>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+                style={{ width: '13%' }}
+              >
+                Scheduled
+              </th>
+              <th
+                className='h-12 py-1 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+                style={{ width: '10%' }}
+              >
+                Order Status
+              </th>
+              <th style={{ width: '5%' }} />
+              <th style={{ width: '5%' }} />
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+      {/* Skeleton rows */}
+      <div className='overflow-auto'>
+        <table
+          className='border-collapse text-[13px]'
+          style={{ width: '94.5%', marginLeft: '35px' }}
+        >
+          <tbody>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <ExternalOrderRowSkeleton key={i} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── External Order Header Skeleton ──────────────────────────────────────────
+
+export function ExternalOrderHeaderSkeleton() {
+  return (
+    <div className='h-23 flex items-center justify-between px-4 border-b border-gray-200 bg-white'>
+      <SkeletonBar style={{ height: 24, width: 160 }} />
+      <div className='flex items-center gap-4'>
+        <SkeletonBar style={{ height: 38, width: 200, borderRadius: 6 }} />
+        <SkeletonBar style={{ height: 38, width: 180, borderRadius: 6 }} />
+        <SkeletonBar style={{ height: 38, width: 150, borderRadius: 6 }} />
+      </div>
+    </div>
+  );
+}
+
+// ─── External Order Detail Skeleton ──────────────────────────────────────────
+
+export function ExternalOrderDetailSkeleton() {
+  return (
+    <div className='flex flex-col flex-1 h-full overflow-hidden'>
+      <div className='flex-1 overflow-auto'>
+        {/* Order info */}
+        <div style={{ width: '95%', margin: '40px auto 24px' }}>
+          {/* Title + badge */}
+          <div className='flex items-center mb-2 gap-4'>
+            <SkeletonBar style={{ height: 32, width: 220 }} />
+            <SkeletonBar style={{ height: 22, width: 100, borderRadius: 4 }} />
+          </div>
+
+          {/* Inventory + number */}
+          <div className='flex items-center gap-2 mb-6'>
+            <SkeletonBar style={{ height: 14, width: 100 }} />
+            <SkeletonBar style={{ height: 14, width: 80 }} />
+          </div>
+
+          {/* Stats */}
+          <div className='flex items-center gap-6'>
+            {[120, 140, 100, 60].map((w, i) => (
+              <div
+                key={i}
+                className='flex flex-col gap-2'
+                style={{
+                  paddingRight: i < 3 ? 20 : 0,
+                  borderRight: i < 3 ? '1px solid #d7d7db' : 'none',
+                  paddingLeft: i > 0 ? 24 : 0,
+                }}
+              >
+                <SkeletonBar style={{ height: 11, width: 70 }} />
+                <SkeletonBar style={{ height: 18, width: w }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Table header */}
+        <div className='border-t border-b border-[#e6e6ed] bg-[#f8f9fa]'>
+          <table
+            className='border-collapse'
+            style={{ width: '95%', margin: 'auto' }}
+          >
+            <thead>
+              <tr>
+                {['40%', '15%', '20%', '15%', '10%'].map((w, i) => (
+                  <th
+                    key={i}
+                    className='h-12 bg-[#f8f9fa]'
+                    style={{ width: w }}
+                  />
+                ))}
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        {/* Table rows */}
+        <table
+          className='border-collapse'
+          style={{ width: '95%', margin: 'auto' }}
+        >
+          <tbody>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <tr key={i} style={{ borderBottom: '1px solid #e6e6ed' }}>
+                <td style={{ padding: '22px 0', width: '40%' }}>
+                  <SkeletonBar style={{ height: 14, width: 200 }} />
+                </td>
+                <td style={{ padding: '22px 0', width: '15%' }}>
+                  <SkeletonBar
+                    style={{ height: 12, width: 80, marginLeft: 'auto' }}
+                  />
+                </td>
+                <td style={{ padding: '22px 0', width: '20%' }}>
+                  <SkeletonBar
+                    style={{ height: 12, width: 100, marginLeft: 'auto' }}
+                  />
+                </td>
+                <td style={{ padding: '22px 0', width: '15%' }}>
+                  <SkeletonBar
+                    style={{ height: 12, width: 80, marginLeft: 'auto' }}
+                  />
+                </td>
+                <td style={{ width: '10%' }} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

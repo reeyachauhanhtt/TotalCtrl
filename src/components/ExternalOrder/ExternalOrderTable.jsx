@@ -2,6 +2,7 @@ import { Tooltip } from 'react-tooltip';
 import ExternalOrderRow from './ExternalOrderRow';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import { ExternalOrderListSkeleton } from '../Common/Skeleton';
 
 const COLUMNS = [
   { label: 'Supplier', align: 'left', width: '30%' },
@@ -22,17 +23,12 @@ export default function ExternalOrderTable({
   activeTab,
   onAddOrderClick,
   onUploadClick,
+  isReady,
 }) {
+  if (isLoading || !isReady) return <ExternalOrderListSkeleton />;
+
   function renderBody() {
-    if (isLoading) {
-      return (
-        <tr>
-          <td colSpan={8} className='text-center text-[#737373] text-sm py-16'>
-            Loading orders...
-          </td>
-        </tr>
-      );
-    }
+    if (isLoading) return null;
 
     if (isError) {
       return (
@@ -155,7 +151,7 @@ export default function ExternalOrderTable({
 
   return (
     <div
-      className='flex-1 overflow-visible'
+      className='flex-1 overflow-auto'
       style={{ height: 'calc(100vh - 186px)' }}
     >
       {/* Header Bar */}

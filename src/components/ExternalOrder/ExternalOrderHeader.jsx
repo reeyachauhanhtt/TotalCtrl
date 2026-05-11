@@ -9,17 +9,18 @@ import AddOrderManuallyModal from '../ExternalOrder/AddOrderManuallyModal';
 import InventoryDropdown from '../Common/InventoryDropDown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
-import UploadOrderModal from './UploadOrderModal';
+// import UploadOrderModal from './UploadOrderModal';
+import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
 
-export default function ExternalOrderHeader() {
+export default function ExternalOrderHeader({ onUploadClick }) {
   const dispatch = useDispatch();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
 
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showUploadModal, setShowUploadModal] = useState(false);
+  // const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const { data, error } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ['inventories'],
     queryFn: fetchInventory,
   });
@@ -41,59 +42,80 @@ export default function ExternalOrderHeader() {
       {/* Right section — hidden on detail view */}
       {!isDetailOpen && (
         <div className='flex items-center gap-4'>
-          {/* Inventory Dropdown */}
-          <InventoryDropdown
-            inventories={inventories}
-            selectedInventory={selectedInventory}
-            onSelect={(inv) => dispatch(setSelectedInventory(inv))}
-            error={error}
-          />
+          {isLoading ? (
+            <>
+              <SkeletonBar
+                style={{ height: 38, width: 200, borderRadius: 6 }}
+              />
+              <SkeletonBar
+                style={{ height: 38, width: 180, borderRadius: 6 }}
+              />
+              <SkeletonBar
+                style={{ height: 38, width: 150, borderRadius: 6 }}
+              />
+            </>
+          ) : (
+            <>
+              {/* Inventory Dropdown */}
+              <InventoryDropdown
+                inventories={inventories}
+                selectedInventory={selectedInventory}
+                onSelect={(inv) => dispatch(setSelectedInventory(inv))}
+                error={error}
+              />
 
-          {/* Add Order Manually */}
-          <div>
-            <WhiteButton
-              data-tooltip-id='add-order-tooltip'
-              data-tooltip-content='Use this option to add orders without PDF order confirmation from supplier'
-              onClick={() => setShowAddModal(true)}
-              className='h-10 w-52 flex items-center justify-center gap-2 font-extrabold'
-            >
-              <img src='/icons/plus-dark.svg' alt='' width={16} height={16} />
-              <span>Add order manually</span>
-            </WhiteButton>
+              {/* Add Order Manually */}
+              <div>
+                <WhiteButton
+                  data-tooltip-id='add-order-tooltip'
+                  data-tooltip-content='Use this option to add orders without PDF order confirmation from supplier'
+                  onClick={() => setShowAddModal(true)}
+                  className='h-10 w-52 flex items-center justify-center gap-2 font-extrabold'
+                >
+                  <img
+                    src='/icons/plus-dark.svg'
+                    alt=''
+                    width={16}
+                    height={16}
+                  />
+                  <span>Add order manually</span>
+                </WhiteButton>
 
-            <Tooltip
-              id='add-order-tooltip'
-              place='bottom'
-              style={{
-                backgroundColor: '#19191c',
-                fontSize: 12,
-                maxWidth: 208,
-              }}
-            />
-          </div>
+                <Tooltip
+                  id='add-order-tooltip'
+                  place='bottom'
+                  style={{
+                    backgroundColor: '#19191c',
+                    fontSize: 12,
+                    maxWidth: 208,
+                  }}
+                />
+              </div>
 
-          {/* Upload Order */}
-          <div>
-            <GreenButton
-              data-tooltip-id='upload-order-tooltip'
-              data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
-              className='h-10 px-10 flex items-center gap-2 font-semibold'
-              onClick={() => setShowUploadModal(true)}
-            >
-              <img src='/icons/upload.svg' alt='' width={16} height={16} />
-              <span>Upload order</span>
-            </GreenButton>
+              {/* Upload Order */}
+              <div>
+                <GreenButton
+                  data-tooltip-id='upload-order-tooltip'
+                  data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
+                  className='h-10 px-10 flex items-center gap-2 font-semibold'
+                  onClick={() => onUploadClick?.()}
+                >
+                  <img src='/icons/upload.svg' alt='' width={16} height={16} />
+                  <span>Upload order</span>
+                </GreenButton>
 
-            <Tooltip
-              id='upload-order-tooltip'
-              place='bottom-end'
-              style={{
-                backgroundColor: '#19191c',
-                fontSize: 12,
-                maxWidth: 320,
-              }}
-            />
-          </div>
+                <Tooltip
+                  id='upload-order-tooltip'
+                  place='bottom-end'
+                  style={{
+                    backgroundColor: '#19191c',
+                    fontSize: 12,
+                    maxWidth: 320,
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -101,11 +123,11 @@ export default function ExternalOrderHeader() {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
       />
-
+      {/* 
       <UploadOrderModal
         isOpen={showUploadModal}
         onClose={() => setShowUploadModal(false)}
-      />
+      /> */}
     </div>
   );
 }

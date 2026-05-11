@@ -56,6 +56,13 @@ export default function UploadOrderModal({ isOpen, onClose }) {
     return name.slice(0, 10) + '...' + name.slice(-10);
   };
 
+  const isValidFile =
+    file &&
+    ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'].includes(
+      file.type,
+    ) &&
+    file.size <= 5 * 1024 * 1024;
+
   if (!isOpen) return null;
 
   return (
@@ -290,7 +297,7 @@ export default function UploadOrderModal({ isOpen, onClose }) {
             Cancel
           </WhiteButton>
           <GreenButton
-            disabled={!file || uploading}
+            disabled={!isValidFile || uploading}
             className='disabled:opacity-40 disabled:cursor-not-allowed'
           >
             Continue

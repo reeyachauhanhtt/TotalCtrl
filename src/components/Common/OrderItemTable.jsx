@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { searchProducts } from '../../services/productService';
+import { formatPrice } from '../../utils/format';
+import UnitDropdown from './UnitDropdown';
 
 // ─── Helper ────────────────────────────────────────────────────────────────────
 
@@ -14,89 +16,8 @@ export function emptyRow() {
     price: '',
     total: '',
     touched: false,
+    touchedFields: {},
   };
-}
-
-// ─── UnitDropdown ──────────────────────────────────────────────────────────────
-// Dev CSS: .css-1lt8ujf-control — no border, h:33px, flex, justify-between
-// Chevron: color rgb(215,216,224)
-
-function UnitDropdown({ value, onChange, units, placeholder = 'Select unit' }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    function handleClick(e) {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
-  return (
-    <div className='relative w-full' ref={ref}>
-      {/* trigger — no border, transparent bg, h-[33px] */}
-      <button
-        type='button'
-        onClick={() => setOpen(!open)}
-        className='flex items-center justify-between w-full h-8.25 px-2 text-[13px] bg-transparent outline-none cursor-default'
-      >
-        <span className={value ? 'text-[#333333]' : 'text-[#939397]'}>
-          {value || placeholder}
-        </span>
-        {/* dev chevron svg */}
-        <svg
-          height='20'
-          width='20'
-          viewBox='0 0 20 20'
-          aria-hidden='true'
-          style={{ color: 'rgb(215,216,224)', flexShrink: 0 }}
-        >
-          <path d='M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z' />
-        </svg>
-      </button>
-
-      {/* dropdown list — dev: border rgb(215,216,224), shadow, bg white/90, borderRadius 3px */}
-      {open && (
-        <div
-          className='absolute left-0 w-full z-50 overflow-auto py-0.5'
-          style={{
-            top: 'calc(100% + 4px)',
-            minWidth: '160px',
-            maxHeight: '200px',
-            borderRadius: '3px',
-            border: '1px solid rgb(215,216,224)',
-            boxShadow: 'rgba(0,0,0,0.1) 0px 2px 12px',
-            background: 'rgba(255,255,255,0.9)',
-            fontSize: '90%',
-          }}
-        >
-          {units?.length > 0 ? (
-            units.map((unit) => (
-              <div
-                key={unit.id}
-                onClick={() => {
-                  onChange(unit.value, unit.id);
-                  setOpen(false);
-                }}
-                className={`px-3 py-2 text-[13px] cursor-pointer hover:bg-gray-100 ${
-                  value === unit.value
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-[#333]'
-                }`}
-              >
-                {unit.label}
-              </div>
-            ))
-          ) : (
-            <div className='px-3 py-2 text-[12px] text-[#939397]'>
-              Loading units…
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
 }
 
 // ─── OrderItemRow ──────────────────────────────────────────────────────────────
@@ -173,31 +94,34 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
   function isError(field, val) {
     if (isInventory) return false;
     if (field === 'sku' || field === 'total') return false;
-    return row.touched && !val;
+    return (row.touched || row.touchedFields?.[field]) && !val;
   }
 
-  // dev .manualOrderTableInput input:
-  // border:none, outline:none, bg:transparent, font-size:13px, h:32px, padding:6px, line-height:20px
   const baseInput =
-    'border-none outline-none bg-transparent text-[13px] leading-5 h-8 px-1.5 w-full';
+    'w-full h-8 px-1 text-[13px] leading-[32px] flex items-center font-normal text-[#19191c] bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded cursor-pointer transition-colors';
 
-  // dev .manualOrderTableInput.error:
-  // bg:#fff0f1, color:#a71a23, border-radius:4px
   function wrapClass(field, val) {
-    return isError(field, val) ? 'bg-[#fff0f1] rounded' : '';
+    return [
+      'rounded transition-colors mx-1',
+      isError(field, val)
+        ? 'bg-[#fff0f1] hover:bg-[#fff0f1]'
+        : 'hover:bg-[#f1f1f5]',
+    ]
+      .filter(Boolean)
+      .join(' ');
   }
 
   function textClass(field, val) {
     if (isInventory && field === 'price' && row.touched && !val)
       return 'text-red-600';
-    return isError(field, val) ? 'text-[#a71a23]' : 'text-[#939397]';
+    if (isError(field, val)) return 'text-[#a71a23]';
+    if (val) return 'text-[#19191c]';
+    return 'text-[#939397]';
   }
-
   const isAutoFilled = isInventory && !!row.unitId;
 
   return (
     <>
-      {/* DATA ROW — dev .tableRow-ManualOrder td: border:none, height:64px */}
       <tr style={{ height: 64 }}>
         {/* SKU */}
         <td className='align-middle  py-1' style={{ paddingLeft: 48 }}>
@@ -219,7 +143,6 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
           <div className='relative' ref={wrapperRef}>
             <div className={wrapClass('name', row.name)}>
               {isInventory ? (
-                // inventory: plain input
                 <input
                   type='text'
                   placeholder='Item name'
@@ -232,15 +155,20 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   style={{ height: 32 }}
                 />
               ) : (
-                // order: textarea — dev: overflow:hidden, max-height:150px, min-height:32px
                 <textarea
                   placeholder='Product name'
                   value={row.name}
                   onChange={(e) => handleNameChange(e.target.value)}
+                  onBlur={() =>
+                    onChange({
+                      ...row,
+                      touchedFields: { ...row.touchedFields, name: true },
+                    })
+                  }
                   onFocus={() =>
                     suggestions.length > 0 && setShowSuggestions(true)
                   }
-                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)}`}
+                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)} ${row.name ? 'font-extrabold' : ''}`}
                   style={{ minHeight: 32, maxHeight: 150, height: 32 }}
                   rows={1}
                 />
@@ -289,6 +217,12 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 const total = recalc(qty, row.price);
                 onChange({ ...row, quantity: qty, total, touched: true });
               }}
+              onBlur={() =>
+                onChange({
+                  ...row,
+                  touchedFields: { ...row.touchedFields, quantity: true },
+                })
+              }
               className={`${baseInput} text-right ${textClass('quantity', row.quantity)}`}
               style={{ height: 32, textAlign: 'right' }}
             />
@@ -296,11 +230,10 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         </td>
 
         {/* Unit */}
-        <td className='align-middle  py-1 text-[13px]' style={{ width: '13%' }}>
+        <td className='align-middle  py-1 text-[12px]' style={{ width: '13%' }}>
           <div
             className={[
               'rounded',
-              isError('unit', row.unit) ? 'bg-[#fff0f1]' : '',
               isAutoFilled ? 'opacity-50 pointer-events-none' : '',
             ]
               .filter(Boolean)
@@ -312,30 +245,30 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 onChange({ ...row, unit: val, unitId: id })
               }
               units={units}
-              placeholder={isInventory ? 'Select unit' : 'Purchase unit'}
+              placeholder={isInventory ? 'select unit' : 'purchase unit'}
             />
           </div>
         </td>
 
-        {/* Price per unit — dev: .manualOrderTableInput.price, input 80% + kr label */}
+        {/* Price per unit  */}
         <td className='align-middle  py-1 text-right'>
           <div
             className={[
-              'flex items-center pr-2 rounded',
+              'flex items-center pr-2 rounded transition-colors mx-1',
               isInventory
                 ? row.touched && !row.price
                   ? 'bg-red-50 border border-red-200'
-                  : 'hover:bg-gray-100'
+                  : 'hover:bg-[#f1f1f5]'
                 : isError('price', row.price)
-                  ? 'bg-[#fff0f1]'
-                  : '',
+                  ? 'bg-[#fff0f1] hover:bg-[#fff0f1]'
+                  : 'hover:bg-[#f1f1f5]',
             ]
               .filter(Boolean)
               .join(' ')}
           >
             {isAutoFilled ? (
               <span className='text-[13px] text-right text-[#333] px-1.5 flex-1'>
-                {row.price}
+                {formatPrice(parseFloat(row.price))}
               </span>
             ) : (
               <input
@@ -346,38 +279,48 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   const total = recalc(row.quantity, price);
                   onChange({ ...row, price, total });
                 }}
-                onBlur={() => onChange({ ...row, touched: true })}
+                onBlur={() =>
+                  onChange({
+                    ...row,
+                    touched: true,
+                    touchedFields: { ...row.touchedFields, price: true },
+                  })
+                }
                 placeholder=''
                 className={`outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right ${textClass('price', row.price)}`}
                 style={{ width: '80%', height: 32, textAlign: 'right' }}
               />
             )}
-            {/* dev: .lbl-active — color:#19191c, font-size:13px */}
-            <label className='text-[13px] text-[#19191c] shrink-0'>kr</label>
+            <label className='text-[13px] text-[#939397] shrink-0'>kr</label>
           </div>
         </td>
 
-        {/* Total — always read-only */}
-        <td className='align-middle py-1' style={{ paddingLeft: 50 }}>
-          <div className='flex items-center mr-1'>
+        {/* Total Price/Value */}
+        <td className='align-middle py-1' className='align-middle py-1 pl-6'>
+          <div className='flex items-center mr-1 rounded transition-colors hover:bg-[#f1f1f5]'>
             <input
               type='text'
-              value={row.total}
+              value={row.total ? formatPrice(parseFloat(row.total)) : ''}
+              placeholder='0,00'
               readOnly
               className='outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right text-[#939397]'
-              style={{ width: '80%', height: 32, textAlign: 'right' }}
+              style={{
+                width: '80%',
+                height: 32,
+                textAlign: 'right',
+                color: row.total ? '#19191c' : '#939397',
+              }}
             />
-            <label className='text-[13px] text-[#19191c] shrink-0'>kr</label>
+            {/* <label className='text-[13px] text-[#939397] shrink-0'>kr</label> */}
           </div>
         </td>
 
         {/* Delete */}
         <td
           className='align-middle py-1'
-          style={{ paddingLeft: 28, paddingRight: 48 }}
+          className='align-middle py-1 pl-2 pr-4'
         >
           {isInventory ? (
-            // inventory: green circle hover — existing AddItemModal style
             <button
               onClick={onDelete}
               className='flex items-center justify-center w-10 h-10 rounded-full hover:bg-emerald-100 transition cursor-pointer'
@@ -385,16 +328,14 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               <img src='/icons/dark-bin.svg' width={20} height={20} alt='' />
             </button>
           ) : (
-            // order: dev .action-event — w:48px, h:48px, flex, center, border-radius:50%
-            // gray icon initially, hover → black (opacity transition)
             <div
               onClick={onDelete}
               className='flex items-center justify-center w-12 h-12 rounded-full cursor-pointer group mb-2'
             >
               <img
-                src='/icons/dark-bin.svg'
-                width={20}
-                height={20}
+                src='/icons/bin.svg'
+                width={12}
+                height={12}
                 alt=''
                 className='opacity-30 group-hover:opacity-100 transition-opacity duration-150'
               />
@@ -403,7 +344,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         </td>
       </tr>
 
-      {/* DIVIDER ROW — dev pattern: tr > td > hr with margin 0 48px short border */}
+      {/* DIVIDER ROW  */}
       <tr>
         <td colSpan={7} style={{ height: 1, padding: 0 }}>
           <hr style={{ margin: '0 48px', borderColor: '#e6e6ed' }} />
@@ -417,13 +358,12 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
 
 export default function OrderItemsTable({
   rows,
-  onChange, // (updatedRows: Row[]) => void
+  onChange,
   units = [],
-  mode = 'inventory', // 'inventory' | 'order'
+  mode = 'inventory',
 }) {
   const isInventory = mode === 'inventory';
 
-  // column config per mode — widths & labels from dev HTML
   const columns = isInventory
     ? [
         { label: 'SKU', pl: 54, width: '12%' },
@@ -440,13 +380,13 @@ export default function OrderItemsTable({
         { label: '', width: '8%' },
       ]
     : [
-        { label: 'SKU', pl: 54, width: '12%' },
-        { label: 'PRODUCT NAME', pl: 48, width: '25%' },
+        { label: 'SKU', pl: 54, width: '10%' },
+        { label: 'PRODUCT NAME', pl: 48, width: '28%' },
         { label: 'QUANTITY', align: 'right', width: '10%' },
-        { label: 'PURCHASE UNIT', width: '13%' },
-        { label: 'PRICE PER PURCHASE UNIT', align: 'right', width: '13%' },
-        { label: 'TOTAL PRICE', pl: 50, width: '11%' },
-        { label: '', width: '5%' },
+        { label: 'PURCHASE UNIT', width: '14%' },
+        { label: 'PRICE PER PURCHASE UNIT', align: 'right', width: '16%' },
+        { label: 'TOTAL PRICE', pl: 50, width: '14%' },
+        { label: '', width: 'auto' },
       ];
 
   function handleRowChange(id, updated) {
@@ -455,13 +395,11 @@ export default function OrderItemsTable({
     const isLast = last.id === id;
 
     if (isInventory) {
-      // add new row when name + unit + price all filled on last row
       if (isLast && updated.name && updated.unit && updated.price) {
         onChange([...updatedRows, emptyRow()]);
         return;
       }
     } else {
-      // add new row when quantity entered on last row (was previously empty)
       const prevLast = rows[rows.length - 1];
       if (isLast && updated.quantity && !prevLast.quantity) {
         onChange([...updatedRows, emptyRow()]);
@@ -474,14 +412,14 @@ export default function OrderItemsTable({
 
   function handleDeleteRow(id) {
     const remaining = rows.filter((r) => r.id !== id);
-    // always keep at least one empty row
+
     onChange(remaining.length > 0 ? remaining : [emptyRow()]);
   }
 
   return (
     <table
       className='w-full border-collapse text-[13px]'
-      style={{ tableLayout: 'fixed' }}
+      style={{ tableLayout: 'auto' }}
     >
       <colgroup>
         {columns.map((col, i) => (
@@ -489,7 +427,6 @@ export default function OrderItemsTable({
         ))}
       </colgroup>
 
-      {/* STICKY THEAD — dev .stickyHeader th: sticky, top:0, z-index:30, h:40px, box-shadow inset */}
       <thead>
         <tr
           style={{
@@ -501,7 +438,6 @@ export default function OrderItemsTable({
           {columns.map((col, i) => (
             <th
               key={i}
-              // dev: .card-table thead th — font-weight:700, font-size:11px, letter-spacing:1px, color:#737373
               className='text-[11px] font-bold uppercase tracking-[1px] text-[#737373]'
               style={{
                 height: 40,
@@ -514,12 +450,12 @@ export default function OrderItemsTable({
                 top: 0,
                 zIndex: 10,
                 backgroundColor: 'rgb(251,251,252)',
-                // dev: inset box-shadow for top + bottom border on sticky
+
                 boxShadow: 'inset 0 1px 0 #e7e7ec, inset 0 -1px 0 #e7e7ec',
               }}
             >
               {col.label}
-              {/* dev: .required-asterisk — color:#e2232e */}
+
               {col.asterisk && (
                 <span style={{ color: '#e2232e' }} className='ml-0.5'>
                   *

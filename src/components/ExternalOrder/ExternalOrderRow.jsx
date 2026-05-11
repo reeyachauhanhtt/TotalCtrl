@@ -38,6 +38,7 @@ export default function ExternalOrderRow({ order, onClick }) {
 
   return (
     <tr className='cursor-pointer' onClick={onClick}>
+      {/*Supplier */}
       <td
         className={`${tdBase} ${tdPadding} text-left pl-0`}
         style={{ width: '30%' }}
@@ -47,6 +48,7 @@ export default function ExternalOrderRow({ order, onClick }) {
         </label>
       </td>
 
+      {/* Order Number */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '12%' }}
@@ -54,6 +56,7 @@ export default function ExternalOrderRow({ order, onClick }) {
         {order.orderNumber}
       </td>
 
+      {/* Total Value */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '12%' }}
@@ -61,6 +64,7 @@ export default function ExternalOrderRow({ order, onClick }) {
         {order.totalValue}
       </td>
 
+      {/* Ordered*/}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '13%' }}
@@ -68,6 +72,7 @@ export default function ExternalOrderRow({ order, onClick }) {
         {order.ordered}
       </td>
 
+      {/* Scheduled */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '13%' }}
@@ -83,11 +88,13 @@ export default function ExternalOrderRow({ order, onClick }) {
         <StatusBadge status={order.status} />
       </td>
 
+      {/* Empty  */}
       <td
         style={{ width: '5%' }}
         className={`${tdBase} border-b border-[#e6e6ed]`}
       />
 
+      {/* Arrow */}
       <td
         className={`${tdBase} ${tdPadding} text-right pr-0`}
         style={{ width: '5%' }}

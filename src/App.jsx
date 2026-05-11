@@ -15,6 +15,7 @@ import ExternalOrderPage from './pages/ExternalOrderPage';
 import { HeaderSkeleton } from './components/Common/Skeleton';
 import ExternalOrderHeader from './components/ExternalOrder/ExternalOrderHeader';
 import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderDetailHeader';
+import UploadOrderModal from './components/ExternalOrder/UploadOrderModal';
 import { undoTransfer } from './services/transferService';
 
 function Layout() {
@@ -25,6 +26,7 @@ function Layout() {
   const queryClient = useQueryClient();
 
   const [transferToast, setTransferToast] = useState(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   // Auto-dismiss after 4 seconds
   useEffect(() => {
@@ -55,7 +57,11 @@ function Layout() {
   function renderHeader() {
     if (!selectedInventory) return <HeaderSkeleton />;
     if (isExternalOrders && isDetailOpen) return <ExternalOrderDetailHeader />;
-    if (isExternalOrders) return <ExternalOrderHeader />;
+    if (isExternalOrders)
+      return (
+        <ExternalOrderHeader onUploadClick={() => setShowUploadModal(true)} />
+      );
+
     return <Header />;
   }
 
@@ -73,7 +79,7 @@ function Layout() {
               backgroundPosition: '16px center',
             }}
           >
-            <div className='flex items-center justify-between py-[14px] pr-6 pl-12 text-[14px] leading-[18px] font-semibold'>
+            <div className='flex items-center justify-between py-3.5 pr-6 pl-12 text-[14px] leading-4.5 font-semibold'>
               <span>Transfer completed successfully</span>
               <button
                 onClick={handleUndo}
@@ -89,6 +95,10 @@ function Layout() {
         {renderHeader()}
 
         <div className='flex-1 overflow-hidden'>
+          <UploadOrderModal
+            isOpen={showUploadModal}
+            onClose={() => setShowUploadModal(false)}
+          />
           <Routes>
             <Route
               path='/'

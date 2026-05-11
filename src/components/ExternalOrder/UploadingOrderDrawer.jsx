@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function UploadingOrdersDrawer({ orders = [], isOpen = true }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   if (!isOpen) return null;
 
@@ -9,7 +9,7 @@ export default function UploadingOrdersDrawer({ orders = [], isOpen = true }) {
     <>
       {/* Drawer */}
       <div
-        className='fixed bottom-0 z-11 bg-white'
+        className='fixed bottom-0 z-100 bg-white'
         style={{
           right: '24px',
           left: 'unset',
@@ -55,7 +55,7 @@ export default function UploadingOrdersDrawer({ orders = [], isOpen = true }) {
 
           {/* Chevron icon — up when expanded, down when collapsed */}
           <div style={{ height: '27px', transition: 'all 0.3s ease-in-out' }}>
-            {collapsed ? (
+            {/* {collapsed ? (
               // Chevron down
               <svg
                 width='24'
@@ -87,7 +87,30 @@ export default function UploadingOrdersDrawer({ orders = [], isOpen = true }) {
                   strokeLinecap='round'
                 />
               </svg>
-            )}
+            )} */}
+
+            <div
+              style={{
+                height: '27px',
+                transition: 'transform 0.3s ease-in-out',
+                transform: collapsed ? 'rotate(0deg)' : 'rotate(180deg)',
+              }}
+            >
+              <svg
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M6 10L12 16L18 10'
+                  stroke='#19191C'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                />
+              </svg>
+            </div>
           </div>
         </div>
 

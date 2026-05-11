@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Tooltip } from 'react-tooltip';
 
+import { formatPrice } from '../../utils/format';
+import { SkeletonBar } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import ConfirmModal from '../Common/ConfirmModal';
@@ -147,6 +149,8 @@ export default function EditOrderModal({
   const [orderedDateError, setOrderedDateError] = useState(false);
   const [scheduledDateError, setScheduledDateError] = useState(false);
 
+  const [focusedPriceIndex, setFocusedPriceIndex] = useState(null);
+
   // Ordered on
   const [orderedDay, setOrderedDay] = useState('');
   const [orderedMonth, setOrderedMonth] = useState('');
@@ -230,6 +234,7 @@ export default function EditOrderModal({
       (order?.scheduledDate
         ? String(new Date(order.scheduledDate).getFullYear())
         : '');
+  JSON.stringify(items) !== JSON.stringify(order?.products ?? []);
 
   const isValid =
     selectedSupplier &&
@@ -585,7 +590,7 @@ export default function EditOrderModal({
                     { label: 'Item name', cls: 'w-[38%] pl-[50px] text-left' },
                     { label: 'SKU', cls: 'w-[8%] text-right' },
                     { label: 'Quantity', cls: 'w-[7%] text-right' },
-                    { label: 'Purchase Unit', cls: 'w-[12%]' },
+                    { label: 'Purchase Unit', cls: 'w-[12%] text-left' },
                     { label: 'Unit Price', cls: 'w-[10%] text-right' },
                     { label: 'Total Price', cls: 'w-[10%] text-right' },
                     { label: '', cls: 'w-[5%]' },
@@ -600,94 +605,163 @@ export default function EditOrderModal({
                 </tr>
               </thead>
               <tbody>
-                {items.map((item, index) => (
-                  <tr
-                    key={item.id ?? index}
-                    className='border-b border-[#e6e6ed]'
-                  >
-                    <td className='h-16 px-3 pl-12.5 text-[14px]'>
-                      <input
-                        type='text'
-                        value={item.name}
-                        onChange={(e) =>
-                          handleItemChange(index, 'name', e.target.value)
-                        }
-                        className='w-full text-[13px] font-semibold text-[#19191c] outline-none bg-transparent'
-                      />
-                    </td>
-                    <td className='h-16 px-3 text-right text-[14px]'>
-                      <input
-                        type='text'
-                        value={item.sku ?? ''}
-                        onChange={(e) =>
-                          handleItemChange(index, 'sku', e.target.value)
-                        }
-                        placeholder='SKU'
-                        className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
-                      />
-                    </td>
+                {items.length === 0
+                  ? // skeleton rows while loading
+                    Array.from({ length: 4 }).map((_, i) => (
+                      <tr key={i} className='border-b border-[#e6e6ed]'>
+                        <td className='h-16 px-3 pl-12.5'>
+                          <SkeletonBar style={{ height: 14, width: 200 }} />
+                        </td>
+                        <td className='h-16 px-3 text-right'>
+                          <SkeletonBar
+                            style={{
+                              height: 12,
+                              width: 60,
+                              marginLeft: 'auto',
+                            }}
+                          />
+                        </td>
+                        <td className='h-16 px-3 text-right'>
+                          <SkeletonBar
+                            style={{
+                              height: 12,
+                              width: 50,
+                              marginLeft: 'auto',
+                            }}
+                          />
+                        </td>
+                        <td className='h-16 px-3'>
+                          <SkeletonBar style={{ height: 12, width: 80 }} />
+                        </td>
+                        <td className='h-16 px-3 text-right'>
+                          <SkeletonBar
+                            style={{
+                              height: 12,
+                              width: 70,
+                              marginLeft: 'auto',
+                            }}
+                          />
+                        </td>
+                        <td className='h-16 px-3 text-right'>
+                          <SkeletonBar
+                            style={{
+                              height: 12,
+                              width: 70,
+                              marginLeft: 'auto',
+                            }}
+                          />
+                        </td>
+                        <td className='h-16 px-3' />
+                      </tr>
+                    ))
+                  : items.map((item, index) => (
+                      <tr
+                        key={item.id ?? index}
+                        className='border-b border-[#e6e6ed]'
+                      >
+                        {/* item name */}
+                        <td className='h-16 px-3 pl-12.5 text-[14px]'>
+                          <input
+                            type='text'
+                            value={item.name}
+                            onChange={(e) =>
+                              handleItemChange(index, 'name', e.target.value)
+                            }
+                            className='w-full text-[13px] font-semibold text-[#19191c] outline-none bg-transparent'
+                          />
+                        </td>
 
-                    <td className='h-16 px-3 text-right'>
-                      <input
-                        type='text'
-                        value={item.orderQuantity ?? ''}
-                        onChange={(e) =>
-                          handleItemChange(
-                            index,
-                            'orderQuantity',
-                            e.target.value,
-                          )
-                        }
-                        placeholder='Qty'
-                        className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
-                      />
-                    </td>
+                        {/* sku */}
+                        <td className='h-16 px-3 text-right text-[14px]'>
+                          <input
+                            type='text'
+                            value={item.sku ?? ''}
+                            onChange={(e) =>
+                              handleItemChange(index, 'sku', e.target.value)
+                            }
+                            placeholder='SKU'
+                            className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
+                          />
+                        </td>
 
-                    <td className='h-16 px-3 text-[12px] text-[#19191c]'>
-                      {item.purchaseUnit ?? '—'}
-                    </td>
+                        {/* quantity */}
+                        <td className='h-16 px-3 text-right'>
+                          <input
+                            type='text'
+                            value={item.orderQuantity ?? ''}
+                            onChange={(e) =>
+                              handleItemChange(
+                                index,
+                                'orderQuantity',
+                                e.target.value,
+                              )
+                            }
+                            placeholder='Qty'
+                            className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
+                          />
+                        </td>
 
-                    <td className='h-16 px-3 text-right text-[12px] text-[#19191c]'>
-                      <input
-                        type='text'
-                        value={item.pricePerPurchaseUnit ?? ''}
-                        onChange={(e) =>
-                          handleItemChange(
-                            index,
-                            'pricePerPurchaseUnit',
-                            e.target.value,
-                          )
-                        }
-                        className='w-full text-right outline-none bg-transparent'
-                      />
-                    </td>
+                        {/* purchase unit */}
+                        <td className='h-16 px-3 text-[12px] text-[#19191c]'>
+                          {item.purchaseUnit ?? '—'}
+                        </td>
 
-                    <td className='h-16 px-3 text-right text-[12px] font-semibold text-[#19191c]'>
-                      {item.subtotal ?? '—'}
-                    </td>
+                        {/* unit price */}
+                        <td className='h-16 px-3 text-right text-[12px] text-[#19191c]'>
+                          <input
+                            type='text'
+                            value={
+                              focusedPriceIndex === index
+                                ? (item.pricePerPurchaseUnit ?? '')
+                                : item.pricePerPurchaseUnit
+                                  ? formatPrice(
+                                      parseFloat(item.pricePerPurchaseUnit),
+                                    )
+                                  : ''
+                            }
+                            onFocus={() => setFocusedPriceIndex(index)}
+                            onBlur={() => setFocusedPriceIndex(null)}
+                            onChange={(e) =>
+                              handleItemChange(
+                                index,
+                                'pricePerPurchaseUnit',
+                                e.target.value,
+                              )
+                            }
+                            className='w-full text-right outline-none bg-transparent'
+                          />
+                        </td>
 
-                    <td className='h-16 px-3 text-center'>
-                      <div className='flex items-center justify-center gap-5'>
-                        <img
-                          src='/icons/dark-bin.svg'
-                          alt='delete'
-                          className='w-5 h-5 cursor-pointer brightness-0'
-                          onClick={() => handleDeleteItem(index)}
-                        />
+                        {/* total price */}
+                        <td className='h-16 px-3 text-right text-[12px] font-semibold text-[#19191c]'>
+                          {item.subtotal
+                            ? formatPrice(parseFloat(item.subtotal))
+                            : '—'}
+                        </td>
 
-                        {/* + button with tooltip */}
-                        <img
-                          src='/icons/plus.svg'
-                          alt='add'
-                          className='w-4 h-4 cursor-pointer brightness-0'
-                          onClick={() => handleAddItemBelow(index)}
-                          data-tooltip-id='add-item-tooltip'
-                          data-tooltip-content='Add item below'
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                        {/* delete button */}
+                        <td className='h-16 px-3 text-center'>
+                          <div className='flex items-center justify-center gap-5'>
+                            <img
+                              src='/icons/bin.svg'
+                              alt='delete'
+                              className='w-4.5 h-4.5 cursor-pointer brightness-0'
+                              onClick={() => handleDeleteItem(index)}
+                            />
+
+                            {/* + button with tooltip */}
+                            <img
+                              src='/icons/plus.svg'
+                              alt='add'
+                              className='w-5 h-5 cursor-pointer brightness-0'
+                              onClick={() => handleAddItemBelow(index)}
+                              data-tooltip-id='add-item-tooltip'
+                              data-tooltip-content='Add item below'
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>

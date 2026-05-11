@@ -50,7 +50,7 @@ export default function ExternalOrderPage() {
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
   const selectedOrder = useSelector((s) => s.externalOrder.selectedOrder);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ['external-orders', selectedInventory?.id, activeTab],
     queryFn: () =>
       fetchExternalOrders({
@@ -58,7 +58,13 @@ export default function ExternalOrderPage() {
         tab: activeTab,
       }),
     enabled: !!selectedInventory?.id,
+    staleTime: 0,
+    refetchOnWindowFocus: false,
   });
+
+  // console.log('first delivered order:', data?.Data?.[0]);
+  // console.log('total orders fetched:', data?.Data?.length);
+  // console.log('full response:', data);
 
   const orders = (data?.Data ?? []).map((o) => ({
     id: o.id,
@@ -74,26 +80,38 @@ export default function ExternalOrderPage() {
     itemsCount: o.itemsCount,
   }));
 
+  // console.log('orders mapped:', orders.length);
+  // console.log('selectedInventory:', selectedInventory?.id);
+  // console.log(
+  //   'raw data ids:',
+  //   data?.Data?.map((o) => o.inventoryId),
+  // );
+  console.log(
+    'scheduled dates:',
+    data?.Data?.map((o) => o.scheduledDate),
+  );
   function handleBack() {
     dispatch(setDetailOpen(false));
     dispatch(setSelectedOrder(null));
   }
 
-  //  place this before the if (isDetailOpen) check
   if (isDetailOpen && selectedOrder) {
     return (
       <>
         <ExternalOrderDetail
           order={selectedOrder}
+          onUploadClick={() => setShowUploadModal(true)}
           onBack={(result) => {
             dispatch(setDetailOpen(false));
             dispatch(setSelectedOrder(null));
+
             if (result?.toast) {
               setToastMessage(result.toast);
               setTimeout(() => setToastMessage(null), 4000);
             }
           }}
         />
+
         {toastMessage && (
           <div
             className='fixed bottom-0 right-0 z-50'
@@ -105,6 +123,11 @@ export default function ExternalOrderPage() {
             </div>
           </div>
         )}
+
+        {uploadingOrders.length > 0 &&
+          selectedOrder?.status !== 'Scheduled' && (
+            <UploadingOrdersDrawer isOpen={true} orders={uploadingOrders} />
+          )}
       </>
     );
   }
@@ -115,7 +138,7 @@ export default function ExternalOrderPage() {
 
       <ExternalOrderTable
         orders={orders}
-        isLoading={isLoading}
+        isLoading={isLoading || isFetching}
         isError={isError}
         onRowClick={(order) => {
           dispatch(setDetailOpen(true));
@@ -124,6 +147,7 @@ export default function ExternalOrderPage() {
         activeTab={activeTab}
         onAddOrderClick={() => setShowAddModal(true)}
         onUploadClick={() => setShowUploadModal(true)}
+        isReady={!!selectedInventory?.id}
       />
 
       <AddOrderManuallyModal
@@ -136,9 +160,15 @@ export default function ExternalOrderPage() {
         onClose={() => setShowUploadModal(false)}
       />
 
-      {uploadingOrders.length > 0 && (
+      {/* {uploadingOrders.length > 0 && !showUploadModal && (
         <UploadingOrdersDrawer isOpen={true} orders={uploadingOrders} />
-      )}
+      )} */}
+
+      {uploadingOrders.length > 0 &&
+        !showUploadModal &&
+        !(isDetailOpen && selectedOrder?.status === 'Scheduled') && (
+          <UploadingOrdersDrawer isOpen={true} orders={uploadingOrders} />
+        )}
 
       {toastMessage && (
         <div className='fixed bottom-0 right-0 z-50' style={{ left: '220px' }}>
