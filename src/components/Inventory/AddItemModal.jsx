@@ -42,10 +42,6 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
 
   const { mutateAsync } = useMutation({
     mutationFn: createStoreProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['products', selectedInventory?.id]);
-      queryClient.invalidateQueries(['stock-value', selectedInventory?.id]);
-    },
   });
 
   if (!open) return null;
@@ -100,17 +96,38 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
   }
 
   async function handleSubmit() {
-    const validRows = rows.filter((r) => r.name && r.unit && r.price);
-    if (validRows.length === 0) {
+    const filledRows = rows.filter(
+      (r) => r.name || r.unit || r.price || r.quantity,
+    );
+
+    const hasInvalid = filledRows.some(
+      (r) => !r.name || !r.unit || !r.price || !r.quantity,
+    );
+
+    if (filledRows.length === 0 || hasInvalid) {
+      // Mark all non-empty rows as touched so errors highlight
+      setRows((prev) =>
+        prev.map((r) =>
+          r.name || r.unit || r.price || r.quantity
+            ? { ...r, touched: true }
+            : r,
+        ),
+      );
       setShowError(true);
       return;
     }
+
     setShowError(false);
     setIsSubmitting(true);
     try {
-      for (const row of validRows) {
+      for (const row of filledRows) {
         await mutateAsync(buildPayload(row));
       }
+      await queryClient.invalidateQueries(['products', selectedInventory?.id]);
+      await queryClient.invalidateQueries([
+        'stock-value',
+        selectedInventory?.id,
+      ]);
       handleClose();
     } catch (err) {
       console.error('ADD ITEM ERROR:', err);
@@ -185,9 +202,11 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
           </WhiteButton>
 
           {showError && (
-            <div className='flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-4 py-2'>
-              <span>⚠</span>
-              Fill in all the required fields before you continue.
+            <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-4.5 rounded px-3 py-2 flex items-center'>
+              <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
+              <span className='ml-2'>
+                Fill in all the required fields before you continue
+              </span>
             </div>
           )}
 

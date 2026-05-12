@@ -92,7 +92,11 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
 
   // ── error check (order mode: all fields except sku & total) ──
   function isError(field, val) {
-    if (isInventory) return false;
+    if (isInventory) {
+      // In inventory mode, highlight required fields when touched
+      if (field === 'sku' || field === 'total') return false;
+      return row.touched && !val;
+    }
     if (field === 'sku' || field === 'total') return false;
     return (row.touched || row.touchedFields?.[field]) && !val;
   }
@@ -118,7 +122,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
     if (val) return 'text-[#19191c]';
     return 'text-[#939397]';
   }
-  const isAutoFilled = isInventory && !!row.unitId;
+  const isUnitLocked = isInventory && !!row.unitId;
 
   return (
     <>
@@ -131,8 +135,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               placeholder='SKU'
               value={row.sku}
               onChange={(e) => onChange({ ...row, sku: e.target.value })}
-              disabled={isAutoFilled}
-              className={`${baseInput} ${isAutoFilled ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={baseInput}
               style={{ height: 32 }}
             />
           </div>
@@ -230,11 +233,13 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         </td>
 
         {/* Unit */}
-        <td className='align-middle  py-1 text-[12px]' style={{ width: '13%' }}>
+        <td className='align-middle py-1 text-[12px]' style={{ width: '13%' }}>
           <div
             className={[
-              'rounded',
-              isAutoFilled ? 'opacity-50 pointer-events-none' : '',
+              'rounded transition-colors',
+              isUnitLocked ? 'opacity-50 pointer-events-none' : '',
+              // Add gray highlight on error:
+              isInventory && row.touched && !row.unit ? 'bg-[#f1f1f5]' : '',
             ]
               .filter(Boolean)
               .join(' ')}
@@ -266,32 +271,38 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               .filter(Boolean)
               .join(' ')}
           >
-            {isAutoFilled ? (
+            {isUnitLocked ? (
               <span className='text-[13px] text-right text-[#333] px-1.5 flex-1'>
                 {formatPrice(parseFloat(row.price))}
               </span>
             ) : (
-              <input
-                type='text'
-                value={row.price}
-                onChange={(e) => {
-                  const price = e.target.value;
-                  const total = recalc(row.quantity, price);
-                  onChange({ ...row, price, total });
-                }}
-                onBlur={() =>
-                  onChange({
-                    ...row,
-                    touched: true,
-                    touchedFields: { ...row.touchedFields, price: true },
-                  })
-                }
-                placeholder=''
-                className={`outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right ${textClass('price', row.price)}`}
-                style={{ width: '80%', height: 32, textAlign: 'right' }}
-              />
+              <>
+                <input
+                  type='text'
+                  value={row.price}
+                  onChange={(e) => {
+                    const price = e.target.value;
+                    const total = recalc(row.quantity, price);
+                    onChange({ ...row, price, total });
+                  }}
+                  onBlur={() =>
+                    onChange({
+                      ...row,
+                      touched: true,
+                      touchedFields: { ...row.touchedFields, price: true },
+                    })
+                  }
+                  placeholder=''
+                  className={`outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right ${textClass('price', row.price)}`}
+                  style={{ width: '80%', height: 32, textAlign: 'right' }}
+                />
+                <label
+                  className={`text-[13px] shrink-0 ${isInventory && row.touched && !row.price ? 'text-red-600' : 'text-[#939397]'}`}
+                >
+                  kr
+                </label>
+              </>
             )}
-            <label className='text-[13px] text-[#939397] shrink-0'>kr</label>
           </div>
         </td>
 
@@ -303,7 +314,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               value={row.total ? formatPrice(parseFloat(row.total)) : ''}
               placeholder='0,00'
               readOnly
-              className='outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right text-[#939397]'
+              className='outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right '
               style={{
                 width: '80%',
                 height: 32,

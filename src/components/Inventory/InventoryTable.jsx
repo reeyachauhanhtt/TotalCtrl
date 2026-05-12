@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
 import InventoryRow from './InventoryRow';
 import { TableRowSkeleton } from '../Common/Skeleton';
@@ -9,6 +9,15 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
   const [sortDir, setSortDir] = useState('asc');
   const [isSorting, setIsSorting] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
+
+  const selectedBarRef = useRef(null);
+  const [selectedBarHeight, setSelectedBarHeight] = useState(44);
+
+  useEffect(() => {
+    if (selectedBarRef.current) {
+      setSelectedBarHeight(selectedBarRef.current.offsetHeight);
+    }
+  });
 
   useEffect(() => {
     setIsFiltering(true);
@@ -100,7 +109,10 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
   return (
     <div>
       {selected.length > 0 && (
-        <div className='flex justify-end items-center gap-3 px-4 py-3'>
+        <div
+          ref={selectedBarRef}
+          className='sticky top-0 z-20 flex justify-end items-center gap-3 px-4 py-3 bg-white shadow-sm'
+        >
           <span className='text-xs font-semibold text-emerald-700 bg-emerald-100 px-3 py-1 rounded'>
             {selected.length} ITEM{selected.length > 1 ? 'S' : ''} SELECTED
           </span>
@@ -136,10 +148,11 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
           <thead
             style={{
               position: 'sticky',
-              top: -1,
-              left: 0,
-              zIndex: 10,
+              top: selected.length > 0 ? selectedBarHeight - 1 : -1,
+              zIndex: 9,
               backgroundColor: 'rgb(248,249,250)',
+              boxShadow: '0 2px 0px rgb(248,249,250)',
+              overflow: 'hidden',
             }}
           >
             <tr>

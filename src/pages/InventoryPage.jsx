@@ -23,10 +23,10 @@ export default function InventoryPage({ onTransferSuccess }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [showTransfer, setShowTransfer] = useState(false);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
 
   const scrollRef = useRef(null);
 
-  //  Inventory change reset
   useEffect(() => {
     if (!selectedInventory?.id) return;
     setInventoryLoading(true);
@@ -40,6 +40,7 @@ export default function InventoryPage({ onTransferSuccess }) {
     setStockFilter('all');
     setSearchQuery('');
     setDebouncedSearch('');
+    setHeaderScrolled(false);
   }, [selectedInventory?.id]);
 
   const handleSearchChange = (value) => {
@@ -48,7 +49,6 @@ export default function InventoryPage({ onTransferSuccess }) {
     window._searchTimer = setTimeout(() => setDebouncedSearch(value), 300);
   };
 
-  // INFINITE QUERY (MAIN FIX)
   const {
     data,
     isLoading,
@@ -57,38 +57,33 @@ export default function InventoryPage({ onTransferSuccess }) {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['products', selectedInventory?.id, selectedSupplier?.Id || null],
-
+    queryKey: ['products', selectedInventory?.id, selectedSupplier?.Id ?? null],
     queryFn: ({ pageParam = 0 }) =>
       fetchProducts({
         inventoryId: selectedInventory.id,
         supplierIds: selectedSupplier?.Id,
         offset: pageParam,
       }),
-
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < 20) return undefined;
       return allPages.length * 20;
     },
-
     enabled: !!selectedInventory?.id,
-    staleTime: 0,
-    refetchOnMount: true,
+    staleTime: 1000 * 60 * 2,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
-  //  FLATTEN DATA
   const rawProducts = data?.pages?.flat() || [];
 
-  //  SCROLL HANDLER
   const handleScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
 
+    setHeaderScrolled(el.scrollTop > 500);
+
     if (el.scrollHeight - el.scrollTop <= el.clientHeight + 100) {
-      if (hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
+      if (hasNextPage && !isFetchingNextPage) fetchNextPage();
     }
   };
 
@@ -131,8 +126,8 @@ export default function InventoryPage({ onTransferSuccess }) {
   const { data: unitData } = useQuery({
     queryKey: ['measurementUnits'],
     queryFn: fetchMeasurementUnits,
-    staleTime: 0,
-    refetchOnMount: true,
+    staleTime: Infinity,
+    refetchOnMount: false,
   });
 
   const units =
@@ -169,7 +164,15 @@ export default function InventoryPage({ onTransferSuccess }) {
   }
 
   return (
-    <div className='h-full flex flex-col '>
+    <div className='h-full flex flex-col overflow-hidden'>
+      <TransferItemModal
+        open={showTransfer}
+        onClose={() => setShowTransfer(false)}
+        selectedInventory={selectedInventory}
+        onTransferSuccess={onTransferSuccess}
+      />
+
+      {/* STICKY HEADER — outside scroll container, never moves */}
       <InventoryMainSection
         setShowModal={setShowModal}
         products={products}
@@ -181,17 +184,12 @@ export default function InventoryPage({ onTransferSuccess }) {
         isProductsFetching={isFetching}
         selectedSupplier={selectedSupplier}
         setSelectedSupplier={setSelectedSupplier}
+        headerScrolled={headerScrolled}
       />
 
-      <TransferItemModal
-        open={showTransfer}
-        onClose={() => setShowTransfer(false)}
-        selectedInventory={selectedInventory}
-        onTransferSuccess={onTransferSuccess}
-      />
-
+      {/* SCROLL CONTAINER — only table scrolls */}
       <div
-        className='flex-1 min-h-0 overflow-y-auto mt-5 bg-white shadow-sm'
+        className='flex-1 min-h-0 overflow-y-auto bg-white shadow-sm'
         ref={scrollRef}
         onScroll={handleScroll}
       >
@@ -207,10 +205,7 @@ export default function InventoryPage({ onTransferSuccess }) {
               data={filteredProducts}
               stockFilter={stockFilter}
               debouncedSearch={debouncedSearch}
-              // scrollRef={scrollRef}
-              // onScroll={handleScroll}
             />
-
             {isFetchingNextPage && (
               <div className='p-4'>
                 {Array.from({ length: 3 }).map((_, i) => (
