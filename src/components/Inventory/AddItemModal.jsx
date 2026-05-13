@@ -230,6 +230,7 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
             unit: item.unit || '',
             price: item.costPerUnit || '', // mapped from costPerUnit → price
             unitId: item._unitId || '',
+            _fromSearch: false,
           }));
           setRows((prev) => [...mappedRows, ...prev]);
           setShowImportModal(false);

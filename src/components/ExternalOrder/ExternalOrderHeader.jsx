@@ -12,7 +12,7 @@ import WhiteButton from '../Common/WhiteButton';
 // import UploadOrderModal from './UploadOrderModal';
 import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
 
-export default function ExternalOrderHeader({ onUploadClick }) {
+export default function ExternalOrderHeader({ onUploadClick, onError }) {
   const dispatch = useDispatch();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
@@ -122,6 +122,7 @@ export default function ExternalOrderHeader({ onUploadClick }) {
       <AddOrderManuallyModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
+        onError={onError}
       />
       {/* 
       <UploadOrderModal

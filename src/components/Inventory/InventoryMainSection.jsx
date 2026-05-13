@@ -98,7 +98,7 @@ export default function InventoryMainSection({
 
   return (
     <div className='ml-5 px-6 bg-white'>
-      <div className='pt-6 pb-4 '>
+      <div className='pt-10 pb-4 '>
         {/* Title + Buttons */}
         <div className='flex items-center justify-between mb-2'>
           <div>

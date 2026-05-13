@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { searchProducts } from '../../services/productService';
-import { formatPrice } from '../../utils/format';
+import { formatNumber } from '../../utils/format';
 import UnitDropdown from './UnitDropdown';
 
 // ─── Helper ────────────────────────────────────────────────────────────────────
@@ -25,6 +25,7 @@ export function emptyRow() {
 function OrderItemRow({ row, onChange, onDelete, units, mode }) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [priceFocused, setPriceFocused] = useState(false);
   const debounceRef = useRef(null);
   const wrapperRef = useRef(null);
   const isInventory = mode === 'inventory';
@@ -39,9 +40,25 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    if (row.quantity && row.price !== '' && !row.total) {
+      const total = recalc(row.quantity, row.price);
+      if (total) onChange({ ...row, total });
+    }
+  }, []); // run once on mount
+
   // ── search ──
   function handleNameChange(val) {
-    onChange({ ...row, name: val, unitId: '' });
+    onChange({
+      ...row,
+      name: val,
+      unitId: '',
+      touched: val ? false : row.touched,
+      touchedFields: {
+        ...row.touchedFields,
+        name: val ? false : row.touchedFields?.name,
+      },
+    });
     clearTimeout(debounceRef.current);
     if (val.trim().length < 2) {
       setSuggestions([]);
@@ -78,6 +95,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
       unitId,
       price: String(cost),
       total,
+      _fromSearch: true,
     });
     setSuggestions([]);
     setShowSuggestions(false);
@@ -93,8 +111,12 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
   // ── error check (order mode: all fields except sku & total) ──
   function isError(field, val) {
     if (isInventory) {
-      // In inventory mode, highlight required fields when touched
       if (field === 'sku' || field === 'total') return false;
+      if (field === 'price')
+        return (
+          row.touched &&
+          (row.price === '' || row.price === null || row.price === undefined)
+        );
       return row.touched && !val;
     }
     if (field === 'sku' || field === 'total') return false;
@@ -102,27 +124,30 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
   }
 
   const baseInput =
-    'w-full h-8 px-1 text-[13px] leading-[32px] flex items-center font-normal text-[#19191c] bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded cursor-pointer transition-colors';
+    'w-full h-8 px-1 text-[12px] leading-[32px] flex items-center font-normal text-[#19191c] bg-transparent border-none outline-none rounded cursor-pointer transition-colors';
 
   function wrapClass(field, val) {
     return [
-      'rounded transition-colors mx-1',
-      isError(field, val)
-        ? 'bg-[#fff0f1] hover:bg-[#fff0f1]'
-        : 'hover:bg-[#f1f1f5]',
+      'rounded transition-colors',
+      isError(field, val) ? 'bg-[#fff0f1]' : 'hover:bg-[#f1f1f5]',
     ]
       .filter(Boolean)
       .join(' ');
   }
 
   function textClass(field, val) {
-    if (isInventory && field === 'price' && row.touched && !val)
-      return 'text-red-600';
+    if (isInventory && field === 'price') {
+      const isEmpty =
+        row.price === '' || row.price === null || row.price === undefined;
+      if (row.touched && isEmpty) return 'text-[#a71a23]';
+      return !isEmpty ? 'text-[#19191c]' : 'text-[#939397]';
+    }
     if (isError(field, val)) return 'text-[#a71a23]';
     if (val) return 'text-[#19191c]';
     return 'text-[#939397]';
   }
-  const isUnitLocked = isInventory && !!row.unitId;
+
+  const isUnitLocked = isInventory && !!row.unitId && row._fromSearch === true;
 
   return (
     <>
@@ -135,14 +160,14 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               placeholder='SKU'
               value={row.sku}
               onChange={(e) => onChange({ ...row, sku: e.target.value })}
-              className={baseInput}
+              className={`${baseInput} focus:bg-gray-100`}
               style={{ height: 32 }}
             />
           </div>
         </td>
 
         {/* Item / Product Name */}
-        <td className='align-middle  py-1' style={{ paddingLeft: 48 }}>
+        <td className='align-middle  py-1'>
           <div className='relative' ref={wrapperRef}>
             <div className={wrapClass('name', row.name)}>
               {isInventory ? (
@@ -154,7 +179,11 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   onFocus={() =>
                     suggestions.length > 0 && setShowSuggestions(true)
                   }
-                  className={`${baseInput} ${textClass('name', row.name)}`}
+                  className={`${baseInput} ${textClass('name', row.name)} ${row.name ? 'font-extrabold!' : ''} ${
+                    isError('name', row.name)
+                      ? 'placeholder:text-[#a71a23]'
+                      : ''
+                  } focus:bg-gray-100`}
                   style={{ height: 32 }}
                 />
               ) : (
@@ -171,7 +200,11 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   onFocus={() =>
                     suggestions.length > 0 && setShowSuggestions(true)
                   }
-                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)} ${row.name ? 'font-extrabold' : ''}`}
+                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)} ${row.name ? 'font-extrabold!' : ''} ${
+                    isError('name', row.name)
+                      ? 'placeholder:text-[#a71a23]'
+                      : ''
+                  }`}
                   style={{ minHeight: 32, maxHeight: 150, height: 32 }}
                   rows={1}
                 />
@@ -185,7 +218,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 style={{
                   top: '100%',
                   marginTop: 8,
-                  minWidth: '200px',
+                  minWidth: '250px',
                   maxHeight: '200px',
                   borderRadius: '3px',
                   border: '1px solid rgb(215,216,224)',
@@ -198,7 +231,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   <div
                     key={p.id ?? i}
                     onMouseDown={() => handleSelect(p)}
-                    className='px-4 py-2 text-[13px] text-[#19191c] cursor-pointer hover:bg-gray-100'
+                    className='px-4 py-2 text-[13px] text-[#19191c] font-extrabold! cursor-pointer hover:bg-gray-100'
                   >
                     {p.name || p.productName}
                   </div>
@@ -209,7 +242,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         </td>
 
         {/* Quantity */}
-        <td className='align-middle  py-1 text-right'>
+        <td className='align-middle py-1 text-right'>
           <div className={wrapClass('quantity', row.quantity)}>
             <input
               type='text'
@@ -226,31 +259,38 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   touchedFields: { ...row.touchedFields, quantity: true },
                 })
               }
-              className={`${baseInput} text-right ${textClass('quantity', row.quantity)}`}
+              className={`${baseInput} text-right ${textClass('quantity', row.quantity)} focus:bg-gray-100 ${
+                isError('quantity', row.quantity)
+                  ? 'placeholder:text-[#a71a23]'
+                  : ''
+              }`}
               style={{ height: 32, textAlign: 'right' }}
             />
           </div>
         </td>
 
-        {/* Unit */}
+        {/* Unit Dropdown */}
         <td className='align-middle py-1 text-[12px]' style={{ width: '13%' }}>
           <div
             className={[
               'rounded transition-colors',
               isUnitLocked ? 'opacity-50 pointer-events-none' : '',
-              // Add gray highlight on error:
-              isInventory && row.touched && !row.unit ? 'bg-[#f1f1f5]' : '',
             ]
               .filter(Boolean)
               .join(' ')}
           >
             <UnitDropdown
               value={row.unit}
-              onChange={(val, id) =>
-                onChange({ ...row, unit: val, unitId: id })
-              }
+              onChange={(val, id) => {
+                const total = recalc(row.quantity, row.price);
+                onChange({ ...row, unit: val, unitId: id, total });
+              }}
               units={units}
               placeholder={isInventory ? 'select unit' : 'purchase unit'}
+              isError={
+                isInventory && ((row.touched && !row.unit) || !!row.name)
+              }
+              isRedError={!isInventory && isError('unit', row.unit)}
             />
           </div>
         </td>
@@ -259,70 +299,83 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         <td className='align-middle  py-1 text-right'>
           <div
             className={[
-              'flex items-center pr-2 rounded transition-colors mx-1',
-              isInventory
-                ? row.touched && !row.price
-                  ? 'bg-red-50 border border-red-200'
-                  : 'hover:bg-[#f1f1f5]'
-                : isError('price', row.price)
-                  ? 'bg-[#fff0f1] hover:bg-[#fff0f1]'
-                  : 'hover:bg-[#f1f1f5]',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+              'flex items-center pr-2 rounded transition-colors ',
+              isError('price', row.price)
+                ? 'bg-[#fff0f1]'
+                : 'hover:bg-[#f1f1f5]',
+            ].join(' ')}
           >
-            {isUnitLocked ? (
-              <span className='text-[13px] text-right text-[#333] px-1.5 flex-1'>
-                {formatPrice(parseFloat(row.price))}
-              </span>
-            ) : (
-              <>
-                <input
-                  type='text'
-                  value={row.price}
-                  onChange={(e) => {
-                    const price = e.target.value;
-                    const total = recalc(row.quantity, price);
-                    onChange({ ...row, price, total });
-                  }}
-                  onBlur={() =>
-                    onChange({
-                      ...row,
-                      touched: true,
-                      touchedFields: { ...row.touchedFields, price: true },
-                    })
-                  }
-                  placeholder=''
-                  className={`outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right ${textClass('price', row.price)}`}
-                  style={{ width: '80%', height: 32, textAlign: 'right' }}
-                />
-                <label
-                  className={`text-[13px] shrink-0 ${isInventory && row.touched && !row.price ? 'text-red-600' : 'text-[#939397]'}`}
-                >
-                  kr
-                </label>
-              </>
-            )}
+            <input
+              type='text'
+              value={
+                priceFocused ? row.price : formatNumber(parseFloat(row.price))
+              }
+              onChange={(e) => {
+                const price = e.target.value;
+                const total = recalc(row.quantity, price);
+                onChange({ ...row, price, total });
+              }}
+              onFocus={() => setPriceFocused(true)}
+              onBlur={() => {
+                setPriceFocused(false);
+                onChange({
+                  ...row,
+                  touched: true,
+                  touchedFields: { ...row.touchedFields, price: true },
+                });
+              }}
+              placeholder=''
+              className={`outline-none border-none border-rounded bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right focus:bg-gray-100 ${textClass('price', row.price)}`}
+              style={{ width: '80%', height: 32, textAlign: 'right' }}
+            />
+
+            <label
+              className={`text-[12px] shrink-0 ${
+                isError('price', row.price)
+                  ? 'text-[#a71a23]'
+                  : isInventory &&
+                      row.touched &&
+                      (row.price === '' ||
+                        row.price === null ||
+                        row.price === undefined)
+                    ? 'text-[#a71a23]'
+                    : row.price !== '' &&
+                        row.price !== null &&
+                        row.price !== undefined
+                      ? 'text-[#19191c]'
+                      : 'text-[#939397]'
+              }`}
+            >
+              kr
+            </label>
           </div>
         </td>
 
         {/* Total Price/Value */}
-        <td className='align-middle py-1' className='align-middle py-1 pl-6'>
+        <td className='align-middle py-1 pl-6'>
           <div className='flex items-center mr-1 rounded transition-colors hover:bg-[#f1f1f5]'>
             <input
               type='text'
-              value={row.total ? formatPrice(parseFloat(row.total)) : ''}
-              placeholder='0,00'
-              readOnly
-              className='outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right '
+              value={row.total ? formatNumber(parseFloat(row.total)) : '0,00'}
+              readOnly={isInventory} // editable in order mode, readonly in inventory
+              onChange={
+                !isInventory
+                  ? (e) => onChange({ ...row, total: e.target.value })
+                  : undefined
+              }
+              className={`outline-none border-none bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right ${!isInventory ? 'cursor-text' : ''} `}
               style={{
-                width: '80%',
+                width: '100%',
                 height: 32,
                 textAlign: 'right',
                 color: row.total ? '#19191c' : '#939397',
               }}
             />
-            {/* <label className='text-[13px] text-[#939397] shrink-0'>kr</label> */}
+            <label
+              className={`text-[12px] shrink-0 ${row.total ? 'text-[#19191c]' : 'text-[#939397]'}`}
+            >
+              kr
+            </label>
           </div>
         </td>
 
@@ -334,7 +387,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
           {isInventory ? (
             <button
               onClick={onDelete}
-              className='flex items-center justify-center w-10 h-10 rounded-full hover:bg-emerald-100 transition cursor-pointer'
+              className='flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-100 transition cursor-pointer'
             >
               <img src='/icons/dark-bin.svg' width={20} height={20} alt='' />
             </button>
@@ -392,11 +445,16 @@ export default function OrderItemsTable({
       ]
     : [
         { label: 'SKU', pl: 54, width: '10%' },
-        { label: 'PRODUCT NAME', pl: 48, width: '28%' },
+        { label: 'PRODUCT NAME', pl: 8, width: '28%' },
         { label: 'QUANTITY', align: 'right', width: '10%' },
         { label: 'PURCHASE UNIT', width: '14%' },
-        { label: 'PRICE PER PURCHASE UNIT', align: 'right', width: '16%' },
-        { label: 'TOTAL PRICE', pl: 50, width: '14%' },
+        {
+          label: 'PRICE PER PURCHASE UNIT',
+          align: 'right',
+          width: '16%',
+          pr: '4',
+        },
+        { label: 'TOTAL PRICE', pl: 60, width: '14%' },
         { label: '', width: 'auto' },
       ];
 

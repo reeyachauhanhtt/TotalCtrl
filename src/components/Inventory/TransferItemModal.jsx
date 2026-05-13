@@ -105,10 +105,18 @@ export default function TransferItemModal({
   }, [fromInventory, toInventory]);
 
   // Fetch products for step 2
+  const inventoryId =
+    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
+
   const { data: products = [], isFetching: loadingProducts } = useQuery({
-    queryKey: ['products', fromInventory?.id],
-    queryFn: () => fetchProducts(fromInventory.id),
-    enabled: step === 2 && !!fromInventory?.id,
+    queryKey: ['products', inventoryId],
+
+    queryFn: async () => {
+      if (!inventoryId) return [];
+      return fetchProducts({ inventoryId });
+    },
+
+    enabled: step === 2 && !!inventoryId,
     staleTime: 0,
   });
 
@@ -154,6 +162,7 @@ export default function TransferItemModal({
   const [searchInputValue, setSearchInputValue] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
+  const [showFooterError, setShowFooterError] = useState(false);
   const [isDebouncing, setIsDebouncing] = useState(false);
   const searchRef = useRef(null);
 
@@ -197,6 +206,7 @@ export default function TransferItemModal({
       return;
     }
     dispatch(setLocationError(false));
+    setShowFooterError(false);
     dispatch(setStep(2));
   }
 
@@ -206,10 +216,16 @@ export default function TransferItemModal({
       return;
     }
     dispatch(setSelectionError(false));
+    setShowFooterError(false);
     dispatch(setStep(3));
   }
 
   function handleTransfer() {
+    if (selectedItems.length === 0) {
+      setShowFooterError(true);
+      return;
+    }
+
     const hasInvalidQty = selectedItems.some((item) => {
       const qty = Number(quantities[item.id]);
 
@@ -225,6 +241,7 @@ export default function TransferItemModal({
       return;
     }
 
+    setShowFooterError(false);
     dispatch(setSelectionError(false));
 
     transferMutation.mutate({
@@ -587,9 +604,14 @@ export default function TransferItemModal({
           <div className='flex items-center justify-between px-6 py-4 border-t border-gray-100'>
             <WhiteButton onClick={onClose}>Cancel</WhiteButton>
 
-            {step >= 2 && selectionError && (
-              <div className='flex items-center gap-2 px-48 py-2 bg-red-50 rounded text-left text-red-700 text-sm '>
-                <span>⚠</span> Please select products to transfer
+            {(selectionError || showFooterError) && (
+              <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-4.5 rounded px-3 py-2 flex items-center'>
+                <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
+                <span className='ml-2'>
+                  {step === 3 && selectedItems.length === 0
+                    ? 'Please select products to transfer'
+                    : 'Please select products or set qty to transfer'}
+                </span>
               </div>
             )}
 
@@ -601,6 +623,7 @@ export default function TransferItemModal({
                       queryKey: ['products', fromInventory?.id],
                     });
                     dispatch(setStep(step - 1));
+                    setShowFooterError(false);
                   }}
                   className='flex items-center gap-1 text-sm px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 hover:border-gray-900 transition'
                 >

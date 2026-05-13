@@ -24,3 +24,12 @@ export const formatPrice = (value) => {
     }) + ' kr'
   );
 };
+
+export const formatNumber = (value) => {
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(num)) return '';
+  return num.toLocaleString('nb-NO', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};

@@ -5,6 +5,8 @@ export default function UnitDropdown({
   onChange,
   units,
   placeholder = 'Select unit',
+  isError = false,
+  isRedError = false,
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(value || '');
@@ -35,9 +37,23 @@ export default function UnitDropdown({
       <button
         type='button'
         onClick={() => setOpen(!open)}
-        className='flex items-center justify-between w-full h-8.25 px-2 text-[13px] bg-transparent outline-none cursor-default'
+        className={`flex items-center justify-between w-full h-8.25 px-2 text-[12px] outline-none cursor-default transition-colors rounded ${
+          isRedError
+            ? 'bg-[#fff0f1]'
+            : isError
+              ? 'bg-[#f1f1f5]'
+              : 'bg-transparent hover:bg-[#f1f1f5]'
+        }`}
       >
-        <span className={value ? 'text-[#333333]' : 'text-[#939397]'}>
+        <span
+          className={
+            isRedError
+              ? 'text-[#a71a23]'
+              : value
+                ? 'text-[#333333]'
+                : 'text-[#939397]'
+          }
+        >
           {value || placeholder}
         </span>
 

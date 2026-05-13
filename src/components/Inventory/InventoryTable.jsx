@@ -80,7 +80,8 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
     color: '#5b636a',
     textAlign: 'left',
     borderTop: '1px solid #dee2e6',
-    borderBottom: '1px solid #dee2e6',
+    // borderBottom: '1px solid #dee2e6',
+    // boxShadow: 'inset 0 -1px 0 #dee2e6',
     cursor: 'pointer',
     userSelect: 'none',
     whiteSpace: 'nowrap',
@@ -151,6 +152,7 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
               top: selected.length > 0 ? selectedBarHeight - 1 : -1,
               zIndex: 9,
               backgroundColor: 'rgb(248,249,250)',
+              borderBottom: '1px solid #dee2e6',
               boxShadow: '0 2px 0px rgb(248,249,250)',
               overflow: 'hidden',
             }}

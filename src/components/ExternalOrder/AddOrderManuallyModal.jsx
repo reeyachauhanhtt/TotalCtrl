@@ -19,9 +19,7 @@ import {
   isOrderDatesValid,
 } from '../../utils/orderDateValidation';
 
-// ────────────────────────────────────────────────────────
-
-export default function AddOrderManuallyModal({ isOpen, onClose }) {
+export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
   const dispatch = useDispatch();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
 
@@ -31,16 +29,11 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
   const [rows, setRows] = useState([emptyRow()]);
   const [supplierError, setSupplierError] = useState(false);
   const [hasReachedStep3, setHasReachedStep3] = useState(false);
-
   const [orderNumber, setOrderNumber] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-
-  // Date field values
   const [orderedOn, setOrderedOn] = useState(emptyDate());
   const [scheduledFor, setScheduledFor] = useState(emptyDate());
   const [showFooterError, setShowFooterError] = useState(false);
-
-  // Date field errors
   const [dateErrors, setDateErrors] = useState({
     orderedOn: emptyDateErrors(),
     scheduledFor: emptyDateErrors(),
@@ -87,6 +80,9 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
     setHasReachedStep3(false);
     setOrderNumber('');
     setSelectedSupplier(null);
+    setRows([emptyRow()]);
+    setSupplierError(false);
+    setShowFooterError(false);
     setOrderedOn(emptyDate());
     setScheduledFor(emptyDate());
     setDateErrors({
@@ -95,38 +91,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
     });
     onClose();
   }
-
-  function handleContinue() {
-    if (step === 2) {
-      // Run validation before moving to step 3
-      const result = validateOrderDates({ orderedOn, scheduledFor });
-      if (!isOrderDatesValid(result)) {
-        setDateErrors(result);
-        return; // block navigation
-      }
-      // Clear errors on success
-      setDateErrors({
-        orderedOn: emptyDateErrors(),
-        scheduledFor: emptyDateErrors(),
-      });
-    }
-
-    if (step < 3) setStep((s) => s + 1);
-  }
-
   if (!isOpen) return null;
-
-  function handleRowChange(id, updated) {
-    setRows((prev) => prev.map((r) => (r.id === id ? updated : r)));
-  }
-
-  function handleDeleteRow(id) {
-    setRows((prev) => prev.filter((r) => r.id !== id));
-  }
-
-  function handleAddRow() {
-    setRows((prev) => [...prev, emptyRow()]);
-  }
 
   return (
     <div
@@ -212,11 +177,11 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                       selectedSupplier={selectedSupplier}
                       onSelect={(s) => {
                         setSelectedSupplier(s);
-                        setSupplierError(false); // clear error on select
+                        setSupplierError(false);
                       }}
                       supplierError={supplierError}
                       onBlur={() => {
-                        if (!selectedSupplier) setSupplierError(true); //  show error on blur
+                        if (!selectedSupplier) setSupplierError(true);
                       }}
                       className='w-85!'
                     />
@@ -272,6 +237,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
             </>
           )}
 
+          {/* STEP 3 */}
           {step === 3 && (
             <div style={{ paddingRight: 0, paddingTop: 0 }}>
               <div style={{ marginLeft: 48, marginTop: 10 }}>
@@ -313,7 +279,6 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
               <WhiteButton
                 onClick={() => {
                   if (step === 2 && !hasReachedStep3) {
-                    //  clear only if never reached step 3
                     setSelectedSupplier(null);
                     setOrderNumber('');
                     setOrderedOn(emptyDate());
@@ -346,7 +311,6 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                 if (step === 2) {
                   let hasError = false;
 
-                  // Supplier validation
                   if (!selectedSupplier) {
                     setSupplierError(true);
                     hasError = true;
@@ -354,12 +318,10 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                     setSupplierError(false);
                   }
 
-                  // Date validation
                   const result = validateOrderDates({
                     orderedOn,
                     scheduledFor,
                   });
-
                   if (!isOrderDatesValid(result)) {
                     setDateErrors(result);
                     hasError = true;
@@ -379,10 +341,32 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
                   return;
                 }
 
+                // STEP 3 → save
                 if (step === 3) {
-                  const hasValidRows = rows.some((r) => r.name && r.quantity);
-                  if (!hasValidRows) {
+                  const filledRows = rows.filter(
+                    (r) => r.name || r.quantity || r.unit || r.price,
+                  );
+                  const hasInvalid =
+                    filledRows.length === 0 ||
+                    filledRows.some(
+                      (r) => !r.name || !r.quantity || !r.unit || !r.price,
+                    );
+
+                  if (hasInvalid) {
+                    setRows((prev) =>
+                      prev.map((r) => ({ ...r, touched: true })),
+                    );
                     setShowFooterError(true);
+                    return;
+                  }
+
+                  // Frontend guard — catch missing order number before API call
+                  if (!orderNumber.trim()) {
+                    handleClose();
+                    setTimeout(
+                      () => onError?.('Number should not be empty'),
+                      50,
+                    );
                     return;
                   }
 
@@ -430,23 +414,17 @@ export default function AddOrderManuallyModal({ isOpen, onClose }) {
 
                   try {
                     setIsSaving(true);
-
-                    console.log('rows:', JSON.stringify(rows, null, 2));
-                    console.log(
-                      'selectedInventory:',
-                      JSON.stringify(selectedInventory, null, 2),
-                    );
-                    console.log('units:', JSON.stringify(units, null, 2));
-                    console.log('payload:', JSON.stringify(payload, null, 2));
-
                     await createOrder(payload);
                     queryClient.invalidateQueries({
                       queryKey: ['external-orders'],
                     });
                     handleClose();
                   } catch (err) {
-                    console.error('Failed to create order:', err);
-                    setShowFooterError(true);
+                    const msg =
+                      err?.response?.data?.Message ||
+                      'Failed to save order. Please try again.';
+                    handleClose();
+                    setTimeout(() => onError?.(msg), 50);
                   } finally {
                     setIsSaving(false);
                   }

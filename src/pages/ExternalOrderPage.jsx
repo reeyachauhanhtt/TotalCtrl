@@ -44,6 +44,9 @@ export default function ExternalOrderPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [errorToast, setErrorToast] = useState('');
+
+  console.log('🔄 ExternalOrderPage RENDER, errorToast:', errorToast);
   const dispatch = useDispatch();
 
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
@@ -132,6 +135,8 @@ export default function ExternalOrderPage() {
     );
   }
 
+  console.log('errorToast state:', errorToast);
+
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
       <ExternalOrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
@@ -153,16 +158,18 @@ export default function ExternalOrderPage() {
       <AddOrderManuallyModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
+        onError={(msg) => {
+          console.log('✅ onError called with:', msg);
+          setErrorToast(msg);
+          console.log('✅ errorToast set to:', msg);
+          setTimeout(() => setErrorToast(''), 4000);
+        }}
       />
 
       <UploadOrderModal
         isOpen={showUploadModal}
         onClose={() => setShowUploadModal(false)}
       />
-
-      {/* {uploadingOrders.length > 0 && !showUploadModal && (
-        <UploadingOrdersDrawer isOpen={true} orders={uploadingOrders} />
-      )} */}
 
       {uploadingOrders.length > 0 &&
         !showUploadModal &&
@@ -176,6 +183,26 @@ export default function ExternalOrderPage() {
             Order <strong>#{toastMessage?.number}</strong> from{' '}
             <strong>{toastMessage?.supplier}</strong> has been deleted.
           </div>
+        </div>
+      )}
+
+      {errorToast && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'red',
+            color: 'white',
+            padding: '20px 40px',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            zIndex: 999999,
+            border: '4px solid yellow',
+          }}
+        >
+          TOAST: {errorToast}
         </div>
       )}
     </div>
