@@ -291,6 +291,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 isInventory && ((row.touched && !row.unit) || !!row.name)
               }
               isRedError={!isInventory && isError('unit', row.unit)}
+              disabled={false}
             />
           </div>
         </td>
@@ -325,7 +326,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 });
               }}
               placeholder=''
-              className={`outline-none border-none border-rounded bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right focus:bg-gray-100 ${textClass('price', row.price)}`}
+              className={`outline-none border-none border-rounded bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right focus:bg-gray-100 cursor-pointer ${textClass('price', row.price)}`}
               style={{ width: '80%', height: 32, textAlign: 'right' }}
             />
 
@@ -363,7 +364,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   ? (e) => onChange({ ...row, total: e.target.value })
                   : undefined
               }
-              className={`outline-none border-none bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right ${!isInventory ? 'cursor-text' : ''} `}
+              className={`outline-none border-none bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right cursor-pointer ${!isInventory ? 'cursor-text' : ''} `}
               style={{
                 width: '100%',
                 height: 32,

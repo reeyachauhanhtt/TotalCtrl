@@ -280,11 +280,11 @@ export default function TransferItemModal({
         </div>
 
         <div
-          className={`flex-1 flex flex-col min-h-0 ${step !== 2 ? 'overflow-y-auto px-6 py-6' : 'overflow-hidden'}`}
+          className={`flex-1 flex flex-col min-h-0 ${step === 2 ? 'overflow-hidden' : 'overflow-y-auto'}`}
         >
           {/* STEP 1 */}
           {step === 1 && (
-            <div className='px-6 py-6'>
+            <div className='px-15 py-8'>
               <div className='max-w-sm'>
                 <h2 className='text-[18px] font-bold text-gray-900 mb-6'>
                   Select location
@@ -326,7 +326,7 @@ export default function TransferItemModal({
                 className='flex flex-col flex-1 pl-6 mt-3 mb-3'
                 style={{ borderRight: '1px solid #e5e7eb', margin: 0 }}
               >
-                <h2 className='text-[22px] font-bold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
+                <h2 className='text-[20px] font-bold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
                   Pick items to transfer
                 </h2>
 
@@ -430,11 +430,12 @@ export default function TransferItemModal({
                 <div className='border-b border-gray-200 mt-7.5' />
 
                 {/* Product list */}
+                {/* Product list */}
                 <div className='flex-1 overflow-y-auto px-6 pt-10'>
                   {loadingProducts ? (
                     <TransferProductListSkeleton />
                   ) : (
-                    <div className='flex flex-col gap-1.5'>
+                    <div>
                       {filteredProducts.map((product) => {
                         const sel = selectedItems.some(
                           (i) => i.id === product.id,
@@ -443,32 +444,51 @@ export default function TransferItemModal({
                           <div
                             key={product.id}
                             onClick={() => dispatch(toggleItem(product))}
-                            className={`flex items-center gap-1 px-3 py-3.5 transition-colors rounded ${
-                              sel ? 'bg-emerald-50' : ''
-                            }`}
+                            style={{
+                              padding: '14px 24px',
+                              display: 'flex',
+                              marginRight: 24,
+                              marginBottom: 5,
+                              color: '#19191c',
+                              fontWeight: 400,
+                              fontSize: 14,
+                              lineHeight: '20px',
+                              cursor: 'pointer',
+                              backgroundColor: sel ? '#f0fdf4' : 'transparent',
+                            }}
                           >
-                            <div
-                              className={`w-5 h-5 rounded flex items-center justify-center border shrink-0 ${
-                                sel
-                                  ? 'bg-emerald-600 border-emerald-600'
-                                  : 'border-gray-300 bg-white'
-                              }`}
-                            >
-                              {sel && (
-                                <svg
-                                  className='w-3 h-3 text-white'
-                                  viewBox='0 0 24 24'
-                                  fill='none'
-                                  stroke='currentColor'
-                                  strokeWidth='3'
-                                >
-                                  <path d='M5 13l4 4L19 7' />
-                                </svg>
-                              )}
+                            {/* Checkbox */}
+                            <div style={{ width: 36, flexShrink: 0 }}>
+                              <div
+                                style={{
+                                  width: 20,
+                                  height: 20,
+                                  borderRadius: 4,
+                                  border: sel
+                                    ? '1px solid #059669'
+                                    : '1px solid #d7d8e0',
+                                  backgroundColor: sel ? '#059669' : '#fff',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                {sel && (
+                                  <svg
+                                    width='12'
+                                    height='12'
+                                    viewBox='0 0 24 24'
+                                    fill='none'
+                                    stroke='white'
+                                    strokeWidth='3'
+                                  >
+                                    <path d='M5 13l4 4L19 7' />
+                                  </svg>
+                                )}
+                              </div>
                             </div>
-                            <span className='text-sm text-gray-700'>
-                              {product.productName}
-                            </span>
+                            {/* Name */}
+                            <div>{product.productName}</div>
                           </div>
                         );
                       })}
@@ -506,95 +526,255 @@ export default function TransferItemModal({
 
           {/* STEP 3 */}
           {step === 3 && (
-            <div className='flex flex-col min-h-0 flex-1'>
-              <div className='px-8 py-6 mb-3 border-b border-gray-200'>
-                <h2 className='text-[20px] font-bold text-gray-900'>
+            <div className='flex flex-col min-h-0 flex-1 overflow-y-auto'>
+              {/* Title */}
+              <div style={{ marginLeft: 48, marginTop: 32, marginBottom: 32 }}>
+                <h2
+                  style={{
+                    fontSize: 20,
+                    lineHeight: '32px',
+                    fontWeight: 600,
+                    letterSpacing: '-0.01em',
+                    color: '#19191c',
+                    textAlign: 'left',
+                    marginBottom: 0,
+                  }}
+                >
                   Specify quantities
                 </h2>
               </div>
 
-              <div className='mt-2 mb-2 border border-gray-200 rounded flex-1 overflow-y-auto'>
+              {/* Divider */}
+              <hr
+                style={{
+                  margin: '0 -24px',
+                  borderTop: '1px solid rgba(0,0,0,0.1)',
+                  width: 'calc(100% + 48px)',
+                }}
+              />
+
+              {/* Table container */}
+              <div
+                style={{
+                  marginLeft: 48,
+                  marginTop: 0,
+                  marginBottom: 10,
+                  paddingRight: 24,
+                }}
+              >
                 {selectedItems.length === 0 ? (
-                  <div className='flex items-center justify-center h-full text-gray-400 text-sm'>
-                    Sorry no product found
+                  <div
+                    style={{
+                      border: '1px solid #dee2e6',
+                      borderRadius: 4,
+                      marginTop: 10,
+                      marginBottom: 24,
+                      marginLeft: 5,
+                      marginRight: 5,
+                      minHeight: 70,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontWeight: 600,
+                        fontSize: 17,
+                        lineHeight: '24px',
+                        letterSpacing: '-0.01em',
+                        color: '#19191c',
+                        margin: 0,
+                      }}
+                    >
+                      Sorry no product found
+                    </p>
                   </div>
                 ) : (
-                  selectedItems.map((item, i) => (
-                    <div
-                      key={item.id}
-                      className={`flex items-center px-6 py-6 gap-4 ${i !== selectedItems.length - 1 ? 'border-b border-gray-100' : ''}`}
+                  <div
+                    style={{
+                      border: '1px solid #dee2e6',
+                      borderRadius: 4,
+                      marginTop: 10,
+                      // marginBottom: 24,
+                      padding: '0 24px',
+                    }}
+                  >
+                    <table
+                      style={{
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                        fontSize: 12,
+                        marginTop: 20,
+                        marginBottom: 20,
+                      }}
                     >
-                      {/* Product name */}
-                      <span className='text-sm text-gray-800 w-40 font-medium'>
-                        {item.productName}
-                      </span>
+                      <tbody>
+                        {selectedItems.map((item, i) => {
+                          const qty = Number(quantities[item.id]);
+                          const unitPlural =
+                            item.stockTakingUnitPlural || item.unit || '';
+                          const unitLabel =
+                            qty === 1
+                              ? unitPlural.endsWith('s')
+                                ? unitPlural.slice(0, -1)
+                                : unitPlural
+                              : unitPlural;
+                          const isLast = i === selectedItems.length - 1;
 
-                      {/* Available */}
-                      <span className='text-sm text-gray-400 flex-1'>
-                        {Number(item.totalQuantity ?? 0).toFixed(2)} available
-                        to transfer
-                      </span>
+                          return (
+                            <tr
+                              key={item.id}
+                              style={{
+                                borderBottom: isLast
+                                  ? 'none'
+                                  : '1px solid #e6e6ed',
+                                height: 95,
+                              }}
+                            >
+                              {/* Product name */}
+                              <td
+                                style={{
+                                  width: '30%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontWeight: 400,
+                                    fontSize: 12,
+                                    lineHeight: '20px',
+                                    color: '#19191c',
+                                  }}
+                                >
+                                  {item.productName}
+                                </span>
+                              </td>
 
-                      {/* Input + unit */}
-                      <div className='flex flex-col items-end shrink-0'>
-                        <div className='flex items-center bg-gray-100 rounded-md overflow-hidden'>
-                          <input
-                            type='number'
-                            min={0}
-                            max={item.totalQuantity}
-                            value={quantities[item.id] ?? ''}
-                            onChange={(e) =>
-                              dispatch(
-                                setQuantity({
-                                  id: item.id,
-                                  value: e.target.value,
-                                }),
-                              )
-                            }
-                            className='w-20 px-3 py-2 text-sm bg-transparent outline-none text-right text-gray-800'
-                            // placeholder='0'
-                          />
+                              {/* Available */}
+                              <td
+                                style={{
+                                  width: '25%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <span
+                                  style={{ fontSize: 12, color: '#19191c' }}
+                                >
+                                  {Number(item.totalQuantity ?? 0)} available to
+                                  transfer
+                                </span>
+                              </td>
 
-                          <span className='px-3 py-2 text-sm text-gray-700 whitespace-nowrap'>
-                            {(() => {
-                              const qty = Number(quantities[item.id]);
-                              const unitPlural =
-                                item.stockTakingUnitPlural || item.unit || '';
+                              {/* Input + unit */}
+                              <td
+                                style={{
+                                  width: '30%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    backgroundColor: '#f1f1f5',
+                                    borderRadius: 4,
+                                    width: 160,
+                                    height: 36,
+                                    overflow: 'hidden',
+                                  }}
+                                >
+                                  <input
+                                    type='text'
+                                    value={quantities[item.id] ?? ''}
+                                    onChange={(e) =>
+                                      dispatch(
+                                        setQuantity({
+                                          id: item.id,
+                                          value: e.target.value,
+                                        }),
+                                      )
+                                    }
+                                    style={{
+                                      border: 'none',
+                                      outline: 'none',
+                                      flex: 1,
+                                      minWidth: 0,
+                                      backgroundColor: '#f1f1f5',
+                                      padding: '0 8px',
+                                      fontSize: 12,
+                                      lineHeight: '24px',
+                                      color: '#333',
+                                    }}
+                                  />
+                                  <span
+                                    style={{
+                                      paddingRight: 12,
+                                      paddingLeft: 4,
+                                      color: '#19191c',
+                                      fontSize: 12,
+                                      whiteSpace: 'nowrap',
+                                      flexShrink: 0,
+                                    }}
+                                  >
+                                    {unitLabel}
+                                  </span>
+                                </div>
+                                {quantities[item.id] !== undefined &&
+                                  quantities[item.id] !== '' &&
+                                  (qty <= 0 || qty > item.totalQuantity) && (
+                                    <span
+                                      style={{
+                                        fontSize: 11,
+                                        color: '#e2232e',
+                                        marginTop: 4,
+                                        display: 'block',
+                                      }}
+                                    >
+                                      {qty <= 0
+                                        ? 'Quantity must be greater than 0'
+                                        : `Qty equal or less than ${item.totalQuantity}`}
+                                    </span>
+                                  )}
+                              </td>
 
-                              if (qty === 1) {
-                                // convert plural → singular (basic rule)
-                                return unitPlural.endsWith('s')
-                                  ? unitPlural.slice(0, -1)
-                                  : unitPlural;
-                              }
-
-                              return unitPlural;
-                            })()}
-                          </span>
-                        </div>
-
-                        {/* Error (only show when needed) */}
-                        {(quantities[item.id] <= 0 ||
-                          quantities[item.id] > item.totalQuantity) && (
-                          <span className='text-xs text-red-500 mt-1'>
-                            {quantities[item.id] <= 0
-                              ? 'Quantity must be greater than 0'
-                              : `Qty equal or less than ${item.totalQuantity}`}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Remove */}
-                      <button
-                        onClick={() => dispatch(removeItem(item.id))}
-                        className='text-gray-700 ml-2'
-                      >
-                        <FiX size={20} />
-                      </button>
-                    </div>
-                  ))
+                              {/* Remove */}
+                              <td
+                                style={{
+                                  width: '15%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  textAlign: 'right',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <button
+                                  onClick={() => dispatch(removeItem(item.id))}
+                                  style={{
+                                    cursor: 'pointer',
+                                    background: 'none',
+                                    border: 'none',
+                                    padding: 0,
+                                  }}
+                                >
+                                  <FiX size={24} color='#19191c' />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
+              {/* </div> */}
             </div>
           )}
         </div>
@@ -609,8 +789,8 @@ export default function TransferItemModal({
                 <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
                 <span className='ml-2'>
                   {step === 3 && selectedItems.length === 0
-                    ? 'Please select products to transfer'
-                    : 'Please select products or set qty to transfer'}
+                    ? 'Please select products or set qty to transfer'
+                    : 'Please select products to transfer'}
                 </span>
               </div>
             )}

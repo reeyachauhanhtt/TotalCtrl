@@ -1043,7 +1043,7 @@ export function ExternalOrderDetailSkeleton() {
           style={{ width: '95%', margin: 'auto' }}
         >
           <tbody>
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <tr key={i} style={{ borderBottom: '1px solid #e6e6ed' }}>
                 <td style={{ padding: '22px 0', width: '40%' }}>
                   <SkeletonBar style={{ height: 14, width: 200 }} />

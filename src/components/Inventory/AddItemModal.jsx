@@ -105,7 +105,6 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
     );
 
     if (filledRows.length === 0 || hasInvalid) {
-      // Mark all non-empty rows as touched so errors highlight
       setRows((prev) =>
         prev.map((r) =>
           r.name || r.unit || r.price || r.quantity
@@ -216,7 +215,6 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
         </div>
       </div>
 
-      {/* Import Modal */}
       <ImportItemsModal
         isOpen={showImportModal}
         onClose={() => setShowImportModal(false)}

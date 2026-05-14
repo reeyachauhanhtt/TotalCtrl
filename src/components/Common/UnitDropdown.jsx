@@ -7,6 +7,7 @@ export default function UnitDropdown({
   placeholder = 'Select unit',
   isError = false,
   isRedError = false,
+  disabled = false,
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(value || '');
@@ -34,28 +35,45 @@ export default function UnitDropdown({
 
   return (
     <div className='relative w-full' ref={ref}>
-      <button
-        type='button'
-        onClick={() => setOpen(!open)}
-        className={`flex items-center justify-between w-full h-8.25 px-2 text-[12px] outline-none cursor-default transition-colors rounded ${
-          isRedError
-            ? 'bg-[#fff0f1]'
-            : isError
-              ? 'bg-[#f1f1f5]'
-              : 'bg-transparent hover:bg-[#f1f1f5]'
+      <div
+        className={`flex items-center justify-between w-full h-8.25 px-2 rounded transition-colors ${
+          disabled
+            ? 'bg-[#f5f5f5] cursor-not-allowed'
+            : isRedError
+              ? 'bg-[#fff0f1]'
+              : isError
+                ? 'bg-[#f1f1f5]'
+                : 'bg-transparent hover:bg-[#f1f1f5]'
         }`}
       >
-        <span
-          className={
-            isRedError
-              ? 'text-[#a71a23]'
-              : value
-                ? 'text-[#333333]'
-                : 'text-[#939397]'
-          }
-        >
-          {value || placeholder}
-        </span>
+        <input
+          type='text'
+          value={search}
+          placeholder={value || placeholder}
+          disabled={disabled}
+          onFocus={() => {
+            if (!disabled) setOpen(true);
+          }}
+          onClick={() => {
+            if (!disabled) {
+              setSearch('');
+              setOpen(true);
+            }
+          }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setOpen(true);
+          }}
+          className={`w-full bg-transparent outline-none text-[12px]${
+            disabled
+              ? 'cursor-not-allowed text-[#666]'
+              : isRedError
+                ? 'text-[#a71a23]'
+                : value
+                  ? 'text-[#333333]'
+                  : 'text-[#939397]'
+          }`}
+        />
 
         <svg
           height='20'
@@ -69,33 +87,22 @@ export default function UnitDropdown({
         >
           <path d='M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z' />
         </svg>
-      </button>
+      </div>
 
       {open && (
-        <div
-          className='absolute left-0 w-full z-50 overflow-auto py-0.5'
-          style={{
-            top: 'calc(100% + 4px)',
-            minWidth: '160px',
-            maxHeight: '200px',
-            borderRadius: '3px',
-            border: '1px solid rgb(215,216,224)',
-            boxShadow: 'rgba(0,0,0,0.1) 0px 2px 12px',
-            background: 'rgba(255,255,255,0.9)',
-            fontSize: '90%',
-          }}
-        >
-          {units?.length > 0 ? (
-            units.map((unit) => (
+        <div className='absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-50 max-h-75 overflow-y-auto'>
+          {filteredUnits?.length > 0 ? (
+            filteredUnits.map((unit) => (
               <div
                 key={unit.id}
                 onClick={() => {
                   onChange(unit.value, unit.id);
+                  setSearch(unit.label);
                   setOpen(false);
                 }}
-                className={`px-3 py-1 text-[12px] cursor-pointer hover:bg-gray-100 ${
+                className={`px-3 py-1.5 text-[12px] hover:bg-gray-100 ${
                   value === unit.value
-                    ? 'bg-emerald-50 text-[#333]'
+                    ? 'bg-green-50 text-[#333]'
                     : 'text-[#333]'
                 }`}
               >
@@ -103,8 +110,8 @@ export default function UnitDropdown({
               </div>
             ))
           ) : (
-            <div className='px-3 py-2 text-[12px] text-[#939397]'>
-              Loading units…
+            <div className='px-3 py-2 text-[12px] text-[#939397] text-center'>
+              {units?.length ? 'No options' : 'Loading units…'}
             </div>
           )}
         </div>

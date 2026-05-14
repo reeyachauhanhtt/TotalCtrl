@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Tooltip } from 'react-tooltip';
 import ExternalOrderRow from './ExternalOrderRow';
 import GreenButton from '../Common/GreenButton';
@@ -18,14 +19,22 @@ const COLUMNS = [
 export default function ExternalOrderTable({
   orders = [],
   isLoading,
+  isFetching,
   isError,
   onRowClick,
   activeTab,
   onAddOrderClick,
   onUploadClick,
   isReady,
+  onReturnComplete,
 }) {
-  if (isLoading || !isReady) return <ExternalOrderListSkeleton />;
+  useEffect(() => {
+    if (!isLoading && !isFetching && onReturnComplete) {
+      onReturnComplete();
+    }
+  }, [isLoading, isFetching]);
+
+  if (isLoading || isFetching || !isReady) return <ExternalOrderListSkeleton />;
 
   function renderBody() {
     if (isLoading) return null;
@@ -33,7 +42,10 @@ export default function ExternalOrderTable({
     if (isError) {
       return (
         <tr>
-          <td colSpan={8} className='text-center text-red-500 text-sm py-16'>
+          <td
+            colSpan={8}
+            className='text-center text-red-600 text-sm font-extrabold py-16'
+          >
             Failed to load orders.
           </td>
         </tr>

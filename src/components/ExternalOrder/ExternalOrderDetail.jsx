@@ -10,6 +10,7 @@ import {
 } from '../../services/externalOrderService';
 import { fetchInventory } from '../../services/inventoryService';
 import { fetchSuppliers } from '../../services/supplierService';
+import { fetchMeasurementUnits } from '../../services/masterDataService';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
 import { ExternalOrderDetailSkeleton } from '../Common/Skeleton';
@@ -244,6 +245,22 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
     queryFn: fetchSuppliers,
     staleTime: 0,
   });
+
+  const { data: unitData } = useQuery({
+    queryKey: ['measurementUnits'],
+    queryFn: fetchMeasurementUnits,
+    staleTime: Infinity,
+    refetchOnMount: false,
+  });
+
+  const units =
+    unitData?.purchaseUnit?.length > 0
+      ? unitData.purchaseUnit.map((u) => ({
+          label: u.name,
+          value: u.name,
+          id: u.id,
+        }))
+      : [];
 
   const inventories = (inventoryData?.Data || inventoryData?.data || []).sort(
     (a, b) => a.name?.localeCompare(b.name),
@@ -604,10 +621,6 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
           </div>
         ) : (
           <div style={{ maxHeight: 'calc(100vh - 360px)', overflow: 'auto' }}>
-            {/* {groups.map((group, i) => (
-              <GroupedTable key={i} group={group} currency={currency} />
-            ))} */}
-
             {groups.map((group) => (
               <GroupedTable
                 key={group.title}
@@ -633,8 +646,9 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
         }}
         inventories={inventories}
         suppliers={suppliersData}
+        units={units}
         onSave={(payload) => {
-          console.log('save payload:', payload);
+          // console.log('save payload:', payload);
 
           setShowEditModal(false);
           setToastMessage({ type: 'update' });

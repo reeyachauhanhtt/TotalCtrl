@@ -90,3 +90,10 @@ input[type='number'] {
 button {
     cursor: pointer !important;
 }
+
+.err-fields {
+    background: #fff0f1 !important;
+    color: #a71a23 !important;
+    border: 2px solid #e2232e !important;
+    border-radius: 4px !important;
+}

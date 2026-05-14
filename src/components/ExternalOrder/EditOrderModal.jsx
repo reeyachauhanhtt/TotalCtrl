@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Tooltip } from 'react-tooltip';
 
-import { formatPrice } from '../../utils/format';
+import { formatNumber } from '../../utils/format';
 import { SkeletonBar } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import ConfirmModal from '../Common/ConfirmModal';
+import UnitDropdown from '../Common/UnitDropdown';
 import SupplierSearchDropdown from '../ExternalOrder/SupplierSearchDropdown';
+import { searchProducts } from '../../services/productService';
 
 const MONTHS = [
   'January',
@@ -136,6 +138,7 @@ export default function EditOrderModal({
   order,
   inventories = [],
   suppliers = [],
+  units = [],
   onSave,
 }) {
   const [selectedInventory, setSelectedInventory] = useState(null);
@@ -144,12 +147,19 @@ export default function EditOrderModal({
   const [orderNumber, setOrderNumber] = useState('');
   const [showDiscardModal, setShowDiscardModal] = useState(false);
   const [supplierError, setSupplierError] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [itemErrors, setItemErrors] = useState({});
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [orderNumberError, setOrderNumberError] = useState(false);
 
   const [orderedDateError, setOrderedDateError] = useState(false);
   const [scheduledDateError, setScheduledDateError] = useState(false);
 
   const [focusedPriceIndex, setFocusedPriceIndex] = useState(null);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchingIndex, setSearchingIndex] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   // Ordered on
   const [orderedDay, setOrderedDay] = useState('');
@@ -163,6 +173,8 @@ export default function EditOrderModal({
 
   const [items, setItems] = useState([]);
 
+  const searchTimerRef = useRef(null);
+  const nameInputRefs = useRef({});
   const inventoryRef = useRef(null);
 
   useEffect(() => {
@@ -179,6 +191,9 @@ export default function EditOrderModal({
   // Prefill from order prop
   useEffect(() => {
     if (!open || !order) return;
+
+    setItemsLoading(true);
+    setItems([]);
 
     setOrderNumber(order.number ?? '');
     setSelectedInventory(
@@ -202,8 +217,23 @@ export default function EditOrderModal({
       setScheduledMonth(MONTHS[d.getMonth()]);
       setScheduledYear(String(d.getFullYear()));
     }
+
     setItems(order.products ?? []);
+    setItemErrors({});
+
+    setTimeout(() => {
+      setItems(order.products ?? []);
+      setItemsLoading(false);
+    }, 600);
   }, [open, order]);
+
+  const hasItemErrors = items.some(
+    (item) =>
+      !item.orderQuantity ||
+      Number(item.orderQuantity) <= 0 ||
+      !item.pricePerPurchaseUnit ||
+      Number(item.pricePerPurchaseUnit) <= 0,
+  );
 
   const isDirty =
     orderNumber !== (order?.number ?? '') ||
@@ -233,8 +263,8 @@ export default function EditOrderModal({
     scheduledYear !==
       (order?.scheduledDate
         ? String(new Date(order.scheduledDate).getFullYear())
-        : '');
-  JSON.stringify(items) !== JSON.stringify(order?.products ?? []);
+        : '') ||
+    JSON.stringify(items) !== JSON.stringify(order?.products ?? []);
 
   const isValid =
     selectedSupplier &&
@@ -247,9 +277,62 @@ export default function EditOrderModal({
     scheduledYear;
 
   function handleItemChange(index, field, value) {
+    let updatedItem = null;
+
     setItems((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+      prev.map((item, i) => {
+        if (i !== index) return item;
+        const updated = { ...item, [field]: value };
+        if (field === 'orderQuantity' || field === 'pricePerPurchaseUnit') {
+          const qty =
+            parseFloat(
+              field === 'orderQuantity' ? value : updated.orderQuantity,
+            ) || 0;
+          const price =
+            parseFloat(
+              field === 'pricePerPurchaseUnit'
+                ? value
+                : updated.pricePerPurchaseUnit,
+            ) || 0;
+          updated.subtotal = qty && price ? (qty * price).toFixed(2) : '';
+        }
+        updatedItem = updated;
+        return updated;
+      }),
     );
+
+    // now updatedItem is accessible here
+    if (field === 'orderQuantity' || field === 'pricePerPurchaseUnit') {
+      const qtyInvalid =
+        field === 'orderQuantity'
+          ? !value || Number(String(value).replace(',', '.')) <= 0
+          : !updatedItem?.orderQuantity ||
+            Number(String(updatedItem?.orderQuantity).replace(',', '.')) <= 0;
+
+      const priceInvalid =
+        field === 'pricePerPurchaseUnit'
+          ? !value || Number(String(value).replace(',', '.')) <= 0
+          : !updatedItem?.pricePerPurchaseUnit ||
+            Number(
+              String(updatedItem?.pricePerPurchaseUnit).replace(',', '.'),
+            ) <= 0;
+
+      const prevQtyErr = itemErrors[index]?.orderQuantity ?? false;
+      const prevPriceErr = itemErrors[index]?.pricePerPurchaseUnit ?? false;
+
+      setItemErrors((prev) => ({
+        ...prev,
+        [index]: {
+          ...prev[index],
+          orderQuantity: field === 'orderQuantity' ? qtyInvalid : prevQtyErr,
+          pricePerPurchaseUnit:
+            field === 'pricePerPurchaseUnit' ? priceInvalid : prevPriceErr,
+          subtotal:
+            (field === 'orderQuantity' ? qtyInvalid : prevQtyErr) ||
+            (field === 'pricePerPurchaseUnit' ? priceInvalid : prevPriceErr),
+        },
+      }));
+    }
   }
 
   function handleDeleteItem(index) {
@@ -292,7 +375,32 @@ export default function EditOrderModal({
       hasError = true;
     }
 
-    if (hasError) return;
+    // validate items
+    const newItemErrors = {};
+    items.forEach((item, index) => {
+      const qtyInvalid =
+        !item.orderQuantity ||
+        Number(String(item.orderQuantity).replace(',', '.')) <= 0;
+
+      const priceInvalid =
+        !item.pricePerPurchaseUnit || Number(item.pricePerPurchaseUnit) <= 0;
+
+      if (qtyInvalid || priceInvalid) {
+        newItemErrors[index] = {
+          orderQuantity: qtyInvalid,
+          pricePerPurchaseUnit: priceInvalid,
+          subtotal: qtyInvalid || priceInvalid,
+        };
+        hasError = true;
+      }
+    });
+    setItemErrors(newItemErrors);
+
+    if (hasError) {
+      setShowError(true);
+      return;
+    }
+    setShowError(false);
 
     onSave?.({
       inventoryId: selectedInventory?.id,
@@ -579,7 +687,7 @@ export default function EditOrderModal({
 
           {/* Ordered items table */}
           <div>
-            <h1 className='text-[24px] font-semibold leading-8 tracking-[-0.24px] text-[#19191c] pl-12.5 mb-5'>
+            <h1 className='text-[24px] font-semibold leading-8 tracking-[-0.24px] text-[#19191c] pl-12.5 mb-5 text-left'>
               Ordered items
             </h1>
 
@@ -587,32 +695,32 @@ export default function EditOrderModal({
               <thead className='bg-[#fbfbfc]'>
                 <tr>
                   {[
-                    { label: 'Item name', cls: 'w-[38%] pl-[50px] text-left' },
-                    { label: 'SKU', cls: 'w-[8%] text-right' },
+                    { label: 'Item name', cls: 'w-[35%] pl-[50px] text-left' },
+                    { label: 'SKU', cls: 'w-[9%] text-right' },
                     { label: 'Quantity', cls: 'w-[7%] text-right' },
-                    { label: 'Purchase Unit', cls: 'w-[12%] text-left' },
-                    { label: 'Unit Price', cls: 'w-[10%] text-right' },
-                    { label: 'Total Price', cls: 'w-[10%] text-right' },
-                    { label: '', cls: 'w-[5%]' },
+                    { label: 'Purchase Unit', cls: 'w-[14%] text-left pl-2' },
+                    { label: 'Unit Price', cls: 'w-[11%] text-right pr-2' },
+                    { label: 'Total Price', cls: 'w-[11%] text-right pr-2' },
+                    { label: '', cls: 'w-[13%]' },
                   ].map((col) => (
                     <th
                       key={col.label}
-                      className={`h-12 text-[11px] font-semibold uppercase tracking-[0.88px] text-[#737373] border-t border-b border-[#e7e7ec] px-3 ${col.cls}`}
+                      className={`h-12 text-[11px] font-semibold uppercase tracking-[0.88px] text-[#737373] border-t border-b border-[#e7e7ec] bg-[#fbfbfc] sticky -top-px z-20 px-3 ${col.cls}`}
                     >
                       {col.label}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
-                {items.length === 0
-                  ? // skeleton rows while loading
-                    Array.from({ length: 4 }).map((_, i) => (
-                      <tr key={i} className='border-b border-[#e6e6ed]'>
-                        <td className='h-16 px-3 pl-12.5'>
+
+              <tbody style={{ overflow: 'visible' }}>
+                {itemsLoading || items.length === 0
+                  ? Array.from({ length: 4 }).map((_, i) => (
+                      <tr key={i}>
+                        <td className='h-16 px-3 pl-12.5 border-b border-[#e6e6ed]'>
                           <SkeletonBar style={{ height: 14, width: 200 }} />
                         </td>
-                        <td className='h-16 px-3 text-right'>
+                        <td className='h-16 px-3 text-right border-b border-[#e6e6ed]'>
                           <SkeletonBar
                             style={{
                               height: 12,
@@ -621,7 +729,7 @@ export default function EditOrderModal({
                             }}
                           />
                         </td>
-                        <td className='h-16 px-3 text-right'>
+                        <td className='h-16 px-3 text-right border-b border-[#e6e6ed]'>
                           <SkeletonBar
                             style={{
                               height: 12,
@@ -630,10 +738,10 @@ export default function EditOrderModal({
                             }}
                           />
                         </td>
-                        <td className='h-16 px-3'>
+                        <td className='h-16 px-3 border-b border-[#e6e6ed]'>
                           <SkeletonBar style={{ height: 12, width: 80 }} />
                         </td>
-                        <td className='h-16 px-3 text-right'>
+                        <td className='h-16 px-3 text-right border-b border-[#e6e6ed]'>
                           <SkeletonBar
                             style={{
                               height: 12,
@@ -642,7 +750,7 @@ export default function EditOrderModal({
                             }}
                           />
                         </td>
-                        <td className='h-16 px-3 text-right'>
+                        <td className='h-16 px-3 text-right border-b border-[#e6e6ed]'>
                           <SkeletonBar
                             style={{
                               height: 12,
@@ -651,116 +759,242 @@ export default function EditOrderModal({
                             }}
                           />
                         </td>
-                        <td className='h-16 px-3' />
+                        <td className='h-16 px-3 border-b border-[#e6e6ed]' />
                       </tr>
                     ))
                   : items.map((item, index) => (
-                      <tr
-                        key={item.id ?? index}
-                        className='border-b border-[#e6e6ed]'
-                      >
-                        {/* item name */}
-                        <td className='h-16 px-3 pl-12.5 text-[14px]'>
-                          <input
-                            type='text'
-                            value={item.name}
-                            onChange={(e) =>
-                              handleItemChange(index, 'name', e.target.value)
-                            }
-                            className='w-full text-[13px] font-semibold text-[#19191c] outline-none bg-transparent'
-                          />
-                        </td>
-
-                        {/* sku */}
-                        <td className='h-16 px-3 text-right text-[14px]'>
-                          <input
-                            type='text'
-                            value={item.sku ?? ''}
-                            onChange={(e) =>
-                              handleItemChange(index, 'sku', e.target.value)
-                            }
-                            placeholder='SKU'
-                            className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
-                          />
-                        </td>
-
-                        {/* quantity */}
-                        <td className='h-16 px-3 text-right'>
-                          <input
-                            type='text'
-                            value={item.orderQuantity ?? ''}
-                            onChange={(e) =>
-                              handleItemChange(
-                                index,
-                                'orderQuantity',
-                                e.target.value,
-                              )
-                            }
-                            placeholder='Qty'
-                            className='w-full text-[12px] text-[#19191c] text-right outline-none bg-transparent'
-                          />
-                        </td>
-
-                        {/* purchase unit */}
-                        <td className='h-16 px-3 text-[12px] text-[#19191c]'>
-                          {item.purchaseUnit ?? '—'}
-                        </td>
-
-                        {/* unit price */}
-                        <td className='h-16 px-3 text-right text-[12px] text-[#19191c]'>
-                          <input
-                            type='text'
-                            value={
-                              focusedPriceIndex === index
-                                ? (item.pricePerPurchaseUnit ?? '')
-                                : item.pricePerPurchaseUnit
-                                  ? formatPrice(
-                                      parseFloat(item.pricePerPurchaseUnit),
-                                    )
-                                  : ''
-                            }
-                            onFocus={() => setFocusedPriceIndex(index)}
-                            onBlur={() => setFocusedPriceIndex(null)}
-                            onChange={(e) =>
-                              handleItemChange(
-                                index,
-                                'pricePerPurchaseUnit',
-                                e.target.value,
-                              )
-                            }
-                            className='w-full text-right outline-none bg-transparent'
-                          />
-                        </td>
-
-                        {/* total price */}
-                        <td className='h-16 px-3 text-right text-[12px] font-semibold text-[#19191c]'>
-                          {item.subtotal
-                            ? formatPrice(parseFloat(item.subtotal))
-                            : '—'}
-                        </td>
-
-                        {/* delete button */}
-                        <td className='h-16 px-3 text-center'>
-                          <div className='flex items-center justify-center gap-5'>
-                            <img
-                              src='/icons/bin.svg'
-                              alt='delete'
-                              className='w-4.5 h-4.5 cursor-pointer brightness-0'
-                              onClick={() => handleDeleteItem(index)}
+                      <>
+                        <tr key={item.id ?? index}>
+                          {/* Item name */}
+                          <td className='h-16 pl-12.5 px-3 relative overflow-visible'>
+                            <input
+                              type='text'
+                              value={item.name}
+                              ref={(el) => (nameInputRefs.current[index] = el)}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                handleItemChange(index, 'name', val);
+                                handleItemChange(index, 'isFromSearch', false);
+                                setSearchingIndex(index);
+                                clearTimeout(searchTimerRef.current);
+                                if (val.trim().length > 1) {
+                                  setSearchLoading(true);
+                                  searchTimerRef.current = setTimeout(
+                                    async () => {
+                                      const results = await searchProducts(val);
+                                      console.log(
+                                        'search results:',
+                                        results[0],
+                                      );
+                                      setSearchResults(results);
+                                      setSearchLoading(false);
+                                    },
+                                    350,
+                                  );
+                                } else {
+                                  setSearchResults([]);
+                                }
+                              }}
+                              onBlur={() =>
+                                setTimeout(() => {
+                                  setSearchingIndex(null);
+                                  setSearchResults([]);
+                                }, 300)
+                              }
+                              className='w-full h-8 px-1.5 text-[12px] font-semibold text-[#19191c] bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded transition-colors focus:bg-gray-100 focus:font-normal'
                             />
+                            {searchingIndex === index &&
+                              (searchResults.length > 0 || searchLoading) &&
+                              (() => {
+                                const rect =
+                                  nameInputRefs.current[
+                                    index
+                                  ]?.getBoundingClientRect();
+                                return (
+                                  <div
+                                    className='fixed w-72 bg-white border border-gray-200 rounded shadow-lg z-999 max-h-48 overflow-y-auto'
+                                    style={{
+                                      top: rect ? rect.bottom + 4 : 0,
+                                      left: rect ? rect.left : 0,
+                                    }}
+                                  >
+                                    {searchLoading ? (
+                                      <div className='px-4 py-3 text-sm text-gray-400'>
+                                        Searching...
+                                      </div>
+                                    ) : (
+                                      searchResults.map((p) => (
+                                        <div
+                                          key={p.id}
+                                          onMouseDown={(e) =>
+                                            e.preventDefault()
+                                          }
+                                          onClick={() => {
+                                            setItems((prev) =>
+                                              prev.map((it, i) =>
+                                                i !== index
+                                                  ? it
+                                                  : {
+                                                      ...it,
+                                                      name: p.name,
+                                                      sku: p.sku ?? it.sku,
+                                                      purchaseUnit:
+                                                        p.purchaseUnitPlural ??
+                                                        it.purchaseUnit,
+                                                      pricePerPurchaseUnit:
+                                                        p.pricePerStockTakingUnit ??
+                                                        it.pricePerPurchaseUnit,
+                                                      isFromSearch: true,
+                                                    },
+                                              ),
+                                            );
+                                            setSearchingIndex(null);
+                                            setSearchResults([]);
+                                          }}
+                                          className='px-4 py-2.5 text-sm text-gray-700 cursor-pointer hover:bg-gray-50'
+                                        >
+                                          {p.name}
+                                        </div>
+                                      ))
+                                    )}
+                                  </div>
+                                );
+                              })()}
+                          </td>
 
-                            {/* + button with tooltip */}
-                            <img
-                              src='/icons/plus.svg'
-                              alt='add'
-                              className='w-5 h-5 cursor-pointer brightness-0'
-                              onClick={() => handleAddItemBelow(index)}
-                              data-tooltip-id='add-item-tooltip'
-                              data-tooltip-content='Add item below'
+                          {/* SKU */}
+                          <td className='h-16 px-3 text-right'>
+                            <input
+                              type='text'
+                              placeholder='SKU'
+                              value={item.sku ?? ''}
+                              onChange={(e) =>
+                                handleItemChange(index, 'sku', e.target.value)
+                              }
+                              className='w-full h-8 px-1.5 text-[11px] text-[#19191c] text-right bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded transition-colors focus:bg-gray-100'
                             />
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+
+                          {/* Quantity */}
+                          <td className='h-16 px-3 text-right'>
+                            <input
+                              type='text'
+                              placeholder='Qty'
+                              value={item.orderQuantity ?? ''}
+                              onChange={(e) =>
+                                handleItemChange(
+                                  index,
+                                  'orderQuantity',
+                                  e.target.value,
+                                )
+                              }
+                              className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.orderQuantity ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'}`}
+                            />
+                          </td>
+
+                          {/* Purchase Unit */}
+                          <td className='h-16 px-3'>
+                            <UnitDropdown
+                              value={item.purchaseUnit ?? ''}
+                              onChange={(val) =>
+                                handleItemChange(index, 'purchaseUnit', val)
+                              }
+                              units={units}
+                              placeholder='Purchase Unit'
+                              disabled={!!item.isFromSearch}
+                            />
+                          </td>
+
+                          {/* Unit Price */}
+                          <td className='h-16 px-3'>
+                            <div className='flex items-center justify-end gap-1'>
+                              <input
+                                type='text'
+                                value={
+                                  focusedPriceIndex === index
+                                    ? (item.pricePerPurchaseUnit ?? '')
+                                    : item.pricePerPurchaseUnit
+                                      ? formatNumber(
+                                          parseFloat(item.pricePerPurchaseUnit),
+                                        )
+                                      : ''
+                                }
+                                onFocus={() => setFocusedPriceIndex(index)}
+                                onBlur={() => setFocusedPriceIndex(null)}
+                                onChange={(e) =>
+                                  handleItemChange(
+                                    index,
+                                    'pricePerPurchaseUnit',
+                                    e.target.value,
+                                  )
+                                }
+                                className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.pricePerPurchaseUnit ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'}`}
+                              />
+                              <span className='text-[13px] text-[#19191c] shrink-0'>
+                                kr
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Total Price */}
+                          <td className='h-16 px-3'>
+                            <div className='flex items-center justify-end gap-1'>
+                              <input
+                                type='text'
+                                value={
+                                  item.subtotal
+                                    ? formatNumber(parseFloat(item.subtotal))
+                                    : ''
+                                }
+                                onChange={(e) =>
+                                  handleItemChange(
+                                    index,
+                                    'subtotal',
+                                    e.target.value,
+                                  )
+                                }
+                                placeholder='—'
+                                className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.subtotal ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'}`}
+                              />
+                              <span className='text-[13px] text-[#19191c] shrink-0'>
+                                {item.subtotal ? 'kr' : ''}
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* Actions */}
+                          <td className='h-16 px-3 text-center'>
+                            <div className='flex items-center justify-center gap-5'>
+                              <img
+                                src='/icons/bin.svg'
+                                alt='delete'
+                                className='w-4.5 h-4.5 cursor-pointer brightness-0'
+                                onClick={() => handleDeleteItem(index)}
+                              />
+                              <img
+                                src='/icons/plus.svg'
+                                alt='add'
+                                className='w-5 h-5 cursor-pointer brightness-0'
+                                onClick={() => handleAddItemBelow(index)}
+                                data-tooltip-id='add-item-tooltip'
+                                data-tooltip-content='Add item below'
+                                data-tooltip-place='top'
+                                data-tooltip-offset={8}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+
+                        {/* Divider row */}
+                        <tr key={`divider-${index}`}>
+                          <td colSpan={7} className='h-px p-0'>
+                            <hr
+                              className='border-0 border-t border-black/10 mx-0'
+                              style={{ margin: '0 30px 0 50px' }}
+                            />
+                          </td>
+                        </tr>
+                      </>
                     ))}
               </tbody>
             </table>
@@ -775,6 +1009,15 @@ export default function EditOrderModal({
             Cancel
           </WhiteButton>
 
+          {showError && (
+            <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-4.5 rounded px-3 py-2 flex items-center'>
+              <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
+              <span className='ml-2'>
+                Fill in all the required fields before you continue
+              </span>
+            </div>
+          )}
+
           <GreenButton
             onClick={handleSave}
             disabled={!isDirty}
@@ -788,14 +1031,13 @@ export default function EditOrderModal({
           id='add-item-tooltip'
           place='top'
           positionStrategy='fixed'
-          classNameArrow='tooltip-arrow'
           style={{
             backgroundColor: '#222',
             color: '#fff',
-            fontSize: '13px',
+            fontSize: '12px',
             borderRadius: '4px',
-            padding: '12px',
-            zIndex: 9999,
+            padding: '4px 6px',
+            zIndex: 999,
           }}
         />
       </div>

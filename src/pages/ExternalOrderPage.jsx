@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
@@ -36,7 +36,7 @@ function formatTotal(total, currency) {
 
 export default function ExternalOrderPage() {
   const [activeTab, setActiveTab] = useState('Scheduled');
-  const [uploadingOrders, setUploadingOrders] = useState([
+  const [uploadingOrders] = useState([
     { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
     { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
     { name: 'TINE Order.pdf', size: 53015, inventoryName: '' },
@@ -44,10 +44,11 @@ export default function ExternalOrderPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [showReturnSkeleton, setShowReturnSkeleton] = useState(false);
   const [errorToast, setErrorToast] = useState('');
 
-  console.log('🔄 ExternalOrderPage RENDER, errorToast:', errorToast);
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
@@ -63,11 +64,8 @@ export default function ExternalOrderPage() {
     enabled: !!selectedInventory?.id,
     staleTime: 0,
     refetchOnWindowFocus: false,
+    refetchOnMount: 'always',
   });
-
-  // console.log('first delivered order:', data?.Data?.[0]);
-  // console.log('total orders fetched:', data?.Data?.length);
-  // console.log('full response:', data);
 
   const orders = (data?.Data ?? []).map((o) => ({
     id: o.id,
@@ -83,21 +81,6 @@ export default function ExternalOrderPage() {
     itemsCount: o.itemsCount,
   }));
 
-  // console.log('orders mapped:', orders.length);
-  // console.log('selectedInventory:', selectedInventory?.id);
-  // console.log(
-  //   'raw data ids:',
-  //   data?.Data?.map((o) => o.inventoryId),
-  // );
-  console.log(
-    'scheduled dates:',
-    data?.Data?.map((o) => o.scheduledDate),
-  );
-  function handleBack() {
-    dispatch(setDetailOpen(false));
-    dispatch(setSelectedOrder(null));
-  }
-
   if (isDetailOpen && selectedOrder) {
     return (
       <>
@@ -105,8 +88,11 @@ export default function ExternalOrderPage() {
           order={selectedOrder}
           onUploadClick={() => setShowUploadModal(true)}
           onBack={(result) => {
+            setShowReturnSkeleton(true);
             dispatch(setDetailOpen(false));
             dispatch(setSelectedOrder(null));
+            queryClient.removeQueries({ queryKey: ['external-orders'] });
+            setTimeout(() => setShowReturnSkeleton(false), 800);
 
             if (result?.toast) {
               setToastMessage(result.toast);
@@ -135,15 +121,14 @@ export default function ExternalOrderPage() {
     );
   }
 
-  console.log('errorToast state:', errorToast);
-
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
       <ExternalOrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       <ExternalOrderTable
         orders={orders}
-        isLoading={isLoading || isFetching}
+        isLoading={isLoading || isFetching || showReturnSkeleton}
+        isFetching={isFetching}
         isError={isError}
         onRowClick={(order) => {
           dispatch(setDetailOpen(true));
@@ -159,9 +144,7 @@ export default function ExternalOrderPage() {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onError={(msg) => {
-          console.log('✅ onError called with:', msg);
           setErrorToast(msg);
-          console.log('✅ errorToast set to:', msg);
           setTimeout(() => setErrorToast(''), 4000);
         }}
       />
@@ -188,21 +171,23 @@ export default function ExternalOrderPage() {
 
       {errorToast && (
         <div
-          style={{
-            position: 'fixed',
-            bottom: '40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '20px 40px',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            zIndex: 999999,
-            border: '4px solid yellow',
-          }}
+          className='fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3.5 rounded-lg shadow-2xl'
+          style={{ backgroundColor: '#19191c', minWidth: 320, zIndex: 99999 }}
         >
-          TOAST: {errorToast}
+          <div className='flex items-center justify-center w-5 h-5 rounded-full bg-red-600 shrink-0'>
+            <span className='text-white text-[11px] font-bold leading-none'>
+              !
+            </span>
+          </div>
+          <span className='text-white text-[13px] font-bold uppercase tracking-wide flex-1'>
+            {errorToast}
+          </span>
+          <button
+            onClick={() => setErrorToast('')}
+            className='text-white opacity-70 hover:opacity-100 text-[16px] cursor-pointer shrink-0'
+          >
+            ✕
+          </button>
         </div>
       )}
     </div>
