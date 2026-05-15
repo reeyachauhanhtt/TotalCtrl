@@ -4,7 +4,7 @@ import {
   setSelectedOrder,
 } from '../../store/externalOrderSlice';
 
-export default function ExternalOrderDetailHeader() {
+export default function ExternalOrderDetailHeader({ onBack }) {
   const dispatch = useDispatch();
   const selectedOrder = useSelector((s) => s.externalOrder.selectedOrder);
 

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
-import ExternalOrderTabs from '../components/ExternalOrder/ExternalOrderTab';
+import OrderTabs from '../components/Common/OrderTab';
 import ExternalOrderTable from '../components/ExternalOrder/ExternalOrderTable';
 import ExternalOrderDetail from '../components/ExternalOrder/ExternalOrderDetail';
 import AddOrderManuallyModal from '../components/ExternalOrder/AddOrderManuallyModal';
@@ -54,6 +54,18 @@ export default function ExternalOrderPage() {
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
   const selectedOrder = useSelector((s) => s.externalOrder.selectedOrder);
 
+  const prevDetailOpen = useRef(false);
+
+  useEffect(() => {
+    if (prevDetailOpen.current === true && !isDetailOpen) {
+      // user just came back from detail
+      setShowReturnSkeleton(true);
+      queryClient.removeQueries({ queryKey: ['external-orders'] });
+      setTimeout(() => setShowReturnSkeleton(false), 1200);
+    }
+    prevDetailOpen.current = isDetailOpen;
+  }, [isDetailOpen]);
+
   const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ['external-orders', selectedInventory?.id, activeTab],
     queryFn: () =>
@@ -88,15 +100,9 @@ export default function ExternalOrderPage() {
           order={selectedOrder}
           onUploadClick={() => setShowUploadModal(true)}
           onBack={(result) => {
-            setShowReturnSkeleton(true);
-            dispatch(setDetailOpen(false));
-            dispatch(setSelectedOrder(null));
-            queryClient.removeQueries({ queryKey: ['external-orders'] });
-            setTimeout(() => setShowReturnSkeleton(false), 800);
-
             if (result?.toast) {
               setToastMessage(result.toast);
-              setTimeout(() => setToastMessage(null), 4000);
+              setTimeout(() => setToastMessage(null), 2000);
             }
           }}
         />
@@ -123,7 +129,7 @@ export default function ExternalOrderPage() {
 
   return (
     <div className='flex flex-col flex-1 h-full overflow-hidden'>
-      <ExternalOrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      <OrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       <ExternalOrderTable
         orders={orders}

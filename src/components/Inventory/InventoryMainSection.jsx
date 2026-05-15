@@ -9,7 +9,6 @@ import { downloadInventoryCSV } from '../../services/inventoryDownloadService';
 import { formatPrice } from '../../utils/format';
 import { SkeletonBar, StockValueSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
-// import WhiteButton from '../Common/WhiteButton';
 import SupplierDropdown from '../Common/SupplierDropDown';
 import StockDropdown from '../Common/StockDropDown';
 
@@ -79,11 +78,7 @@ export default function InventoryMainSection({
       stockFilter,
     });
 
-    // console.log('Blob type:', blob.type);
-    // console.log('Blob size:', blob.size);
-
     const text = await blob.text();
-    // console.log('Blob content:', text);
 
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -103,7 +98,7 @@ export default function InventoryMainSection({
         <div className='flex items-center justify-between mb-2'>
           <div>
             {fetchingStock ? (
-              <SkeletonBar className='h-8 w-48' />
+              <SkeletonBar className='h-8 w-60' />
             ) : (
               <h2 className='text-3xl font-semibold text-gray-800'>
                 {selectedInventory?.name || '---'}

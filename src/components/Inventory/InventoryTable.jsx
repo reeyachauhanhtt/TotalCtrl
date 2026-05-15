@@ -71,7 +71,6 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
   const allSelected = selected.length === data.length && data.length > 0;
   const showSkeleton = isSorting || isFiltering;
 
-  // Shared th styles — matches dev .pd-y-5 + slim.css th styles
   const thBase = {
     paddingTop: 12,
     paddingBottom: 12,
@@ -79,9 +78,8 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
     fontWeight: 400,
     color: '#5b636a',
     textAlign: 'left',
-    borderTop: '1px solid #dee2e6',
-    borderBottom: '1px solid #dee2e6',
-    // boxShadow: 'inset 0 -1px 0 #dee2e6',
+    // borderTop: '1px solid #dee2e6',
+    // borderBottom: '1px solid #dee2e6',
     cursor: 'pointer',
     userSelect: 'none',
     whiteSpace: 'nowrap',
@@ -152,8 +150,9 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
               top: selected.length > 0 ? selectedBarHeight - 1 : -1,
               zIndex: 9,
               backgroundColor: 'rgb(248,249,250)',
+              borderTop: '1px solid #dee2e6',
               borderBottom: '1px solid #dee2e6',
-              boxShadow: '0 2px 0px rgb(248,249,250)',
+              boxShadow: '0 1px 0 0 #dee2e6',
               overflow: 'hidden',
             }}
           >

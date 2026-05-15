@@ -50,8 +50,6 @@ function DateInput({
   const monthTriggerClass = `flex items-center justify-between h-12.5 w-full rounded-[3px] bg-white px-5 cursor-pointer ${hasError ? 'border-2 border-[#e2232e] bg-[#fff0f1]' : 'border border-[#d7d7db]'}`;
   const yearClass = `w-25 rounded-sm px-3 py-3 text-[14px] leading-6 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  ${hasError ? inputErrClass : inputNormalClass}`;
 
-  //months dropdown closing on backdrop click
-
   useEffect(() => {
     if (!monthOpen) return;
     function handleClickOutside(e) {
@@ -59,7 +57,7 @@ function DateInput({
         setMonthOpen(false);
       }
     }
-    document.addEventListener('click', handleClickOutside); // 👈 'click' not 'mousedown'
+    document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [monthOpen]);
 

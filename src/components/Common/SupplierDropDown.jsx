@@ -27,7 +27,7 @@ export default function SupplierDropdown({
     <div ref={wrapperRef} className={`relative w-60 ${className}`}>
       <button
         onClick={() => setOpen((p) => !p)}
-        className='flex items-center justify-between w-full h-10 px-4 text-sm text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
+        className='flex items-center justify-between w-full h-10 px-4 text-[13px] text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
       >
         <span className='truncate'>
           {selectedSupplier?.Name || 'All Suppliers'}

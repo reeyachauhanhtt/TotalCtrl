@@ -235,6 +235,14 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
 
   const queryClient = useQueryClient();
 
+  const handleBack = () => {
+    queryClient.removeQueries({ queryKey: ['order-detail', order.id] });
+    queryClient.removeQueries({
+      queryKey: ['order-delivered-detail', order.id, orderStatus],
+    });
+    onBack();
+  };
+
   const { data: inventoryData } = useQuery({
     queryKey: ['inventories'],
     queryFn: fetchInventory,
@@ -274,6 +282,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
     queryFn: () => fetchOrderDetail(order.id),
     enabled: !!order.id && isScheduledOrder,
     staleTime: 0,
+    gcTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -291,6 +300,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
       }),
     enabled: !!order.id && !isScheduledOrder,
     staleTime: 0,
+    gcTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -348,9 +358,9 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
   const handleDeleteOrder = async () => {
     try {
       await deleteOrder(order.id);
-      queryClient.invalidateQueries({ queryKey: ['external-orders'] }); // 👈 add this
+      queryClient.invalidateQueries({ queryKey: ['external-orders'] });
       setShowDeleteModal(false);
-      onBack({ toast: { number: orderNumber, supplier: supplierName } });
+      handleBack({ toast: { number: orderNumber, supplier: supplierName } });
     } catch (error) {
       console.error('Failed to delete order:', error);
       setShowDeleteModal(false);

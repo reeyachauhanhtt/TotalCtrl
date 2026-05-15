@@ -34,7 +34,7 @@ export default function ExternalOrderTable({
     }
   }, [isLoading, isFetching]);
 
-  if (isLoading || isFetching || !isReady) return <ExternalOrderListSkeleton />;
+  if (isLoading || !isReady) return <ExternalOrderListSkeleton />;
 
   function renderBody() {
     if (isLoading) return null;

@@ -15,7 +15,6 @@ import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
 function newInventoryRow() {
   return {
     ...emptyRow(),
-    // AddItemModal uses 'price' field mapped from 'costPerUnit'
   };
 }
 

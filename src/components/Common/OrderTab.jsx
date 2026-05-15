@@ -1,6 +1,6 @@
 const TABS = ['Scheduled', 'Partially Delivered', 'Delivered'];
 
-export default function ExternalOrderTabs({ activeTab, onTabChange }) {
+export default function OrderTabs({ activeTab, onTabChange }) {
   return (
     <div className='flex items-center border-b border-[#e6e6ed] px-8.75 bg-white'>
       {TABS.map((tab) => {

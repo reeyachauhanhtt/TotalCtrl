@@ -11,7 +11,6 @@ function getStatusBadge(status) {
   }
 }
 
-// 2. StatusBadge second
 function StatusBadge({ status }) {
   const { bg, color } = getStatusBadge(status);
   return (
@@ -24,27 +23,29 @@ function StatusBadge({ status }) {
   );
 }
 
-export default function ExternalOrderRow({ order, onClick }) {
+export default function InternalOrderRow({ order, onClick }) {
   const tdBase =
     'text-[12px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
   const tdPadding = 'px-[0.8%] pt-[2.6%] pb-[3%]';
 
-  const STATUS_BADGE_MAP = {
-    Scheduled: 'bg-[#e7e7ec] text-[#57575b]',
-    'Partially Delivered': 'bg-[#fff4bd] text-[#a08700]',
-    Delivered: 'bg-[#eaf7ee] text-[#0f6f36]',
-  };
-
   return (
     <tr className='cursor-pointer' onClick={onClick}>
-      {/*Supplier */}
+      {/* From Inventory */}
       <td
         className={`${tdBase} ${tdPadding} text-left pl-0`}
-        style={{ width: '30%' }}
+        style={{ width: '21%' }}
       >
         <label className='text-[13px] font-extrabold! cursor-pointer'>
-          {order.supplier}
+          {order.fromInventory}
         </label>
+      </td>
+
+      {/* To Inventory */}
+      <td
+        className={`${tdBase} ${tdPadding} text-left`}
+        style={{ width: '21%' }}
+      >
+        {order.toInventory}
       </td>
 
       {/* Order Number */}
@@ -52,34 +53,26 @@ export default function ExternalOrderRow({ order, onClick }) {
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '12%' }}
       >
-        {order.orderNumber}
+        #{order.orderNumber}
       </td>
 
-      {/* Total Value */}
-      <td
-        className={`${tdBase} ${tdPadding} text-right`}
-        style={{ width: '12%' }}
-      >
-        {order.totalValue}
-      </td>
-
-      {/* Ordered*/}
+      {/* Ordered */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '13%' }}
       >
-        {order.ordered}
+        {order.orderedAt}
       </td>
 
-      {/* Scheduled */}
+      {/* Last Delivered */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '13%' }}
       >
-        {order.scheduled}
+        {order.lastDeliveredAt ?? '----'}
       </td>
 
-      {/* Order Status Badge */}
+      {/* Status */}
       <td
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '10%' }}
@@ -87,7 +80,7 @@ export default function ExternalOrderRow({ order, onClick }) {
         <StatusBadge status={order.status} />
       </td>
 
-      {/* Empty  */}
+      {/* Empty */}
       <td
         style={{ width: '5%' }}
         className={`${tdBase} border-b border-[#e6e6ed]`}

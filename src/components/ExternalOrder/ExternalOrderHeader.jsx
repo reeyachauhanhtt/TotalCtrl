@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
@@ -9,16 +10,22 @@ import AddOrderManuallyModal from '../ExternalOrder/AddOrderManuallyModal';
 import InventoryDropdown from '../Common/InventoryDropDown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
-// import UploadOrderModal from './UploadOrderModal';
 import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
 
 export default function ExternalOrderHeader({ onUploadClick, onError }) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
 
   const [showAddModal, setShowAddModal] = useState(false);
-  // const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+
+  useEffect(() => {
+    setShowSkeleton(true);
+    const t = setTimeout(() => setShowSkeleton(false), 600);
+    return () => clearTimeout(t);
+  }, [location.pathname]);
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['inventories'],
@@ -35,23 +42,23 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
 
   return (
     <div className='h-23 flex items-center justify-between px-4 border-b border-gray-200 bg-white relative'>
-      <h1 className='text-[22px] font-semibold text-gray-800'>
+      <h1 className='ml-6 text-[22px] font-semibold text-gray-800'>
         External Orders
       </h1>
 
       {/* Right section — hidden on detail view */}
       {!isDetailOpen && (
         <div className='flex items-center gap-4'>
-          {isLoading ? (
+          {isLoading || showSkeleton ? (
             <>
               <SkeletonBar
-                style={{ height: 38, width: 200, borderRadius: 6 }}
+                style={{ height: 38, width: 320, borderRadius: 6 }}
               />
               <SkeletonBar
-                style={{ height: 38, width: 180, borderRadius: 6 }}
+                style={{ height: 38, width: 208, borderRadius: 6 }}
               />
               <SkeletonBar
-                style={{ height: 38, width: 150, borderRadius: 6 }}
+                style={{ height: 38, width: 208, borderRadius: 6 }}
               />
             </>
           ) : (
@@ -124,11 +131,6 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
         onClose={() => setShowAddModal(false)}
         onError={onError}
       />
-      {/* 
-      <UploadOrderModal
-        isOpen={showUploadModal}
-        onClose={() => setShowUploadModal(false)}
-      /> */}
     </div>
   );
 }

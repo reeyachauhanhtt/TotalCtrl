@@ -64,7 +64,7 @@ export default function UnitDropdown({
             setSearch(e.target.value);
             setOpen(true);
           }}
-          className={`w-full bg-transparent outline-none text-[12px]${
+          className={`w-full bg-transparent outline-none text-[12px] ${
             disabled
               ? 'cursor-not-allowed text-[#666]'
               : isRedError

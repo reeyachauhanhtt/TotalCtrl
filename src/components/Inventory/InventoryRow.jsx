@@ -31,7 +31,6 @@ function getExpirationStatus(dateStr) {
   return { type: 'days_left', days: diffDays };
 }
 
-// Exact .neutral-lbl.highlighted + .inventory-danger styles from dev
 function ExpirationBadge({ dateStr }) {
   const status = getExpirationStatus(dateStr);
   if (!status) return null;
@@ -83,7 +82,6 @@ function ExpirationBadge({ dateStr }) {
   );
 }
 
-// .multiple div with date + badge stacked — matches dev's <div class="multiple"> pattern
 function ExpirationCell({ dateStr }) {
   if (!dateStr) {
     return (
@@ -104,7 +102,6 @@ function ExpirationCell({ dateStr }) {
   );
 }
 
-// OUT OF STOCK badge — exact .neutral-lbl.highlightedstock from dev
 const OutOfStockBadge = () => (
   <label
     style={{
@@ -126,18 +123,14 @@ const OutOfStockBadge = () => (
   </label>
 );
 
-// Shared TD style — .pd-y-5 = padding 5px top/bottom
 const tdStyle = {
   paddingTop: 12,
-  // paddingBottom: 5,
-  // marginTop: 5,
   verticalAlign: 'top',
   borderTop: '1px solid #dee2e6',
   color: '#333333',
   fontSize: 12,
 };
 
-// .dark-text styles
 const darkText = {
   color: '#19191c',
   fontSize: 13,
@@ -145,14 +138,12 @@ const darkText = {
   fontWeight: 400,
 };
 
-// .grey-text styles
 const greyText = {
   color: '#6b6b6f',
   lineHeight: '20px',
   fontSize: 12,
 };
 
-// .multiple div — display:block, margin: 0 0 20px
 const multipleDiv = {
   display: 'block',
   margin: '0 0 20px',
@@ -253,13 +244,14 @@ function BatchRow({ batch, isEditing, editQty, onQtyChange }) {
               </span>
             </div>
           ) : batch.quantity === 0 ? (
-            <OutOfStockBadge />
+            <span style={{ ...greyText, fontWeight: 400 }}>0,00 </span>
           ) : (
             <>
               <span style={{ ...greyText, fontWeight: 400 }}>
                 {formatQty(batch.quantity)}
+                {'    '}
               </span>
-              <span style={greyText}>{batch.unit}</span>
+              <span style={greyText}> {batch.unit}</span>
             </>
           )}
         </div>
@@ -429,12 +421,17 @@ export default function InventoryRow({ item, selected, onSelect }) {
     deleteMutation.mutate({ rawId, inventoryId: selectedInventory.id });
   }
 
+  const isOutOfStock = Number(item.quantity ?? 0) === 0;
+  const mainRowPadding = isOutOfStock ? { paddingBottom: 24 } : {};
+
   return (
     <>
       {/* ── MAIN ROW ── */}
       <tr id={item.id} className='invtr'>
         {/* Checkbox */}
-        <td style={{ ...tdStyle, paddingLeft: 24, width: 44 }}>
+        <td
+          style={{ ...tdStyle, ...mainRowPadding, paddingLeft: 24, width: 44 }}
+        >
           <label
             style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
@@ -474,7 +471,7 @@ export default function InventoryRow({ item, selected, onSelect }) {
         </td>
 
         {/* Item Name */}
-        <td style={{ ...tdStyle, paddingLeft: 48 }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingLeft: 48 }}>
           {/* Main row: single .multiple div wrapping item name */}
           <div style={multipleDiv}>
             <span style={{ ...darkText, fontWeight: 600 }}>{item.name}</span>
@@ -482,10 +479,12 @@ export default function InventoryRow({ item, selected, onSelect }) {
         </td>
 
         {/* Arrival Info */}
-        <td style={tdStyle}>
+        <td style={{ ...tdStyle, ...mainRowPadding }}>
           <div style={multipleDiv}>
             <span style={darkText}>
-              {isMulti ? (
+              {isOutOfStock ? (
+                <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
+              ) : isMulti ? (
                 'Multiple'
               ) : item.arrivalInfo ? (
                 formatDate(item.arrivalInfo)
@@ -493,18 +492,18 @@ export default function InventoryRow({ item, selected, onSelect }) {
                 <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
               )}
             </span>
-            <br />
-            {!isMulti && item.daysInStorage != null && (
-              <span style={{ ...greyText, fontSize: 12 }}>
-                {item.daysInStorage} Days in storage
-              </span>
-            )}
           </div>
         </td>
 
         {/* Expiration Info */}
-        <td style={tdStyle}>
-          {isMulti ? (
+        <td style={{ ...tdStyle, ...mainRowPadding }}>
+          {isOutOfStock ? (
+            <div style={multipleDiv}>
+              <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
+              <br />
+              <ExpirationBadge dateStr={item.expirationInfo} />
+            </div>
+          ) : isMulti ? (
             <div style={multipleDiv}>
               <span style={darkText}>Multiple</span>
               <br />
@@ -525,7 +524,7 @@ export default function InventoryRow({ item, selected, onSelect }) {
         </td>
 
         {/* Quantity */}
-        <td style={tdStyle}>
+        <td style={{ ...tdStyle, ...mainRowPadding }}>
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
             {item.quantity === 0 ? (
               <OutOfStockBadge />
@@ -541,7 +540,7 @@ export default function InventoryRow({ item, selected, onSelect }) {
         </td>
 
         {/* Unit Price */}
-        <td style={{ ...tdStyle, textAlign: 'center' }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, textAlign: 'center' }}>
           <div style={multipleDiv}>
             <span style={darkText}>
               {isMulti ? 'Multiple' : formatPrice(item.unitPrice)}
@@ -550,7 +549,14 @@ export default function InventoryRow({ item, selected, onSelect }) {
         </td>
 
         {/* Total Value */}
-        <td style={{ ...tdStyle, textAlign: 'right', paddingRight: 30 }}>
+        <td
+          style={{
+            ...tdStyle,
+            ...mainRowPadding,
+            textAlign: 'right',
+            paddingRight: 30,
+          }}
+        >
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
             <span style={{ ...darkText, fontWeight: 600 }}>
               {formatPrice(item.total ?? 0)}
@@ -560,7 +566,13 @@ export default function InventoryRow({ item, selected, onSelect }) {
 
         {/* Actions */}
         <td
-          style={{ ...tdStyle, paddingLeft: 35, paddingRight: 45, width: 60 }}
+          style={{
+            ...tdStyle,
+            ...mainRowPadding,
+            paddingLeft: 35,
+            paddingRight: 45,
+            width: 60,
+          }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isEditing ? (

@@ -8,13 +8,16 @@ import {
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+import Header from './components/Inventory/Header';
 import InventoryPage from './pages/InventoryPage';
 import ExternalOrderPage from './pages/ExternalOrderPage';
+import InternalOrderPage from './pages/InternalOrderPage';
 import { HeaderSkeleton } from './components/Common/Skeleton';
 import ExternalOrderHeader from './components/ExternalOrder/ExternalOrderHeader';
 import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderDetailHeader';
+import InternalOrderHeader from './components/InternalOrder/InternalOrderHeader';
 import UploadOrderModal from './components/ExternalOrder/UploadOrderModal';
 import { undoTransfer } from './services/transferService';
 
@@ -22,14 +25,13 @@ function Layout() {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
   const location = useLocation();
-  const isExternalOrders = location.pathname.includes('external-orders');
+
   const queryClient = useQueryClient();
 
   const [transferToast, setTransferToast] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [errorToast, setErrorToast] = useState('');
 
-  // Auto-dismiss after 4 seconds
   useEffect(() => {
     if (!transferToast) return;
     const timer = setTimeout(() => setTransferToast(null), 4000);
@@ -57,7 +59,10 @@ function Layout() {
 
   function renderHeader() {
     if (!selectedInventory) return <HeaderSkeleton />;
+
+    const isExternalOrders = location.pathname.includes('external-orders');
     if (isExternalOrders && isDetailOpen) return <ExternalOrderDetailHeader />;
+
     if (isExternalOrders)
       return (
         <ExternalOrderHeader
@@ -68,6 +73,9 @@ function Layout() {
           }}
         />
       );
+
+    const isInternalOrders = location.pathname.includes('internal-order');
+    if (isInternalOrders) return <InternalOrderHeader />;
 
     return <Header />;
   }
@@ -114,6 +122,7 @@ function Layout() {
               }
             />
             <Route path='/external-orders' element={<ExternalOrderPage />} />
+            <Route path='/internal-orders' element={<InternalOrderPage />} />
           </Routes>
         </div>
       </div>

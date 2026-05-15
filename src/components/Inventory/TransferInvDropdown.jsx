@@ -9,7 +9,7 @@ export default function TransferInventoryDropdown({
   isOpen,
   setOpen,
   onSelect,
-  excludeId, // for "To" dropdown
+  excludeId,
 }) {
   const ref = useRef(null);
 
