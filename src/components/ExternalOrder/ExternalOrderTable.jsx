@@ -113,13 +113,19 @@ export default function ExternalOrderTable({
                 <>
                   <div>
                     <GreenButton
-                      data-tooltip-id='table-upload-tooltip'
-                      data-tooltip-content="Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you."
+                      {...(!isViewOnly && {
+                        'data-tooltip-id': 'table-upload-tooltip',
+                        'data-tooltip-content':
+                          "Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you.",
+                      })}
                       className={`px-6.5 py-3 text-sm font-semibold rounded tracking-wide ${
-                        isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
+                        isViewOnly
+                          ? 'opacity-40 cursor-default pointer-events-none'
+                          : ''
                       }`}
                       onClick={() => !isViewOnly && onUploadClick?.()}
                       disabled={isViewOnly}
+                      disabledCursor='default'
                     >
                       <img
                         src='/icons/upload.svg'
@@ -129,7 +135,6 @@ export default function ExternalOrderTable({
                       />
                       <span>Upload order</span>
                     </GreenButton>
-
                     <Tooltip
                       id='table-upload-tooltip'
                       place='top'
@@ -143,10 +148,15 @@ export default function ExternalOrderTable({
 
                   <div className='mt-4'>
                     <WhiteButton
-                      data-tooltip-id='table-add-order-tooltip'
-                      data-tooltip-content='Use this option to add orders without PDF order confirmation from supplier'
+                      {...(!isViewOnly && {
+                        'data-tooltip-id': 'table-add-order-tooltip',
+                        'data-tooltip-content':
+                          'Use this option to add orders without PDF order confirmation from supplier',
+                      })}
                       className={`h-10 w-full px-6.5 text-sm font-semibold tracking-wide flex items-center justify-center gap-2 ${
-                        isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
+                        isViewOnly
+                          ? 'opacity-40 cursor-default pointer-events-none'
+                          : ''
                       }`}
                       onClick={() => !isViewOnly && onAddOrderClick?.()}
                       disabled={isViewOnly}
@@ -159,7 +169,6 @@ export default function ExternalOrderTable({
                       />
                       <span>Add order manually</span>
                     </WhiteButton>
-
                     <Tooltip
                       id='table-add-order-tooltip'
                       place='bottom'

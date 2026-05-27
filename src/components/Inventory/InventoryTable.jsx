@@ -319,7 +319,7 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
           </thead>
 
           {/* TBODY */}
-          <tbody>
+          <tbody style={{ borderBottom: '1px solid #dee2e6' }}>
             {showSkeleton
               ? Array.from({ length: 8 }).map((_, i) => (
                   <TableRowSkeleton key={i} asTr />

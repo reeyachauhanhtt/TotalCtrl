@@ -124,7 +124,7 @@ const OutOfStockBadge = () => (
 );
 
 const tdStyle = {
-  paddingTop: 12,
+  paddingTop: 5,
   verticalAlign: 'top',
   borderTop: '1px solid #dee2e6',
   color: '#333333',
@@ -448,7 +448,13 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
       <tr id={item.id} className='invtr'>
         {/* Checkbox */}
         <td
-          style={{ ...tdStyle, ...mainRowPadding, paddingLeft: 24, width: 44 }}
+          style={{
+            ...tdStyle,
+            ...mainRowPadding,
+            paddingLeft: 24,
+            width: 44,
+            paddingTop: 30,
+          }}
         >
           <label
             style={{
@@ -501,7 +507,14 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Item Name */}
-        <td style={{ ...tdStyle, ...mainRowPadding, paddingLeft: 48 }}>
+        <td
+          style={{
+            ...tdStyle,
+            ...mainRowPadding,
+            paddingLeft: 48,
+            paddingTop: 30,
+          }}
+        >
           {/* Main row: single .multiple div wrapping item name */}
           <div style={multipleDiv}>
             <span style={{ ...darkText, fontWeight: 600 }}>{item.name}</span>
@@ -509,7 +522,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Arrival Info */}
-        <td style={{ ...tdStyle, ...mainRowPadding }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
           <div style={multipleDiv}>
             {isOutOfStock ? (
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
@@ -530,7 +543,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Expiration Info */}
-        <td style={{ ...tdStyle, ...mainRowPadding }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
           {isOutOfStock ? (
             <div style={multipleDiv}>
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
@@ -555,9 +568,78 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Quantity */}
-        <td style={{ ...tdStyle, ...mainRowPadding }}>
+        {/* <td style={{ ...tdStyle, ...mainRowPadding }}>
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
             {item.quantity === 0 ? (
+              <OutOfStockBadge />
+            ) : (
+              <>
+                <span style={{ ...darkText, fontWeight: 400 }}>
+                  {item.quantity ? formatQty(item.quantity) : '--'}{' '}
+                </span>
+                <span style={darkText}>{item.unit}</span>
+              </>
+            )}
+          </div>
+        </td> */}
+
+        {/* Quantity */}
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
+          <div style={{ ...multipleDiv, marginBottom: 24 }}>
+            {isEditing && !isMulti ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: 'fit-content',
+                  backgroundColor: '#f0f0f0',
+                  borderRadius: 3,
+                }}
+              >
+                <input
+                  type='number'
+                  value={editQtys[item.batches?.[0]?.id] ?? item.quantity}
+                  onChange={(e) =>
+                    setEditQtys((prev) => ({
+                      ...prev,
+                      [item.batches[0].id]: e.target.value,
+                    }))
+                  }
+                  style={{
+                    width: 100,
+                    padding: '3px 4px 3px 8px',
+                    fontSize: 13,
+                    textAlign: 'right',
+                    color: '#333333',
+                    background: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 13,
+                    color: '#6b6b6f',
+                    paddingRight: 8,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {item.unit}
+                </span>
+              </div>
+            ) : isEditing && isMulti ? (
+              <>
+                <span style={{ ...darkText, fontWeight: 400 }}>
+                  {formatQty(
+                    item.batches.reduce(
+                      (sum, b) => sum + Number(editQtys[b.id] ?? b.quantity),
+                      0,
+                    ),
+                  )}{' '}
+                </span>
+                <span style={darkText}>{item.unit}</span>
+              </>
+            ) : item.quantity === 0 ? (
               <OutOfStockBadge />
             ) : (
               <>
@@ -571,7 +653,14 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Unit Price */}
-        <td style={{ ...tdStyle, ...mainRowPadding, textAlign: 'center' }}>
+        <td
+          style={{
+            ...tdStyle,
+            ...mainRowPadding,
+            textAlign: 'center',
+            paddingTop: 30,
+          }}
+        >
           <div style={multipleDiv}>
             <span style={darkText}>
               {isMulti ? 'Multiple' : formatPrice(item.unitPrice)}
@@ -586,6 +675,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             ...mainRowPadding,
             textAlign: 'right',
             paddingRight: 30,
+            paddingTop: 30,
           }}
         >
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
@@ -603,6 +693,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             paddingLeft: 35,
             paddingRight: 45,
             width: 60,
+            paddingTop: 30,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>

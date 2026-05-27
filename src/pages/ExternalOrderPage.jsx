@@ -100,6 +100,9 @@ export default function ExternalOrderPage() {
           order={selectedOrder}
           onUploadClick={() => setShowUploadModal(true)}
           onBack={(result) => {
+            dispatch(setDetailOpen(false));
+            dispatch(setSelectedOrder(null));
+
             if (result?.toast) {
               setToastMessage(result.toast);
               setTimeout(() => setToastMessage(null), 2000);

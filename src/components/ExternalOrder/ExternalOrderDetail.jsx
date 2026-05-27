@@ -241,12 +241,12 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
 
   const queryClient = useQueryClient();
 
-  const handleBack = () => {
+  const handleBack = (options) => {
     queryClient.removeQueries({ queryKey: ['order-detail', order.id] });
     queryClient.removeQueries({
       queryKey: ['order-delivered-detail', order.id, orderStatus],
     });
-    onBack();
+    onBack(options);
   };
 
   const { data: inventoryData } = useQuery({

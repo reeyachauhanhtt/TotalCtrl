@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
@@ -20,21 +20,28 @@ export default function InventoryPage({ onTransferSuccess }) {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
-  const [stockFilter, setStockFilter] = useState('all');
+  const [stockFilter, setStockFilter] = useState('in'); // was 'all'
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [showTransfer, setShowTransfer] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
-  const location = useLocation();
+  // const location = useLocation();
 
   const scrollRef = useRef(null);
 
+  // useEffect(() => {
+  //   setShowSkeleton(true);
+  //   const t = setTimeout(() => setShowSkeleton(false), 600);
+  //   return () => clearTimeout(t);
+  // }, [location.pathname]);
+
   useEffect(() => {
+    if (!selectedInventory?.id) return;
     setShowSkeleton(true);
     const t = setTimeout(() => setShowSkeleton(false), 600);
     return () => clearTimeout(t);
-  }, [location.pathname]);
+  }, [selectedInventory?.id]);
 
   useEffect(() => {
     if (!selectedInventory?.id) return;
@@ -67,12 +74,25 @@ export default function InventoryPage({ onTransferSuccess }) {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['products', selectedInventory?.id, selectedSupplier?.Id ?? null],
+    queryKey: [
+      'products',
+      selectedInventory?.id,
+      selectedSupplier?.Id ?? null,
+      stockFilter,
+    ],
     queryFn: ({ pageParam = 0 }) =>
       fetchProducts({
         inventoryId: selectedInventory.id,
         supplierIds: selectedSupplier?.Id,
         offset: pageParam,
+        isInStock:
+          stockFilter === 'out'
+            ? '0'
+            : stockFilter === 'in'
+              ? '1'
+              : stockFilter === 'low'
+                ? '2'
+                : '0,1,2',
       }),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < 20) return undefined;
@@ -146,20 +166,21 @@ export default function InventoryPage({ onTransferSuccess }) {
 
   const filteredProducts = products.filter((item) => {
     const qty = Number(item.quantity ?? 0);
-    const matchesStock =
-      stockFilter === 'out'
-        ? qty === 0
-        : stockFilter === 'low'
-          ? qty > 0 && qty <= LOW_STOCK_THRESHOLD
-          : stockFilter === 'in'
-            ? qty >= LOW_STOCK_THRESHOLD
-            : true;
+    // const matchesStock =
+    //   stockFilter === 'out'
+    //     ? qty === 0
+    //     : stockFilter === 'low'
+    //       ? qty > 0 && qty <= LOW_STOCK_THRESHOLD
+    //       : stockFilter === 'in'
+    //         ? qty > 0 // ← was qty >= LOW_STOCK_THRESHOLD
+    //         : true; // 'all' — show everything
 
     const matchesSearch =
       debouncedSearch.trim() === '' ||
       item.name.toLowerCase().includes(debouncedSearch.toLowerCase());
 
-    return matchesStock && matchesSearch;
+    // return matchesStock && matchesSearch;
+    return matchesSearch;
   });
 
   if (!selectedInventory || isLoading || isStockLoading || showSkeleton) {

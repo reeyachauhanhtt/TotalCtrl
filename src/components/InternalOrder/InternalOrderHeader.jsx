@@ -15,6 +15,12 @@ export default function InternalOrderHeader({ onAddClick }) {
   const location = useLocation();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
 
+  const isDetailOpen = useSelector((s) => s.internalOrder.isDetailOpen);
+  const isViewOnly =
+    selectedInventory &&
+    selectedInventory.permission?.toLowerCase() !== 'editor' &&
+    selectedInventory.permission?.toLowerCase() !== 'owner';
+
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -58,13 +64,26 @@ export default function InternalOrderHeader({ onAddClick }) {
               error={error}
             />
 
-            <WhiteButton
+            {/* <WhiteButton
               onClick={() => setShowAddModal(true)}
               className='h-10 w-60 flex items-center justify-center gap-2 font-extrabold'
             >
               <img src='/icons/plus-dark.svg' alt='' width={16} height={16} />
               <span>Add internal order</span>
-            </WhiteButton>
+            </WhiteButton> */}
+
+            <div>
+              <WhiteButton
+                onClick={() => !isViewOnly && setShowAddModal(true)}
+                disabled={isViewOnly}
+                className={`h-10 w-60 flex items-center justify-center gap-2 font-extrabold transition-opacity ${
+                  isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
+                }`}
+              >
+                <img src='/icons/plus-dark.svg' alt='' width={16} height={16} />
+                <span>Add internal order</span>
+              </WhiteButton>
+            </div>
           </>
         )}
       </div>

@@ -49,7 +49,7 @@ export default function StockDropdown({
                 setStockFilter(option.value);
                 setOpen(false);
               }}
-              className={`px-4 py-2 text-sm cursor-default flex justify-between items-center hover:bg-gray-100 ${
+              className={`px-4 py-2 text-[13px] cursor-default flex justify-between items-center hover:bg-gray-100 ${
                 stockFilter === option.value ? 'bg-emerald-50' : ''
               }`}
             >

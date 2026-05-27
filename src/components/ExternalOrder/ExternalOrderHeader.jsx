@@ -79,12 +79,17 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
               {/* Add Order Manually */}
               <div>
                 <WhiteButton
-                  data-tooltip-id='add-order-tooltip'
-                  data-tooltip-content='Use this option to add orders without PDF order confirmation from supplier'
+                  {...(!isViewOnly && {
+                    'data-tooltip-id': 'add-order-tooltip',
+                    'data-tooltip-content':
+                      'Use this option to add orders without PDF order confirmation from supplier',
+                  })}
                   onClick={() => !isViewOnly && setShowAddModal(true)}
                   disabled={isViewOnly}
                   className={`h-10 w-52 flex items-center justify-center gap-2 font-extrabold transition-opacity ${
-                    isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
+                    isViewOnly
+                      ? 'opacity-40 cursor-default pointer-events-none'
+                      : ''
                   }`}
                 >
                   <img
@@ -95,7 +100,6 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   />
                   <span>Add order manually</span>
                 </WhiteButton>
-
                 <Tooltip
                   id='add-order-tooltip'
                   place='bottom'
@@ -110,18 +114,23 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
               {/* Upload Order */}
               <div>
                 <GreenButton
-                  data-tooltip-id='upload-order-tooltip'
-                  data-tooltip-content='Does your supplier send you PDF confirmation receipts...'
+                  {...(!isViewOnly && {
+                    'data-tooltip-id': 'upload-order-tooltip',
+                    'data-tooltip-content':
+                      'Does your supplier send you PDF confirmation receipts...',
+                  })}
                   onClick={() => !isViewOnly && onUploadClick?.()}
                   disabled={isViewOnly}
+                  disabledCursor='default'
                   className={`h-10 px-10 flex items-center gap-2 font-semibold transition-opacity ${
-                    isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
+                    isViewOnly
+                      ? 'opacity-40 cursor-default pointer-events-none'
+                      : ''
                   }`}
                 >
                   <img src='/icons/upload.svg' alt='' width={16} height={16} />
                   <span>Upload order</span>
                 </GreenButton>
-
                 <Tooltip
                   id='upload-order-tooltip'
                   place='bottom-end'
