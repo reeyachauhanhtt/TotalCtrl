@@ -1,38 +1,5 @@
 import axiosInstance from '../api/axiosInstance';
 
-//fetch products
-// export const fetchProducts = async ({
-//   inventoryId,
-//   supplierIds = null,
-//   offset = 0,
-// }) => {
-//   try {
-//     if (!inventoryId) throw new Error('inventoryId is required');
-
-//     const params = {
-//       inventoryId,
-//       isInStock: '0,1,2',
-//       sortBy: 'productName',
-//       sortOrder: 'ASC',
-//       limit: 20,
-//       offset,
-//       name: '',
-//     };
-
-//     if (supplierIds) params.supplierIds = supplierIds;
-
-//     const res = await axiosInstance.get(
-//       '/inventory-management/store-products',
-//       { params },
-//     );
-
-//     return res.data?.Data || [];
-//   } catch (err) {
-//     console.error('Product fetch failed:', err);
-//     throw err;
-//   }
-// };
-
 export const fetchProducts = async ({
   inventoryId,
   supplierIds = null,
@@ -125,6 +92,15 @@ export const deleteStoreProduct = async ({ rawId, inventoryId }) => {
       data: { inventoryId },
       headers: { 'Content-Type': 'application/json' },
     },
+  );
+  return res.data;
+};
+
+//download pdf
+export const generateProductsPdf = async () => {
+  const res = await axiosInstance.post(
+    '/inventory-management/generate-products-pdf',
+    { language: 'en' },
   );
   return res.data;
 };

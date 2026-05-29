@@ -124,7 +124,7 @@ const OutOfStockBadge = () => (
 );
 
 const tdStyle = {
-  paddingTop: 5,
+  paddingTop: 3,
   verticalAlign: 'top',
   borderTop: '1px solid #dee2e6',
   color: '#333333',
@@ -240,11 +240,14 @@ function BatchRow({ batch, isEditing, editQty, onQtyChange }) {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {batch.unit}
+                {Number(editQty) === 1 ? batch.unitSingular : batch.unit}
               </span>
             </div>
           ) : batch.quantity === 0 ? (
-            <span style={{ ...greyText, fontWeight: 400 }}>0,00 </span>
+            <>
+              <span style={{ ...greyText, fontWeight: 400 }}>0,00 </span>
+              <span style={greyText}>{batch.unit}</span>
+            </>
           ) : (
             <>
               <span style={{ ...greyText, fontWeight: 400 }}>
@@ -453,7 +456,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             ...mainRowPadding,
             paddingLeft: 24,
             width: 44,
-            paddingTop: 30,
+            paddingTop: 25,
           }}
         >
           <label
@@ -512,7 +515,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             ...tdStyle,
             ...mainRowPadding,
             paddingLeft: 48,
-            paddingTop: 30,
+            paddingTop: 25,
           }}
         >
           {/* Main row: single .multiple div wrapping item name */}
@@ -522,7 +525,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Arrival Info */}
-        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 25 }}>
           <div style={multipleDiv}>
             {isOutOfStock ? (
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
@@ -543,7 +546,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Expiration Info */}
-        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 25 }}>
           {isOutOfStock ? (
             <div style={multipleDiv}>
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
@@ -568,23 +571,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         </td>
 
         {/* Quantity */}
-        {/* <td style={{ ...tdStyle, ...mainRowPadding }}>
-          <div style={{ ...multipleDiv, marginBottom: 24 }}>
-            {item.quantity === 0 ? (
-              <OutOfStockBadge />
-            ) : (
-              <>
-                <span style={{ ...darkText, fontWeight: 400 }}>
-                  {item.quantity ? formatQty(item.quantity) : '--'}{' '}
-                </span>
-                <span style={darkText}>{item.unit}</span>
-              </>
-            )}
-          </div>
-        </td> */}
-
-        {/* Quantity */}
-        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 30 }}>
+        <td style={{ ...tdStyle, ...mainRowPadding, paddingTop: 25 }}>
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
             {isEditing && !isMulti ? (
               <div
@@ -624,7 +611,10 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {item.unit}
+                  {Number(editQtys[item.batches?.[0]?.id] ?? item.quantity) ===
+                  1
+                    ? item.unitSingular
+                    : item.unit}
                 </span>
               </div>
             ) : isEditing && isMulti ? (
@@ -637,7 +627,14 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
                     ),
                   )}{' '}
                 </span>
-                <span style={darkText}>{item.unit}</span>
+                <span style={darkText}>
+                  {item.batches.reduce(
+                    (sum, b) => sum + Number(editQtys[b.id] ?? b.quantity),
+                    0,
+                  ) === 1
+                    ? item.unitSingular
+                    : item.unit}
+                </span>
               </>
             ) : item.quantity === 0 ? (
               <OutOfStockBadge />
@@ -658,7 +655,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             ...tdStyle,
             ...mainRowPadding,
             textAlign: 'center',
-            paddingTop: 30,
+            paddingTop: 25,
           }}
         >
           <div style={multipleDiv}>
@@ -675,7 +672,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             ...mainRowPadding,
             textAlign: 'right',
             paddingRight: 30,
-            paddingTop: 30,
+            paddingTop: 25,
           }}
         >
           <div style={{ ...multipleDiv, marginBottom: 24 }}>
@@ -693,7 +690,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             paddingLeft: 35,
             paddingRight: 45,
             width: 60,
-            paddingTop: 30,
+            paddingTop: 25,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>

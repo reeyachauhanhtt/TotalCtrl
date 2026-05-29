@@ -4,8 +4,15 @@ import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
 
 import InventoryRow from './InventoryRow';
 import { TableRowSkeleton } from '../Common/Skeleton';
+import GreenButton from '../Common/GreenButton';
+import { generateProductsPdf } from '../../services/productService';
 
-export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
+export default function InventoryTable({
+  data,
+  stockFilter,
+  debouncedSearch,
+  onAddClick,
+}) {
   const [selected, setSelected] = useState([]);
   const [sortKey, setSortKey] = useState(null);
   const [sortDir, setSortDir] = useState('asc');
@@ -70,10 +77,11 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
     }
   }
 
-  if (!data?.length) {
-    return (
-      <p className='text-gray-400 text-sm text-center py-12'>No items found.</p>
-    );
+  async function handlePrintTemplate() {
+    const res = await generateProductsPdf();
+    if (res?.Data?.reportUrl) {
+      window.open(res.Data.reportUrl, '_blank');
+    }
   }
 
   const allSelected = selected.length === data.length && data.length > 0;
@@ -319,20 +327,65 @@ export default function InventoryTable({ data, stockFilter, debouncedSearch }) {
           </thead>
 
           {/* TBODY */}
-          <tbody style={{ borderBottom: '1px solid #dee2e6' }}>
-            {showSkeleton
-              ? Array.from({ length: 8 }).map((_, i) => (
-                  <TableRowSkeleton key={i} asTr />
-                ))
-              : sortedData.map((item, index) => (
-                  <InventoryRow
-                    key={item.id + '_' + index}
-                    item={item}
-                    selected={selected.includes(item.id)}
-                    onSelect={() => toggleOne(item.id)}
-                    isViewOnly={isViewOnly}
-                  />
-                ))}
+
+          <tbody
+            style={{
+              borderBottom: data?.length ? '1px solid #dee2e6' : 'none',
+            }}
+          >
+            {showSkeleton ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <TableRowSkeleton key={i} asTr />
+              ))
+            ) : !data?.length ? (
+              <tr>
+                <td colSpan={8}>
+                  <div className='flex justify-center pt-20'>
+                    <div className='text-center px-12 py-9'>
+                      <div className='mb-5'>
+                        <img
+                          src='/icons/empty-state-NotFound.svg'
+                          alt=''
+                          className='mx-auto'
+                        />
+                      </div>
+                      <div className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] w-135 mx-auto'>
+                        There's nothing in this inventory yet
+                      </div>
+                      <p className='text-sm text-[#97979b] text-center w-135 mx-auto mt-4 mb-8'>
+                        Start by counting and adding your current stock.
+                        <br />
+                        Use the mobile app to do it, or{' '}
+                        <span
+                          className='border-b border-[#6b6b6f] cursor-pointer'
+                          onClick={handlePrintTemplate}
+                        >
+                          print a paper template
+                        </span>{' '}
+                        to help you note down all the required information. When
+                        you're done counting, hit the button below to add the
+                        initial stock in bulk.
+                      </p>
+                      <GreenButton onClick={onAddClick}>
+                        <span className='font-semibold'>
+                          Set up initial stock
+                        </span>
+                      </GreenButton>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              sortedData.map((item, index) => (
+                <InventoryRow
+                  key={item.id + '_' + index}
+                  item={item}
+                  selected={selected.includes(item.id)}
+                  onSelect={() => toggleOne(item.id)}
+                  isViewOnly={isViewOnly}
+                />
+              ))
+            )}
           </tbody>
         </table>
       </div>

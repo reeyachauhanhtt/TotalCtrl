@@ -24,6 +24,8 @@ export default function InventoryMainSection({
   selectedSupplier,
   setSelectedSupplier,
   headerScrolled,
+  filteredCount,
+  isSearching,
 }) {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isViewOnly = selectedInventory?.permission === 'Viewer';
@@ -59,7 +61,8 @@ export default function InventoryMainSection({
     stockData?.Data?.totalItems ??
     products.filter((p) => Number(p.quantity ?? 0) > 0).length;
 
-  const isDownloadDisabled = itemCount === 0;
+  const isDownloadDisabled = isSearching || filteredCount === 0;
+  const isTransferDisabled = isViewOnly || filteredCount === 0;
 
   const STOCK_OPTIONS = [
     { label: 'All items', value: 'all' },
@@ -116,12 +119,10 @@ export default function InventoryMainSection({
             ) : (
               <>
                 <button
-                  onClick={() => !isDownloadDisabled && handleDownloadCSV()}
-                  style={{
-                    cursor: isDownloadDisabled ? 'not-allowed' : 'pointer',
-                  }}
-                  className={`flex items-center gap-2 border w-40 px-3 py-2 rounded-sm text-sm font-extrabold transition
-                  ${isDownloadDisabled ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-950'}`}
+                  onClick={handleDownloadCSV}
+                  disabled={isDownloadDisabled}
+                  style={{ opacity: isDownloadDisabled ? 0.4 : 1 }}
+                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-40 px-3 py-2 rounded-sm text-sm font-extrabold'
                 >
                   <img
                     src='/icons/download.svg'
@@ -131,11 +132,12 @@ export default function InventoryMainSection({
                   />
                   Download CSV
                 </button>
+
                 <button
-                  onClick={() => !isViewOnly && setShowTransfer(true)}
-                  style={{ cursor: isViewOnly ? 'not-allowed' : 'pointer' }}
-                  className={`flex items-center gap-2 border w-40 px-3 py-2 rounded-sm text-sm font-extrabold transition
-                  ${isViewOnly ? 'border-gray-200 text-gray-400' : 'border-gray-300 text-gray-950'}`}
+                  onClick={() => setShowTransfer(true)}
+                  disabled={isTransferDisabled}
+                  style={{ opacity: isTransferDisabled ? 0.4 : 1 }}
+                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-40 px-3 py-2 rounded-sm text-sm font-extrabold'
                 >
                   <img
                     src='/icons/swap-horizontal.svg'
@@ -145,6 +147,7 @@ export default function InventoryMainSection({
                   />
                   Transfer items
                 </button>
+
                 <GreenButton
                   disabled={isViewOnly}
                   onClick={() => !isViewOnly && setShowModal(true)}
@@ -187,7 +190,7 @@ export default function InventoryMainSection({
                   <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
                     Items in stock
                   </p>
-                  <p className='font-semibold text-[16px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
                     {itemCount}
                   </p>
                 </>
@@ -205,7 +208,7 @@ export default function InventoryMainSection({
                   <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
                     Total stock value
                   </p>
-                  <p className='font-semibold text-[16px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
                     {formatPrice(stockValue)}
                   </p>
                 </>
@@ -223,7 +226,7 @@ export default function InventoryMainSection({
                   <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
                     Your access type
                   </p>
-                  <p className='font-semibold text-[16px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
                     {selectedInventory?.permission || '---'}
                   </p>
                 </>

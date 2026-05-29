@@ -105,6 +105,7 @@ export default function InventoryPage({ onTransferSuccess }) {
   });
 
   const rawProducts = data?.pages?.flat() || [];
+  console.log(rawProducts[0]);
 
   const handleScroll = () => {
     const el = scrollRef.current;
@@ -125,7 +126,11 @@ export default function InventoryPage({ onTransferSuccess }) {
     arrivalInfo: item.arrivalDate || '----',
     expirationInfo: item.expirationDate || '----',
     quantity: item.totalQuantity,
-    unit: item.stockTakingUnitPlural || '',
+    unit:
+      item.totalQuantity === 1
+        ? item.stockTakingUnit || item.stockTakingUnitPlural || ''
+        : item.stockTakingUnitPlural || '',
+    unitSingular: item.stockTakingUnit || item.stockTakingUnitPlural || '',
     unitPrice: item.pricePerStockTakingUnit,
     total: item.totalPrice,
     batches: (item.products || []).map((b, batchIndex) => ({
@@ -137,7 +142,11 @@ export default function InventoryPage({ onTransferSuccess }) {
       arrivalDate: b.arrivalDate || '----',
       daysInStorage: b.storageInDays ?? '---',
       quantity: b.quantity ?? 0,
-      unit: item.stockTakingUnitPlural || '',
+      unit:
+        b.quantity === 1
+          ? item.stockTakingUnit || item.stockTakingUnitPlural || ''
+          : item.stockTakingUnitPlural || '',
+      unitSingular: item.stockTakingUnit || item.stockTakingUnitPlural || '',
       unitPrice: item.pricePerStockTakingUnit,
       total: b.subTotalPrice ?? 0,
       isManual: b.isManual ?? 0,
@@ -209,6 +218,8 @@ export default function InventoryPage({ onTransferSuccess }) {
         setSelectedSupplier={setSelectedSupplier}
         headerScrolled={headerScrolled}
         stockData={stockData}
+        filteredCount={filteredProducts.length}
+        isSearching={searchQuery !== debouncedSearch}
       />
 
       <div
@@ -216,26 +227,26 @@ export default function InventoryPage({ onTransferSuccess }) {
         ref={scrollRef}
         onScroll={handleScroll}
       >
-        {filteredProducts.length === 0 && !isFetching ? (
+        {/* {filteredProducts.length === 0 && !isFetching ? (
           <p className='p-10 text-center text-gray-400 text-sm'>
             No results found
           </p>
-        ) : (
-          <>
-            <InventoryTable
-              data={filteredProducts}
-              stockFilter={stockFilter}
-              debouncedSearch={debouncedSearch}
-            />
-            {isFetchingNextPage && (
-              <div className='p-4'>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <TableRowSkeleton key={i} asTr={false} />
-                ))}
-              </div>
-            )}
-          </>
-        )}
+        ) : ( */}
+        <>
+          <InventoryTable
+            data={filteredProducts}
+            stockFilter={stockFilter}
+            debouncedSearch={debouncedSearch}
+            onAddClick={() => setShowModal(true)}
+          />
+          {isFetchingNextPage && (
+            <div className='p-4'>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <TableRowSkeleton key={i} asTr={false} />
+              ))}
+            </div>
+          )}
+        </>
       </div>
 
       <AddItemModal

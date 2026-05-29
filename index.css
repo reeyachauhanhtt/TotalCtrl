@@ -88,7 +88,11 @@ input[type='number'] {
 } */
 
 button {
-    cursor: pointer !important;
+    cursor: pointer;
+}
+
+button.inv-action-btn:disabled {
+    cursor: not-allowed;
 }
 
 .err-fields {
