@@ -21,15 +21,27 @@ import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderD
 import InternalOrderHeader from './components/InternalOrder/InternalOrderHeader';
 import InternalOrderDetailHeader from './components/InternalOrder/InternalOrderDetailHeader';
 import UploadOrderModal from './components/ExternalOrder/UploadOrderModal';
-import AnalyticsHeader from './components/Analytics/AnalyticsHeader';
+import AnalyticsHeader, {
+  AnalyticsDetailHeader,
+} from './components/Analytics/AnalyticsHeader';
 import { undoTransfer } from './services/transferService';
 import { fetchInventory } from './services/inventoryService'; //added
 import { setSelectedInventory } from './store/inventorySlice'; //added
+import {
+  setAnalyticsDetailOpen,
+  setAnalyticsSelectedInventory,
+} from './store/analyticsSlice'; //added
 
 function Layout() {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
   const isInternalDetailOpen = useSelector((s) => s.internalOrder.isDetailOpen);
+  const analyticsIsDetailOpen = useSelector(
+    (state) => state.analytics.isDetailOpen,
+  );
+  const analyticsSelectedInventory = useSelector(
+    (state) => state.analytics.selectedInventory,
+  );
   const location = useLocation();
 
   const queryClient = useQueryClient();
@@ -107,6 +119,21 @@ function Layout() {
 
     //analytics header
     const isAnalytics = location.pathname.includes('analytics');
+    if (isAnalytics && analyticsIsDetailOpen)
+      return (
+        <AnalyticsDetailHeader
+          selectedInventory={analyticsSelectedInventory}
+          inventories={inventoryData?.Data || inventoryData?.data || []}
+          onSelectInventory={(inv) =>
+            dispatch(setAnalyticsSelectedInventory(inv))
+          }
+          onBack={() => {
+            dispatch(setAnalyticsDetailOpen(false));
+            dispatch(setAnalyticsSelectedInventory(null));
+          }}
+          inventoryError={null}
+        />
+      );
     if (isAnalytics) return <AnalyticsHeader />;
 
     return <Header />;

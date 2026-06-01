@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
 
@@ -6,6 +7,10 @@ import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
 import { fetchPurchases } from '../../services/analyticsService';
 import { formatPrice } from '../../utils/format';
+import {
+  setAnalyticsDetailOpen,
+  setAnalyticsSelectedInventory,
+} from '../../store/analyticsSlice';
 
 export default function PurchasesSection() {
   const today = new Date();
@@ -14,14 +19,19 @@ export default function PurchasesSection() {
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
   });
 
+  const dispatch = useDispatch();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['analyticsPurchases', dateRange],
     queryFn: () => fetchPurchases(dateRange),
   });
 
   const purchases = data?.Data?.purchaseValue || [];
-  console.log('dateRange', dateRange);
-  console.log('error', error);
+
+  const hasData = purchases.some((inv) => inv.totalPurchases > 0);
+
+  // console.log('dateRange', dateRange);
+  // console.log('error', error);
 
   function handleApplyDateRange(range) {
     setDateRange({
@@ -31,11 +41,12 @@ export default function PurchasesSection() {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: 50 }}>
       <SectionHeader
         title='Purchases'
         showMonthPicker
         onApplyDateRange={handleApplyDateRange}
+        hasData={hasData}
       />
 
       {isLoading && (
@@ -64,6 +75,15 @@ export default function PurchasesSection() {
                 value: formatPrice(inv.totalPurchases),
                 description: `${inv.totalPurchasesPercentage} % of total inventories value`,
                 progress: inv.totalPurchasesPercentage,
+              }}
+              onViewDetails={() => {
+                dispatch(
+                  setAnalyticsSelectedInventory({
+                    id: inv.inventoryId,
+                    name: inv.name,
+                  }),
+                );
+                dispatch(setAnalyticsDetailOpen(true));
               }}
             />
           ))}

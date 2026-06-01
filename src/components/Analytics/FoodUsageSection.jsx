@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
 
@@ -6,6 +7,10 @@ import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
 import { fetchFoodUsage } from '../../services/analyticsService';
 import { formatPrice } from '../../utils/format';
+import {
+  setAnalyticsDetailOpen,
+  setAnalyticsSelectedInventory,
+} from '../../store/analyticsSlice';
 
 export default function FoodUsageSection() {
   const today = new Date();
@@ -14,15 +19,26 @@ export default function FoodUsageSection() {
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
   });
 
+  const dispatch = useDispatch();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['analyticsFoodUsage', dateRange],
     queryFn: () => fetchFoodUsage(dateRange),
   });
 
-  console.log('dateRange', dateRange);
-  console.log('data', data, 'isLoading', isLoading, 'error', error);
+  // console.log('dateRange', dateRange);
+  // console.log('data', data, 'isLoading', isLoading, 'error', error);
 
   const foodUsage = data?.Data?.foodUsage || [];
+
+  const hasData = foodUsage.some((inv) => inv.totalCheckoutValue > 0);
+
+  <SectionHeader
+    title='Food usage'
+    showMonthPicker
+    onApplyDateRange={handleApplyDateRange}
+    hasData={hasData}
+  />;
 
   function handleApplyDateRange(range) {
     setDateRange({
@@ -31,17 +47,16 @@ export default function FoodUsageSection() {
     });
   }
 
-  console.log('dateRange', dateRange);
-  console.log('error', error);
+  // console.log('dateRange', dateRange);
+  // console.log('error', error);
 
   return (
-    <div>
+    <div style={{ marginTop: 50 }}>
       <SectionHeader
         title='Food usage'
         showMonthPicker
         onApplyDateRange={handleApplyDateRange}
-        // classname='mt-12.5'
-        // style={{ marginTop: 50 }}
+        hasData={hasData}
       />
 
       {isLoading && (
@@ -75,6 +90,15 @@ export default function FoodUsageSection() {
                 foodWasteLabel: `Food waste (${inv.wastePercentage} %)`,
                 foodWasteValue: formatPrice(inv.totalWasteValue),
                 foodWasteProgress: inv.wastePercentage,
+              }}
+              onViewDetails={() => {
+                dispatch(
+                  setAnalyticsSelectedInventory({
+                    id: inv.inventoryId,
+                    name: inv.name,
+                  }),
+                );
+                dispatch(setAnalyticsDetailOpen(true));
               }}
             />
           ))}

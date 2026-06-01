@@ -7,6 +7,7 @@ export default function SectionHeader({
   showMonthPicker,
   onExport,
   onApplyDateRange,
+  hasData,
 }) {
   return (
     <div className='flex items-center justify-between w-full py-8'>
@@ -20,7 +21,7 @@ export default function SectionHeader({
             {lastUpdated}
           </span>
         )}
-        <ExportButton onClick={onExport} />
+        <ExportButton onClick={onExport} disabled={!hasData} />
         {showMonthPicker && <MonthPicker onApply={onApplyDateRange} />}
       </div>
     </div>

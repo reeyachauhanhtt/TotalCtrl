@@ -19,13 +19,15 @@ export default function InventoryCard({
             : '40px 5px 40px 58px',
         borderRight: '1px solid #e7e7ec',
         borderBottom: '1px solid #e7e7ec',
+        boxSizing: 'border-box',
+        minHeight: variant === 'foodusage' ? 400 : 'auto',
       }}
     >
       {/* Name — font-size:18px font-weight:600 letter-spacing:-.01em color:#19191c mb-24px */}
       <p
         className='font-semibold block w-full'
         style={{
-          fontSize: 15,
+          fontSize: 16,
           letterSpacing: '-0.01em',
           color: '#19191c',
           marginBottom: 18,
@@ -38,7 +40,7 @@ export default function InventoryCard({
       <p
         className='font-extrabold!'
         style={{
-          fontSize: 26,
+          fontSize: 28,
           letterSpacing: '-0.01em',
           color: '#19191c',
           marginBottom: '0.20rem',
@@ -51,7 +53,7 @@ export default function InventoryCard({
       <p
         className='font-normal'
         style={{
-          fontSize: 10,
+          fontSize: 11,
           lineHeight: '16px',
           color: '#6b6b6f',
           marginBottom: '0.40rem',
@@ -76,7 +78,7 @@ export default function InventoryCard({
               className='font-normal'
               style={{
                 width: '60%',
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -87,7 +89,7 @@ export default function InventoryCard({
               className='font-normal text-right'
               style={{
                 width: '40%',
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -95,7 +97,7 @@ export default function InventoryCard({
               {item?.usedFoodValue}
             </span>
           </div>
-          <div className='w-full' style={{ marginTop: 4 }}>
+          <div className='w-full' style={{ marginTop: 8 }}>
             <ProgressBar value={item?.usedFoodProgress ?? 0} fullWidth />
           </div>
 
@@ -105,7 +107,7 @@ export default function InventoryCard({
               className='font-normal'
               style={{
                 width: '60%',
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -116,7 +118,7 @@ export default function InventoryCard({
               className='font-normal text-right'
               style={{
                 width: '40%',
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -124,7 +126,7 @@ export default function InventoryCard({
               {item?.foodWasteValue}
             </span>
           </div>
-          <div className='w-full' style={{ marginTop: 4 }}>
+          <div className='w-full' style={{ marginTop: 8 }}>
             <ProgressBar value={item?.foodWasteProgress ?? 0} fullWidth />
           </div>
         </div>
@@ -133,10 +135,11 @@ export default function InventoryCard({
       {/* View details — mt-33px font-size:14px font-weight:600 color:#1f8e4e */}
       <div
         onClick={hasValue ? onViewDetails : undefined}
-        className='flex items-center font-semibold'
+        className='flex items-center font-extrabold!'
         style={{
-          marginTop: 33,
-          fontSize: 12,
+          marginTop: 52,
+          fontSize: 13,
+          // fontWeight: 600,
           color: 'rgb(31, 142, 78)',
           opacity: hasValue ? 1 : 0.5,
           cursor: hasValue ? 'pointer' : 'not-allowed',

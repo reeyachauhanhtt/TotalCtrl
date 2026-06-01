@@ -4,6 +4,8 @@
     border-radius: 8px;
     overflow: hidden;
     background: #fff;
+    width: 900px;
+    /* ✅ Fix #8: match reference width */
 }
 
 .analytics-calendar .rdrDateRangePickerWrapper {
@@ -12,6 +14,7 @@
     border-radius: 0;
     box-shadow: none;
     width: 100%;
+    display: flex !important;
 }
 
 .analytics-calendar .rdrDateDisplayWrapper {
@@ -19,9 +22,10 @@
 }
 
 .analytics-calendar .rdrDefinedRangesWrapper {
-    width: 200px !important;
+    width: 250px !important;
     font-size: 12px;
     border-right: 1px solid #eff2f7;
+    /* ✅ Fix #1: sidebar right border */
     background: #fff;
 }
 
@@ -44,26 +48,26 @@
 }
 
 .analytics-calendar .rdrStaticRangeLabel {
-    padding: 10px;
-    color: #19191c !important;
     display: block;
     outline: 0;
     line-height: 18px;
     padding: 10px 20px;
+    font-size: 11px;
     text-align: left;
+    color: #19191c !important;
+    white-space: nowrap;
 }
 
 .analytics-calendar .rdrDefinedRangesWrapper .rdrStaticRangeSelected {
     background-color: #eaf7ee;
-    color: #19191c;
-    border-radius: 15px;
+    color: currentColor;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%2323a956' d='M10.28 2.28L4 8.56 1.72 6.28a1 1 0 0 0-1.44 1.44l3 3a1 1 0 0 0 1.44 0l7-7a1 1 0 0 0-1.44-1.44z'/%3E%3C/svg%3E");
+    background-position: 90% center;
+    background-repeat: no-repeat;
+    background-size: 12px;
+    border-radius: 5px;
     border-bottom: 0;
     font-weight: 600;
-}
-
-.analytics-calendar .rdrStaticRange:hover .rdrStaticRangeLabel {
-    background-color: #f1f5f5 !important;
-    border-radius: 5px;
 }
 
 .analytics-calendar .rdrInputRanges {
@@ -75,10 +79,12 @@
     margin: 5px auto;
     display: block !important;
     position: relative;
-    border-left: 1px solid #e6e6ed;
-    border-right: 1px solid #e6e6ed;
+    border-left: 0 solid #e6e6ed;
+    border-right: 0 solid #e6e6ed;
     font-size: 12px;
     background: #fff;
+    padding: 0 50px;
+    /* reserve space for left & right chevrons */
 }
 
 .analytics-calendar .rdrMonthAndYearWrapper {
@@ -107,10 +113,12 @@
 
 .analytics-calendar .rdrPprevButton {
     left: 0;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3SURBVHgBjZOxEcMgDEWR7PQZwStkBEZwk7uUmcxlSo/gFTICI6QPiCCf7YsxMvoNB/ekj5AAU9FrnLq2aQYfwvPRWwc1+II4RWO6BLovkUUNzHtazkEDp9WFlL14pTP44FCDdwE5nPTxRLd/mIUSHLPMm4ME33v7NgXNDmT0gvVKTXIBhcuuaE3Q1mkukJ+Qn3I5uiLiyImKDpLTOkPFxmmCxGmVgsRpzWs6ndbcqQUYfIzzB/oBLnaabR8PDMMAAAAASUVORK5CYII=") !important;
 }
 
 .analytics-calendar .rdrNextButton {
     right: 0;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBlZBBDsIgEEX5eBIP4sIDuHDRtd5EehJd20UTPYBRT+I96GAhLS1tYegkEPh5b4YgRFfV83uxSzCFHhZEyiVSquKwK2OCdLumrU9aMTUJ/kn1+9bqp6HV8iSMLzkSph04aSZw0qKQkqJCTJIpwWxggkBrRCfcH58rjDn7gKgsjnuFNbA9Yg08Ezg4EHJgL+TCtty3oml+OXBQVf1SdnHcH+y4dhiSoXd9AAAAAElFTkSuQmCC") !important;
 }
 
 .analytics-calendar .rdrNextPrevButton i {
@@ -122,51 +130,63 @@
     justify-content: center;
 }
 
+/* ✅ Fix #6: wider month columns to match reference */
 .analytics-calendar .rdrMonth {
     padding: 0 !important;
     width: 25.667em;
 }
 
+/* ✅ Fix #2: larger month title */
 .analytics-calendar .rdrMonthName {
     text-align: center !important;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
     color: #333 !important;
     padding: 20px 15px 15px !important;
     font-weight: 600;
 }
 
+/* ✅ Fix #3: restore weekday row borders */
 .analytics-calendar .rdrWeekDays {
-    border: none;
+    /* border-top: 1px solid #e6e6ed;
+    border-bottom: 1px solid #e6e6ed; */
     display: flex;
     justify-content: center;
+    padding: 0;
 }
 
 .analytics-calendar .rdrWeekDay {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 24px !important;
     color: #8b8c97 !important;
+    /* flex-basis: 14.28571% !important; */
     flex-basis: 37px !important;
     text-align: center;
+    font-weight: 400;
 }
 
-.analytics-calendar .rdrDays {
-    width: 252px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
+/* ✅ Fix #4: taller day cells */
 .analytics-calendar .rdrDay {
     height: 46px !important;
+    width: 14.28571%;
     background: transparent;
     border: 0;
     padding: 0;
     cursor: pointer;
     box-sizing: inherit;
-    width: 14.28571%;
     position: relative;
     font: inherit;
+    line-height: 3em;
+    text-align: center;
+}
+
+/* ✅ Fix #5: days container width to allow wider cells */
+.analytics-calendar .rdrDays {
+    width: 252px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
 }
 
 .analytics-calendar .rdrDayPassive {
@@ -176,6 +196,7 @@
 
 .analytics-calendar .rdrDayNumber span {
     color: #19191c !important;
+    font-size: 11px;
 }
 
 .analytics-calendar .rdrDayNumber {
@@ -193,13 +214,18 @@
 
 .analytics-calendar .rdrDayToday .rdrDayNumber {
     border: 1px solid #19191c;
-    border-radius: 18px;
+    border-radius: 50% !important;
+}
+
+.analytics-calendar .rdrDayToday .rdrDayNumber span::after {
+    display: none !important;
 }
 
 .analytics-calendar .rdrStartEdge,
 .analytics-calendar .rdrEndEdge,
-.analytics-calendar .rdrInRange {
-    background: rgb(171, 223, 187);
+.analytics-calendar .rdrInRange,
+.analytics-calendar .rdrSelected {
+    background: currentColor;
     position: absolute;
     top: 5px;
     left: 0;
@@ -220,6 +246,24 @@
     right: 2px;
 }
 
+.analytics-calendar .rdrDayEndOfMonth .rdrInRange,
+.analytics-calendar .rdrDayEndOfMonth .rdrStartEdge,
+.analytics-calendar .rdrDayEndOfWeek .rdrInRange,
+.analytics-calendar .rdrDayEndOfWeek .rdrStartEdge {
+    border-top-right-radius: 1.042em;
+    border-bottom-right-radius: 1.042em;
+    right: 2px;
+}
+
+.analytics-calendar .rdrDayStartOfMonth .rdrEndEdge,
+.analytics-calendar .rdrDayStartOfMonth .rdrInRange,
+.analytics-calendar .rdrDayStartOfWeek .rdrEndEdge,
+.analytics-calendar .rdrDayStartOfWeek .rdrInRange {
+    border-top-left-radius: 1.042em;
+    border-bottom-left-radius: 1.042em;
+    left: 2px;
+}
+
 .analytics-calendar .calendar-bottom-container {
     border: none;
     box-shadow: none;
@@ -233,27 +277,32 @@
 
 .analytics-calendar .calendar-cancel-button-container {
     height: 36px;
-    width: 66px;
+    width: 80px;
+    /* ✅ Fix #9: slightly wider to match reference */
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #d7d7db;
     box-sizing: border-box;
     border-radius: 4px;
-    margin-right: 19px;
+    margin-right: 12px;
     cursor: pointer;
 }
 
 .analytics-calendar .calendar-cancel-span {
+    width: 100%;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
+    /* ✅ Fix #9: match reference font size */
     color: #6b6b6f;
+    text-align: center;
 }
 
 .analytics-calendar .calendar-apply-button-container {
     height: 36px;
-    width: 66px;
+    width: 80px;
+    /* ✅ Fix #9: slightly wider to match reference */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,7 +314,19 @@
 }
 
 .analytics-calendar .calendar-apply-span {
+    width: 100%;
     font-weight: 600;
     font-size: 14px;
+    /* ✅ Fix #9: match reference font size */
     color: #fff !important;
+    text-align: center;
+}
+
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayStartPreview,
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayInPreview,
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayEndPreview,
+.analytics-calendar .rdrDayStartPreview,
+.analytics-calendar .rdrDayInPreview,
+.analytics-calendar .rdrDayEndPreview {
+    display: none !important;
 }

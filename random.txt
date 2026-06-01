@@ -1886,3 +1886,270 @@ element.style {
         <div class="calendar-apply-button-container"><span class="calendar-apply-span">Apply</span></div>
     </div>
 </div>
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DETAIL COMPONENT    
+
+HEADER ELEMENT : 
+<div class="slim-header"><div class="slim-header-right"><div class="header-breadcrumbs" style="margin-top: 20px;"><span>Main Inventory</span></div></div></div>
+
+HEADER CSS : 
+.slim-header {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+}
+.slim-header-right {
+    padding: 0 35px;
+    width: 100%;
+}
+.slim-header-left, .slim-header-right, .slim-header .container-fluid {
+    align-self: normal;
+}
+.slim-header-right {
+    transition: all 0.2s ease-in-out;
+}
+.slim-header-left, .slim-header-right {
+    display: flex;
+    align-items: center;
+}
+element.style {
+    margin-top: 20px;
+}
+.header-breadcrumbs {
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+}
+.header-breadcrumbs span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -.01em;
+    color: #19191c;
+}
+
+
+TABS ELEMENT : 
+<div class="slim-header-right bt-bdr">
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span class="activeSpan">Inventory Stats</span>
+    </div>
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span>Food Usage</span>
+    </div>
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span>Food Waste</span>
+    </div>
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span>Purchases</span>
+    </div>
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span>Delivery Stats</span>
+    </div>
+    <div
+        class="header-breadcrumbstitle"
+        style="border-width: medium; border-style: none; border-color: currentcolor; border-image: initial"
+    >
+        <span>Transfers</span>
+    </div>
+</div>
+
+TABS CSS : 
+.slim-header-right {
+    padding: 0 35px;
+    width: 100%;
+}
+.slim-header-left, .slim-header-right, .slim-header .container-fluid {
+    align-self: normal;
+}
+.bt-bdr {
+    border-bottom: 1px solid #e6e6ed;
+}
+.slim-header-right {
+    transition: all 0.2s ease-in-out;
+}
+.slim-header-left, .slim-header-right {
+    display: flex;
+    align-items: center;
+}
+element.style {
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: initial;
+}
+.header-breadcrumbstitle {
+    color: #19191c;
+    left: 48px;
+    right: 1130px;
+    top: 18px;
+    font-family: SourceSansProRegular !important;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    padding-top: 17px;
+    padding-bottom: 16px;
+    padding-right: 24px;
+    cursor: pointer;
+}
+.activeSpan {
+    border-bottom: 2px solid #23a956;
+    padding-bottom: 18px;
+}
+element.style {
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: initial;
+}
+.header-breadcrumbstitle {
+    color: #19191c;
+    left: 48px;
+    right: 1130px;
+    top: 18px;
+    font-family: SourceSansProRegular !important;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    padding-top: 17px;
+    padding-bottom: 16px;
+    padding-right: 24px;
+    cursor: pointer;
+}
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DETAIL COMPONENT 
+
+
+<div class="" style="overflow: hidden auto; position: fixed; width: calc(100% - 200px); height: calc(100% - 200px); padding: 0px 35px 60px;" id="__FPSC_ID_2_1780311503081">
+   <div class="order-info-container" style="margin: 38px 0px 0px;">
+      <div class="left-sec">
+         <div><span class="spanTitle">Inventory</span></div>
+         <div class="order-detail pl-0"><label class="spanTitleSub">Total Inventory Value</label><label class="spanTitlePrice">711 524,48 kr</label></div>
+      </div>
+      <div class="right-sec" style="text-align: right; display: flex;">
+         <div><button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px;">Export Data</button></div>
+      </div>
+   </div>
+   <div class="order-info-container mt-0 ml-0">
+      <div class="col-6 grid-detail" style="padding-left: 0px;">
+         <table class="purchase-biggest-order" style="width: 100%;">
+            <th colspan="3"><label class="spanTitleSub">Value by Supplier</label></th>
+            <tr class="border-bottom-0">
+               <div></div>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Not Specified</td>
+               <td class="grid-detail-right" style="width: 20%;">360 501,24 kr</td>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Produktnavn</td>
+               <td class="grid-detail-right" style="width: 20%;">312 840,00 kr</td>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Testing Manish</td>
+               <td class="grid-detail-right" style="width: 20%;">11 225,95 kr</td>
+            </tr>
+         </table>
+         <a class=" link" href="/restaurant/admin/bystock" style="text-decoration-line: none;">
+            <div class="text-center view-more-green">View more</div>
+         </a>
+      </div>
+      <div class="col-6 grid-detail">
+         <table class="purchase-biggest-order" style="width: 100%;">
+            <th colspan="3"><label class="spanTitleSub">value by category</label></th>
+            <tr class="border-bottom-0">
+               <div></div>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Frozen Goods</td>
+               <td class="grid-detail-right" style="width: 20%;">334 829,40 kr</td>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Alcoholic Beverages / Armagnac</td>
+               <td class="grid-detail-right" style="width: 20%;">175 125,75 kr</td>
+            </tr>
+            <tr>
+               <td class="hederWithDtl" style="width: 80%;">Alcoholic Beverages / Beer</td>
+               <td class="grid-detail-right" style="width: 20%;">130 000,00 kr</td>
+            </tr>
+         </table>
+         <a class=" link" href="/restaurant/admin/bycategory" style="text-decoration-line: none;">
+            <div class="text-center view-more-green"> View more </div>
+         </a>
+      </div>
+   </div>
+   <div class="order-info-container mt-0 ml-0">
+      <div class="col-6 grid-detail" style="padding-left: 0px;">
+         <label class="titleMain">Check in &amp; out value</label>
+         <div class="order-info-container mb-0 mt-42 ml-3 ">
+            <div class="left-sec">
+               <div><span class="title">Check in</span></div>
+            </div>
+            <div class="right-sec" style="text-align: right;">
+               <div class="right-sec" style="text-align: right; display: flex;">
+                  <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">This Month</label></div>
+               </div>
+            </div>
+         </div>
+         <div class="emptycard" style="margin-top: 0px;">
+            <div>
+               <h4 class="page-title empty" style="margin-bottom: 16px;"><img src="./img/InventoryIllustration.svg" style="width: 151px; height: 108px;"> </h4>
+            </div>
+            <span class="emptyTitle" style="font-size: 24px; color: rgb(25, 25, 28);">No check ins</span>
+            <ul class="emptyStateUl">
+               <li class="emptyState" style="margin-top: 8px;">There hasn't been any delivery made during the selected time range.</li>
+            </ul>
+         </div>
+      </div>
+      <div class="col-6 grid-detail">
+         <label class="titleMain"></label>
+         <div class="order-info-container mb-0 mt-42 ">
+            <div class="left-sec">
+               <div><span class="title">Check out</span></div>
+            </div>
+            <div class="right-sec" style="text-align: right;">
+               <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">This Month</label></div>
+            </div>
+         </div>
+         <div class="emptycard" style="margin-top: 0px;">
+            <div>
+               <h4 class="page-title empty" style="margin-bottom: 16px;"><img src="./img/InventoryIllustration.svg" style="width: 151px; height: 108px;"> </h4>
+            </div>
+            <ul class="emptyStateUl">
+               <span class="emptyTitle" style="font-size: 24px; color: rgb(25, 25, 28);">No check outs</span>
+               <li class="emptyState" style="margin-top: 8px;">There hasn't been any check out made during the selected time range.</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>

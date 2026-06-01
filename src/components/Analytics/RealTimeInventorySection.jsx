@@ -1,10 +1,14 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 
 import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
 import { fetchAnalyticsStockValue } from '../../services/analyticsService';
 import { formatPrice } from '../../utils/format';
+import {
+  setAnalyticsDetailOpen,
+  setAnalyticsSelectedInventory,
+} from '../../store/analyticsSlice';
 
 export default function RealTimeInventorySection() {
   const { data, isLoading, error } = useQuery({
@@ -12,17 +16,22 @@ export default function RealTimeInventorySection() {
     queryFn: fetchAnalyticsStockValue,
   });
 
+  const dispatch = useDispatch();
+
   const inventories = data?.Data?.inventoryValue || [];
   const lastUpdatedAt = data?.Data?.lastUpdatedAt;
   const lastUpdatedText = lastUpdatedAt
     ? `Last updated on ${new Date(lastUpdatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
     : 'Last updated on Invalid Date';
 
+  const hasData = inventories.length > 0;
+
   return (
     <div>
       <SectionHeader
         title='Real time inventory value'
         lastUpdated={lastUpdatedText}
+        hasData={hasData}
       />
 
       {isLoading && (
@@ -51,6 +60,15 @@ export default function RealTimeInventorySection() {
                 value: formatPrice(inv.total),
                 description: `${inv.totalInventoryPercentage} % of total inventories value`,
                 progress: inv.totalInventoryPercentage,
+              }}
+              onViewDetails={() => {
+                dispatch(
+                  setAnalyticsSelectedInventory({
+                    id: inv.inventoryId,
+                    name: inv.name,
+                  }),
+                );
+                dispatch(setAnalyticsDetailOpen(true));
               }}
             />
           ))}
