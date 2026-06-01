@@ -1,89 +1,61 @@
-// RealTimeInventorySection.jsx
+import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+
 import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
-
-const DUMMY_REALTIME = [
-  {
-    name: 'Main Inventory',
-    value: '711 524,48 kr',
-    description: '25.65 % of total inventories value',
-    progress: 25.65,
-  },
-  {
-    name: 'RFID Demo Inventory',
-    value: '69 533,08 kr',
-    description: '2.51 % of total inventories value',
-    progress: 2.51,
-  },
-  {
-    name: 'Empty Inventory',
-    value: '134 543,49 kr',
-    description: '4.85 % of total inventories value',
-    progress: 4.85,
-  },
-  {
-    name: 'Test inv',
-    value: '20 027,66 kr',
-    description: '0.72 % of total inventories value',
-    progress: 0.72,
-  },
-  {
-    name: 'Tanvi Inventory',
-    value: '303 891,98 kr',
-    description: '10.96 % of total inventories value',
-    progress: 10.96,
-  },
-  {
-    name: 'RFID-Demo',
-    value: '657 987,25 kr',
-    description: '23.72 % of total inventories value',
-    progress: 23.72,
-  },
-  {
-    name: 'Pinkesh Inventory',
-    value: '70 177,87 kr',
-    description: '2.53 % of total inventories value',
-    progress: 2.53,
-  },
-  {
-    name: 'Tsssst invvvv1',
-    value: '85 119,74 kr',
-    description: '3.07 % of total inventories value',
-    progress: 3.07,
-  },
-  {
-    name: 'Temp Empty Inventory',
-    value: '0,00 kr',
-    description: '0 % of total inventories value',
-    progress: 0,
-  },
-  {
-    name: 'Demo inv',
-    value: '0,00 kr',
-    description: '0 % of total inventories value',
-    progress: 0,
-  },
-];
+import { fetchAnalyticsStockValue } from '../../services/analyticsService';
+import { formatPrice } from '../../utils/format';
 
 export default function RealTimeInventorySection() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['analyticsStockValue'],
+    queryFn: fetchAnalyticsStockValue,
+  });
+
+  const inventories = data?.Data?.inventoryValue || [];
+  const lastUpdatedAt = data?.Data?.lastUpdatedAt;
+  const lastUpdatedText = lastUpdatedAt
+    ? `Last updated on ${new Date(lastUpdatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`
+    : 'Last updated on Invalid Date';
+
   return (
     <div>
       <SectionHeader
         title='Real time inventory value'
-        lastUpdated='Last updated on Yesterday at 13:54'
+        lastUpdated={lastUpdatedText}
       />
-      <div
-        className='flex flex-wrap w-full overflow-hidden rounded-lg'
-        style={{
-          border: '1px solid #e7e7ec',
-          boxShadow:
-            '0 2px 4px rgba(51,51,82,.08), 0 2px 6px rgba(51,51,82,.08)',
-        }}
-      >
-        {DUMMY_REALTIME.map((item, i) => (
-          <InventoryCard key={i} variant='realtime' item={item} />
-        ))}
-      </div>
+
+      {isLoading && (
+        <div className='text-sm text-gray-400 py-4'>Loading...</div>
+      )}
+
+      {error && (
+        <div className='text-sm text-red-400 py-4'>Failed to load data.</div>
+      )}
+
+      {!isLoading && !error && (
+        <div
+          className='flex flex-wrap w-full overflow-hidden rounded-lg'
+          style={{
+            border: '1px solid #e7e7ec',
+            boxShadow:
+              '0 2px 4px rgba(51,51,82,.08), 0 2px 6px rgba(51,51,82,.08)',
+          }}
+        >
+          {inventories.map((inv) => (
+            <InventoryCard
+              key={inv.inventoryId}
+              variant='realtime'
+              item={{
+                name: inv.name,
+                value: formatPrice(inv.total),
+                description: `${inv.totalInventoryPercentage} % of total inventories value`,
+                progress: inv.totalInventoryPercentage,
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -7,7 +7,7 @@ export default function LightSpeedBanner() {
       style={{ backgroundColor: 'rgb(242, 241, 255)' }}
     >
       <p
-        className='text-[16px] font-semibold'
+        className='text-[14px] font-semibold'
         style={{ color: 'rgb(54, 42, 150)' }}
       >
         Using Lightspeed POS to track your sales?{' '}

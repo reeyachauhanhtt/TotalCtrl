@@ -77,6 +77,10 @@ function Layout() {
     }
   }
 
+  // const token = import.meta.env.VITE_API_TOKEN;
+  // const payload = JSON.parse(atob(token.split('.')[1]));
+  // console.log('JWT Payload:', payload);
+
   function renderHeader() {
     //inventory header
     if (!selectedInventory) return <HeaderSkeleton />;

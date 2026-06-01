@@ -1,0 +1,271 @@
+.analytics-calendar {
+    border: 1px solid #e7e7ec;
+    box-shadow: 0 2px 4px rgba(51, 51, 82, 0.08), 0 2px 6px rgba(51, 51, 82, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.analytics-calendar .rdrDateRangePickerWrapper {
+    border: none;
+    border-bottom: 1px solid #e7e7ec;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+}
+
+.analytics-calendar .rdrDateDisplayWrapper {
+    display: none !important;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper {
+    width: 200px !important;
+    font-size: 12px;
+    border-right: 1px solid #eff2f7;
+    background: #fff;
+}
+
+.analytics-calendar .rdrStaticRanges {
+    display: flex;
+    flex-direction: column;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper .rdrStaticRange {
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
+    border-bottom: 0;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    outline: 0;
+    padding: 0;
+    background: #fff;
+}
+
+.analytics-calendar .rdrStaticRangeLabel {
+    padding: 10px;
+    color: #19191c !important;
+    display: block;
+    outline: 0;
+    line-height: 18px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper .rdrStaticRangeSelected {
+    background-color: #eaf7ee;
+    color: #19191c;
+    border-radius: 15px;
+    border-bottom: 0;
+    font-weight: 600;
+}
+
+.analytics-calendar .rdrStaticRange:hover .rdrStaticRangeLabel {
+    background-color: #f1f5f5 !important;
+    border-radius: 5px;
+}
+
+.analytics-calendar .rdrInputRanges {
+    display: none !important;
+}
+
+.analytics-calendar .rdrCalendarWrapper {
+    width: 100% !important;
+    margin: 5px auto;
+    display: block !important;
+    position: relative;
+    border-left: 1px solid #e6e6ed;
+    border-right: 1px solid #e6e6ed;
+    font-size: 12px;
+    background: #fff;
+}
+
+.analytics-calendar .rdrMonthAndYearWrapper {
+    height: 0 !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar .rdrMonthAndYearPickers {
+    display: none !important;
+}
+
+.analytics-calendar .rdrNextPrevButton {
+    background-repeat: no-repeat !important;
+    background-position: 50% !important;
+    background-color: unset !important;
+    margin: 8px 20px !important;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    border: 2px solid #e6e6ed;
+    display: block;
+    cursor: pointer;
+    outline: none;
+}
+
+.analytics-calendar .rdrPprevButton {
+    left: 0;
+}
+
+.analytics-calendar .rdrNextButton {
+    right: 0;
+}
+
+.analytics-calendar .rdrNextPrevButton i {
+    display: none !important;
+}
+
+.analytics-calendar .rdrMonths {
+    display: flex;
+    justify-content: center;
+}
+
+.analytics-calendar .rdrMonth {
+    padding: 0 !important;
+    width: 25.667em;
+}
+
+.analytics-calendar .rdrMonthName {
+    text-align: center !important;
+    font-size: 16px;
+    line-height: 20px;
+    color: #333 !important;
+    padding: 20px 15px 15px !important;
+    font-weight: 600;
+}
+
+.analytics-calendar .rdrWeekDays {
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+.analytics-calendar .rdrWeekDay {
+    font-size: 11px;
+    line-height: 24px !important;
+    color: #8b8c97 !important;
+    flex-basis: 37px !important;
+    text-align: center;
+}
+
+.analytics-calendar .rdrDays {
+    width: 252px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.analytics-calendar .rdrDay {
+    height: 46px !important;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    box-sizing: inherit;
+    width: 14.28571%;
+    position: relative;
+    font: inherit;
+}
+
+.analytics-calendar .rdrDayPassive {
+    visibility: hidden !important;
+    pointer-events: none;
+}
+
+.analytics-calendar .rdrDayNumber span {
+    color: #19191c !important;
+}
+
+.analytics-calendar .rdrDayNumber {
+    top: 5px;
+    bottom: 5px;
+    outline: 0;
+    font-weight: 300;
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.analytics-calendar .rdrDayToday .rdrDayNumber {
+    border: 1px solid #19191c;
+    border-radius: 18px;
+}
+
+.analytics-calendar .rdrStartEdge,
+.analytics-calendar .rdrEndEdge,
+.analytics-calendar .rdrInRange {
+    background: rgb(171, 223, 187);
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    pointer-events: none;
+}
+
+.analytics-calendar .rdrStartEdge {
+    border-top-left-radius: 1.042em;
+    border-bottom-left-radius: 1.042em;
+    left: 2px;
+}
+
+.analytics-calendar .rdrEndEdge {
+    border-top-right-radius: 1.042em;
+    border-bottom-right-radius: 1.042em;
+    right: 2px;
+}
+
+.analytics-calendar .calendar-bottom-container {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid #e6e6ed;
+}
+
+.analytics-calendar .calendar-cancel-button-container {
+    height: 36px;
+    width: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7d7db;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-right: 19px;
+    cursor: pointer;
+}
+
+.analytics-calendar .calendar-cancel-span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    color: #6b6b6f;
+}
+
+.analytics-calendar .calendar-apply-button-container {
+    height: 36px;
+    width: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #23a956;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.analytics-calendar .calendar-apply-span {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff !important;
+}
