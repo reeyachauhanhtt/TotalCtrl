@@ -23,11 +23,10 @@ export default function InventoryCard({
         minHeight: variant === 'foodusage' ? 400 : 'auto',
       }}
     >
-      {/* Name — font-size:18px font-weight:600 letter-spacing:-.01em color:#19191c mb-24px */}
       <p
         className='font-semibold block w-full'
         style={{
-          fontSize: 16,
+          fontSize: 18,
           letterSpacing: '-0.01em',
           color: '#19191c',
           marginBottom: 18,
@@ -36,11 +35,10 @@ export default function InventoryCard({
         {item?.name}
       </p>
 
-      {/* Price — font-size:32px font-weight:600 letter-spacing:-.01em color:#19191c */}
       <p
-        className='font-extrabold!'
+        className='font-semibold'
         style={{
-          fontSize: 28,
+          fontSize: 32,
           letterSpacing: '-0.01em',
           color: '#19191c',
           marginBottom: '0.20rem',
@@ -49,11 +47,10 @@ export default function InventoryCard({
         {item?.value}
       </p>
 
-      {/* Description — font-size:12px font-weight:400 line-height:16px color:#6b6b6f */}
       <p
         className='font-normal'
         style={{
-          fontSize: 11,
+          fontSize: 12,
           lineHeight: '16px',
           color: '#6b6b6f',
           marginBottom: '0.40rem',
@@ -62,23 +59,20 @@ export default function InventoryCard({
         {item?.description}
       </p>
 
-      {/* realtime & purchases — progress bar mt-1 */}
       {variant !== 'foodusage' && (
         <div style={{ marginTop: 4 }}>
           <ProgressBar value={item?.progress ?? 0} />
         </div>
       )}
 
-      {/* foodusage — 2 rows */}
       {variant === 'foodusage' && (
         <div className='w-full' style={{ marginTop: 30 }}>
-          {/* Used food row */}
           <div className='flex w-full'>
             <span
               className='font-normal'
               style={{
                 width: '60%',
-                fontSize: 12,
+                fontSize: 14,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -89,7 +83,7 @@ export default function InventoryCard({
               className='font-normal text-right'
               style={{
                 width: '40%',
-                fontSize: 12,
+                fontSize: 14,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -107,7 +101,7 @@ export default function InventoryCard({
               className='font-normal'
               style={{
                 width: '60%',
-                fontSize: 12,
+                fontSize: 14,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -118,7 +112,7 @@ export default function InventoryCard({
               className='font-normal text-right'
               style={{
                 width: '40%',
-                fontSize: 12,
+                fontSize: 14,
                 lineHeight: '20px',
                 color: '#19191c',
               }}
@@ -132,14 +126,13 @@ export default function InventoryCard({
         </div>
       )}
 
-      {/* View details — mt-33px font-size:14px font-weight:600 color:#1f8e4e */}
       <div
         onClick={hasValue ? onViewDetails : undefined}
-        className='flex items-center font-extrabold!'
+        className='flex items-center'
         style={{
           marginTop: 52,
-          fontSize: 13,
-          // fontWeight: 600,
+          fontSize: 14,
+          fontWeight: 600,
           color: 'rgb(31, 142, 78)',
           opacity: hasValue ? 1 : 0.5,
           cursor: hasValue ? 'pointer' : 'not-allowed',

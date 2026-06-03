@@ -10,6 +10,7 @@ import { formatPrice } from '../../utils/format';
 import {
   setAnalyticsDetailOpen,
   setAnalyticsSelectedInventory,
+  setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
 
 export default function FoodUsageSection() {
@@ -98,6 +99,7 @@ export default function FoodUsageSection() {
                     name: inv.name,
                   }),
                 );
+                dispatch(setAnalyticsSelectedTab('Food Usage'));
                 dispatch(setAnalyticsDetailOpen(true));
               }}
             />

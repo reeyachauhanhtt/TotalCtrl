@@ -5,8 +5,12 @@
     overflow: hidden;
 }
 
-body {
+/* body {
     font-family: 'Inter', sans-serif;
+} */
+
+body {
+    font-family: 'Source Sans 3', sans-serif;
 }
 
 @keyframes shimmer {

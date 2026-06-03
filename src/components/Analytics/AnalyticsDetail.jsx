@@ -19,7 +19,7 @@ export default function AnalyticsDetail({
         <h1
           className='font-semibold'
           style={{
-            fontSize: 22,
+            fontSize: 24,
             lineHeight: '32px',
             letterSpacing: '-0.01em',
             color: '#19191c',
@@ -45,15 +45,15 @@ export default function AnalyticsDetail({
               key={tab}
               onClick={() => onTabChange(tab)}
               style={{
-                fontWeight: 800,
-                fontSize: 13,
+                fontWeight: 600,
+                fontSize: 14,
                 lineHeight: '24px',
                 color: '#19191c',
                 paddingTop: 17,
                 paddingBottom: 16,
-                paddingLeft: 3, // ✅ small equal padding on both sides
+                paddingLeft: 3,
                 paddingRight: 4,
-                marginRight: 20, // ✅ gap between tabs via margin not padding
+                marginRight: 20,
                 cursor: 'pointer',
                 borderBottom: isActive
                   ? '2px solid #23a956'

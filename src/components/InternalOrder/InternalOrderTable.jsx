@@ -102,7 +102,7 @@ export default function InternalOrderTable({
                 <th
                   key={i}
                   style={{ width: col.width, textAlign: col.align }}
-                  className='h-12 py-1.25 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
+                  className='h-12 py-1.25 text-[11.5px] font-semibold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
                 >
                   {col.label}
                 </th>

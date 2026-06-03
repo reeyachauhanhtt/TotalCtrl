@@ -22,7 +22,7 @@ function StatusBadge({ status }) {
   return (
     <label
       style={{ backgroundColor: bg, color }}
-      className='inline-block text-[11px] font-semibold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
+      className='inline-block text-[11px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
     >
       {status}
     </label>
@@ -31,7 +31,7 @@ function StatusBadge({ status }) {
 
 export default function InternalOrderRow({ order, onClick }) {
   const tdBase =
-    'text-[12px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
+    'text-[14px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
   const tdPadding = 'px-[0.8%] pt-[2.6%] pb-[3%]';
 
   return (
@@ -41,7 +41,7 @@ export default function InternalOrderRow({ order, onClick }) {
         className={`${tdBase} ${tdPadding} text-left pl-0`}
         style={{ width: '21%' }}
       >
-        <label className='text-[13px] font-extrabold! cursor-pointer'>
+        <label className='text-[14px] font-semibold cursor-pointer'>
           {order.fromInventory?.name}
         </label>
       </td>

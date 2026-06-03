@@ -64,24 +64,6 @@ const TABLE_COLUMNS = [
 ];
 
 function GroupedTable({ group, qualityIssueMap }) {
-  //   console.log('qualityIssueMap:', qualityIssueMap);
-  //   console.log(
-  //     'products:',
-  //     group.products.map((p) => ({
-  //       name: p.name,
-  //       qualityIssueId: p.qualityIssueId,
-  //       otherIssueReason: p.otherIssueReason,
-  //     })),
-  //   );
-  //   console.log(
-  //     'product issues:',
-  //     group.products.map((p) => ({
-  //       name: p.name,
-  //       qualityIssueId: p.qualityIssueId,
-  //       otherIssueReason: p.otherIssueReason,
-  //     })),
-  //   );
-
   return (
     <div>
       {/* Group header */}
@@ -92,8 +74,8 @@ function GroupedTable({ group, qualityIssueMap }) {
           backgroundColor: '#f8f9fa',
           padding: '15px 30px',
           color: '#000',
-          fontWeight: 'bold',
-          fontSize: '16px',
+          fontWeight: 600,
+          fontSize: '18px',
           margin: 0,
         }}
       >
@@ -108,13 +90,13 @@ function GroupedTable({ group, qualityIssueMap }) {
         <thead>
           <tr>
             <th
-              className='h-12 text-[11px] font-extrabold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-left'
+              className='h-12 text-[12px] font-semibold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-left'
               style={{ width: '50%', paddingLeft: '30px' }}
             >
               Items
             </th>
             <th
-              className='h-12 text-[11px] font-extrabold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
+              className='h-12 text-[12px] font-semibold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa] text-right'
               style={{ width: '40%' }}
             >
               Quantity
@@ -136,7 +118,7 @@ function GroupedTable({ group, qualityIssueMap }) {
                 <tr key={p.id} style={{ height: '72px' }}>
                   {/* Item name */}
                   <td
-                    className='text-left text-[13px] leading-4'
+                    className='text-left text-[14px] leading-4'
                     style={{
                       width: '50%',
                       paddingLeft: '30px',
@@ -145,11 +127,11 @@ function GroupedTable({ group, qualityIssueMap }) {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <label style={{ fontWeight: 'bold' }}>{p.name}</label>
+                    <label style={{ fontWeight: 600 }}>{p.name}</label>
                   </td>
                   {/* Quantity */}
                   <td
-                    className='text-right text-[13px] leading-4'
+                    className='text-right text-[14px] leading-4'
                     style={{
                       width: '40%',
                       borderBottom: hasIssue ? 'none' : '1px solid #e6e6ed',
@@ -198,7 +180,7 @@ function GroupedTable({ group, qualityIssueMap }) {
                           style={{
                             background: '#fff0f1',
                             color: '#a71a23',
-                            fontWeight: '600',
+                            fontWeight: '800',
                             fontSize: '14px',
                             lineHeight: '18px',
                             borderRadius: '4px',
@@ -335,7 +317,7 @@ export default function InternalOrderDetail({ order }) {
             <div className='flex items-center' style={{ marginBottom: '5px' }}>
               <h2
                 style={{
-                  fontSize: '28px',
+                  fontSize: '32px',
                   lineHeight: '40px',
                   fontWeight: '600',
                   letterSpacing: '-0.01em',
@@ -348,7 +330,7 @@ export default function InternalOrderDetail({ order }) {
               </h2>
               <label
                 style={{ backgroundColor: bg, color, marginTop: '-3px' }}
-                className='inline-block text-[10px] font-semibold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
+                className='inline-block text-[11px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
               >
                 {status}
               </label>
@@ -356,7 +338,7 @@ export default function InternalOrderDetail({ order }) {
 
             {/* Order number */}
             <div
-              className='text-[13px] text-black'
+              className='text-[16px] text-black'
               style={{ marginBottom: '25px' }}
             >
               #{orderNumber}
@@ -388,7 +370,7 @@ export default function InternalOrderDetail({ order }) {
                     style={{
                       display: 'block',
                       fontWeight: '600',
-                      fontSize: '11px',
+                      fontSize: '12px',
                       lineHeight: '16px',
                       letterSpacing: '0.08em',
                       textTransform: 'uppercase',
@@ -402,7 +384,7 @@ export default function InternalOrderDetail({ order }) {
                     style={{
                       display: 'block',
                       fontWeight: '600',
-                      fontSize: '16px',
+                      fontSize: '18px',
                       lineHeight: '24px',
                       letterSpacing: '-0.01em',
                       color: '#19191c',
@@ -443,7 +425,7 @@ export default function InternalOrderDetail({ order }) {
                       border: '1px solid #d7d7db',
                       borderRadius: '4px',
                       boxShadow: '0 2px 8px 0 rgba(0,0,0,0.12)',
-                      fontSize: '12.5px',
+                      fontSize: '14px',
                       padding: '9px 0',
                       zIndex: 50,
                     }}
@@ -496,7 +478,7 @@ export default function InternalOrderDetail({ order }) {
                         <th
                           key={i}
                           style={{ width: col.width, textAlign: col.align }}
-                          className='h-12 text-[11px] font-extrabold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
+                          className='h-12 text-[12px] font-semibold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
                         >
                           {col.label}
                         </th>
@@ -527,12 +509,15 @@ export default function InternalOrderDetail({ order }) {
                               padding: '2.5% 0% 2%',
                               verticalAlign: 'top',
                               height: '72px',
-                              fontSize: '13px',
+                              fontSize: '14px',
                               lineHeight: '16px',
                             }}
                           >
                             <label
-                              style={{ color: '#19191c', fontWeight: 'bold' }}
+                              style={{
+                                color: '#19191c',
+                                fontWeight: 600,
+                              }}
                             >
                               {p.sku || '---'}
                             </label>
@@ -545,12 +530,12 @@ export default function InternalOrderDetail({ order }) {
                               padding: '2.5% 0% 2%',
                               verticalAlign: 'top',
                               height: '72px',
-                              fontSize: '13px',
+                              fontSize: '14px',
                               lineHeight: '16px',
                             }}
                           >
                             <label
-                              style={{ color: '#19191c', fontWeight: 'bold' }}
+                              style={{ color: '#19191c', fontWeight: 600 }}
                             >
                               {p.name}
                             </label>
@@ -563,7 +548,7 @@ export default function InternalOrderDetail({ order }) {
                               padding: '2.5% 0.8% 2% 0%',
                               verticalAlign: 'top',
                               height: '72px',
-                              fontSize: '13px',
+                              fontSize: '14px',
                               lineHeight: '16px',
                               color: '#19191c',
                             }}

@@ -330,3 +330,152 @@
 .analytics-calendar .rdrDayEndPreview {
     display: none !important;
 }
+
+/* 
+.analytics-calendar.single-month {
+    width: 520px;
+}
+
+.analytics-calendar.single-month .rdrDefinedRangesWrapper {
+    width: 18px !important;
+    min-width: 180px !important;
+    flex-shrink: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper {
+    width: 100% !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper .rdrCalendarWrapper {
+    flex: 1 !important;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper .rdrCalendarWrapper .rdrMonth {
+    width: 280px !important;
+}
+
+.analytics-calendar.single-month .rdrDays {
+    width: 280px !important;
+}
+
+.analytics-calendar.single-month .rdrWeekDay {
+    flex-basis: 60px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearWrapper {
+    height: auto !important;
+    padding: 0 !important;
+    position: relative !important;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers {
+    display: flex !important;
+    justify-content: center;
+    flex: 1;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers select {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    pointer-events: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: default;
+}
+
+.analytics-calendar.single-month .rdrNextPrevButton {
+    position: relative !important;
+    top: auto !important;
+    margin: 8px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthName {
+    display: none !important;
+} */
+
+.analytics-calendar.single-month {
+    width: 504px !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper {
+    width: 492px !important;
+}
+
+.analytics-calendar.single-month .rdrDefinedRangesWrapper {
+    width: 180px !important;
+    min-width: 180px !important;
+    flex-shrink: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrCalendarWrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: auto !important;
+    padding: 0 40px !important;
+}
+
+.analytics-calendar.single-month .rdrMonth {
+    width: auto !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDays {
+    width: 252px !important;
+    margin: auto !important;
+}
+
+.analytics-calendar.single-month .rdrWeekDay {
+    flex-basis: 37px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearWrapper {
+    height: auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 1 !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers select {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    pointer-events: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    cursor: default !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrNextPrevButton {
+    position: relative !important;
+    top: auto !important;
+    margin: 8px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthName {
+    display: none !important;
+}

@@ -45,7 +45,7 @@ export default function InternalOrderHeader({ onAddClick }) {
 
   return (
     <div className='h-23 flex items-center justify-between px-4 border-b border-gray-200 bg-white relative'>
-      <h1 className='ml-6 text-[22px] font-semibold text-gray-800'>
+      <h1 className='ml-6 text-[24px] font-semibold text-gray-800'>
         Internal Orders
       </h1>
 
@@ -64,23 +64,15 @@ export default function InternalOrderHeader({ onAddClick }) {
               error={error}
             />
 
-            {/* <WhiteButton
-              onClick={() => setShowAddModal(true)}
-              className='h-10 w-60 flex items-center justify-center gap-2 font-extrabold'
-            >
-              <img src='/icons/plus-dark.svg' alt='' width={16} height={16} />
-              <span>Add internal order</span>
-            </WhiteButton> */}
-
             <div>
               <WhiteButton
                 onClick={() => !isViewOnly && setShowAddModal(true)}
                 disabled={isViewOnly}
-                className={`h-10 w-60 flex items-center justify-center gap-2 font-extrabold transition-opacity ${
+                className={`h-10 w-60 flex items-center justify-center gap-2 font-bold transition-opacity ${
                   isViewOnly ? 'opacity-40 cursor-not-allowed' : ''
                 }`}
               >
-                <img src='/icons/plus-dark.svg' alt='' width={16} height={16} />
+                <img src='/icons/plus-dark.svg' alt='' width={18} height={18} />
                 <span>Add internal order</span>
               </WhiteButton>
             </div>

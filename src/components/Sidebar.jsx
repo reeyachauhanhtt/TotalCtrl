@@ -68,7 +68,7 @@ export default function Sidebar() {
               style={{
                 padding: '0px 25px 0px 29px',
                 height: '42px',
-                fontSize: '13px',
+                fontSize: '14px',
                 fontWeight: '600',
                 lineHeight: '24px',
               }}
@@ -111,8 +111,8 @@ export default function Sidebar() {
         >
           <div
             style={{
-              fontWeight: '800',
-              fontSize: '13px',
+              fontWeight: '700',
+              fontSize: '14px',
               lineHeight: '20px',
               padding: '16px 10px',
               color: '#0f6f36',
@@ -132,7 +132,7 @@ export default function Sidebar() {
             <div
               style={{
                 cursor: 'pointer',
-                fontWeight: '600',
+                fontWeight: '700',
                 fontSize: '12px',
                 color: '#0f6f36',
                 padding: '12px 0',
@@ -163,7 +163,7 @@ export default function Sidebar() {
             <div
               style={{
                 cursor: 'pointer',
-                fontWeight: '600',
+                fontWeight: '700',
                 fontSize: '12px',
                 color: '#0f6f36',
                 padding: '12px 0',
@@ -203,8 +203,8 @@ export default function Sidebar() {
         >
           <div
             style={{
-              fontWeight: '800',
-              fontSize: '13px',
+              fontWeight: '600',
+              fontSize: '15px',
               lineHeight: '20px',
               display: 'flex',
               alignItems: 'center',
@@ -223,7 +223,7 @@ export default function Sidebar() {
           </div>
           <p
             style={{
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: '400',
               lineHeight: '16px',
               color: '#362a96',
@@ -242,7 +242,7 @@ export default function Sidebar() {
             target='_blank'
             rel='noreferrer'
             style={{
-              fontWeight: '600',
+              fontWeight: '700',
               lineHeight: '24px',
               fontSize: '14px',
               margin: '10px',

@@ -53,6 +53,13 @@ export default function InternalOrderPage() {
   const prevDetailOpen = useRef(false);
 
   useEffect(() => {
+    return () => {
+      dispatch(setInternalDetailOpen(false));
+      dispatch(setSelectedInternalOrder(null));
+    };
+  }, []);
+
+  useEffect(() => {
     if (prevDetailOpen.current === true && !isDetailOpen) {
       // user just came back from detail
       setShowReturnSkeleton(true);

@@ -12,6 +12,7 @@ const analyticsSlice = createSlice({
   initialState: {
     isDetailOpen: storedDetailOpen,
     selectedInventory: storedSelectedInventory,
+    selectedTab: 'Inventory Stats',
   },
   reducers: {
     setAnalyticsDetailOpen: (state, action) => {
@@ -30,9 +31,16 @@ const analyticsSlice = createSlice({
         localStorage.removeItem('analyticsDetailOpen');
       }
     },
+    setAnalyticsSelectedTab: (state, action) => {
+      state.selectedTab = action.payload;
+    },
   },
 });
 
-export const { setAnalyticsDetailOpen, setAnalyticsSelectedInventory } =
-  analyticsSlice.actions;
+export const {
+  setAnalyticsDetailOpen,
+  setAnalyticsSelectedInventory,
+  setAnalyticsSelectedTab,
+} = analyticsSlice.actions;
+
 export default analyticsSlice.reducer;

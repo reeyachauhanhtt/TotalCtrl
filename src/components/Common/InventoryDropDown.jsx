@@ -116,7 +116,7 @@ export default function InventoryDropdown({
                   inv.permission?.toLowerCase() === 'owner',
               ).length > 0 && (
                 <>
-                  <div className='px-8 py-10 pt-6 pb-1 text-[11px] font-semibold text-gray-400 uppercase tracking-wider cursor-default'>
+                  <div className='px-8 py-10 pt-6 pb-1 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-default'>
                     You can edit
                     <div className='px-8 border-t border-gray-100 my-1' />
                   </div>
@@ -140,7 +140,7 @@ export default function InventoryDropdown({
                   inv.permission?.toLowerCase() !== 'owner',
               ).length > 0 && (
                 <>
-                  <div className='px-8 py-10 pt-6 pb-1 text-[11px] font-semibold text-gray-400 uppercase tracking-wider cursor-default'>
+                  <div className='px-8 py-10 pt-6 pb-1 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-default'>
                     You can view
                     <div className='px-8 border-t border-gray-100 my-1' />
                   </div>

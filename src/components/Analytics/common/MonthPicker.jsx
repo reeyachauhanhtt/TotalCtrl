@@ -110,7 +110,7 @@ function saveRange(range, label) {
   );
 }
 
-export default function MonthPicker({ onApply }) {
+export default function MonthPicker({ onApply, singleMonth = false }) {
   const persisted = loadPersistedRange();
 
   const defaultRange = [
@@ -202,16 +202,22 @@ export default function MonthPicker({ onApply }) {
 
       {open && (
         <div
-          className='absolute right-0 z-50 analytics-calendar'
-          style={{ top: 'calc(100% + 4px)', width: 900 }}
+          // className='absolute right-0 z-50 analytics-calendar'
+          className={`absolute right-0 z-50 analytics-calendar ${singleMonth ? 'single-month' : ''}`}
+          // style={{ top: 'calc(100% + 4px)', width: 900 }}
+          // style={{ top: 'calc(100% + 4px)', width: singleMonth ? 650 : 900 }}
+          // style={{ top: 'calc(100% + 4px)', width: singleMonth ? 520 : 900 }}
+          style={{ top: 'calc(100% + 4px)', width: singleMonth ? 504 : 900 }}
         >
           <DateRangePicker
             ranges={pendingRange}
             onChange={(item) => setPendingRange([item.selection])}
             staticRanges={staticRanges}
             inputRanges={[]}
-            months={2}
-            direction='horizontal'
+            // months={2}
+            // direction='horizontal'
+            months={singleMonth ? 1 : 2}
+            direction={singleMonth ? 'vertical' : 'horizontal'}
             rangeColors={['rgb(171,223,187)']}
             showMonthAndYearPickers={false}
             showDateDisplay={false}

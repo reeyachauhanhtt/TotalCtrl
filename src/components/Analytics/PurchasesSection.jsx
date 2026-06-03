@@ -10,6 +10,7 @@ import { formatPrice } from '../../utils/format';
 import {
   setAnalyticsDetailOpen,
   setAnalyticsSelectedInventory,
+  setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
 
 export default function PurchasesSection() {
@@ -84,6 +85,7 @@ export default function PurchasesSection() {
                   }),
                 );
                 dispatch(setAnalyticsDetailOpen(true));
+                dispatch(setAnalyticsSelectedTab('Purchases'));
               }}
             />
           ))}

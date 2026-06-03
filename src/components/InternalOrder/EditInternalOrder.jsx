@@ -280,10 +280,10 @@ export default function EditInternalOrderModal({
         {/* HEADER */}
         <div className='flex items-center justify-between px-6 py-5 border-b border-gray-200'>
           <div className='flex items-center gap-4'>
-            <span className='text-[17px] pl-5 font-bold text-gray-900'>
+            <span className='text-[20px] pl-5 font-semibold text-gray-900'>
               {step === 1 ? 'Order items' : `Order items from ${fromName}`}
             </span>
-            <span className='text-[15px] font-bold text-gray-900'>
+            <span className='text-[18px] font-semibold text-gray-900'>
               Step {step}/3
             </span>
           </div>
@@ -299,7 +299,7 @@ export default function EditInternalOrderModal({
           {step === 1 && (
             <div className='px-15 py-8'>
               <div className='max-w-sm'>
-                <h2 className='text-[18px] font-bold text-gray-900 mb-6'>
+                <h2 className='text-[20px] font-semibold text-gray-900 mb-6'>
                   Select location
                 </h2>
                 <TransferInventoryDropdown
@@ -336,7 +336,7 @@ export default function EditInternalOrderModal({
                 className='flex flex-col flex-1 pl-6 mt-3 mb-3'
                 style={{ borderRight: '1px solid #e5e7eb', margin: 0 }}
               >
-                <h2 className='text-[20px] font-bold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
+                <h2 className='text-[24px] font-semibold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
                   Pick items to order
                 </h2>
 
@@ -506,7 +506,7 @@ export default function EditInternalOrderModal({
 
               {/* Right panel */}
               <div className='flex flex-col shrink-0 overflow-y-auto bg-gray-50 w-125'>
-                <h2 className='text-[22px] font-bold text-gray-900 px-10 pt-8 pb-4'>
+                <h2 className='text-[24px] font-semibold text-gray-900 px-10 pt-8 pb-4'>
                   Selected items
                 </h2>
                 <div className='flex flex-col px-6'>
@@ -537,7 +537,7 @@ export default function EditInternalOrderModal({
               <div style={{ marginLeft: 48, marginTop: 32, marginBottom: 32 }}>
                 <h2
                   style={{
-                    fontSize: 20,
+                    fontSize: 24,
                     lineHeight: '32px',
                     fontWeight: 600,
                     letterSpacing: '-0.01em',
@@ -584,7 +584,7 @@ export default function EditInternalOrderModal({
                     <p
                       style={{
                         fontWeight: 600,
-                        fontSize: 17,
+                        fontSize: 18,
                         lineHeight: '24px',
                         letterSpacing: '-0.01em',
                         color: '#19191c',
@@ -648,7 +648,7 @@ export default function EditInternalOrderModal({
                                 <span
                                   style={{
                                     fontWeight: 400,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     lineHeight: '20px',
                                     color: '#19191c',
                                   }}
@@ -665,7 +665,7 @@ export default function EditInternalOrderModal({
                                 }}
                               >
                                 <span
-                                  style={{ fontSize: 12, color: '#19191c' }}
+                                  style={{ fontSize: 14, color: '#19191c' }}
                                 >
                                   {Number(item.totalQuantity ?? 0)} available to
                                   order
@@ -703,7 +703,7 @@ export default function EditInternalOrderModal({
                                       minWidth: 0,
                                       backgroundColor: '#f1f1f5',
                                       padding: '0 8px',
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       lineHeight: '24px',
                                       color: '#333',
                                     }}
@@ -713,7 +713,7 @@ export default function EditInternalOrderModal({
                                       paddingRight: 12,
                                       paddingLeft: 4,
                                       color: '#19191c',
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       whiteSpace: 'nowrap',
                                       flexShrink: 0,
                                     }}
@@ -726,7 +726,7 @@ export default function EditInternalOrderModal({
                                   (qty <= 0 || qty > item.totalQuantity) && (
                                     <span
                                       style={{
-                                        fontSize: 11,
+                                        fontSize: 12,
                                         color: '#e2232e',
                                         marginTop: 4,
                                         display: 'block',

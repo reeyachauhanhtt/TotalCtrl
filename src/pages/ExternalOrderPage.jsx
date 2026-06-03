@@ -57,6 +57,13 @@ export default function ExternalOrderPage() {
   const prevDetailOpen = useRef(false);
 
   useEffect(() => {
+    return () => {
+      dispatch(setDetailOpen(false));
+      dispatch(setSelectedOrder(null));
+    };
+  }, []);
+
+  useEffect(() => {
     if (prevDetailOpen.current === true && !isDetailOpen) {
       // user just came back from detail
       setShowReturnSkeleton(true);

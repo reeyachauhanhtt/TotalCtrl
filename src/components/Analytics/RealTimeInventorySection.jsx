@@ -8,6 +8,7 @@ import { formatPrice } from '../../utils/format';
 import {
   setAnalyticsDetailOpen,
   setAnalyticsSelectedInventory,
+  setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
 
 export default function RealTimeInventorySection() {
@@ -68,6 +69,7 @@ export default function RealTimeInventorySection() {
                     name: inv.name,
                   }),
                 );
+                dispatch(setAnalyticsSelectedTab('Inventory Stats'));
                 dispatch(setAnalyticsDetailOpen(true));
               }}
             />

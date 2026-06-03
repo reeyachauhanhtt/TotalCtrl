@@ -38,7 +38,7 @@ export default function TransferInventoryDropdown({
         {/* BUTTON */}
         <button
           onClick={() => setOpen(!isOpen)}
-          className='flex items-center justify-between w-80 h-10 px-4 border border-gray-300 rounded text-[13px] text-gray-900 cursor-pointer'
+          className='flex items-center justify-between w-80 h-10 px-4 border border-gray-300 rounded text-[14px] text-gray-900 cursor-pointer'
         >
           <span>{value?.name || placeholder}</span>
           <FiChevronDown size={18} className='text-gray-500' />
@@ -57,7 +57,7 @@ export default function TransferInventoryDropdown({
                     onSelect(inv);
                     setOpen(false);
                   }}
-                  className={`flex items-center justify-between px-4 py-2.5 text-[13px] transition-colors ${
+                  className={`flex items-center justify-between px-4 py-2.5 text-[14px] transition-colors ${
                     isSelected
                       ? 'bg-emerald-50 text-gray-800'
                       : 'text-gray-700 hover:bg-gray-100'

@@ -1,6 +1,6 @@
 import axiosInstance from '../api/axiosInstance';
 
-function getUserIdFromToken() {
+export const getUserIdFromToken = () => {
   const token = import.meta.env.VITE_API_TOKEN;
   if (!token) return null;
   try {
@@ -9,7 +9,7 @@ function getUserIdFromToken() {
   } catch {
     return null;
   }
-}
+};
 
 //FETCH REAL TIME INVENTORY VALUE
 export const fetchAnalyticsStockValue = async () => {

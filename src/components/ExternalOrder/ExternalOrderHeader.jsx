@@ -95,8 +95,8 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   <img
                     src='/icons/plus-dark.svg'
                     alt=''
-                    width={16}
-                    height={16}
+                    width={18}
+                    height={18}
                   />
                   <span>Add order manually</span>
                 </WhiteButton>
@@ -128,7 +128,7 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                       : ''
                   }`}
                 >
-                  <img src='/icons/upload.svg' alt='' width={16} height={16} />
+                  <img src='/icons/upload.svg' alt='' width={20} height={20} />
                   <span>Upload order</span>
                 </GreenButton>
                 <Tooltip
