@@ -27,7 +27,7 @@ export default function StockDropdown({
       {/* BUTTON */}
       <button
         onClick={() => setOpen((p) => !p)}
-        className='flex items-center justify-between w-full h-10 px-4 text-[13px] text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
+        className='flex items-center justify-between w-full h-10 px-4 text-[14px] text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
       >
         <span className='truncate'>{selectedLabel}</span>
 
@@ -49,7 +49,7 @@ export default function StockDropdown({
                 setStockFilter(option.value);
                 setOpen(false);
               }}
-              className={`px-4 py-2 text-[13px] cursor-default flex justify-between items-center hover:bg-gray-100 ${
+              className={`px-4 py-2 text-[14px] cursor-default flex justify-between items-center hover:bg-gray-100 ${
                 stockFilter === option.value ? 'bg-emerald-50' : ''
               }`}
             >

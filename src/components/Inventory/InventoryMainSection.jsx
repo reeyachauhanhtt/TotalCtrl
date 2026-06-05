@@ -103,7 +103,7 @@ export default function InventoryMainSection({
             {fetchingStock ? (
               <SkeletonBar className='h-8 w-60' />
             ) : (
-              <h2 className='text-3xl font-semibold text-gray-800'>
+              <h2 className='text-[32px] font-semibold text-gray-800'>
                 {selectedInventory?.name || '---'}
               </h2>
             )}
@@ -122,7 +122,7 @@ export default function InventoryMainSection({
                   onClick={handleDownloadCSV}
                   disabled={isDownloadDisabled}
                   style={{ opacity: isDownloadDisabled ? 0.4 : 1 }}
-                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-40 px-3 py-2 rounded-sm text-sm font-extrabold'
+                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-35 px-3 py-2 rounded-sm text-[14px] font-semibold'
                 >
                   <img
                     src='/icons/download.svg'
@@ -137,7 +137,7 @@ export default function InventoryMainSection({
                   onClick={() => setShowTransfer(true)}
                   disabled={isTransferDisabled}
                   style={{ opacity: isTransferDisabled ? 0.4 : 1 }}
-                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-40 px-3 py-2 rounded-sm text-sm font-extrabold'
+                  className='inv-action-btn flex items-center gap-2 border border-gray-300 text-gray-950 w-35 px-3 py-2 rounded-sm text-[14px] font-semibold'
                 >
                   <img
                     src='/icons/swap-horizontal.svg'
@@ -187,10 +187,10 @@ export default function InventoryMainSection({
                 </>
               ) : (
                 <>
-                  <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
+                  <p className='text-gray-500 text-[13px] font-semibold uppercase tracking-wide cursor-default'>
                     Items in stock
                   </p>
-                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[19px] text-gray-900 mt-1 cursor-default'>
                     {itemCount}
                   </p>
                 </>
@@ -205,10 +205,10 @@ export default function InventoryMainSection({
                 </>
               ) : (
                 <>
-                  <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
+                  <p className='text-gray-500 text-[13px] font-semibold uppercase tracking-wide cursor-default'>
                     Total stock value
                   </p>
-                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[19px] text-gray-900 mt-1 cursor-default'>
                     {formatPrice(stockValue)}
                   </p>
                 </>
@@ -223,10 +223,10 @@ export default function InventoryMainSection({
                 </>
               ) : (
                 <>
-                  <p className='text-gray-500 text-xs uppercase tracking-wide cursor-default'>
+                  <p className='text-gray-500 text-[13px] font-semibold uppercase tracking-wide cursor-default'>
                     Your access type
                   </p>
-                  <p className='font-semibold text-[15px] text-gray-900 mt-1 cursor-default'>
+                  <p className='font-semibold text-[18px] text-gray-900 mt-1 cursor-default'>
                     {selectedInventory?.permission || '---'}
                   </p>
                 </>

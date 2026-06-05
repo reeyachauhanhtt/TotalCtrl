@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const storedDetailOpen = localStorage.getItem('analyticsDetailOpen') === 'true';
+const storedSelectedTab =
+  localStorage.getItem('analyticsSelectedTab') ?? 'Inventory Stats';
 const storedSelectedInventory = localStorage.getItem(
   'analyticsSelectedInventory',
 )
@@ -12,7 +14,7 @@ const analyticsSlice = createSlice({
   initialState: {
     isDetailOpen: storedDetailOpen,
     selectedInventory: storedSelectedInventory,
-    selectedTab: 'Inventory Stats',
+    selectedTab: storedSelectedTab,
   },
   reducers: {
     setAnalyticsDetailOpen: (state, action) => {
@@ -33,6 +35,7 @@ const analyticsSlice = createSlice({
     },
     setAnalyticsSelectedTab: (state, action) => {
       state.selectedTab = action.payload;
+      localStorage.setItem('analyticsSelectedTab', action.payload);
     },
   },
 });

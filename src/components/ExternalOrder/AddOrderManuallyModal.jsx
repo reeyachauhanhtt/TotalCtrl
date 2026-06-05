@@ -126,7 +126,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                 <h2 className='text-[24px] leading-8 font-semibold tracking-[-0.01em] text-[#19191c] text-left mb-3'>
                   Select Inventory
                 </h2>
-                <p className='text-[#6b6b6f] text-[14.5px] font-normal leading-6 mb-0'>
+                <p className='text-[#6b6b6f] text-[16px] font-normal leading-6 mb-0'>
                   Which inventory should we update when this order is delivered?
                 </p>
               </div>
@@ -144,7 +144,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
               </div>
 
               <div className='mx-12'>
-                <p className='text-[#6b6b6f] text-[14.5px] w-132.5 font-normal leading-6'>
+                <p className='text-[#6b6b6f] text-[16px] w-132.5 font-normal leading-6'>
                   When you import the order, it will also appear in the
                   TotalCtrl Inventory mobile app, so that you and your
                   colleagues can easily check off the ordered items on delivery.
@@ -171,7 +171,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                     className='mb-7'
                     style={{ width: '340px', marginRight: '64px' }}
                   >
-                    <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
+                    <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
                       Supplier name*
                     </label>
                     <SupplierSearchDropdown
@@ -203,7 +203,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                   </div> */}
 
                   <div className='mb-7' style={{ width: '340px' }}>
-                    <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
+                    <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
                       Order number*
                     </label>
                     <input
@@ -217,7 +217,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                       onBlur={() => {
                         if (!orderNumber.trim()) setOrderNumberError(true);
                       }}
-                      className={`border rounded px-4 py-3 w-full text-[13px] leading-6 text-[#333] outline-none focus:ring-1 ${
+                      className={`border rounded px-4 py-3 w-full text-[14px] leading-6 text-[#333] outline-none focus:ring-1 ${
                         orderNumberError
                           ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
                           : 'border-[#d7d8e0] focus:border-green-600 focus:ring-green-600'

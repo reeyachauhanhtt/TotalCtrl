@@ -1,13 +1,24 @@
 import InventoryDropdown from '../Common/InventoryDropDown';
 
-export default function AnalyticsHeader() {
+export default function AnalyticsHeader({
+  inventories = [],
+  selectedInventory,
+  onSelectInventory,
+}) {
   return (
-    <div className='h-20 flex items-center px-10 border-b border-gray-200 bg-white'>
+    <div className='h-20 flex items-center justify-between px-10 border-b border-gray-200 bg-white'>
       <h1 className='text-[20px] font-semibold text-gray-900'>Analytics</h1>
+      {inventories.length > 0 && (
+        <InventoryDropdown
+          inventories={inventories}
+          selectedInventory={selectedInventory}
+          onSelect={onSelectInventory}
+          error={null}
+        />
+      )}
     </div>
   );
 }
-
 export function AnalyticsDetailHeader({
   inventoryName,
   inventories = [],
@@ -19,7 +30,7 @@ export function AnalyticsDetailHeader({
   return (
     <div className='h-18 flex items-center justify-between px-10 border-b border-gray-200 bg-white'>
       {/* Breadcrumb */}
-      <div className='flex items-center gap-1 text-[13px]'>
+      <div className='flex items-center gap-1 text-[14px]'>
         <button
           onClick={onBack}
           className='text-gray-500 hover:text-gray-700 transition-colors cursor-pointer bg-transparent border-none p-0'

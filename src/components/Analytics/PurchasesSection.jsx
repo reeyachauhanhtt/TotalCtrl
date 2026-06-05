@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
 
 import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
 import { fetchPurchases } from '../../services/analyticsService';
 import { formatPrice } from '../../utils/format';
+import { getPersistedDateRange } from '../../utils/analyticsDateRange';
 import {
   setAnalyticsDetailOpen,
   setAnalyticsSelectedInventory,
@@ -14,11 +16,22 @@ import {
 } from '../../store/analyticsSlice';
 
 export default function PurchasesSection() {
+  // const today = new Date();
+  // const [dateRange, setDateRange] = useState({
+  //   fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
+  //   toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
+  // });
+
   const today = new Date();
-  const [dateRange, setDateRange] = useState({
+  const defaultRange = {
     fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
-  });
+  };
+  const [dateRange, setDateRange] = useState(
+    getPersistedDateRange() ?? defaultRange,
+  );
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -86,6 +99,7 @@ export default function PurchasesSection() {
                 );
                 dispatch(setAnalyticsDetailOpen(true));
                 dispatch(setAnalyticsSelectedTab('Purchases'));
+                navigate('/analytics');
               }}
             />
           ))}

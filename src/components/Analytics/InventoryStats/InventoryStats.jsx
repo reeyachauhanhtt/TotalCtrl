@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
+import * as XLSX from 'xlsx';
 
 import ExportButton from '../common/ExportButton';
 import ValueBySupplierOverview from './ValueBySupplierOverview';
@@ -9,15 +10,17 @@ import ValueByCategoryOverview from './ValueByCategoryOverview';
 import CheckInOverview from './CheckInOverview';
 import CheckOutOverview from './CheckOutOverview';
 import { formatPrice } from '../../../utils/format';
+import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import {
   fetchInventoryTotal,
   fetchValueBySupplier,
   fetchValueByCategory,
   fetchCheckInValue,
   fetchCheckOutValue,
+  fetchInventoryExport,
 } from '../../../services/inventoryStatsService';
 
-export default function InventoryStats() {
+export default function InventoryStats({ onViewMore }) {
   const selectedInventory = useSelector((s) => s.analytics.selectedInventory);
   const inventoryId = selectedInventory?.id;
 
@@ -26,9 +29,10 @@ export default function InventoryStats() {
     fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
   };
+  const persistedRange = getPersistedDateRange() ?? defaultRange;
 
-  const [checkInRange, setCheckInRange] = useState(defaultRange);
-  const [checkOutRange, setCheckOutRange] = useState(defaultRange);
+  const [checkInRange, setCheckInRange] = useState(persistedRange);
+  const [checkOutRange, setCheckOutRange] = useState(persistedRange);
 
   const { data: totalData } = useQuery({
     queryKey: ['inventoryTotal', inventoryId],
@@ -74,6 +78,38 @@ export default function InventoryStats() {
   const checkOutTotal = checkOutData?.Data?.TotalValue ?? 0;
   const checkOutRows = checkOutData?.Data?.Data || [];
 
+  async function handleExport() {
+    const res = await fetchInventoryExport({
+      inventoryId,
+      fromDate: checkInRange.fromDate,
+      toDate: checkInRange.toDate,
+    });
+
+    const inv = res?.Data?.inventory;
+    if (!inv) return;
+
+    const wb = XLSX.utils.book_new();
+
+    const ws1 = XLSX.utils.json_to_sheet(inv.totalInventory);
+    XLSX.utils.book_append_sheet(wb, ws1, 'Total Inventory Value');
+
+    const ws2 = XLSX.utils.json_to_sheet(inv.valueByStock);
+    XLSX.utils.book_append_sheet(wb, ws2, 'Value by Stock');
+
+    const ws3 = XLSX.utils.json_to_sheet(inv.stockValueByCategory);
+    XLSX.utils.book_append_sheet(wb, ws3, 'Value by Category');
+
+    const ws4 = XLSX.utils.json_to_sheet(inv.checkInStockValueByCategory ?? []);
+    XLSX.utils.book_append_sheet(wb, ws4, 'Check In List by Category');
+
+    const ws5 = XLSX.utils.json_to_sheet(
+      inv.checkOutStockValueByCategory ?? [],
+    );
+    XLSX.utils.book_append_sheet(wb, ws5, 'Check Out List by Category');
+
+    XLSX.writeFile(wb, `inventory${Date.now()}.xlsx`);
+  }
+
   return (
     <div className='px-8.75 pr-10 pb-15'>
       {/* Title + Export */}
@@ -94,18 +130,24 @@ export default function InventoryStats() {
         </div>
 
         <div className='py-0 px-20 h-9'>
-          <ExportButton />
+          <ExportButton onClick={handleExport} />
         </div>
       </div>
 
       {/* Value by Supplier + Category */}
       <div className='flex w-full mt-8 gap-14 pr-30'>
         <div className='flex-1 min-w-0'>
-          <ValueBySupplierOverview rows={suppliers} onViewMore={() => {}} />
+          <ValueBySupplierOverview
+            rows={suppliers}
+            onViewMore={() => onViewMore('supplier')}
+          />
         </div>
 
         <div className='flex-1 min-w-0'>
-          <ValueByCategoryOverview rows={categories} onViewMore={() => {}} />
+          <ValueByCategoryOverview
+            rows={categories}
+            onViewMore={() => onViewMore('category')}
+          />
         </div>
       </div>
 
@@ -127,7 +169,7 @@ export default function InventoryStats() {
               toDate: format(range.endDate, 'yyyy-MM-dd'),
             })
           }
-          onViewMore={() => {}}
+          onViewMore={() => onViewMore('checkIn')}
         />
 
         <CheckOutOverview
@@ -139,7 +181,7 @@ export default function InventoryStats() {
               toDate: format(range.endDate, 'yyyy-MM-dd'),
             })
           }
-          onViewMore={() => {}}
+          onViewMore={() => onViewMore('checkOut')}
         />
       </div>
     </div>

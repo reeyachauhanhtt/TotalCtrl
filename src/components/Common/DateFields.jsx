@@ -48,7 +48,7 @@ export default function DateFields({
   }
 
   const inputBase =
-    'border rounded px-4 py-3 text-[13px] leading-6 text-[#333] outline-none';
+    'border rounded px-4 py-3 text-[14px] leading-6 text-[#333] outline-none';
   const errorClass = 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]';
   const normalClass = 'border-[#d7d8e0]';
 
@@ -60,7 +60,7 @@ export default function DateFields({
       <div className='flex items-start gap-4'>
         {/* Day */}
         <div>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
+          <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
             Day*
           </label>
           <input
@@ -80,7 +80,7 @@ export default function DateFields({
 
         {/* Month */}
         <div>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
+          <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
             Month*
           </label>
           <input
@@ -101,7 +101,7 @@ export default function DateFields({
 
         {/* Year */}
         <div>
-          <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
+          <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
             Year*
           </label>
           <input

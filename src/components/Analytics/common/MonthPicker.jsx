@@ -127,23 +127,10 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
   const [pendingRange, setPendingRange] = useState(
     persisted?.range ?? defaultRange,
   );
-  // const containerRef = useRef(null);
-
-  // Fire onApply on mount so parent section uses persisted range immediately
-  useEffect(() => {
-    onApply?.({ startDate: range[0].startDate, endDate: range[0].endDate });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // useEffect(() => {
-  //   function handleClickOutside(e) {
-  //     if (containerRef.current && !containerRef.current.contains(e.target)) {
-  //       setPendingRange(range);
-  //       setOpen(false);
-  //     }
-  //   }
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => document.removeEventListener('mousedown', handleClickOutside);
-  // }, [range]);
+  //   onApply?.({ startDate: range[0].startDate, endDate: range[0].endDate });
+  // }, []);
 
   function handleOpen() {
     setPendingRange(range);
@@ -179,7 +166,7 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     <div className='relative'>
       <button
         onClick={open ? handleCancel : handleOpen}
-        className='flex items-center justify-between h-9 text-[12.5px] text-[#19191c] font-normal cursor-pointer rounded-sm px-3 bg-white'
+        className='flex items-center justify-between h-9 text-[13px] text-[#19191c] font-normal cursor-pointer rounded-sm px-3 bg-white'
         style={{ border: '1px solid #d7d8e0', width: 200 }}
       >
         <span>{label}</span>
@@ -202,11 +189,7 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
 
       {open && (
         <div
-          // className='absolute right-0 z-50 analytics-calendar'
           className={`absolute right-0 z-50 analytics-calendar ${singleMonth ? 'single-month' : ''}`}
-          // style={{ top: 'calc(100% + 4px)', width: 900 }}
-          // style={{ top: 'calc(100% + 4px)', width: singleMonth ? 650 : 900 }}
-          // style={{ top: 'calc(100% + 4px)', width: singleMonth ? 520 : 900 }}
           style={{ top: 'calc(100% + 4px)', width: singleMonth ? 504 : 900 }}
         >
           <DateRangePicker
@@ -214,8 +197,6 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
             onChange={(item) => setPendingRange([item.selection])}
             staticRanges={staticRanges}
             inputRanges={[]}
-            // months={2}
-            // direction='horizontal'
             months={singleMonth ? 1 : 2}
             direction={singleMonth ? 'vertical' : 'horizontal'}
             rangeColors={['rgb(171,223,187)']}

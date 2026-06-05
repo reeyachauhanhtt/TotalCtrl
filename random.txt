@@ -1,110 +1,249 @@
-this is the main container and it contains sub component
-
-<div class="" style="overflow: hidden auto; position: fixed; width: calc(100% - 200px); height: calc(100% - 200px); padding: 0px 35px 60px;">
-   <div class="order-info-container" style="margin: 38px 0px 0px;">
-      <div class="left-sec">
-         <div><span class="spanTitle">Inventory</span></div>
-         <div class="order-detail pl-0"><label class="spanTitleSub">Total Inventory Value</label><label class="spanTitlePrice">711 524,48 kr</label></div>
-      </div>
-      <div class="right-sec" style="text-align: right; display: flex;">
-         <div><button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px;">Export Data</button></div>
-      </div>
-   </div>
-   <div class="order-info-container mt-0 ml-0">
-      <div class="col-6 grid-detail" style="padding-left: 0px;">
-         <table class="purchase-biggest-order" style="width: 100%;">
-            <th colspan="3"><label class="spanTitleSub">Value by Supplier</label></th>
-            <tr class="border-bottom-0">
-               <div></div>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Not Specified</td>
-               <td class="grid-detail-right" style="width: 20%;">360 501,24 kr</td>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Produktnavn</td>
-               <td class="grid-detail-right" style="width: 20%;">312 840,00 kr</td>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Testing Manish</td>
-               <td class="grid-detail-right" style="width: 20%;">11 225,95 kr</td>
-            </tr>
-         </table>
-         <a class=" link" href="/restaurant/admin/bystock" style="text-decoration-line: none;">
-            <div class="text-center view-more-green">View more</div>
-         </a>
-      </div>
-      <div class="col-6 grid-detail">
-         <table class="purchase-biggest-order" style="width: 100%;">
-            <th colspan="3"><label class="spanTitleSub">value by category</label></th>
-            <tr class="border-bottom-0">
-               <div></div>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Frozen Goods</td>
-               <td class="grid-detail-right" style="width: 20%;">334 829,40 kr</td>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Alcoholic Beverages / Armagnac</td>
-               <td class="grid-detail-right" style="width: 20%;">175 125,75 kr</td>
-            </tr>
-            <tr>
-               <td class="hederWithDtl" style="width: 80%;">Alcoholic Beverages / Beer</td>
-               <td class="grid-detail-right" style="width: 20%;">130 000,00 kr</td>
-            </tr>
-         </table>
-         <a class=" link" href="/restaurant/admin/bycategory" style="text-decoration-line: none;">
-            <div class="text-center view-more-green"> View more </div>
-         </a>
-      </div>
-   </div>
-   <div class="order-info-container mt-0 ml-0">
-      <div class="col-6 grid-detail" style="padding-left: 0px;">
-         <label class="titleMain">Check in &amp; out value</label>
-         <div class="order-info-container mb-0 mt-42 ml-3 ">
-            <div class="left-sec">
-               <div><span class="title">Check in</span></div>
+<div
+    class=""
+    style="
+        overflow: hidden auto;
+        position: fixed;
+        width: calc(100% - 200px);
+        height: calc(100% - 200px);
+        padding: 0px 35px 60px;
+    "
+>
+    <div class="order-info-container analytics-section-title">
+        <div class="left-sec">
+            <div><span class="spanTitle">Food Usage</span></div>
+        </div>
+        <div class="right-sec" style="text-align: right; display: flex">
+            <button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px">Export Data</button>
+            <div style="margin-left: 20px">
+                <label
+                    class="select-field select-date-range"
+                    style="
+                        width: 200px;
+                        height: 36px;
+                        padding: 6px 10px 10px;
+                        cursor: pointer;
+                        text-align: left;
+                        text-transform: initial;
+                        background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;
+                    "
+                    >Last Month</label
+                >
             </div>
-            <div class="right-sec" style="text-align: right;">
-               <div class="right-sec" style="text-align: right; display: flex;">
-                  <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">This Month</label></div>
-               </div>
+        </div>
+    </div>
+    <div class="top-progressView-container">
+        <div style="width: 268px">
+            <span class="top-progress-title">Total value of checked out food</span>
+            <h2 class="top-progress-number">222 905,00 kr</h2>
+            <div class="small-progress-conatiner">
+                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
+                    <path
+                        class="rc-progress-line-trail"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#D9D9D9"
+                        stroke-width="4"
+                        fill-opacity="0"
+                    ></path>
+                    <path
+                        class="rc-progress-line-path"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#66C888"
+                        stroke-width="4"
+                        fill-opacity="0"
+                        style="
+                            stroke-dasharray: 96px, 100px;
+                            stroke-dashoffset: 0px;
+                            transition:
+                                stroke-dashoffset,
+                                stroke-dasharray,
+                                stroke linear;
+                        "
+                    ></path>
+                </svg>
             </div>
-         </div>
-         <div class="emptycard" style="margin-top: 0px;">
-            <div>
-               <h4 class="page-title empty" style="margin-bottom: 16px;"><img src="./img/InventoryIllustration.svg" style="width: 151px; height: 108px;"> </h4>
+        </div>
+        <div style="width: 268px">
+            <span class="top-progress-title">Used Food (0.36 %)</span>
+            <h2 class="top-progress-number">805,00 kr</h2>
+            <div class="small-progress-conatiner">
+                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
+                    <path
+                        class="rc-progress-line-trail"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#D9D9D9"
+                        stroke-width="4"
+                        fill-opacity="0"
+                    ></path>
+                    <path
+                        class="rc-progress-line-path"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#66C888"
+                        stroke-width="4"
+                        fill-opacity="0"
+                        style="
+                            stroke-dasharray: 0.3456px, 100px;
+                            stroke-dashoffset: 0px;
+                            transition:
+                                stroke-dashoffset,
+                                stroke-dasharray,
+                                stroke linear;
+                        "
+                    ></path>
+                </svg>
             </div>
-            <span class="emptyTitle" style="font-size: 24px; color: rgb(25, 25, 28);">No check ins</span>
-            <ul class="emptyStateUl">
-               <li class="emptyState" style="margin-top: 8px;">There hasn't been any delivery made during the selected time range.</li>
-            </ul>
-         </div>
-      </div>
-      <div class="col-6 grid-detail">
-         <label class="titleMain"></label>
-         <div class="order-info-container mb-0 mt-42 ">
-            <div class="left-sec">
-               <div><span class="title">Check out</span></div>
+        </div>
+        <div style="width: 268px">
+            <span class="top-progress-title">Food Waste (99.64 %)</span>
+            <h2 class="top-progress-number">222 100,00 kr</h2>
+            <div class="small-progress-conatiner">
+                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
+                    <path
+                        class="rc-progress-line-trail"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#D9D9D9"
+                        stroke-width="4"
+                        fill-opacity="0"
+                    ></path>
+                    <path
+                        class="rc-progress-line-path"
+                        d="M 2,2
+         L 98,2"
+                        stroke-linecap="round"
+                        stroke="#66C888"
+                        stroke-width="4"
+                        fill-opacity="0"
+                        style="
+                            stroke-dasharray: 95.6544px, 100px;
+                            stroke-dashoffset: 0px;
+                            transition:
+                                stroke-dashoffset,
+                                stroke-dasharray,
+                                stroke linear;
+                        "
+                    ></path>
+                </svg>
             </div>
-            <div class="right-sec" style="text-align: right;">
-               <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">This Month</label></div>
+        </div>
+    </div>
+    <div class="list-box">
+        <div class="card card-table">
+            <div
+                style="
+                    border-bottom: 1px solid rgb(230, 230, 237);
+                    border-top: 1px solid rgb(230, 230, 237);
+                    background-color: rgb(248, 249, 250);
+                "
+            >
+                <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto">
+                    <thead>
+                        <tr class="">
+                            <th class="pd-y-5 tx-left" style="width: 40%">ITEM NAME</th>
+                            <th class="pd-y-5 tx-left" style="width: 10%">USED FOOD</th>
+                            <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
+                            <th class="pd-y-5 tx-left" style="width: 10%">FOOD WASTE</th>
+                            <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
+                            <th class="pd-y-5 tx-right" style="width: 10%">TOTAL</th>
+                            <th class="pd-y-5 tx-left" style="width: 10%">CHECKED OUT</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-         </div>
-         <div class="emptycard" style="margin-top: 0px;">
-            <div>
-               <h4 class="page-title empty" style="margin-bottom: 16px;"><img src="./img/InventoryIllustration.svg" style="width: 151px; height: 108px;"> </h4>
+            <div id="scrollableDiv">
+                <div>
+                    <div class="infinite-scroll-component" style="height: auto; overflow: auto">
+                        <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
+                            <tbody>
+                                <tr class="">
+                                    <td class="pd-y-5 tx-left" style="width: 40%">
+                                        <span class="dark-text">apple</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">5 Baskets</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">305,00 kr</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">0 Baskets</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">0,00 </span>
+                                    </td>
+                                    <td class="pd-y-5 tx-right" style="width: 10%">
+                                        <span class="dark-text">5 Baskets</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">305,00 kr</span>
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="pd-y-5 tx-left" style="width: 40%">
+                                        <span class="dark-text">Kesar</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">0 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">0,00 </span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">5 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">200 000,00 kr</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-right" style="width: 10%">
+                                        <span class="dark-text">5 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">200 000,00 kr</span>
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <td class="pd-y-5 tx-left" style="width: 40%">
+                                        <span class="dark-text">Saffron</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">5 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">500,00 kr</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">221 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">22 100,00 kr</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-right" style="width: 10%">
+                                        <span class="dark-text">226 Grams</span>
+                                    </td>
+                                    <td class="pd-y-5 tx-left" style="width: 10%">
+                                        <span class="dark-text">22 600,00 kr</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2 style="text-align: center"><br /><br /><br /></h2>
+                    </div>
+                </div>
             </div>
-            <ul class="emptyStateUl">
-               <span class="emptyTitle" style="font-size: 24px; color: rgb(25, 25, 28);">No check outs</span>
-               <li class="emptyState" style="margin-top: 8px;">There hasn't been any check out made during the selected time range.</li>
-            </ul>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 
-css related to the main container : 
+
+CSS : 
 element.style {
     overflow: hidden auto;
     position: fixed;
@@ -112,26 +251,10 @@ element.style {
     height: calc(100% - 200px);
     padding: 0px 35px 60px;
 }
-
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-element & css for title, value & export button
-
-<div class="order-info-container" style="margin: 38px 0px 0px;">
-   <div class="left-sec">
-      <div><span class="spanTitle">Inventory</span></div>
-      <div class="order-detail pl-0"><label class="spanTitleSub">Total Inventory Value</label><label class="spanTitlePrice">711 524,48 kr</label></div>
-   </div>
-   <div class="right-sec" style="text-align: right; display: flex;">
-      <div><button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px;">Export Data</button></div>
-   </div>
-</div>
-
-CSS : 
-element.style {
-    margin: 38px 0px 0px;
+.order-info-container.analytics-section-title {
+    padding: 38px 0;
+    margin: 0;
+    width: 100%;
 }
 .order-info-container {
     width: 95%;
@@ -144,7 +267,7 @@ element.style {
     display: block;
     transition: all 1.2s ease-in-out;
 }
-spanTitle {
+.spanTitle {
     width: 87px;
     height: 28px;
     left: 248px;
@@ -154,62 +277,9 @@ spanTitle {
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
-    letter-spacing: -.01em
--0.2px
-;
-    color: #19191c;
-    padding-bottom: 48px;
-}
-.order-info-container .order-detail:last-child {
-    padding-right: 0;
-    border-right: none;
-}
-.order-info-container .order-detail, .stock-finish-detail {
-    display: inline-block;
-    border-right: 1px solid #d7d7db;
-    padding-right: 20px;
-}
-.order-info-container .order-detail {
-.pl-0, .px-0 {
-    padding-left: 0 !important;
-}
-.order-info-container .order-detail label {
-    display: block;
-}
-.spanTitlePrice, .spanTitleSub {
-    left: 248px;
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-}
-.spanTitleSub {
-    height: 16px;
-    top: 254px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-    margin-top: 48px;
-    margin-bottom: 16px;
-}
-.order-info-container .order-detail label {
-    display: block;
-}
-.spanTitlePrice {
-    width: 560px;
-    height: 64px;
-    top: 286px;
-    font-weight: 300;
-    font-size: 64px;
-    line-height: 64px;
     letter-spacing: -.01em;
     color: #19191c;
-}
-.spanTitlePrice, .spanTitleSub {
-    left: 248px;
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
+    padding-bottom: 48px;
 }
 element.style {
     text-align: right;
@@ -246,2326 +316,933 @@ input, button, select, optgroup, textarea {
     font-size: inherit;
     line-height: inherit;
 }
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-both value overview container 
-
-<div class="order-info-container mt-0 ml-0">
-    <div class="col-6 grid-detail" style="padding-left: 0px">
-        <table class="purchase-biggest-order" style="width: 100%">
-            <th colspan="3"><label class="spanTitleSub">Value by Supplier</label></th>
-            <tr class="border-bottom-0">
-                <div></div>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Not Specified</td>
-                <td class="grid-detail-right" style="width: 20%">360 501,24 kr</td>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Produktnavn</td>
-                <td class="grid-detail-right" style="width: 20%">312 840,00 kr</td>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Testing Manish</td>
-                <td class="grid-detail-right" style="width: 20%">11 225,95 kr</td>
-            </tr>
-        </table>
-        <a class="link" href="/restaurant/admin/bystock" style="text-decoration-line: none">
-            <div class="text-center view-more-green">View more</div>
-        </a>
-    </div>
-    <div class="col-6 grid-detail">
-        <table class="purchase-biggest-order" style="width: 100%">
-            <th colspan="3"><label class="spanTitleSub">value by category</label></th>
-            <tr class="border-bottom-0">
-                <div></div>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Frozen Goods</td>
-                <td class="grid-detail-right" style="width: 20%">334 829,40 kr</td>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Alcoholic Beverages / Armagnac</td>
-                <td class="grid-detail-right" style="width: 20%">175 125,75 kr</td>
-            </tr>
-            <tr>
-                <td class="hederWithDtl" style="width: 80%">Alcoholic Beverages / Beer</td>
-                <td class="grid-detail-right" style="width: 20%">130 000,00 kr</td>
-            </tr>
-        </table>
-        <a class="link" href="/restaurant/admin/bycategory" style="text-decoration-line: none">
-            <div class="text-center view-more-green">View more</div></a
-        >
-    </div>
-</div>
-
-css of main both value overview container 
-.order-info-container {
-    width: 95%;
-    margin: 40px auto 24px;
-    display: flex;
-    justify-content: space-between;
-    transition: all .5s ease-in-out;
-}
-.ml-0, .mx-0 {
-    margin-left: 0 !important;
-}
-
-.mt-0, .my-0 {
-    margin-top: 0 !important;
-}
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-VALUE BY Supplier
-
-<div class="col-6 grid-detail" style="padding-left: 0px">
-    <table class="purchase-biggest-order" style="width: 100%">
-        <th colspan="3"><label class="spanTitleSub">Value by Supplier</label></th>
-        <tr class="border-bottom-0">
-            <div></div>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Not Specified</td>
-            <td class="grid-detail-right" style="width: 20%">360 501,24 kr</td>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Produktnavn</td>
-            <td class="grid-detail-right" style="width: 20%">312 840,00 kr</td>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Testing Manish</td>
-            <td class="grid-detail-right" style="width: 20%">11 225,95 kr</td>
-        </tr>
-    </table>
-    <a class="link" href="/restaurant/admin/bystock" style="text-decoration-line: none">
-        <div class="text-center view-more-green">View more</div>
-    </a>
-</div>
-
-CSS : 
-element.style {
-    padding-left: 0px;
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
-element.style {
-    width: 100%;
-}
-table {
-    border-collapse: collapse;
-}
-table td:first-child, table th:first-child {
-    padding-left: 0;
-}
-.purchase-biggest-order th {
-    border-bottom: 0;
-}
-table th {
-    height: 48px;
-}
-th {
-    text-align: inherit;
-}
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-.spanTitlePrice, .spanTitleSub {
-    left: 248px;
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-}
-.spanTitleSub {
-    height: 16px;
-    top: 254px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-    margin-top: 48px;
-    margin-bottom: 16px;
-}
-label {
-    display: inline-block;
-}
-
-.border-bottom-0 {
-    border-bottom: 0 !important;
-}
-.purchase-biggest-order tr {
-    border-bottom: 1px solid #e7e7ec;
-}
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-.purchase-biggest-order tr {
-    border-bottom: 1px solid #e7e7ec;
-}
-
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-.purchase-biggest-order tr:last-child {
-    border-bottom: 0;
-}
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-
-table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    text-decoration-line: none;
-}
-.grid-detail .link, label.neutral-lbl.highlightred {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    line-height: 16px;
-}
-
-.grid-detail .link {
-    width: 71px;
-    height: 24px;
-    left: 248px;
-    top: 646px;
-    font-weight: 400;
-    font-size: 14px;
-    -webkit-text-decoration-line: underline;
-    text-decoration-line: underline;
-    color: #23a956;
-    cursor: pointer;
-}
-a {
-    transition: all 0.2s ease-in-out;
-}
-a {
-    color: #1b84e7;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-}
-.view-more-green {
-    background: #f4faf6;
-    padding: 12px;
-    font-weight: 600;
-}
-
-.view-more-green, .view-more-tr {
-    -webkit-text-decoration-line: none!important;
-    text-decoration-line: none !important;
-    letter-spacing: .04em !important;
-    color: #1f8e4e !important;
-}
-.text-center {
-    text-align: center !important;
-}
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-VALUE BY SUPPLIER 
-
-<div class="col-6 grid-detail">
-    <table class="purchase-biggest-order" style="width: 100%">
-        <th colspan="3"><label class="spanTitleSub">value by category</label></th>
-        <tr class="border-bottom-0">
-            <div></div>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Frozen Goods</td>
-            <td class="grid-detail-right" style="width: 20%">334 829,40 kr</td>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Alcoholic Beverages / Armagnac</td>
-            <td class="grid-detail-right" style="width: 20%">175 125,75 kr</td>
-        </tr>
-        <tr>
-            <td class="hederWithDtl" style="width: 80%">Alcoholic Beverages / Beer</td>
-            <td class="grid-detail-right" style="width: 20%">130 000,00 kr</td>
-        </tr>
-    </table>
-    <a class="link" href="/restaurant/admin/bycategory" style="text-decoration-line: none">
-        <div class="text-center view-more-green">View more</div></a
-    >
-</div>
-
-CSS : 
-
-element.style {
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-element.style {
-    width: 100%;
-}
-table {
-    border-collapse: collapse;
-}
-table td:first-child, table th:first-child {
-    padding-left: 0;
-}
-.purchase-biggest-order th {
-    border-bottom: 0;
-}
-table th {
-    height: 48px;
-}
-th {
-    text-align: inherit;
-}
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-.spanTitlePrice, .spanTitleSub {
-    left: 248px;
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-}
-.spanTitleSub {
-    height: 16px;
-    top: 254px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-    margin-top: 48px;
-    margin-bottom: 16px;
-}
-label {
-    display: inline-block;
-}
-.border-bottom-0 {
-    border-bottom: 0 !important;
-}
-.purchase-biggest-order tr {
-    border-bottom: 1px solid #e7e7ec;
-}
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-
-table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-.purchase-biggest-order tr {
-    border-bottom: 1px solid #e7e7ec;
-}
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-.purchase-biggest-order tr:last-child {
-    border-bottom: 0;
-}
-element.style {
-    width: 80%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    width: 20%;
-}
-.grid-detail .grid-detail-right {
-    text-align: right;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
-}
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-element.style {
-    text-decoration-line: none;
-}
-.grid-detail .link, label.neutral-lbl.highlightred {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    line-height: 16px;
-}
-
-.grid-detail .link {
-    width: 71px;
-    height: 24px;
-    left: 248px;
-    top: 646px;
-    font-weight: 400;
-    font-size: 14px;
-    -webkit-text-decoration-line: underline;
-    text-decoration-line: underline;
-    color: #23a956;
-    cursor: pointer;
-}
-a {
-    transition: all 0.2s ease-in-out;
-}
-a {
-    color: #1b84e7;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-}
-.view-more-green {
-    background: #f4faf6;
-    padding: 12px;
-    font-weight: 600;
-}
-
-.view-more-green, .view-more-tr {
-    -webkit-text-decoration-line: none!important;
-    text-decoration-line: none !important;
-    letter-spacing: .04em !important;
-    color: #1f8e4e !important;
-}
-.text-center {
-    text-align: center !important;
-}
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- CHECK IN & CHECK OUT BOTH MAIN CONTAINER 
-
- <div class="order-info-container mt-0 ml-0">
-    <div class="col-6 grid-detail" style="padding-left: 0px">
-        <label class="titleMain">Check in &amp; out value</label>
-        <div class="order-info-container mb-0 mt-42 ml-3">
-            <div class="left-sec">
-                <div><span class="title">Check in</span></div>
-            </div>
-            <div class="right-sec" style="text-align: right">
-                <div class="right-sec" style="text-align: right; display: flex">
-                    <div style="margin-left: 20px">
-                        <label
-                            class="select-field select-date-range"
-                            style="
-                                width: 200px;
-                                height: 36px;
-                                padding: 6px 10px 10px;
-                                cursor: pointer;
-                                text-align: left;
-                                text-transform: initial;
-                                background: url(&quot;./img/closepopup-icon.svg&quot;) 175px center / 10px no-repeat;
-                            "
-                            >Last Month</label
-                        >
-                        <div class="left-calendar-main-container left-analytics-calendar mt-1">
-                            <div class="rdrDateRangePickerWrapper PreviewArea left">
-                                <div class="rdrDefinedRangesWrapper">
-                                    <div class="rdrStaticRanges">
-                                        <button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">Today</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">Yesterday</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">This Week</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">Last Week</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">This Month</span></button
-                                        ><button
-                                            type="button"
-                                            class="rdrStaticRange rdrStaticRangeSelected"
-                                            style="color: rgb(171, 223, 187)"
-                                        >
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">Last Month</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">This Year</span></button
-                                        ><button type="button" class="rdrStaticRange">
-                                            <span tabindex="-1" class="rdrStaticRangeLabel">Last Year</span>
-                                        </button>
-                                    </div>
-                                    <div class="rdrInputRanges"></div>
-                                </div>
-                                <div class="rdrCalendarWrapper rdrDateRangeWrapper">
-                                    <div class="rdrMonthAndYearWrapper">
-                                        <button type="button" class="rdrNextPrevButton rdrPprevButton"><i></i></button
-                                        ><span class="rdrMonthAndYearPickers"
-                                            ><span class="rdrMonthPicker"
-                                                ><select>
-                                                    <option value="0">January</option>
-                                                    <option value="1">February</option>
-                                                    <option value="2">March</option>
-                                                    <option value="3">April</option>
-                                                    <option value="4">May</option>
-                                                    <option value="5">June</option>
-                                                    <option value="6">July</option>
-                                                    <option value="7">August</option>
-                                                    <option value="8">September</option>
-                                                    <option value="9">October</option>
-                                                    <option value="10">November</option>
-                                                    <option value="11">December</option>
-                                                </select></span
-                                            ><span></span
-                                            ><span class="rdrYearPicker"
-                                                ><select>
-                                                    <option value="2046">2046</option>
-                                                    <option value="2045">2045</option>
-                                                    <option value="2044">2044</option>
-                                                    <option value="2043">2043</option>
-                                                    <option value="2042">2042</option>
-                                                    <option value="2041">2041</option>
-                                                    <option value="2040">2040</option>
-                                                    <option value="2039">2039</option>
-                                                    <option value="2038">2038</option>
-                                                    <option value="2037">2037</option>
-                                                    <option value="2036">2036</option>
-                                                    <option value="2035">2035</option>
-                                                    <option value="2034">2034</option>
-                                                    <option value="2033">2033</option>
-                                                    <option value="2032">2032</option>
-                                                    <option value="2031">2031</option>
-                                                    <option value="2030">2030</option>
-                                                    <option value="2029">2029</option>
-                                                    <option value="2028">2028</option>
-                                                    <option value="2027">2027</option>
-                                                    <option value="2026">2026</option>
-                                                    <option value="2025">2025</option>
-                                                    <option value="2024">2024</option>
-                                                    <option value="2023">2023</option>
-                                                    <option value="2022">2022</option>
-                                                    <option value="2021">2021</option>
-                                                    <option value="2020">2020</option>
-                                                    <option value="2019">2019</option>
-                                                    <option value="2018">2018</option>
-                                                    <option value="2017">2017</option>
-                                                    <option value="2016">2016</option>
-                                                    <option value="2015">2015</option>
-                                                    <option value="2014">2014</option>
-                                                    <option value="2013">2013</option>
-                                                    <option value="2012">2012</option>
-                                                    <option value="2011">2011</option>
-                                                    <option value="2010">2010</option>
-                                                    <option value="2009">2009</option>
-                                                    <option value="2008">2008</option>
-                                                    <option value="2007">2007</option>
-                                                    <option value="2006">2006</option>
-                                                    <option value="2005">2005</option>
-                                                    <option value="2004">2004</option>
-                                                    <option value="2003">2003</option>
-                                                    <option value="2002">2002</option>
-                                                    <option value="2001">2001</option>
-                                                    <option value="2000">2000</option>
-                                                    <option value="1999">1999</option>
-                                                    <option value="1998">1998</option>
-                                                    <option value="1997">1997</option>
-                                                    <option value="1996">1996</option>
-                                                    <option value="1995">1995</option>
-                                                    <option value="1994">1994</option>
-                                                    <option value="1993">1993</option>
-                                                    <option value="1992">1992</option>
-                                                    <option value="1991">1991</option>
-                                                    <option value="1990">1990</option>
-                                                    <option value="1989">1989</option>
-                                                    <option value="1988">1988</option>
-                                                    <option value="1987">1987</option>
-                                                    <option value="1986">1986</option>
-                                                    <option value="1985">1985</option>
-                                                    <option value="1984">1984</option>
-                                                    <option value="1983">1983</option>
-                                                    <option value="1982">1982</option>
-                                                    <option value="1981">1981</option>
-                                                    <option value="1980">1980</option>
-                                                    <option value="1979">1979</option>
-                                                    <option value="1978">1978</option>
-                                                    <option value="1977">1977</option>
-                                                    <option value="1976">1976</option>
-                                                    <option value="1975">1975</option>
-                                                    <option value="1974">1974</option>
-                                                    <option value="1973">1973</option>
-                                                    <option value="1972">1972</option>
-                                                    <option value="1971">1971</option>
-                                                    <option value="1970">1970</option>
-                                                    <option value="1969">1969</option>
-                                                    <option value="1968">1968</option>
-                                                    <option value="1967">1967</option>
-                                                    <option value="1966">1966</option>
-                                                    <option value="1965">1965</option>
-                                                    <option value="1964">1964</option>
-                                                    <option value="1963">1963</option>
-                                                    <option value="1962">1962</option>
-                                                    <option value="1961">1961</option>
-                                                    <option value="1960">1960</option>
-                                                    <option value="1959">1959</option>
-                                                    <option value="1958">1958</option>
-                                                    <option value="1957">1957</option>
-                                                    <option value="1956">1956</option>
-                                                    <option value="1955">1955</option>
-                                                    <option value="1954">1954</option>
-                                                    <option value="1953">1953</option>
-                                                    <option value="1952">1952</option>
-                                                    <option value="1951">1951</option>
-                                                    <option value="1950">1950</option>
-                                                    <option value="1949">1949</option>
-                                                    <option value="1948">1948</option>
-                                                    <option value="1947">1947</option>
-                                                    <option value="1946">1946</option>
-                                                    <option value="1945">1945</option>
-                                                    <option value="1944">1944</option>
-                                                    <option value="1943">1943</option>
-                                                    <option value="1942">1942</option>
-                                                    <option value="1941">1941</option>
-                                                    <option value="1940">1940</option>
-                                                    <option value="1939">1939</option>
-                                                    <option value="1938">1938</option>
-                                                    <option value="1937">1937</option>
-                                                    <option value="1936">1936</option>
-                                                    <option value="1935">1935</option>
-                                                    <option value="1934">1934</option>
-                                                    <option value="1933">1933</option>
-                                                    <option value="1932">1932</option>
-                                                    <option value="1931">1931</option>
-                                                    <option value="1930">1930</option>
-                                                    <option value="1929">1929</option>
-                                                    <option value="1928">1928</option>
-                                                    <option value="1927">1927</option>
-                                                    <option value="1926">1926</option>
-                                                </select></span
-                                            ></span
-                                        ><button type="button" class="rdrNextPrevButton rdrNextButton"><i></i></button>
-                                    </div>
-                                    <div class="rdrMonths rdrMonthsHorizontal">
-                                        <div class="rdrMonth" style="right: -95.1%">
-                                            <div class="rdrMonthName">May 2026</div>
-                                            <div class="rdrWeekDays">
-                                                <span class="rdrWeekDay">Sun</span><span class="rdrWeekDay">Mon</span
-                                                ><span class="rdrWeekDay">Tue</span><span class="rdrWeekDay">Wed</span
-                                                ><span class="rdrWeekDay">Thu</span><span class="rdrWeekDay">Fri</span
-                                                ><span class="rdrWeekDay">Sat</span>
-                                            </div>
-                                            <div class="rdrDays">
-                                                <button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive rdrDayWeekend rdrDayStartOfWeek"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>26</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>27</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>28</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>29</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>30</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayStartOfMonth"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrStartEdge" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>1</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>2</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayStartOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>3</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>4</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>5</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>6</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>7</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>8</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>9</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayStartOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>10</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>11</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>12</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>13</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>14</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>15</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>16</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayStartOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>17</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>18</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>19</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>20</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>21</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>22</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>23</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayStartOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>24</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>25</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>26</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>27</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>28</span></span></button
-                                                ><button type="button" class="rdrDay" style="color: rgb(61, 145, 255)">
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>29</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrInRange" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>30</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayWeekend rdrDayStartOfWeek rdrDayEndOfMonth"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrEndEdge" style="color: rgb(171, 223, 187)"></span
-                                                    ><span class="rdrDayNumber"><span>31</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>1</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>2</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive rdrDayToday"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>3</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>4</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>5</span></span></button
-                                                ><button
-                                                    type="button"
-                                                    class="rdrDay rdrDayPassive rdrDayWeekend rdrDayEndOfWeek"
-                                                    tabindex="-1"
-                                                    style="color: rgb(61, 145, 255)"
-                                                >
-                                                    <span class="rdrDayNumber"><span>6</span></span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="left-calendar-bottom-container">
-                                <div class="calendar-cancel-button-container">
-                                    <span class="calendar-cancel-span">Cancel</span>
-                                </div>
-                                <div class="calendar-apply-button-container">
-                                    <span class="calendar-apply-span">Apply</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 mb-4 pl-3"><span class="price">200 626,03 kr</span></div>
-        <div class="col-12 pl-3">
-            <div>
-                <table class="purchase-biggest-order" style="width: 100%">
-                    <tr class="border-bottom-0">
-                        <div></div>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">Alcoholic Beverages / Armagnac</td>
-                        <td class="grid-detail-right" style="width: 30%">+ 150 186,75 kr</td>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">Alcoholic Beverages / Beer</td>
-                        <td class="grid-detail-right" style="width: 30%">+ 20 000,00 kr</td>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">Fruits &amp; Vegetables</td>
-                        <td class="grid-detail-right" style="width: 30%">+ 17 084,28 kr</td>
-                    </tr>
-                </table>
-                <a class="link" href="/restaurant/admin/bycheckin" style="text-decoration-line: none"
-                    ><div class="text-center view-more-green">View more</div></a
-                >
-            </div>
-        </div>
-    </div>
-    <div class="col-6 grid-detail">
-        <label class="titleMain"></label>
-        <div class="order-info-container mb-0 mt-42">
-            <div class="left-sec">
-                <div><span class="title">Check out</span></div>
-            </div>
-            <div class="right-sec" style="text-align: right">
-                <div style="margin-left: 20px">
-                    <label
-                        class="select-field select-date-range"
-                        style="
-                            width: 200px;
-                            height: 36px;
-                            padding: 6px 10px 10px;
-                            cursor: pointer;
-                            text-align: left;
-                            text-transform: initial;
-                            background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;
-                        "
-                        >Last Year</label
-                    >
-                </div>
-            </div>
-        </div>
-        <div class="col-12 mb-4"><span class="price">60,46 kr</span></div>
-        <div class="col-12">
-            <div>
-                <table class="purchase-biggest-order" style="width: 100%">
-                    <tr class="border-bottom-0">
-                        <div></div>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">Fruits &amp; Vegetables</td>
-                        <td class="grid-detail-right" style="width: 30%">- 39,45 kr</td>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">Refrigerated Goods</td>
-                        <td class="grid-detail-right" style="width: 30%">- 5,56 kr</td>
-                    </tr>
-                    <tr>
-                        <td class="hederWithDtl" style="width: 70%">In-House Production / Refrigerated Goods</td>
-                        <td class="grid-detail-right" style="width: 30%">- 3,28 kr</td>
-                    </tr>
-                </table>
-                <a class="link" href="/restaurant/admin/bycheckout" style="text-decoration-line: none">
-                    <div class="text-center view-more-green">View more</div>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-CSS : 
-.order-info-container {
-    width: 95%;
-    margin: 40px auto 24px;
-    display: flex;
-    justify-content: space-between;
-    transition: all .5s ease-in-out;
-}
-
-.ml-0, .mx-0 {
-    margin-left: 0 !important;
-}
-.mt-0, .my-0 {
-    margin-top: 0 !important;
-}
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-CHECK IN VALUE ELEMENT : 
-
-<div class="col-6 grid-detail" style="padding-left: 0px">
-    <label class="titleMain">Check in &amp; out value</label>
-    <div class="order-info-container mb-0 mt-42 ml-3">
-        <div class="left-sec">
-            <div><span class="title">Check in</span></div>
-        </div>
-        <div class="right-sec" style="text-align: right">
-            <div class="right-sec" style="text-align: right; display: flex">
-                <div style="margin-left: 20px">
-                    <label
-                        class="select-field select-date-range"
-                        style="
-                            width: 200px;
-                            height: 36px;
-                            padding: 6px 10px 10px;
-                            cursor: pointer;
-                            text-align: left;
-                            text-transform: initial;
-                            background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;
-                        "
-                        >Last Month</label
-                    >
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 mb-4 pl-3"><span class="price">200 626,03 kr</span></div>
-    <div class="col-12 pl-3">
-        <div>
-            <table class="purchase-biggest-order" style="width: 100%">
-                <tr class="border-bottom-0">
-                    <div></div>
-                </tr>
-                <tr>
-                    <td class="hederWithDtl" style="width: 70%">Alcoholic Beverages / Armagnac</td>
-                    <td class="grid-detail-right" style="width: 30%">+ 150 186,75 kr</td>
-                </tr>
-                <tr>
-                    <td class="hederWithDtl" style="width: 70%">Alcoholic Beverages / Beer</td>
-                    <td class="grid-detail-right" style="width: 30%">+ 20 000,00 kr</td>
-                </tr>
-                <tr>
-                    <td class="hederWithDtl" style="width: 70%">Fruits &amp; Vegetables</td>
-                    <td class="grid-detail-right" style="width: 30%">+ 17 084,28 kr</td>
-                </tr>
-            </table>
-            <a class="link" href="/restaurant/admin/bycheckin" style="text-decoration-line: none"
-                ><div class="text-center view-more-green">View more</div></a
-            >
-        </div>
-    </div>
-</div>
-
-CSS: 
-
-element.style {
-    padding-left: 0px;
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-.grid-detail .titleMain {
-    font-family: SourceSansProRegular !important;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-}
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-.grid-detail .price, .grid-detail label {
-label {
-    display: inline-block;
-}
-.order-info-container
-Specificity: (0,1,0)
- {
-    width: 95%;
-    margin: 40px auto 24px;
-    display: flex;
-    justify-content: space-between;
-    transition: all .5s ease-in-out;
-}
-
-.ml-3, .mx-3 {
-    margin-left: 1rem !important;
-}
-.mb-0, .my-0 {
-    margin-bottom: 0 !important;
-}
-.order-info-container .left-sec {
-    display: block;
-    transition: all 1.2s ease-in-out;
-}
-.grid-detail .title {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    color: #19191c;
-}
-
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-element.style {
-    text-align: right;
-}
-element.style {
-    text-align: right;
-    display: flex;
-}
 element.style {
     margin-left: 20px;
 }
-element.style {
-    width: 200px;
-    height: 36px;
-    padding: 6px 10px 10px;
-    cursor: pointer;
-    text-align: left;
-    text-transform: initial;
-    background: url(./img/closepopup-icon.svg) 175px center / 10px no-repeat;
+month picker component
+
+.top-progressView-container {
+    display: flex;
+    line-height: normal;
 }
-.select-field.select-date-range {
+element.style {
+    width: 268px;
+}
+.top-progress-title {
     font-style: normal;
     font-weight: 400;
-    font-size: 14px !important;
-    color: #19191c;
-    text-transform: capitalize;
-}
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-.select-field {
-    border: 1px solid #d7d8e0;
-    border-radius: 4px;
-    padding: 12px 50px 12px 16px;
-    cursor: pointer;
-    font-size: 14px !important;
-    line-height: 24px !important;
-    color: #333;
-    margin-bottom: 0;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACISURBVHgBbc1BCsIwEAXQn6neo0foCbS5gBBUXDY5WevKhZUUcR8Ub6WZkSwCIfhXw8xjvpof7wHM/WG3cahy8aFdNc34jdGRfKIWETvfX2ON1kQBIj0BHR3N1oJxLnFGArTE7E5GLyp/uPrnBMIgSi0k0mW0N3pKd1XWZZzmEv1NwjcfbL3/ARqCREjSJiI+AAAAAElFTkSuQmCC) no-repeat 100%;
-    background-position: calc(100% - 16px) calc(1em + 6px);
-    -webkit-appearance: none;
-    appearance: none;
-}
-label {
-    display: inline-block;
-}
-.left-analytics-calendar {
-    border: 1px solid #e7e7ec;
-    box-shadow: 0 2px 4px rgba(51, 51, 82, .08), 0 2px 6px rgba(51, 51, 82, .08);
-    width: 504px;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 440px;
-    background-color: #fff;
-    margin-left: 8px;
-}
-
-.left-calendar-main-container {
-    width: 620px;
-    position: absolute;
-    z-index: 1;
-}
-.mt-1, .my-1 {
-    margin-top: 0.25rem !important;
-}
-.left-analytics-calendar .PreviewArea {
-    right: 0;
-}
-.left-analytics-calendar .rdrDateRangePickerWrapper {
-    border: none;
-    border-bottom
-Shorthand property for setting border width, style and color.
-
-Widely available across major browsers (Baseline since January 2018)
-Learn more
-
-Don't show
-: 1px solid #e7e7ec;
-    border-radius: 0;
-    box-shadow: none;
-    width: 492px;
-}
-
-.PreviewArea.left {
-    width: 80%;
-    right: auto;
-    top: auto;
-    margin-left: 9px;
-}
-.PreviewArea {
-    z-index: 1;
-    right: 2.4%;
-    background-color: #fff;
-}
-.rdrDateRangePickerWrapper {
-    width: 852px;
-    margin: auto;
-    display: flex !important;
-    border: 1px solid #d7d7db;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
-    border-radius: 4px;
-    overflow: hidden;
-}
-.rdrDateRangePickerWrapper {
-    display: inline-flex;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-.rdrDefinedRangesWrapper {
-    width: 100% !important;
-}
-
-.rdrDefinedRangesWrapper {
-    font-size: 12px;
-    width: 226px;
-    border-right: 1px solid #eff2f7;
-    background: #fff;
-}
-.rdrStaticRanges {
-    display: flex;
-    flex-direction: column;
-}
-.rdrDefinedRangesWrapper .rdrStaticRange {
-    margin-left: 15px;
-    margin-right: 15px;
-    border-radius: 5px;
-    border-bottom: 0;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-
-.rdrStaticRange {
-    border: 0;
-    cursor: pointer;
-    display: block;
-    outline: 0;
-    border-bottom: 1px solid #eff2f7;
-    padding: 0;
-    background: #fff;
-}
-.rdrStaticRange {
-    font-size: inherit;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.rdrStaticRangeLabel {
-    padding: 10px;
-    color: #19191c !important;
-}
-
-.rdrStaticRangeLabel {
-    display: block;
-    outline: 0;
-    line-height: 18px;
-    padding: 10px 20px;
-    text-align: left;
-}
-element.style {
-    color: rgb(171, 223, 187);
-}
-.rdrDefinedRangesWrapper .rdrStaticRange {
-    margin-left: 15px;
-    margin-right: 15px;
-    border-radius: 5px;
-    border-bottom: 0;
-}
-.rdrDefinedRangesWrapper .rdrStaticRangeSelected {
-    background-color: #eaf7ee;
-    color: #19191c;
-    background-image: url(/restaurant/admin/static/media/checkgreen.d65908e2.svg);
-    background-position: 50%;
-    background-position-x: 90%;
-    background-repeat: no-repeat;
-    margin-left: 15px;
-    margin-right: 15px;
-    border-radius: 15px;
-    border-bottom: 0;
-}
-.rdrDefinedRangesWrapper .rdrStaticRangeSelected {
-    color: currentColor;
-    font-weight: 600;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.rdrStaticRange {
-    border: 0;
-    cursor: pointer;
-    display: block;
-    outline: 0;
-    border-bottom: 1px solid #eff2f7;
-    padding: 0;
-    background: #fff;
-}
-.rdrStaticRange {
-    font-size: inherit;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.rdrStaticRangeLabel {
-    padding: 10px;
-    color: #19191c !important;
-}
-.rdrStaticRangeLabel {
-    display: block;
-    outline: 0;
-    line-height: 18px;
-    padding: 10px 20px;
-    text-align: left;
-}
-.rdrInputRanges {
-    padding: 10px 0;
-}
-.PreviewArea .rdrCalendarWrapper {
-    border-left: 0 solid #e6e6ed;
-    border-right: 0 solid #e6e6ed;
-}
-.rdrCalendarWrapper {
-    width: 852px !important;
-    margin: 5px auto;
-    display: block !important;
-    position: relative;
-    border-left: 1px solid #e6e6ed;
-    border-right: 1px solid #e6e6ed;
-    width: 100%;
-}
-.rdrCalendarWrapper {
-    color: #000;
-    font-size: 12px;
-}
-.rdrDateRangeWrapper {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-.rdrCalendarWrapper {
-    box-sizing: border-box;
-    background: #fff;
-    display: inline-flex;
-    flex-direction: column;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-   .rdrMonthAndYearWrapper {
-    height: 0 !important;
-    padding: 0;
-}
-
-.rdrMonthAndYearWrapper {
-    align-items: center;
-    height: 60px;
-    padding-top: 10px;
-}
-.rdrMonthAndYearWrapper {
-    box-sizing: inherit;
-    display: flex;
-    justify-content: space-between;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.rdrNextButton, .rdrPprevButton {
-    background-repeat
-Specifies how background images are tiled after they have been sized and positioned.
-
-Widely available across major browsers (Baseline since January 2018)
-Learn more
-
-Don't show
-: no-repeat !important;
-    background-position: 50% !important;
-    background-color: unset !important;
-    margin: 8px 20px !important;
-}
-
-.rdrPprevButton {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3SURBVHgBjZOxEcMgDEWR7PQZwStkBEZwk7uUmcxlSo/gFTICI6QPiCCf7YsxMvoNB/ekj5AAU9FrnLq2aQYfwvPRWwc1+II4RWO6BLovkUUNzHtazkEDp9WFlL14pTP44FCDdwE5nPTxRLd/mIUSHLPMm4ME33v7NgXNDmT0gvVKTXIBhcuuaE3Q1mkukJ+Qn3I5uiLiyImKDpLTOkPFxmmCxGmVgsRpzWs6ndbcqQUYfIzzB/oBLnaabR8PDMMAAAAASUVORK5CYII=) !important;
-}
-.rdrNextButton, .rdrPprevButton {
-    position: absolute;
-    top: 0;
-    height: 40px;
-    width: 40px;
-    border: 2px solid #e6e6ed;
-}
-.rdrPprevButton {
-    left: 0;
-}
-.rdrNextPrevButton {
-.rdrNextPrevButton {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 .833em;
-    padding: 0;
-    border: 0;
-    border-radius: 5px;
-    background: #eff2f7;
-}
-.rdrNextPrevButton {
-    box-sizing: inherit;
-    cursor: pointer;
-    outline: none;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-.rdrNextPrevButton i {
-    display: none !important;
-}
-.rdrPprevButton i {
-    border-width: 4px 6px 4px 4px;
-    border-color: transparent #34495e transparent transparent;
-    transform: translate(-3px);
-}
-
-.rdrNextPrevButton i {
-    display: block;
-    width: 0;
-    height: 0;
-    padding: 0;
-    text-align: center;
-    border-style: solid;
-    margin: auto;
-    transform: translate(-3px);
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.rdrMonthAndYearPickers {
-    display: none !important;
-}
-.rdrMonthAndYearPickers {
-.rdrMonthAndYearPickers {
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.rdrMonthPicker, .rdrYearPicker {
-    margin: 0 5px;
-}
-.rdrMonthAndYearPickers select {
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-appearance: none;
-    border: 0;
-    background: transparent;
-    padding: 10px 30px 10px 10px;
-    border-radius: 4px;
-    outline: 0;
-    color: #3e484f;
-    background: url(data:image/svg+xml;utf8,<svg width='9px' height='6px' viewBox='0 0 9 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><g id='Artboard' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' transform='translate(-636.000000, -171.000000)' fill-opacity='0.368716033'><g id='input' transform='translate(172.000000, 37.000000)' fill='%230E242F' fill-rule='nonzero'><g id='Group-9' transform='translate(323.000000, 127.000000)'><path d='M142.280245,7.23952813 C141.987305,6.92353472 141.512432,6.92361662 141.219585,7.23971106 C140.926739,7.5558055 140.926815,8.06821394 141.219755,8.38420735 L145.498801,13 L149.780245,8.38162071 C150.073185,8.0656273 150.073261,7.55321886 149.780415,7.23712442 C149.487568,6.92102998 149.012695,6.92094808 148.719755,7.23694149 L145.498801,10.7113732 L142.280245,7.23952813 Z' id='arrow'></path></g></g></g></svg>) no-repeat;
-    background-position: right 8px center;
-    cursor: pointer;
-    text-align: center;
-}
-
-button, select {
-    text-transform: none;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.rdrMonthPicker, .rdrYearPicker {
-    margin: 0 5px;
-}
-.rdrMonthAndYearPickers select {
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-appearance: none;
-    border: 0;
-    background: transparent;
-    padding: 10px 30px 10px 10px;
-    border-radius: 4px;
-    outline: 0;
-    color: #3e484f;
-    background: url(data:image/svg+xml;utf8,<svg width='9px' height='6px' viewBox='0 0 9 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><g id='Artboard' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' transform='translate(-636.000000, -171.000000)' fill-opacity='0.368716033'><g id='input' transform='translate(172.000000, 37.000000)' fill='%230E242F' fill-rule='nonzero'><g id='Group-9' transform='translate(323.000000, 127.000000)'><path d='M142.280245,7.23952813 C141.987305,6.92353472 141.512432,6.92361662 141.219585,7.23971106 C140.926739,7.5558055 140.926815,8.06821394 141.219755,8.38420735 L145.498801,13 L149.780245,8.38162071 C150.073185,8.0656273 150.073261,7.55321886 149.780415,7.23712442 C149.487568,6.92102998 149.012695,6.92094808 148.719755,7.23694149 L145.498801,10.7113732 L142.280245,7.23952813 Z' id='arrow'></path></g></g></g></svg>) no-repeat;
-    background-position: right 8px center;
-    cursor: pointer;
-    text-align: center;
-}
-
-button, select {
-    text-transform: none;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.rdrNextButton {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBlZBBDsIgEEX5eBIP4sIDuHDRtd5EehJd20UTPYBRT+I96GAhLS1tYegkEPh5b4YgRFfV83uxSzCFHhZEyiVSquKwK2OCdLumrU9aMTUJ/kn1+9bqp6HV8iSMLzkSph04aSZw0qKQkqJCTJIpwWxggkBrRCfcH58rjDn7gKgsjnuFNbA9Yg08Ezg4EHJgL+TCtty3oml+OXBQVf1SdnHcH+y4dhiSoXd9AAAAAElFTkSuQmCC) !important;
-}
-.rdrNextButton, .rdrPprevButton {
-    background-repeat: no-repeat !important;
-    background-position: 50% !important;
-    background-color: unset !important;
-    margin: 8px 20px !important;
-}
-.rdrNextButton {
-    right: 0;
-}
-.rdrNextButton, .rdrPprevButton {
-    position: absolute;
-    top: 0;
-    height: 40px;
-    width: 40px;
-    border: 2px solid #e6e6ed;
-}
-.rdrNextPrevButton {
-.rdrNextPrevButton {
-    display: block;
-    width: 24px;
-    height: 24px;
-    margin: 0 .833em;
-    padding: 0;
-    border: 0;
-    border-radius: 5px;
-    background: #eff2f7;
-}
-.rdrNextPrevButton {
-    box-sizing: inherit;
-    cursor: pointer;
-    outline: none;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-.rdrNextPrevButton i {
-    display: none !important;
-}
-.rdrNextButton i {
-    margin: 0 0 0 7px;
-    border-width: 4px 4px 4px 6px;
-    border-color: transparent transparent transparent #34495e;
-    transform: translate(3px);
-}
-.rdrNextPrevButton i {
-    display: block;
-    width: 0;
-    height: 0;
-    padding: 0;
-    text-align: center;
-    border-style: solid;
-    margin: auto;
-    transform: translate(-3px);
-}
-.rdrMonths {
-    display: flex;
-    justify-content: center;
-}
-element.style {
-    right: -95.1%;
-}
-.rdrMonth {
-    padding: 0 !important;
-    width: 25.667em;
-}
-.rdrMonthName {
-    text-align: center !important;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
-    color: #333 !important;
-    padding: 20px 15px 15px !important;
-}
-
-.rdrMonthName {
-    text-align: left;
-    font-weight: 600;
-    color: #849095;
-    padding: .833em;
-}
-.left-analytics-calendar .rdrWeekDays {
-    border: none;
-}
-
-.rdrMonth .rdrWeekDays {
-    padding: 0;
-}
-.rdrWeekDays {
-    border-top: 1px solid #e6e6ed;
-    border-bottom: 1px solid #e6e6ed;
-    justify-content: center;
-}
-.rdrWeekDays {
-.rdrWeekDays {
-    display: flex;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.rdrWeekDay {
-    font-size: 11px;
-    line-height: 24px !important;
-    color: #8b8c97 !important;
-    flex-basis: 37px !important;
-}
-.rdrWeekDay {
-.rdrWeekDay {
-    flex-basis: 14.28571%;
-    box-sizing: inherit;
-    text-align: center;
-}
-.rdrDays {
-    width: 252px;
-    margin: auto;
-}
-.rdrDays {
-    display: flex;
-    flex-wrap: wrap;
-}
-element.style {
-    color: rgb(61, 145, 255);
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.rdrDayPassive {
-    visibility: hidden !important;
-}
-.rdrDay {
-    height: 46px !important;
-}
-.rdrDayPassive {
-    pointer-events: none;
-}
-.rdrDay {
-    background: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    border: 0;
-    padding: 0;
-    line-height: 3em;
-    height: 3em;
-    text-align: center;
-    color: #1d2429;
-}
-.rdrDay {
-    box-sizing: inherit;
-    width: 14.28571%;
-    position: relative;
-    font: inherit;
-    cursor: pointer;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-button {
-    border-radius: 0;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.rdrDayNumber {
-    top: 5px;
-    bottom: 5px;
-}
-.rdrDayNumber {
-    outline: 0;
-    font-weight: 300;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    top: 5px;
-    bottom: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-         .grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.rdrDayNumber span {
-    color: #19191c !important;
-}
-element.style {
-    color: rgb(61, 145, 255);
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.rdrDayPassive {
-    visibility: hidden !important;
-}
-.rdrDay {
-    height: 46px !important;
-}
-.rdrDayPassive {
-    pointer-events: none;
-}
-.rdrDay {
-    background: transparent;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    border: 0;
-    padding: 0;
-    line-height: 3em;
-    height: 3em;
-    text-align: center;
-    color: #1d2429;
-}
-.rdrDay {
-    box-sizing: inherit;
-    width: 14.28571%;
-    position: relative;
-    font: inherit;
-    cursor: pointer;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-button {
-    border-radius: 0;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.rdrDayNumber {
-    top: 5px;
-    bottom: 5px;
-}
-.rdrDayNumber {
-    outline: 0;
-    font-weight: 300;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    top: 5px;
-    bottom: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.left-analytics-calendar .left-calendar-bottom-container {
-    border: none;
-    box-shadow: none;
-    width: 100%;
-    bottom: 8px;
-    left: 0;
-}
-
-.left-calendar-bottom-container {
-    width: 80%;
-    height: 50px;
-    left: 9px;
-    bottom: 18px;
-    border: 1px solid #e6e6ed;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    text-align: center;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 2px 4px rgba(51, 51, 82, .08), 0 2px 6px rgba(51, 51, 82, .08);
-    background-color: #fff;
-}
-.calendar-cancel-button-container {
-    height: 36px;
-    width: 66px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #d7d7db;
-    box-sizing: border-box;
-    border-radius: 4px;
-    margin-right: 19px;
-    cursor: pointer;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.calendar-cancel-span {
-    width: 100%;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    color: #6b6b6f;
-}
-.calendar-apply-button-container
-Specificity: (0,1,0)
- {
-    height: 36px;
-    width: 66px;
-    display: flex;
-    align-items: center;
-    background-color: #23a956;
-    box-sizing: border-box;
-    border-radius: 4px;
-    margin-right: 16px;
-    cursor: pointer;
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-
-.calendar-apply-span {
-    width: 100%;
-    font-style: "normal";
-    font-weight: 600;
-    font-size: 14px;
-    color: #fff !important;
-}
-.pl-3, .px-3 {
-    padding-left: 1rem !important;
-}
-.mb-4, .my-4 {
-    margin-bottom: 1.5rem !important;
-}
-.col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-
-.grid-detail .price {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 32px;
     color: #19191c;
 }
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
+.top-progress-number {
+    color: #19191c;
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -.01em;
 }
-.pl-3, .px-3 {
-    padding-left: 1rem !important;
+h2, .h2 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
 }
-.col-12 {
-    flex: 0 0 100%;
+element.style {
+    width: 60%;
+}
+progress bar component
+svg:not(:root) {
+    overflow: hidden;
+}
+element.style {
+    width: 268px;
+}
+.top-progress-title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.top-progress-number {
+    color: #19191c;
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -.01em;
+}
+progressbar component
+element.style {
+    width: 268px;
+}
+.top-progress-title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.top-progress-number {
+    color: #19191c;
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -.01em;
+}
+progressbar component
+
+
+
+TABLE ELEMENT 
+<div class="list-box">
+    <div class="card card-table">
+        <div
+            style="
+                border-bottom: 1px solid rgb(230, 230, 237);
+                border-top: 1px solid rgb(230, 230, 237);
+                background-color: rgb(248, 249, 250);
+            "
+        >
+            <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto">
+                <thead>
+                    <tr class="">
+                        <th class="pd-y-5 tx-left" style="width: 40%">ITEM NAME</th>
+                        <th class="pd-y-5 tx-left" style="width: 10%">USED FOOD</th>
+                        <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
+                        <th class="pd-y-5 tx-left" style="width: 10%">FOOD WASTE</th>
+                        <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
+                        <th class="pd-y-5 tx-right" style="width: 10%">TOTAL</th>
+                        <th class="pd-y-5 tx-left" style="width: 10%">CHECKED OUT</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="scrollableDiv">
+            <div>
+                <div class="infinite-scroll-component" style="height: auto; overflow: auto">
+                    <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
+                        <tbody>
+                            <tr class="">
+                                <td class="pd-y-5 tx-left" style="width: 40%">
+                                    <span class="dark-text">Amul cheese</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">0 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">2 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">20,00 kr</span>
+                                </td>
+                                <td class="pd-y-5 tx-right" style="width: 10%">
+                                    <span class="dark-text">2 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">20,00 kr</span>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="pd-y-5 tx-left" style="width: 40%">
+                                    <span class="dark-text">Amul cheese</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">2 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">1,00 kr</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">0 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                                <td class="pd-y-5 tx-right" style="width: 10%">
+                                    <span class="dark-text">2 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">1,00 kr</span>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Apples</span></td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">2 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">680,00 kr</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">4 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">1 360,00 kr</span>
+                                </td>
+                                <td class="pd-y-5 tx-right" style="width: 10%">
+                                    <span class="dark-text">6 Kilograms</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">2 040,00 kr</span>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <td class="pd-y-5 tx-left" style="width: 40%">
+                                    <span class="dark-text">BACON I SKIVER U/SVOR (1.80 (1.80 kg)I</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 Box</span></td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">271,15 kr</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">0 Boxes</span>
+                                </td>
+                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                                <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">1 Box</span></td>
+                                <td class="pd-y-5 tx-left" style="width: 10%">
+                                    <span class="dark-text">271,15 kr</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2 style="text-align: center"><br /><br /><br /></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+CSS : 
+.list-box {
+    overflow: hidden;
+    border: 1px solid #e7e7ec;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(51, 51, 82, .08), 0 2px 6px rgba(51, 51, 82, .08);
+    border-radius
+Defines the radii of the outer border edge.
+
+Widely available across major browsers (Baseline since January 2018)
+Learn more
+
+Don't show
+: 8px;
+    margin-top: 60px;
+}
+.card {
+    border-radius: 0;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-radius: 3px;
+}
+element.style {
+    border-bottom: 1px solid rgb(230, 230, 237);
+    border-top: 1px solid rgb(230, 230, 237);
+    background-color: rgb(248, 249, 250);
+}
+element.style {
+    width: 95%;
+    margin: auto;
+}
+.card-table .table {
+    /* min-width: 500px; */
+}
+.tx-13 {
+    font-size: 13px;
+}
+.mg-b-0 {
+.table {
+    width: 100%;
     max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
 }
 table {
     border-collapse: collapse;
 }
-.border-bottom-0 {
-    border-bottom: 0 !important;
-}
-.purchase-biggest-order tr {
-    border-bottom: 1px solid #e7e7ec;
+table thead {
+    background-color: #fafafc;
 }
 element.style {
-    width: 70%;
+    width: 40%;
 }
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
 }
 table td:first-child, table th:first-child {
-.purchase-biggest-order td {
-    font-size: 14px;
-    line-height: 16px;
-    padding: 27px 0 20px 7px !important;
+    padding-left: 0;
 }
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+Element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
 }
 
-element.style {
-    width: 30%;
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
 }
-.grid-detail .grid-detail-right {
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-right {
     text-align: right;
-    font-weight: 400;
-    color: #19191c;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+element.style {
+    width: 10%;
+}
+.card-table .table thead tr th {
+    color: #737373;
+}
+.card-table .table thead tr th, .card-table .table thead tr td {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #737373;
+}
+.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #dee2e6;
+    color: #343a40;
+    letter-spacing: 0.5px;
 }
 table td:last-child, table th:last-child {
-.purchase-biggest-order td {
+    padding-right: 0;
+}
+.table thead th {
+    /* vertical-align: bottom; */
+    border-bottom: 2px solid #dee2e6;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table th {
+    height: 48px;
+}
+
+
+SCROLLABLE DIV THAT CONTAINS ROWS 
+<div id="scrollableDiv">
+    <div>
+        <div class="infinite-scroll-component" style="height: auto; overflow: auto">
+            <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
+                <tbody>
+                    <tr class="">
+                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Amul cheese</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">20,00 kr</span></td>
+                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">20,00 kr</span></td>
+                    </tr>
+                    <tr class="">
+                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Amul cheese</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1,00 kr</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1,00 kr</span></td>
+                    </tr>
+                    <tr class="">
+                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Apples</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">680,00 kr</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">4 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 360,00 kr</span></td>
+                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">6 Kilograms</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 040,00 kr</span></td>
+                    </tr>
+                    <tr class="">
+                        <td class="pd-y-5 tx-left" style="width: 40%">
+                            <span class="dark-text">BACON I SKIVER U/SVOR (1.80 (1.80 kg)I</span>
+                        </td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 Box</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">271,15 kr</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Boxes</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
+                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">1 Box</span></td>
+                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">271,15 kr</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2 style="text-align: center"><br /><br /><br /></h2>
+        </div>
+    </div>
+</div>
+
+
+CSS : 
+element.style {
+    height: auto;
+    overflow: auto;
+}
+element.style {
+    width: 95%;
+    margin: auto;
+}
+.card-table .table {
+    /* min-width: 500px; */
+}
+.tx-13 {
+    font-size: 13px;
+}
+.mg-b-0 {
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+table {
+    border-collapse: collapse;
+}
+element.style {
+    width: 40%;
+}
+table td:first-child, table th:first-child {
+    padding-left: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
     font-size: 14px;
     line-height: 16px;
-    padding: 27px 0 20px 7px !important;
 }
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-
-
-
-when no data css 
-.grid-detail .titleMain {
-    font-family: SourceSansProRegular !important;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-}
-
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-.grid-detail .price, .grid-detail label {
-label {
-    display: inline-block;
-}
-element.style {
-    margin-top: 0px;
-}
-.emptycard, .municiplemodalpopupNotification .emptycard {
-    font-size: 16px;
-    line-height: 24px;
-    color: #737373;
-    padding: 36px 48px 24px;
-    text-align: center;
-    margin-top: 80px;
-}
-element.style {
-    margin-bottom: 16px;
-}
-.emptycard h4 {
-    color: #6b6b6f;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
-}
-element.style {
-    width: 151px;
-    height: 108px;
-}
-img {
-    vertical-align: middle;
-    border-style: none;
-}
-.emptycard ul.emptyStateUl {
-    color: #97979b;
-    text-align: center;
-    margin-bottom: 0;
-}
-
-.emptycard ul {
-    text-align: left;
-    list-style-type: none;
-    margin-bottom: 12px;
-}
-li, ul {
-    list-style: none;
-}
-body, li, ul {
-    margin: 0;
-    padding: 0;
-}
-element.style {
-    font-size: 24px;
-    color: rgb(25, 25, 28);
-}
-.grid-detail span {
-    color: #6b6b6f;
-    font-weight: 400 !important;
-    line-height: 24px;
-    font-family: SourceSansProRegular !important;
-}
-.emptyTitle {
-    height: 32px;
-    color: #19191c;
+.inventorytbl span.dark-text {
     font-style: normal;
-    font-weight: 600;
-    font-size: 40px;
-    line-height: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
 }
-
-
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
 element.style {
-    margin-top: 8px;
+    width: 10%;
 }
-.emptycard li.emptyState {
-    margin: 24px 0;
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
 }
-.emptycard li {
-li, ul {
-    list-style: none;
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
 }
-body, li, ul {
-    margin: 0;
-    padding: 0;
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
 }
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    width: 10%;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    width: 10%;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    width: 10%;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    width: 10%;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    width: 10%;
+}
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.table td {
+    border-top-color: #dee2e6;
+    color: #333333;
+}
+.table th, .table td {
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* vertical-align: top; */
+    /* border-top: 1px solid #dee2e6; */
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.table td span {
+    border-top-color: #dee2e6;
+    color: #5b636a;
+}
+.inventorytbl span {
+    display: unset;
+}
+element.style {
+    text-align: center;
+}
+h2, .h2 {
+    font-size: 1.75rem;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+

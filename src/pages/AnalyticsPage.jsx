@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LightSpeedBanner from '../components/Analytics/LightSpeedBanner';
@@ -19,20 +19,25 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     return () => {
-      // on unmount (navigating away), close detail
       dispatch(setAnalyticsDetailOpen(false));
       dispatch(setAnalyticsSelectedInventory(null));
     };
   }, []);
 
-  if (isDetailOpen) return <AnalyticsDetailPage />;
+  const isOverview = location.pathname === '/analytics-overview';
+  const isStatsDetail = location.pathname.includes('/analytics/by');
 
-  return (
-    <div className='h-full overflow-y-auto px-9 pb-15'>
-      <LightSpeedBanner />
-      <RealTimeInventorySection />
-      <FoodUsageSection />
-      <PurchasesSection />
-    </div>
-  );
+  if (isOverview)
+    return (
+      <div className='h-full overflow-y-auto px-9 pb-15'>
+        <LightSpeedBanner />
+        <RealTimeInventorySection />
+        <FoodUsageSection />
+        <PurchasesSection />
+      </div>
+    );
+
+  if (isDetailOpen || isStatsDetail) return <AnalyticsDetailPage />;
+
+  return <Navigate to='/analytics-overview' replace />;
 }

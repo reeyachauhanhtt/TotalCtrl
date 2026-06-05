@@ -138,7 +138,7 @@ export default function UploadOrderModal({ isOpen, onClose }) {
                 <p className='mt-3 mb-3 text-[20px] text-[#19191c]'>or</p>
                 <div className='relative overflow-hidden inline-block'>
                   <button
-                    className='bg-[#23a956] rounded-sm font-semibold text-[14px] leading-6 text-white px-3 py-2.5 tracking-[0.04em] border-none cursor-pointer'
+                    className='bg-[#23a956] rounded-sm font-bold text-[14px] leading-6 text-white px-3 py-2.5 tracking-[0.04em] border-none cursor-pointer'
                     onClick={(e) => {
                       e.stopPropagation();
                       fileInputRef.current.click();

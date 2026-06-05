@@ -118,7 +118,7 @@ export default function ExternalOrderTable({
                         'data-tooltip-content':
                           "Does your supplier send you PDF confirmation receipts for your orders? Upload the PDF file here and we'll automatically extract the order and product data for you.",
                       })}
-                      className={`px-6.5 py-3 text-sm font-semibold rounded tracking-wide ${
+                      className={`px-6.5 py-3 text-sm font-bold rounded tracking-wide ${
                         isViewOnly
                           ? 'opacity-40 cursor-default pointer-events-none'
                           : ''
@@ -130,8 +130,8 @@ export default function ExternalOrderTable({
                       <img
                         src='/icons/upload.svg'
                         alt=''
-                        width={16}
-                        height={16}
+                        width={20}
+                        height={20}
                       />
                       <span>Upload order</span>
                     </GreenButton>
@@ -153,7 +153,7 @@ export default function ExternalOrderTable({
                         'data-tooltip-content':
                           'Use this option to add orders without PDF order confirmation from supplier',
                       })}
-                      className={`h-10 w-full px-6.5 text-sm font-semibold tracking-wide flex items-center justify-center gap-2 ${
+                      className={`h-10 w-full px-6.5 text-sm font-bold tracking-wide flex items-center justify-center gap-2 ${
                         isViewOnly
                           ? 'opacity-40 cursor-default pointer-events-none'
                           : ''
@@ -204,7 +204,7 @@ export default function ExternalOrderTable({
       {/* Header Bar */}
       <div className='border-t border-b border-[#e6e6ed] bg-[#f8f9fa]'>
         <table
-          className='border-collapse text-[13px]'
+          className='border-collapse text-[14px]'
           style={{ width: '94.5%', marginLeft: '35px' }}
         >
           <thead>
@@ -213,7 +213,7 @@ export default function ExternalOrderTable({
                 <th
                   key={i}
                   style={{ width: col.width, textAlign: col.align }}
-                  className='h-12 py-1.25 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
+                  className='h-12 py-1.25 text-[12px] font-semibold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
                 >
                   {col.label}
                 </th>
@@ -226,7 +226,7 @@ export default function ExternalOrderTable({
       {/* Body */}
       <div className='overflow-auto'>
         <table
-          className='border-collapse text-[13px]'
+          className='border-collapse text-[14px]'
           style={{ width: '94.5%', marginLeft: '35px' }}
         >
           <tbody>{renderBody()}</tbody>

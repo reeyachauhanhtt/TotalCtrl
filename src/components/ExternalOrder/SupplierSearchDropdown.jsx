@@ -105,7 +105,7 @@ export default function SupplierSearchDropdown({
                     setSearchTerm(s.Name || s.ShortCode); //  IMPORTANT
                     setOpen(true);
                   }}
-                  className={`px-4 py-3 text-[13px] leading-5 cursor-pointer flex justify-between items-center hover:bg-gray-200 ${
+                  className={`px-4 py-3 text-[14px] leading-5 cursor-pointer flex justify-between items-center hover:bg-gray-200 ${
                     isSelected ? 'bg-gray-200' : ''
                   }`}
                 >

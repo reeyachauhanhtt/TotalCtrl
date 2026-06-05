@@ -20,7 +20,11 @@ export default function Sidebar() {
       icon: '/icons/transport.svg',
       path: '/internal-orders',
     },
-    { name: 'Analytics', icon: '/icons/chart.svg', path: '/analytics' },
+    {
+      name: 'Analytics',
+      icon: '/icons/chart.svg',
+      path: '/analytics-overview',
+    },
     {
       name: 'Inventory Count',
       icon: '/icons/inbox.svg',

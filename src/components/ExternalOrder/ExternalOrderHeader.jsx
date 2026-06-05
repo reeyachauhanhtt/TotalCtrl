@@ -47,7 +47,7 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
 
   return (
     <div className='h-23 flex items-center justify-between px-4 border-b border-gray-200 bg-white relative'>
-      <h1 className='ml-6 text-[22px] font-semibold text-gray-800'>
+      <h1 className='ml-6 text-[24px] font-semibold text-gray-800'>
         External Orders
       </h1>
 
@@ -117,7 +117,7 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   {...(!isViewOnly && {
                     'data-tooltip-id': 'upload-order-tooltip',
                     'data-tooltip-content':
-                      'Does your supplier send you PDF confirmation receipts...',
+                      "Does your supplier send you PDF confirmation receipts for your orders?Upload the PDF file here and we'll to automatically extract order and product data for you.",
                   })}
                   onClick={() => !isViewOnly && onUploadClick?.()}
                   disabled={isViewOnly}
@@ -137,7 +137,8 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   style={{
                     backgroundColor: '#19191c',
                     fontSize: 12,
-                    maxWidth: 320,
+                    maxWidth: 250,
+                    // minHeight: 750,
                   }}
                 />
               </div>

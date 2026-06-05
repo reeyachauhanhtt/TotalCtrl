@@ -124,7 +124,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
   }
 
   const baseInput =
-    'w-full h-8 px-1 text-[12px] leading-[32px] flex items-center font-normal text-[#19191c] bg-transparent border-none outline-none rounded cursor-pointer transition-colors';
+    'w-full h-8 px-1 text-[13px] leading-[32px] flex items-center font-normal text-[#19191c] bg-transparent border-none outline-none rounded cursor-pointer transition-colors';
 
   function wrapClass(field, val) {
     return [
@@ -179,7 +179,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   onFocus={() =>
                     suggestions.length > 0 && setShowSuggestions(true)
                   }
-                  className={`${baseInput} ${textClass('name', row.name)} ${row.name ? 'font-extrabold!' : ''} ${
+                  className={`${baseInput} ${textClass('name', row.name)} ${row.name ? 'font-semibold!' : ''} ${
                     isError('name', row.name)
                       ? 'placeholder:text-[#a71a23]'
                       : ''
@@ -200,7 +200,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   onFocus={() =>
                     suggestions.length > 0 && setShowSuggestions(true)
                   }
-                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)} ${row.name ? 'font-extrabold!' : ''} ${
+                  className={`${baseInput} resize-none overflow-hidden ${textClass('name', row.name)} ${row.name ? 'font-semibold!' : ''} ${
                     isError('name', row.name)
                       ? 'placeholder:text-[#a71a23]'
                       : ''
@@ -270,7 +270,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
         </td>
 
         {/* Unit Dropdown */}
-        <td className='align-middle py-1 text-[12px]' style={{ width: '13%' }}>
+        <td className='align-middle py-1 text-[14px]' style={{ width: '13%' }}>
           <div
             className={[
               'rounded transition-colors',
@@ -326,12 +326,12 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                 });
               }}
               placeholder=''
-              className={`outline-none border-none border-rounded bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right focus:bg-gray-100 cursor-pointer ${textClass('price', row.price)}`}
+              className={`outline-none border-none border-rounded bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right focus:bg-gray-100 cursor-pointer ${textClass('price', row.price)}`}
               style={{ width: '80%', height: 32, textAlign: 'right' }}
             />
 
             <label
-              className={`text-[12px] shrink-0 ${
+              className={`text-[13px] shrink-0 ${
                 isError('price', row.price)
                   ? 'text-[#a71a23]'
                   : isInventory &&
@@ -364,7 +364,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
                   ? (e) => onChange({ ...row, total: e.target.value })
                   : undefined
               }
-              className={`outline-none border-none bg-transparent text-[12px] leading-5 h-8 px-1.5 text-right cursor-pointer ${!isInventory ? 'cursor-text' : ''} `}
+              className={`outline-none border-none bg-transparent text-[13px] leading-5 h-8 px-1.5 text-right cursor-pointer ${!isInventory ? 'cursor-text' : ''} `}
               style={{
                 width: '100%',
                 height: 32,
@@ -373,7 +373,7 @@ function OrderItemRow({ row, onChange, onDelete, units, mode }) {
               }}
             />
             <label
-              className={`text-[12px] shrink-0 ${row.total ? 'text-[#19191c]' : 'text-[#939397]'}`}
+              className={`text-[13px] shrink-0 ${row.total ? 'text-[#19191c]' : 'text-[#939397]'}`}
             >
               kr
             </label>

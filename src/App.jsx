@@ -119,6 +119,18 @@ function Layout() {
 
     //analytics header
     const isAnalytics = location.pathname.includes('analytics');
+    const isStatsDetail = location.pathname.includes('/analytics/by');
+
+    if (isAnalytics && isStatsDetail)
+      return (
+        <AnalyticsHeader
+          inventories={inventoryData?.Data || inventoryData?.data || []}
+          selectedInventory={analyticsSelectedInventory}
+          onSelectInventory={(inv) =>
+            dispatch(setAnalyticsSelectedInventory(inv))
+          }
+        />
+      );
     if (isAnalytics && analyticsIsDetailOpen)
       return (
         <AnalyticsDetailHeader
@@ -183,7 +195,9 @@ function Layout() {
             />
             <Route path='/external-orders' element={<ExternalOrderPage />} />
             <Route path='/internal-orders' element={<InternalOrderPage />} />
+            <Route path='/analytics-overview' element={<AnalyticsPage />} />
             <Route path='/analytics' element={<AnalyticsPage />} />
+            <Route path='/analytics/*' element={<AnalyticsPage />} />
           </Routes>
         </div>
       </div>

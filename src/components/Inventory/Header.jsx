@@ -77,7 +77,7 @@ export default function Header() {
           />
         </>
       ) : (
-        <h1 className='text-[22px] ml-6 font-semibold text-gray-800'>
+        <h1 className='text-[24px] ml-6 font-semibold text-gray-800'>
           {getTitle()}
         </h1>
       )}

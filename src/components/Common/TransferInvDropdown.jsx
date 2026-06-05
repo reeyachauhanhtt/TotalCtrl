@@ -30,7 +30,7 @@ export default function TransferInventoryDropdown({
 
   return (
     <div className='mb-6'>
-      <label className='text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1 block'>
+      <label className='text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-1 block'>
         {label}
       </label>
 

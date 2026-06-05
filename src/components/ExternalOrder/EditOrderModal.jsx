@@ -436,7 +436,7 @@ export default function EditOrderModal({
       <div className='bg-white rounded-lg shadow-[0_4px_4px_rgba(0,0,0,0.12)] w-[75%] h-[calc(100%-48px)] flex flex-col'>
         {/* Header */}
         <div className='flex items-center justify-between px-12 py-6 border-b border-[#e7e7ec]'>
-          <h2 className='text-[18px] font-semibold leading-6 tracking-[-0.01em] text-[#19191c] m-0'>
+          <h2 className='text-[19px] font-semibold leading-6 tracking-[-0.01em] text-[#19191c] m-0'>
             Edit scheduled order
           </h2>
           <span
@@ -452,7 +452,7 @@ export default function EditOrderModal({
           <div className='px-12 pt-12 pb-6'>
             {/* Order summary heading */}
             <div className='pb-17.5'>
-              <h1 className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left m-0'>
+              <h1 className='text-[32px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left m-0'>
                 Order summary
               </h1>
             </div>
@@ -463,14 +463,14 @@ export default function EditOrderModal({
                 <h2 className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left mb-3'>
                   Inventory
                 </h2>
-                <p className='text-[14.5px] font-normal leading-6 text-[#6b6b6f] mb-4'>
+                <p className='text-[16px] font-normal leading-6 text-[#6b6b6f] mb-10'>
                   Which inventory should be automatically updated when this
                   order is delivered?
                 </p>
 
                 {/* Inventory dropdown */}
                 <div>
-                  <label className='block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
+                  <label className='block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                     Inventory
                   </label>
                   <div className='relative' ref={inventoryRef}>
@@ -542,7 +542,7 @@ export default function EditOrderModal({
 
               {/* Info box */}
               <div className='w-2/3'>
-                <div className='bg-[#e6e3ff] text-[#362a96] font-semibold text-[15px] leading-5 tracking-[-0.16px] rounded-lg p-5'>
+                <div className='bg-[#e6e3ff] text-[#362a96] font-semibold text-[16px] leading-5 tracking-[-0.16px] rounded-lg p-5'>
                   Please double-check that this is the correct inventory. You
                   can also change it afterwards in the scheduled order detail,
                   until the order is marked as delivered.
@@ -561,7 +561,7 @@ export default function EditOrderModal({
                 <div className='w-1/3'>
                   {/* Supplier */}
                   <div className='mb-7.5'>
-                    <label className='block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
+                    <label className='block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                       Supplier *
                     </label>
                     <SupplierSearchDropdown
@@ -621,7 +621,7 @@ export default function EditOrderModal({
                 <div className='w-2/3 max-w-99.5'>
                   {/* Order number */}
                   <div className='mb-7.5'>
-                    <label className='block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
+                    <label className='block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                       Order number *
                     </label>
                     <input
@@ -703,7 +703,7 @@ export default function EditOrderModal({
                   ].map((col) => (
                     <th
                       key={col.label}
-                      className={`h-12 text-[11px] font-semibold uppercase tracking-[0.88px] text-[#737373] border-t border-b border-[#e7e7ec] bg-[#fbfbfc] sticky -top-px z-20 px-3 ${col.cls}`}
+                      className={`h-12 text-[12px] font-semibold uppercase tracking-[0.88px] text-[#737373] border-t border-b border-[#e7e7ec] bg-[#fbfbfc] sticky -top-px z-20 px-3 ${col.cls}`}
                     >
                       {col.label}
                     </th>
@@ -799,7 +799,7 @@ export default function EditOrderModal({
                                   setSearchResults([]);
                                 }, 300)
                               }
-                              className='w-full h-8 px-1.5 text-[12px] font-semibold text-[#19191c] bg-transparent border-none outline-none hover:bg-[#f1f1f5] hover:font-normal rounded transition-colors focus:bg-gray-100 focus:font-normal cursor-pointer'
+                              className='w-full h-8 px-1.5 text-[14px] font-semibold text-[#19191c] bg-transparent border-none outline-none hover:bg-[#f1f1f5] hover:font-normal rounded transition-colors focus:bg-gray-100 focus:font-normal cursor-pointer'
                             />
                             {searchingIndex === index &&
                               (searchResults.length > 0 || searchLoading) &&
@@ -869,7 +869,7 @@ export default function EditOrderModal({
                               onChange={(e) =>
                                 handleItemChange(index, 'sku', e.target.value)
                               }
-                              className='w-full h-8 px-1.5 text-[11px] text-[#19191c] text-right bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded transition-colors focus:bg-gray-100 cursor-pointer'
+                              className='w-full h-8 px-1.5 text-[13px] text-[#19191c] text-right bg-transparent border-none outline-none hover:bg-[#f1f1f5] rounded transition-colors focus:bg-gray-100 cursor-pointer'
                             />
                           </td>
 
@@ -886,7 +886,7 @@ export default function EditOrderModal({
                                   e.target.value,
                                 )
                               }
-                              className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.orderQuantity ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
+                              className={`w-full h-8 px-1.5 text-[13px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.orderQuantity ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
                             />
                           </td>
 
@@ -926,7 +926,7 @@ export default function EditOrderModal({
                                     e.target.value,
                                   )
                                 }
-                                className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.pricePerPurchaseUnit ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
+                                className={`w-full h-8 px-1.5 text-[13px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.pricePerPurchaseUnit ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
                               />
                               <span className='text-[13px] text-[#19191c] shrink-0'>
                                 kr
@@ -952,7 +952,7 @@ export default function EditOrderModal({
                                   )
                                 }
                                 placeholder='—'
-                                className={`w-full h-8 px-1.5 text-[11px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.subtotal ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
+                                className={`w-full h-8 px-1.5 text-[13px] text-right bg-transparent border-none outline-none rounded transition-colors ${itemErrors[index]?.subtotal ? 'err-fields' : 'text-[#19191c] hover:bg-[#f1f1f5] focus:bg-gray-100'} cursor-pointer`}
                               />
                               <span className='text-[13px] text-[#19191c] shrink-0'>
                                 {item.subtotal ? 'kr' : ''}

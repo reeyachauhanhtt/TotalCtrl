@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import SectionHeader from '../Analytics/common/SectionHeader';
 import InventoryCard from '../Analytics/common/InventoryCard';
@@ -16,6 +17,7 @@ export default function RealTimeInventorySection() {
     queryKey: ['analyticsStockValue'],
     queryFn: fetchAnalyticsStockValue,
   });
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -71,6 +73,7 @@ export default function RealTimeInventorySection() {
                 );
                 dispatch(setAnalyticsSelectedTab('Inventory Stats'));
                 dispatch(setAnalyticsDetailOpen(true));
+                navigate('/analytics');
               }}
             />
           ))}

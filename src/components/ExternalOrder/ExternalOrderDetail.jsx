@@ -93,8 +93,8 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
           backgroundColor: '#f8f9fa',
           padding: '15px 30px',
           color: '#000',
-          fontWeight: 'bold',
-          fontSize: '16px',
+          fontWeight: 600,
+          fontSize: '18px',
           marginBottom: '0',
           marginTop: '0',
         }}
@@ -115,7 +115,7 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
                   paddingRight:
                     i === GROUPED_COLUMNS.length - 1 ? '30px' : undefined,
                 }}
-                className='h-12 py-1.25 text-[11px] font-extrabold! uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
+                className='h-12 py-1.25 text-[12px] font-semibold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
               >
                 {col.label}
               </th>
@@ -127,7 +127,7 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
             <>
               <tr key={p.id}>
                 <td
-                  className={`text-[13px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-left`}
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-left`}
                   style={{
                     width: '40%',
                     padding: '2.5% 0% 2% 30px',
@@ -135,10 +135,12 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
                     height: '72px',
                   }}
                 >
-                  <label className='font-bold! text-[#19191c]'>{p.name}</label>
+                  <label className='font-semibold text-[#19191c]'>
+                    {p.name}
+                  </label>
                 </td>
                 <td
-                  className={`text-[13px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     padding: '2.5% 0% 2%',
@@ -152,7 +154,7 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
                     : p.purchaseUnitPlural}
                 </td>
                 <td
-                  className={`text-[13px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     padding: '2.5% 0% 2%',
@@ -163,7 +165,7 @@ function GroupedTable({ group, currency, qualityIssueMap }) {
                   {formatTotal(p.pricePerPurchaseUnit, currency)}
                 </td>
                 <td
-                  className={`text-[13px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
+                  className={`text-[14px] leading-4 text-[#19191c] font-normal ${p.hasIssue !== 1 ? 'border-b border-[#e6e6ed]' : ''} align-top text-right`}
                   style={{
                     width: '20%',
                     color: '#19191c',
@@ -370,7 +372,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
   const isErrorAny = isScheduled ? isError : isDeliveredError;
 
   const tdBase =
-    'text-[12px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
+    'text-[14px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';
 
   const handleDeleteOrder = async () => {
     try {
@@ -403,7 +405,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
             <div className='flex items-center' style={{ marginBottom: '5px' }}>
               <h2
                 style={{
-                  fontSize: '28px',
+                  fontSize: '32px',
                   lineHeight: '40px',
                   fontWeight: '600',
                   letterSpacing: '-0.01em',
@@ -416,7 +418,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
               </h2>
               <label
                 style={{ backgroundColor: bg, color, marginTop: '-3px' }}
-                className='inline-block text-[10px] font-semibold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
+                className='inline-block text-[12px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
               >
                 {status}
               </label>
@@ -424,7 +426,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
 
             {/* Inventory + Number */}
             <div
-              className='flex items-center text-[14px] text-black'
+              className='flex items-center text-[16px] text-black'
               style={{ marginBottom: '25px' }}
             >
               <span
@@ -468,7 +470,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
                     style={{
                       display: 'block',
                       fontWeight: '600',
-                      fontSize: '11px',
+                      fontSize: '12px',
                       lineHeight: '16px',
                       letterSpacing: '0.08em',
                       textTransform: 'uppercase',
@@ -482,7 +484,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
                     style={{
                       display: 'block',
                       fontWeight: '600',
-                      fontSize: '16px',
+                      fontSize: '18px',
                       lineHeight: '24px',
                       letterSpacing: '-0.01em',
                       color: '#19191c',
@@ -523,7 +525,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
                       border: '1px solid #d7d7db',
                       borderRadius: '4px',
                       boxShadow: '0 2px 8px 0 rgba(0,0,0,0.12)',
-                      fontSize: '12.5px',
+                      fontSize: '14px',
                       padding: '9px 0',
                       zIndex: 50,
                     }}
@@ -559,7 +561,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
           <div>
             <div className='border-t border-b border-[#e6e6ed] bg-[#f8f9fa]'>
               <table
-                className='border-collapse text-[13px]'
+                className='border-collapse text-[14px]'
                 style={{ width: '95%', margin: 'auto' }}
               >
                 <thead>
@@ -568,7 +570,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
                       <th
                         key={i}
                         style={{ width: col.width, textAlign: col.align }}
-                        className='h-12 py-1.25 text-[11px] font-bold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
+                        className='h-12 py-1.25 text-[12px] font-semibold uppercase tracking-[1px] text-[#737373] bg-[#f8f9fa]'
                       >
                         {col.label}
                       </th>
@@ -593,7 +595,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
                           verticalAlign: 'top',
                         }}
                       >
-                        <label className='text-[13px] font-bold! text-[#19191c]'>
+                        <label className='text-[14px] font-semibold text-[#19191c]'>
                           {p.name}
                         </label>
                       </td>

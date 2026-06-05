@@ -25,7 +25,7 @@ export default function ExternalOrderDetailHeader({ onBack }) {
         padding: '0 35px',
       }}
     >
-      <div className='flex items-center gap-1 text-[13px] leading-5'>
+      <div className='flex items-center gap-1 text-[14px] leading-5'>
         {(selectedOrder?.status === 'scheduled' ||
           selectedOrder?.status === 'Scheduled') && (
           <span className='cursor-pointer mr-3' onClick={handleBack}>

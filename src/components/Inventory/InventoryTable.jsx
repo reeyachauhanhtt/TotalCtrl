@@ -91,7 +91,7 @@ export default function InventoryTable({
     paddingTop: 12,
     paddingBottom: 12,
     fontSize: 12,
-    fontWeight: 400,
+    fontWeight: 600,
     color: '#5b636a',
     textAlign: 'left',
     // borderTop: '1px solid #dee2e6',

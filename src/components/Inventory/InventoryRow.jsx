@@ -43,9 +43,9 @@ function ExpirationBadge({ dateStr }) {
           marginTop: 5,
           backgroundColor: '#fde8e8',
           color: '#c0392b',
-          fontSize: 11,
+          fontSize: 11.5,
           lineHeight: '16px',
-          fontWeight: 600,
+          fontWeight: 700,
           fontStyle: 'normal',
           textTransform: 'uppercase',
           letterSpacing: '.08em',
@@ -66,9 +66,9 @@ function ExpirationBadge({ dateStr }) {
         marginTop: 5,
         backgroundColor: '#e6e3ff',
         color: '#362a96',
-        fontSize: 11,
+        fontSize: 11.5,
         lineHeight: '16px',
-        fontWeight: 600,
+        fontWeight: 700,
         fontStyle: 'normal',
         textTransform: 'uppercase',
         letterSpacing: '.08em',
@@ -108,9 +108,9 @@ const OutOfStockBadge = () => (
       display: 'inline-block',
       backgroundColor: '#e7e7ec',
       color: '#57575b',
-      fontSize: 11,
+      fontSize: 11.5,
       lineHeight: '16px',
-      fontWeight: 600,
+      fontWeight: 700,
       fontStyle: 'normal',
       textTransform: 'uppercase',
       letterSpacing: '.08em',
@@ -133,7 +133,7 @@ const tdStyle = {
 
 const darkText = {
   color: '#19191c',
-  fontSize: 13,
+  fontSize: 14,
   lineHeight: '20px',
   fontWeight: 400,
 };
@@ -173,7 +173,7 @@ function BatchRow({ batch, isEditing, editQty, onQtyChange }) {
         <div style={{ display: 'block', margin: '0 0 20px' }}>
           <span style={greyText}> {formatDate(batch.arrivalDate)}</span>
           <br />
-          <span style={{ ...greyText, fontSize: 11 }}>
+          <span style={{ ...greyText, fontSize: 12 }}>
             {batch.daysInStorage} Days in storage
           </span>
         </div>
@@ -520,7 +520,9 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         >
           {/* Main row: single .multiple div wrapping item name */}
           <div style={multipleDiv}>
-            <span style={{ ...darkText, fontWeight: 600 }}>{item.name}</span>
+            <span style={{ ...darkText, fontSize: 14.5, fontWeight: 650 }}>
+              {item.name}
+            </span>
           </div>
         </td>
 
@@ -535,7 +537,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
               <>
                 <span style={darkText}>{formatDate(item.arrivalInfo)}</span>
                 <br />
-                <span style={{ ...greyText, fontSize: 11 }}>
+                <span style={{ ...greyText, fontSize: 12 }}>
                   {item.batches?.[0]?.daysInStorage} Days in storage
                 </span>
               </>
@@ -595,7 +597,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
                   style={{
                     width: 100,
                     padding: '3px 4px 3px 8px',
-                    fontSize: 13,
+                    fontSize: 12,
                     textAlign: 'right',
                     color: '#333333',
                     background: 'transparent',
@@ -605,7 +607,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
                 />
                 <span
                   style={{
-                    fontSize: 13,
+                    fontSize: 12,
                     color: '#6b6b6f',
                     paddingRight: 8,
                     whiteSpace: 'nowrap',

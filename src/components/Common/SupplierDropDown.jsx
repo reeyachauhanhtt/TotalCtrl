@@ -27,7 +27,7 @@ export default function SupplierDropdown({
     <div ref={wrapperRef} className={`relative w-60 ${className}`}>
       <button
         onClick={() => setOpen((p) => !p)}
-        className='flex items-center justify-between w-full h-10 px-4 text-[13px] text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
+        className='flex items-center justify-between w-full h-10 px-4 text-[14px] text-gray-900 border border-gray-300 rounded-sm hover:border-gray-400'
       >
         <span className='truncate'>
           {selectedSupplier?.Name || 'All Suppliers'}
@@ -49,7 +49,7 @@ export default function SupplierDropdown({
               setSelectedSupplier(null);
               setOpen(false);
             }}
-            className={`px-4 py-3 text-[13px] leading-5 cursor-pointer flex justify-between items-center hover:bg-gray-100 ${
+            className={`px-4 py-3 text-[14px] leading-5 cursor-pointer flex justify-between items-center hover:bg-gray-100 ${
               !selectedSupplier ? 'bg-emerald-50' : ''
             }`}
           >
@@ -67,7 +67,7 @@ export default function SupplierDropdown({
                 setSelectedSupplier(s);
                 setOpen(false);
               }}
-              className={`px-4 py-3 text-[13px] leading-5 cursor-default flex justify-between items-center hover:bg-gray-100 ${
+              className={`px-4 py-3 text-[14px] leading-5 cursor-default flex justify-between items-center hover:bg-gray-100 ${
                 selectedSupplier?.Id === s.Id ? 'bg-emerald-50' : ''
               }`}
             >

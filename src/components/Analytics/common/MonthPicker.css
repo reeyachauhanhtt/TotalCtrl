@@ -5,7 +5,6 @@
     overflow: hidden;
     background: #fff;
     width: 900px;
-    /* ✅ Fix #8: match reference width */
 }
 
 .analytics-calendar .rdrDateRangePickerWrapper {
@@ -52,7 +51,7 @@
     outline: 0;
     line-height: 18px;
     padding: 10px 20px;
-    font-size: 11px;
+    font-size: 12px;
     text-align: left;
     color: #19191c !important;
     white-space: nowrap;
@@ -130,26 +129,21 @@
     justify-content: center;
 }
 
-/* ✅ Fix #6: wider month columns to match reference */
 .analytics-calendar .rdrMonth {
     padding: 0 !important;
     width: 25.667em;
 }
 
-/* ✅ Fix #2: larger month title */
 .analytics-calendar .rdrMonthName {
     text-align: center !important;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     color: #333 !important;
     padding: 20px 15px 15px !important;
     font-weight: 600;
 }
 
-/* ✅ Fix #3: restore weekday row borders */
 .analytics-calendar .rdrWeekDays {
-    /* border-top: 1px solid #e6e6ed;
-    border-bottom: 1px solid #e6e6ed; */
     display: flex;
     justify-content: center;
     padding: 0;
@@ -158,14 +152,12 @@
 .analytics-calendar .rdrWeekDay {
     font-size: 10px;
     line-height: 24px !important;
-    color: #8b8c97 !important;
-    /* flex-basis: 14.28571% !important; */
+    color: #808186 !important;
     flex-basis: 37px !important;
     text-align: center;
-    font-weight: 400;
+    font-weight: 500;
 }
 
-/* ✅ Fix #4: taller day cells */
 .analytics-calendar .rdrDay {
     height: 46px !important;
     width: 14.28571%;
@@ -180,7 +172,6 @@
     text-align: center;
 }
 
-/* ✅ Fix #5: days container width to allow wider cells */
 .analytics-calendar .rdrDays {
     width: 252px;
     margin: auto;
@@ -195,15 +186,15 @@
 }
 
 .analytics-calendar .rdrDayNumber span {
-    color: #19191c !important;
-    font-size: 11px;
+    color: #000000 !important;
+    font-size: 12px;
 }
 
 .analytics-calendar .rdrDayNumber {
     top: 5px;
     bottom: 5px;
     outline: 0;
-    font-weight: 300;
+    font-weight: 400;
     position: absolute;
     left: 0;
     right: 0;
@@ -278,7 +269,6 @@
 .analytics-calendar .calendar-cancel-button-container {
     height: 36px;
     width: 80px;
-    /* ✅ Fix #9: slightly wider to match reference */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -294,7 +284,6 @@
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-    /* ✅ Fix #9: match reference font size */
     color: #6b6b6f;
     text-align: center;
 }
@@ -302,7 +291,6 @@
 .analytics-calendar .calendar-apply-button-container {
     height: 36px;
     width: 80px;
-    /* ✅ Fix #9: slightly wider to match reference */
     display: flex;
     align-items: center;
     justify-content: center;

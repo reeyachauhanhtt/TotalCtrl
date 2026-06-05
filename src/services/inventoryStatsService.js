@@ -70,3 +70,17 @@ export async function fetchCheckOutValue({
   );
   return res.data;
 }
+
+//Export Button - xlsx download
+export async function fetchInventoryExport({
+  inventoryId,
+  fromDate,
+  toDate,
+  language = 'en',
+}) {
+  const userId = getUserIdFromToken();
+  const res = await axiosInstance.get('/analytics/inventory/export', {
+    params: { inventoryId, userId, fromDate, toDate, language },
+  });
+  return res.data;
+}

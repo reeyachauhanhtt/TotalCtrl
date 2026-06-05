@@ -144,7 +144,7 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
       >
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-4 border-b border-gray-100'>
-          <h2 className='text-[15px] font-semibold text-gray-800'>
+          <h2 className='text-[18px] font-semibold text-gray-800 pl-6 pb-3'>
             Add items to {inventoryName}
           </h2>
 
@@ -161,7 +161,7 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
                   setShowConfirm(true);
                 }
               }}
-              className='text-gray-700 p-1 cursor-pointer'
+              className='text-gray-800 p-1 cursor-pointer'
             >
               <FiX size={20} />
             </button>
@@ -170,11 +170,6 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
 
         {/* Table */}
         <div className='overflow-y-auto flex-1'>
-          {/* {isSubmitting ? (
-            Array.from({ length: rows.length }).map((_, i) => (
-              <AddItemRowSkeleton key={i} />
-            ))
-          ) : ( */}
           <OrderItemsTable
             rows={rows}
             onChange={setRows}
