@@ -6,6 +6,7 @@ import AnalyticsDetail from '../components/Analytics/AnalyticsDetail';
 import InventoryStats from '../components/Analytics/InventoryStats/InventoryStats';
 import InventoryStatsDetail from '../components/Analytics/InventoryStats/InventoryStatsDetail';
 import FoodUsage from '../components/Analytics/FoodUsage/FoodUsage';
+import FoodWaste from '../components/Analytics/FoodWaste/FoodWaste';
 import { setAnalyticsSelectedTab } from '../store/analyticsSlice';
 
 export default function AnalyticsDetailPage() {
@@ -65,7 +66,9 @@ export default function AnalyticsDetailPage() {
             onTabChange={handleTabChange}
           />
         )}
-        {activeTab === 'Food Waste' && null}
+        {activeTab === 'Food Waste' && (
+          <FoodWaste inventoryId={selectedInventory?.id} />
+        )}
         {activeTab === 'Purchases' && null}
         {activeTab === 'Delivery Stats' && null}
         {activeTab === 'Transfers' && null}

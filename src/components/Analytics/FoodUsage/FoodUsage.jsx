@@ -139,7 +139,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
             {totalCheckout}
           </h2>
           <div className='mt-2'>
-            <ProgressBar value={totalData?.totalCheckoutPercentage ?? 100} />
+            <ProgressBar value={totalData?.totalCheckoutPercentage ?? 0} />
           </div>
         </div>
 

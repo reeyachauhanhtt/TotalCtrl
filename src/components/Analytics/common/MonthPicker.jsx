@@ -13,6 +13,7 @@ import {
   subWeeks,
   subMonths,
   subYears,
+  format,
 } from 'date-fns';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -128,9 +129,13 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     persisted?.range ?? defaultRange,
   );
 
-  // useEffect(() => {
-  //   onApply?.({ startDate: range[0].startDate, endDate: range[0].endDate });
-  // }, []);
+  const SHOW_DATE_LABELS = ['This Year', 'Custom'];
+
+  const displayLabel = SHOW_DATE_LABELS.includes(label)
+    ? `${format(range[0].startDate, 'yyyy-MM-dd')} to ${format(range[0].endDate, 'yyyy-MM-dd')}`
+    : label;
+
+  const showClear = SHOW_DATE_LABELS.includes(label);
 
   function handleOpen() {
     setPendingRange(range);
@@ -158,6 +163,7 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     onApply?.({
       startDate: pendingRange[0].startDate,
       endDate: pendingRange[0].endDate,
+      label: newLabel,
     });
     setOpen(false);
   }
@@ -166,11 +172,38 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     <div className='relative'>
       <button
         onClick={open ? handleCancel : handleOpen}
-        className='flex items-center justify-between h-9 text-[13px] text-[#19191c] font-normal cursor-pointer rounded-sm px-3 bg-white'
-        style={{ border: '1px solid #d7d8e0', width: 200 }}
+        className='flex items-center justify-between h-9 text-[14px] text-[#19191c] font-normal cursor-pointer rounded-sm px-3 bg-white'
+        style={{ border: '1px solid #d7d8e0', width: showClear ? 240 : 200 }}
       >
-        <span>{label}</span>
-        {open ? (
+        <span>{displayLabel}</span>
+        {showClear && !open ? (
+          <span
+            onClick={(e) => {
+              e.stopPropagation();
+              const defaultLabel = 'This Month';
+              const defaultRange = [
+                {
+                  startDate: startOfMonth(new Date()),
+                  endDate: endOfMonth(new Date()),
+                  key: 'selection',
+                },
+              ];
+              setRange(defaultRange);
+              setPendingRange(defaultRange);
+              setLabel(defaultLabel);
+              saveRange(defaultRange, defaultLabel);
+              onApply?.({
+                startDate: defaultRange[0].startDate,
+                endDate: defaultRange[0].endDate,
+                label: defaultLabel,
+              });
+            }}
+            className='ml-2 text-[#19191c] leading-none'
+            style={{ fontSize: 16 }}
+          >
+            ×
+          </span>
+        ) : open ? (
           <img
             src='/icons/closepopup-icon.svg'
             alt='close'

@@ -1,255 +1,188 @@
-<div
-    class=""
-    style="
-        overflow: hidden auto;
-        position: fixed;
-        width: calc(100% - 200px);
-        height: calc(100% - 200px);
-        padding: 0px 35px 60px;
-    "
->
-    <div class="order-info-container analytics-section-title">
-        <div class="left-sec">
-            <div><span class="spanTitle">Food Usage</span></div>
-        </div>
-        <div class="right-sec" style="text-align: right; display: flex">
-            <button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px">Export Data</button>
-            <div style="margin-left: 20px">
-                <label
-                    class="select-field select-date-range"
-                    style="
-                        width: 200px;
-                        height: 36px;
-                        padding: 6px 10px 10px;
-                        cursor: pointer;
-                        text-align: left;
-                        text-transform: initial;
-                        background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;
-                    "
-                    >Last Month</label
-                >
-            </div>
-        </div>
-    </div>
-    <div class="top-progressView-container">
-        <div style="width: 268px">
-            <span class="top-progress-title">Total value of checked out food</span>
-            <h2 class="top-progress-number">222 905,00 kr</h2>
-            <div class="small-progress-conatiner">
-                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
-                    <path
-                        class="rc-progress-line-trail"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#D9D9D9"
-                        stroke-width="4"
-                        fill-opacity="0"
-                    ></path>
-                    <path
-                        class="rc-progress-line-path"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#66C888"
-                        stroke-width="4"
-                        fill-opacity="0"
-                        style="
-                            stroke-dasharray: 96px, 100px;
-                            stroke-dashoffset: 0px;
-                            transition:
-                                stroke-dashoffset,
-                                stroke-dasharray,
-                                stroke linear;
-                        "
-                    ></path>
-                </svg>
-            </div>
-        </div>
-        <div style="width: 268px">
-            <span class="top-progress-title">Used Food (0.36 %)</span>
-            <h2 class="top-progress-number">805,00 kr</h2>
-            <div class="small-progress-conatiner">
-                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
-                    <path
-                        class="rc-progress-line-trail"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#D9D9D9"
-                        stroke-width="4"
-                        fill-opacity="0"
-                    ></path>
-                    <path
-                        class="rc-progress-line-path"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#66C888"
-                        stroke-width="4"
-                        fill-opacity="0"
-                        style="
-                            stroke-dasharray: 0.3456px, 100px;
-                            stroke-dashoffset: 0px;
-                            transition:
-                                stroke-dashoffset,
-                                stroke-dasharray,
-                                stroke linear;
-                        "
-                    ></path>
-                </svg>
-            </div>
-        </div>
-        <div style="width: 268px">
-            <span class="top-progress-title">Food Waste (99.64 %)</span>
-            <h2 class="top-progress-number">222 100,00 kr</h2>
-            <div class="small-progress-conatiner">
-                <svg class="rc-progress-line" viewBox="0 0 100 4" preserveAspectRatio="none" style="width: 60%">
-                    <path
-                        class="rc-progress-line-trail"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#D9D9D9"
-                        stroke-width="4"
-                        fill-opacity="0"
-                    ></path>
-                    <path
-                        class="rc-progress-line-path"
-                        d="M 2,2
-         L 98,2"
-                        stroke-linecap="round"
-                        stroke="#66C888"
-                        stroke-width="4"
-                        fill-opacity="0"
-                        style="
-                            stroke-dasharray: 95.6544px, 100px;
-                            stroke-dashoffset: 0px;
-                            transition:
-                                stroke-dashoffset,
-                                stroke-dasharray,
-                                stroke linear;
-                        "
-                    ></path>
-                </svg>
-            </div>
-        </div>
-    </div>
-    <div class="list-box">
-        <div class="card card-table">
-            <div
-                style="
-                    border-bottom: 1px solid rgb(230, 230, 237);
-                    border-top: 1px solid rgb(230, 230, 237);
-                    background-color: rgb(248, 249, 250);
-                "
-            >
-                <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto">
-                    <thead>
+//waste item detail
+
+<div class="" style="overflow: hidden auto; position: fixed; width: calc(100% - 200px); height: calc(100% - 200px); padding: 0px 35px 60px;">
+   <div style="height: 72px; width: 100%; align-items: center; display: flex; border-bottom: 1px solid rgb(230, 230, 237);">
+      <div style="height: 40px; width: 240px; align-items: center; display: flex; flex-direction: row; cursor: pointer;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgB7dfNDYJAFATgWW1AO/CknejJhBKwBbUAGjDagdqCnrQKPepp7YAKRHajCSHB09u3Icx34id5zCTAZgEiIiIiIuoqAyWjzTwtjNmWh3n50MwuT0cI6EHBN/y+PBy40wLYQUjwApXwVTmEBC3QEB7mjQxCgn0Df8Kndi3z/vt5CEArvJ8JYZrh/VwI0g7vZ0NIjPB+PgTECu+EXQcUlsk+BOTX5204Hb9gTFK7lQxnE5tfHncEIlLAiVVCrIATo4RoAUe7hHgBR7NEkAKOVomgPzq7Oh9MUSzq11u1H2go0Y79wE+lhIXbUgruB4iIiIi67AM/UI9KLmM6cwAAAABJRU5ErkJggg==" style="height: 24px; width: 24px;"><span class="green-seeall-span">Back to full report of Food Waste</span></div>
+   </div>
+   <div class="order-info-container analytics-section-title">
+      <div class="left-sec">
+         <div><span class="spanTitle">Top most wasted items</span></div>
+      </div>
+      <div class="right-sec" style="text-align: right; display: flex;">
+         <button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px;">Export Data</button>
+         <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">Last Month</label></div>
+      </div>
+   </div>
+   <div class="list-box" style="margin-top: 0px;">
+      <div class="card card-table">
+         <div style="border-bottom: 1px solid rgb(230, 230, 237); border-top: 1px solid rgb(230, 230, 237); background-color: rgb(248, 249, 250);">
+            <table class="table mg-b-0 tx-13 " style="width: 95%; margin: auto;">
+               <thead>
+                  <tr class="">
+                     <th class="pd-y-5 tx-left" style="width: 60%;">ITEM NAME</th>
+                     <th class="pd-y-5 tx-right" style="width: 15%;">AMOUNT</th>
+                     <th class="pd-y-5 tx-right" style="width: 15%;">VALUE</th>
+                  </tr>
+               </thead>
+            </table>
+         </div>
+         <div id="scrollableDiv">
+            <div>
+               <div class="infinite-scroll-component " style="height: 500px; overflow: auto;">
+                  <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto;">
+                     <tbody>
                         <tr class="">
-                            <th class="pd-y-5 tx-left" style="width: 40%">ITEM NAME</th>
-                            <th class="pd-y-5 tx-left" style="width: 10%">USED FOOD</th>
-                            <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
-                            <th class="pd-y-5 tx-left" style="width: 10%">FOOD WASTE</th>
-                            <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
-                            <th class="pd-y-5 tx-right" style="width: 10%">TOTAL</th>
-                            <th class="pd-y-5 tx-left" style="width: 10%">CHECKED OUT</th>
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">RESOLUTE PINK GIN</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">10 Bottles</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">20 000,00 kr</span></td>
                         </tr>
-                    </thead>
-                </table>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Tacos</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">20 Boxes</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">3 000,00 kr</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Kit Kat</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">3 Boxes</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">600,00 kr</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">1 L LETTMELK 0,5%</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">3.4 Cartons</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">423,30 kr</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">1000G BIOLA BLÅBÆRDRIKK  2</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">2 Pieces</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">312,84 kr</span></td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h2 style="text-align: center;"><br><br><br></h2>
+               </div>
             </div>
-            <div id="scrollableDiv">
-                <div>
-                    <div class="infinite-scroll-component" style="height: auto; overflow: auto">
-                        <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
-                            <tbody>
-                                <tr class="">
-                                    <td class="pd-y-5 tx-left" style="width: 40%">
-                                        <span class="dark-text">apple</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">5 Baskets</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">305,00 kr</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">0 Baskets</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">0,00 </span>
-                                    </td>
-                                    <td class="pd-y-5 tx-right" style="width: 10%">
-                                        <span class="dark-text">5 Baskets</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">305,00 kr</span>
-                                    </td>
-                                </tr>
-                                <tr class="">
-                                    <td class="pd-y-5 tx-left" style="width: 40%">
-                                        <span class="dark-text">Kesar</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">0 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">0,00 </span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">5 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">200 000,00 kr</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-right" style="width: 10%">
-                                        <span class="dark-text">5 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">200 000,00 kr</span>
-                                    </td>
-                                </tr>
-                                <tr class="">
-                                    <td class="pd-y-5 tx-left" style="width: 40%">
-                                        <span class="dark-text">Saffron</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">5 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">500,00 kr</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">221 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">22 100,00 kr</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-right" style="width: 10%">
-                                        <span class="dark-text">226 Grams</span>
-                                    </td>
-                                    <td class="pd-y-5 tx-left" style="width: 10%">
-                                        <span class="dark-text">22 600,00 kr</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h2 style="text-align: center"><br /><br /><br /></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
 
+//waste by category detail 
 
-CSS : 
+<div class="" style="overflow: hidden auto; position: fixed; width: calc(100% - 200px); height: calc(100% - 200px); padding: 0px 35px 60px;">
+   <div style="height: 72px; width: 100%; align-items: center; display: flex; border-bottom: 1px solid rgb(230, 230, 237);">
+      <div style="height: 40px; width: 240px; align-items: center; display: flex; flex-direction: row; cursor: pointer;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD4SURBVHgB7dfNDYJAFATgWW1AO/CknejJhBKwBbUAGjDagdqCnrQKPepp7YAKRHajCSHB09u3Icx34id5zCTAZgEiIiIiIuoqAyWjzTwtjNmWh3n50MwuT0cI6EHBN/y+PBy40wLYQUjwApXwVTmEBC3QEB7mjQxCgn0Df8Kndi3z/vt5CEArvJ8JYZrh/VwI0g7vZ0NIjPB+PgTECu+EXQcUlsk+BOTX5204Hb9gTFK7lQxnE5tfHncEIlLAiVVCrIATo4RoAUe7hHgBR7NEkAKOVomgPzq7Oh9MUSzq11u1H2go0Y79wE+lhIXbUgruB4iIiIi67AM/UI9KLmM6cwAAAABJRU5ErkJggg==" style="height: 24px; width: 24px;"><span class="green-seeall-span">Back to full report of Food Waste</span></div>
+   </div>
+   <div class="order-info-container analytics-section-title">
+      <div class="left-sec">
+         <div><span class="spanTitle">Food waste by category</span></div>
+      </div>
+      <div class="right-sec" style="text-align: right; display: flex;">
+         <button class="download-btn" variant="warning" style="height: 36px; padding: 0px 20px;">Export Data</button>
+         <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">Last Month</label></div>
+      </div>
+   </div>
+   <div class="list-box" style="margin-top: 0px;">
+      <div class="card card-table">
+         <div style="border-bottom: 1px solid rgb(230, 230, 237); border-top: 1px solid rgb(230, 230, 237); background-color: rgb(248, 249, 250);">
+            <table class="table mg-b-0 tx-13 " style="width: 95%; margin: auto;">
+               <thead>
+                  <tr class="">
+                     <th class="pd-y-5 tx-left" style="width: 60%;">CATEGORY</th>
+                     <th class="pd-y-5 tx-right" style="width: 15%;">VALUE</th>
+                     <th class="pd-y-5 tx-right" style="width: 15%;">INVENTORY %</th>
+                  </tr>
+               </thead>
+            </table>
+         </div>
+         <div id="scrollableDiv">
+            <div>
+               <div class="infinite-scroll-component " style="height: 500px; overflow: auto;">
+                  <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto;">
+                     <tbody>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Alcoholic Beverages</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">20 000,00 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">78.51%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Fruits &amp; Vegetables</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">3 360,00 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">13.19%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Non-foods</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">600,00 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">2.36%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Refrigerated Goods</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">540,50 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">2.12%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Alcoholic Beverages / Armagnac</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">423,30 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">1.66%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Non-alcoholic Beverages</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">402,84 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">1.58%</span></td>
+                        </tr>
+                        <tr class="">
+                           <td class="pd-y-5 tx-left" style="width: 60%;"><span class="dark-text">Dry Goods / Bread</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">147,00 kr</span></td>
+                           <td class="pd-y-5 tx-right" style="width: 15%;"><span class="dark-text">0.58%</span></td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h2 style="text-align: center;"><br><br><br></h2>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+css : 
 element.style {
     overflow: hidden auto;
     position: fixed;
     width: calc(100% - 200px);
     height: calc(100% - 200px);
     padding: 0px 35px 60px;
+}
+element.style {
+    height: 72px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    border-bottom: 1px solid rgb(230, 230, 237);
+}
+element.style {
+    height: 40px;
+    width: 240px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+element.style {
+    height: 24px;
+    width: 24px;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.green-seeall-span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: .04em;
+    color: #1f8e4e;
 }
 .order-info-container.analytics-section-title {
     padding: 38px 0;
@@ -285,256 +218,19 @@ element.style {
     text-align: right;
     display: flex;
 }
-element.style {
-    height: 36px;
-    padding: 0px 20px;
-}
-.download-btn {
-    padding: 6px 9px;
-    border: 1px solid #d7d8e0;
-    background-color: #fff;
-    border-radius: 4px;
-    margin-left: 24px;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: 600;
-    color: #19191c;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-element.style {
-    margin-left: 20px;
-}
-month picker component
+EXPORT BUTTON COMPONENT 
 
-.top-progressView-container {
-    display: flex;
-    line-height: normal;
-}
+MONTH PICKER COMPONENT
+
 element.style {
-    width: 268px;
+    margin-top: 0px;
 }
-.top-progress-title {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-.top-progress-number {
-    color: #19191c;
-    margin: 0;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -.01em;
-}
-h2, .h2 {
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    margin-bottom: 0.5rem;
-    font-family: inherit;
-    font-weight: 500;
-    line-height: 1.2;
-    color: inherit;
-}
-element.style {
-    width: 60%;
-}
-progress bar component
-svg:not(:root) {
-    overflow: hidden;
-}
-element.style {
-    width: 268px;
-}
-.top-progress-title {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-.top-progress-number {
-    color: #19191c;
-    margin: 0;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -.01em;
-}
-progressbar component
-element.style {
-    width: 268px;
-}
-.top-progress-title {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-.top-progress-number {
-    color: #19191c;
-    margin: 0;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -.01em;
-}
-progressbar component
-
-
-
-TABLE ELEMENT 
-<div class="list-box">
-    <div class="card card-table">
-        <div
-            style="
-                border-bottom: 1px solid rgb(230, 230, 237);
-                border-top: 1px solid rgb(230, 230, 237);
-                background-color: rgb(248, 249, 250);
-            "
-        >
-            <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto">
-                <thead>
-                    <tr class="">
-                        <th class="pd-y-5 tx-left" style="width: 40%">ITEM NAME</th>
-                        <th class="pd-y-5 tx-left" style="width: 10%">USED FOOD</th>
-                        <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
-                        <th class="pd-y-5 tx-left" style="width: 10%">FOOD WASTE</th>
-                        <th class="pd-y-5 tx-left" style="width: 10%">VALUE</th>
-                        <th class="pd-y-5 tx-right" style="width: 10%">TOTAL</th>
-                        <th class="pd-y-5 tx-left" style="width: 10%">CHECKED OUT</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div id="scrollableDiv">
-            <div>
-                <div class="infinite-scroll-component" style="height: auto; overflow: auto">
-                    <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
-                        <tbody>
-                            <tr class="">
-                                <td class="pd-y-5 tx-left" style="width: 40%">
-                                    <span class="dark-text">Amul cheese</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">0 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">2 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">20,00 kr</span>
-                                </td>
-                                <td class="pd-y-5 tx-right" style="width: 10%">
-                                    <span class="dark-text">2 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">20,00 kr</span>
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <td class="pd-y-5 tx-left" style="width: 40%">
-                                    <span class="dark-text">Amul cheese</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">2 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">1,00 kr</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">0 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                                <td class="pd-y-5 tx-right" style="width: 10%">
-                                    <span class="dark-text">2 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">1,00 kr</span>
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Apples</span></td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">2 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">680,00 kr</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">4 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">1 360,00 kr</span>
-                                </td>
-                                <td class="pd-y-5 tx-right" style="width: 10%">
-                                    <span class="dark-text">6 Kilograms</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">2 040,00 kr</span>
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <td class="pd-y-5 tx-left" style="width: 40%">
-                                    <span class="dark-text">BACON I SKIVER U/SVOR (1.80 (1.80 kg)I</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 Box</span></td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">271,15 kr</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">0 Boxes</span>
-                                </td>
-                                <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                                <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">1 Box</span></td>
-                                <td class="pd-y-5 tx-left" style="width: 10%">
-                                    <span class="dark-text">271,15 kr</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h2 style="text-align: center"><br /><br /><br /></h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-CSS : 
 .list-box {
     overflow: hidden;
     border: 1px solid #e7e7ec;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(51, 51, 82, .08), 0 2px 6px rgba(51, 51, 82, .08);
-    border-radius
-Defines the radii of the outer border edge.
-
-Widely available across major browsers (Baseline since January 2018)
-Learn more
-
-Don't show
-: 8px;
+    border-radius: 8px;
     margin-top: 60px;
 }
 .card {
@@ -579,7 +275,7 @@ table thead {
     background-color: #fafafc;
 }
 element.style {
-    width: 40%;
+    width: 60%;
 }
 .card-table .table thead tr th {
     color: #737373;
@@ -622,173 +318,8 @@ table td:first-child, table th:first-child {
 table th {
     height: 48px;
 }
-Element.style {
-    width: 10%;
-}
-.card-table .table thead tr th {
-    color: #737373;
-}
-.card-table .table thead tr th, .card-table .table thead tr td {
-    background-color: #f8f9fa;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #737373;
-}
-.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
-    border-top: 0;
-    border-bottom: 0;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    background-color: #dee2e6;
-    color: #343a40;
-    letter-spacing: 0.5px;
-}
-.table thead th {
-    /* vertical-align: bottom; */
-    border-bottom: 2px solid #dee2e6;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table th {
-    height: 48px;
-}
 element.style {
-    width: 10%;
-}
-.card-table .table thead tr th {
-    color: #737373;
-}
-.card-table .table thead tr th, .card-table .table thead tr td {
-    background-color: #f8f9fa;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #737373;
-}
-.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
-    border-top: 0;
-    border-bottom: 0;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    background-color: #dee2e6;
-    color: #343a40;
-    letter-spacing: 0.5px;
-}
-.table thead th {
-    /* vertical-align: bottom; */
-    border-bottom: 2px solid #dee2e6;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table th {
-    height: 48px;
-}
-element.style {
-    width: 10%;
-}
-.card-table .table thead tr th {
-    color: #737373;
-}
-.card-table .table thead tr th, .card-table .table thead tr td {
-    background-color: #f8f9fa;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #737373;
-}
-.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
-    border-top: 0;
-    border-bottom: 0;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    background-color: #dee2e6;
-    color: #343a40;
-    letter-spacing: 0.5px;
-}
-.table thead th {
-    /* vertical-align: bottom; */
-    border-bottom: 2px solid #dee2e6;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table th {
-    height: 48px;
-}
-element.style {
-    width: 10%;
-}
-.card-table .table thead tr th {
-    color: #737373;
-}
-
-.card-table .table thead tr th, .card-table .table thead tr td {
-    background-color: #f8f9fa;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #737373;
-}
-.table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
-    border-top: 0;
-    border-bottom: 0;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    background-color: #dee2e6;
-    color: #343a40;
-    letter-spacing: 0.5px;
-}
-.table thead th {
-    /* vertical-align: bottom; */
-    border-bottom: 2px solid #dee2e6;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table th {
-    height: 48px;
-}
-element.style {
-    width: 10%;
+    width: 15%;
 }
 .card-table .table thead tr th {
     color: #737373;
@@ -829,7 +360,7 @@ table th {
     height: 48px;
 }
 element.style {
-    width: 10%;
+    width: 15%;
 }
 .card-table .table thead tr th {
     color: #737373;
@@ -841,6 +372,7 @@ element.style {
     letter-spacing: 1px;
     color: #737373;
 }
+
 .table thead > tr > th, .table thead > tr > td, .table tfoot > tr > th, .table tfoot > tr > td {
     border-top: 0;
     border-bottom: 0;
@@ -865,70 +397,16 @@ table td:last-child, table th:last-child {
     /* vertical-align: top; */
     /* border-top: 1px solid #dee2e6; */
 }
-.tx-left {
-    text-align: left;
+.tx-right {
+    text-align: right;
 }
 .pd-y-5 {
 table th {
     height: 48px;
 }
 
-
-SCROLLABLE DIV THAT CONTAINS ROWS 
-<div id="scrollableDiv">
-    <div>
-        <div class="infinite-scroll-component" style="height: auto; overflow: auto">
-            <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto">
-                <tbody>
-                    <tr class="">
-                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Amul cheese</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">20,00 kr</span></td>
-                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">20,00 kr</span></td>
-                    </tr>
-                    <tr class="">
-                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Amul cheese</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1,00 kr</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1,00 kr</span></td>
-                    </tr>
-                    <tr class="">
-                        <td class="pd-y-5 tx-left" style="width: 40%"><span class="dark-text">Apples</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">680,00 kr</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">4 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 360,00 kr</span></td>
-                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">6 Kilograms</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">2 040,00 kr</span></td>
-                    </tr>
-                    <tr class="">
-                        <td class="pd-y-5 tx-left" style="width: 40%">
-                            <span class="dark-text">BACON I SKIVER U/SVOR (1.80 (1.80 kg)I</span>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">1 Box</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">271,15 kr</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0 Boxes</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">0,00 </span></td>
-                        <td class="pd-y-5 tx-right" style="width: 10%"><span class="dark-text">1 Box</span></td>
-                        <td class="pd-y-5 tx-left" style="width: 10%"><span class="dark-text">271,15 kr</span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h2 style="text-align: center"><br /><br /><br /></h2>
-        </div>
-    </div>
-</div>
-
-
-CSS : 
 element.style {
-    height: auto;
+    height: 500px;
     overflow: auto;
 }
 element.style {
@@ -952,55 +430,12 @@ table {
     border-collapse: collapse;
 }
 element.style {
-    width: 40%;
+    width: 60%;
 }
 table td:first-child, table th:first-child {
     padding-left: 0;
 }
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
 
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-.inventorytbl span.dark-text {
-    font-style: normal;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
-}
-.inventorytbl span {
-    display: unset;
-}
-element.style {
-    width: 10%;
-}
 .inventorytbl td {
     vertical-align: top;
     padding-top: 26px;
@@ -1036,19 +471,26 @@ table td {
 }
 .table td span {
     border-top-color: #dee2e6;
-    color: #5b636a;
+    color
+Sets the color of an element's text
+
+Widely available across major browsers (Baseline since January 2018)
+Learn more
+
+Don't show
+: #5b636a;
 }
+
 .inventorytbl span {
     display: unset;
 }
 element.style {
-    width: 10%;
+    width: 15%;
 }
 .inventorytbl td {
     vertical-align: top;
     padding-top: 26px;
 }
-
 .table td {
     border-top-color: #dee2e6;
     color: #333333;
@@ -1060,8 +502,8 @@ element.style {
     /* vertical-align: top; */
     /* border-top: 1px solid #dee2e6; */
 }
-.tx-left {
-    text-align: left;
+.tx-right {
+    text-align: right;
 }
 .pd-y-5 {
 table td {
@@ -1086,103 +528,9 @@ table td {
 .inventorytbl span {
     display: unset;
 }
-element.style {
-    width: 10%;
-}
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.inventorytbl span.dark-text {
-    font-style: normal;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
 
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
-}
-.inventorytbl span {
-    display: unset;
-}
 element.style {
-    width: 10%;
-}
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-.inventorytbl span.dark-text {
-    font-style: normal;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
-}
-.inventorytbl span {
-    display: unset;
-}
-element.style {
-    width: 10%;
-}
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
-
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.inventorytbl span.dark-text {
-    font-style: normal;
-    font-size: 14px;
-    line-height: 20px;
-    color: #19191c;
-}
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
-}
-
-.inventorytbl span {
-    display: unset;
-}
-element.style {
-    width: 10%;
+    width: 15%;
 }
 table td:last-child, table th:last-child {
     padding-right: 0;
@@ -1202,8 +550,8 @@ table td:last-child, table th:last-child {
     /* vertical-align: top; */
     /* border-top: 1px solid #dee2e6; */
 }
-.tx-left {
-    text-align: left;
+.tx-right {
+    text-align: right;
 }
 .pd-y-5 {
 table td {
@@ -1233,7 +581,6 @@ element.style {
 h2, .h2 {
     font-size: 1.75rem;
 }
-
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-bottom: 0.5rem;
     font-family: inherit;
@@ -1244,5 +591,23 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: 0.5rem;
+}
+* {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+}
+*, *::before, *::after {
+user agent stylesheet
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
 }
 

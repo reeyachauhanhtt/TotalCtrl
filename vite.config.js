@@ -63,16 +63,6 @@ export default defineConfig(({ mode }) => {
             }
           },
         },
-        // '/analytics': {
-        //   target: env.VITE_API_BASE_URL,
-        //   changeOrigin: true,
-        //   secure: false,
-        //   bypass(req) {
-        //     if (req.url === '/analytics' || req.url.startsWith('/analytics?')) {
-        //       return '/index.html';
-        //     }
-        //   },
-        // },
         '/analytics': {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,

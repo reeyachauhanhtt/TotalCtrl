@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import SettingsDropdown from './Common/SettingsDropdown';
 
 export default function Sidebar() {
+  const location = useLocation();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const settingsBtnRef = useRef(null);
@@ -24,6 +25,7 @@ export default function Sidebar() {
       name: 'Analytics',
       icon: '/icons/chart.svg',
       path: '/analytics-overview',
+      matchPaths: ['/analytics-overview', '/analytics'],
     },
     {
       name: 'Inventory Count',
@@ -58,42 +60,48 @@ export default function Sidebar() {
 
         {/* Nav */}
         <nav className='mt-0'>
-          {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              className={({ isActive }) =>
-                `nav-link flex items-center transition-all duration-200 ${
-                  isActive
-                    ? 'active text-[#23A956] hover:text-[#19191c]'
-                    : 'text-[#6B6B6F] hover:text-[#19191c]'
-                }`
-              }
-              style={{
-                padding: '0px 25px 0px 29px',
-                height: '42px',
-                fontSize: '14px',
-                fontWeight: '600',
-                lineHeight: '24px',
-              }}
-            >
-              {({ isActive }) => (
-                <>
-                  <img
-                    src={item.icon}
-                    alt=''
-                    style={{
-                      marginRight: '18px',
-                      width: '24px',
-                      height: '24px',
-                      flexShrink: 0,
-                    }}
-                  />
-                  <span style={{ whiteSpace: 'nowrap' }}>{item.name}</span>
-                </>
-              )}
-            </NavLink>
-          ))}
+          {navItems.map((item) => {
+            const isActive = item.matchPaths
+              ? item.matchPaths.some(
+                  (p) =>
+                    location.pathname === p ||
+                    location.pathname.startsWith(p + '/'),
+                )
+              : location.pathname === item.path;
+
+            return (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className={() =>
+                  `nav-link flex items-center transition-all duration-200 ${
+                    isActive
+                      ? 'active text-[#23A956] hover:text-[#19191c]'
+                      : 'text-[#6B6B6F] hover:text-[#19191c]'
+                  }`
+                }
+                style={{
+                  padding: '0px 25px 0px 29px',
+                  height: '42px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  lineHeight: '24px',
+                }}
+              >
+                <img
+                  src={item.icon}
+                  alt=''
+                  style={{
+                    marginRight: '18px',
+                    width: '24px',
+                    height: '24px',
+                    flexShrink: 0,
+                  }}
+                />
+                <span style={{ whiteSpace: 'nowrap' }}>{item.name}</span>
+              </NavLink>
+            );
+          })}
         </nav>
 
         {/* Divider */}
