@@ -25,7 +25,7 @@ export default function WasteCauseProgressBar({ cause, percent }) {
       <path
         d='M 0.5,0.5 L 99.5,0.5'
         strokeLinecap='round'
-        stroke={color}
+        stroke={percent === 0 ? 'transparent' : color}
         strokeWidth='1'
         fillOpacity='0'
         style={{

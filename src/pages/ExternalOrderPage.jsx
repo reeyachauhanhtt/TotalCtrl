@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import OrderTabs from '../components/Common/OrderTab';
@@ -49,6 +50,9 @@ export default function ExternalOrderPage() {
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const location = window.location;
+  const navigate = useNavigate();
+  const { orderId } = useParams();
 
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isDetailOpen = useSelector((s) => s.externalOrder.isDetailOpen);
@@ -56,10 +60,19 @@ export default function ExternalOrderPage() {
 
   const prevDetailOpen = useRef(false);
 
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(setDetailOpen(false));
+  //     dispatch(setSelectedOrder(null));
+  //   };
+  // }, []);
+
   useEffect(() => {
     return () => {
-      dispatch(setDetailOpen(false));
-      dispatch(setSelectedOrder(null));
+      if (!window.location.pathname.includes('/external-orders/')) {
+        dispatch(setDetailOpen(false));
+        dispatch(setSelectedOrder(null));
+      }
     };
   }, []);
 
@@ -72,6 +85,31 @@ export default function ExternalOrderPage() {
     }
     prevDetailOpen.current = isDetailOpen;
   }, [isDetailOpen]);
+
+  useEffect(() => {
+    if (orderId && !isDetailOpen) {
+      const slugMap = {
+        'scheduled-order': 'Scheduled',
+        'partially-delivered': 'Partially Delivered',
+        'delivered-orders': 'Delivered',
+      };
+      const slug = window.location.pathname.split('/')[2];
+      dispatch(setDetailOpen(true));
+      dispatch(
+        setSelectedOrder({
+          id: orderId,
+          status: slugMap[slug] ?? 'Scheduled',
+        }),
+      );
+    }
+  }, [orderId]);
+
+  useEffect(() => {
+    if (!orderId && isDetailOpen && !selectedOrder?.supplier) {
+      dispatch(setDetailOpen(false));
+      dispatch(setSelectedOrder(null));
+    }
+  }, [orderId]);
 
   const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ['external-orders', selectedInventory?.id, activeTab],
@@ -98,6 +136,12 @@ export default function ExternalOrderPage() {
     inventoryName: o.inventoryName,
     number: o.number,
     itemsCount: o.itemsCount,
+    slug:
+      o.status === 'scheduled'
+        ? 'scheduled-order'
+        : o.status === 'partially delivered'
+          ? 'partially-delivered'
+          : 'delivered-orders',
   }));
 
   if (isDetailOpen && selectedOrder) {
@@ -147,8 +191,10 @@ export default function ExternalOrderPage() {
         isFetching={isFetching}
         isError={isError}
         onRowClick={(order) => {
+          console.log('order slug:', order.slug, 'order:', order);
           dispatch(setDetailOpen(true));
           dispatch(setSelectedOrder(order));
+          navigate(`/external-orders/${order.slug}/${order.id}`);
         }}
         activeTab={activeTab}
         onAddOrderClick={() => setShowAddModal(true)}

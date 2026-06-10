@@ -33,7 +33,7 @@ export default function FoodWasteByCategory({ categories }) {
                 {formatPrice(cat.value)}
               </span>
             </div>
-            <div style={{ marginTop: 6 }}>
+            <div style={{ marginTop: 15 }}>
               <ProgressBar value={cat.percent ?? 0} fullWidth />
             </div>
           </div>

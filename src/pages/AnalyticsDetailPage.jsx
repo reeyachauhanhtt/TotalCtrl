@@ -5,8 +5,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AnalyticsDetail from '../components/Analytics/AnalyticsDetail';
 import InventoryStats from '../components/Analytics/InventoryStats/InventoryStats';
 import InventoryStatsDetail from '../components/Analytics/InventoryStats/InventoryStatsDetail';
+import ViewMoreDetail from '../components/Analytics/Purchases/ViewMoreDetails';
+import PriceVariationDetail from '../components/Analytics/Purchases/PriceVariationsDetail';
 import FoodUsage from '../components/Analytics/FoodUsage/FoodUsage';
 import FoodWaste from '../components/Analytics/FoodWaste/FoodWaste';
+import Purchases from '../components/Analytics/Purchases/Purchases';
 import { setAnalyticsSelectedTab } from '../store/analyticsSlice';
 
 export default function AnalyticsDetailPage() {
@@ -23,6 +26,9 @@ export default function AnalyticsDetailPage() {
     '/analytics/bycategory': 'category',
     '/analytics/bycheckin': 'checkIn',
     '/analytics/bycheckout': 'checkOut',
+    '/analytics/biggestorders': 'biggestorders',
+    '/analytics/biggestsuppliers': 'biggestsuppliers',
+    '/analytics/pricevariation': 'pricevariation',
   };
 
   const routeMap = {
@@ -30,9 +36,17 @@ export default function AnalyticsDetailPage() {
     category: '/analytics/bycategory',
     checkIn: '/analytics/bycheckin',
     checkOut: '/analytics/bycheckout',
+    biggestorders: '/analytics/biggestorders',
+    biggestsuppliers: '/analytics/biggestsuppliers',
+    pricevariation: '/analytics/pricevariations',
   };
 
   const statsDetailType = routeTypeMap[location.pathname] ?? null;
+  const isPurchaseDetail = [
+    '/analytics/biggestorders',
+    '/analytics/biggestsuppliers',
+    '/analytics/pricevariation',
+  ].includes(location.pathname);
 
   const handleTabChange = (tab) => {
     dispatch(setAnalyticsSelectedTab(tab));
@@ -41,7 +55,7 @@ export default function AnalyticsDetailPage() {
 
   return (
     <div className='flex flex-col h-full'>
-      {!statsDetailType && (
+      {!statsDetailType && !isPurchaseDetail && (
         <AnalyticsDetail
           inventoryName={selectedInventory?.name}
           activeTab={activeTab}
@@ -60,17 +74,31 @@ export default function AnalyticsDetailPage() {
               }}
             />
           ))}
+
         {activeTab === 'Food Usage' && (
           <FoodUsage
             inventoryId={selectedInventory?.id}
             onTabChange={handleTabChange}
           />
         )}
+
         {activeTab === 'Food Waste' && (
           <FoodWaste inventoryId={selectedInventory?.id} />
         )}
-        {activeTab === 'Purchases' && null}
+
+        {activeTab === 'Purchases' &&
+          (location.pathname === '/analytics/biggestorders' ? (
+            <ViewMoreDetail type='orders' />
+          ) : location.pathname === '/analytics/biggestsuppliers' ? (
+            <ViewMoreDetail type='suppliers' />
+          ) : location.pathname === '/analytics/pricevariation' ? (
+            <PriceVariationDetail />
+          ) : (
+            <Purchases inventoryId={selectedInventory?.id} />
+          ))}
+
         {activeTab === 'Delivery Stats' && null}
+
         {activeTab === 'Transfers' && null}
       </div>
     </div>

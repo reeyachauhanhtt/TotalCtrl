@@ -15,11 +15,13 @@ export default function Sidebar() {
       name: 'External Orders',
       icon: '/icons/transport.svg',
       path: '/external-orders',
+      matchPaths: ['/external-orders'],
     },
     {
       name: 'Internal Orders',
       icon: '/icons/transport.svg',
       path: '/internal-orders',
+      matchPaths: ['/internal-orders'],
     },
     {
       name: 'Analytics',

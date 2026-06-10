@@ -1,11 +1,7 @@
-// src/features/analytics/FoodWaste/OtherReasonModal.jsx
-
 import { createPortal } from 'react-dom';
 import { formatPrice } from '../../../utils/format';
 
 export default function OtherReasonModal({ onClose, data }) {
-  // data: { totalLogs, totalValue, dateLabel, insight, reasons }
-
   return createPortal(
     <div
       className='fixed inset-0 flex items-center justify-center'
@@ -132,8 +128,8 @@ export default function OtherReasonModal({ onClose, data }) {
                       height: 20,
                       minWidth: 20,
                       borderRadius: '50%',
-                      background: i === 0 ? '#1f8e4e' : '#e7e7ec',
-                      color: i === 0 ? '#fff' : '#4b4b52',
+                      background: r.value === 0 ? '#c4c4c8' : '#1f8e4e',
+                      color: '#fff',
                       fontSize: 11,
                     }}
                   >
@@ -181,7 +177,7 @@ export default function OtherReasonModal({ onClose, data }) {
                     <path
                       d='M 1,1 L 99,1'
                       strokeLinecap='round'
-                      stroke='#1F8E4E'
+                      stroke={r.value === 0 ? '#c4c4c8' : '#1F8E4E'}
                       strokeWidth='2'
                       fillOpacity='0'
                       style={{

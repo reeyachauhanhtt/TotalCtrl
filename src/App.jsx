@@ -99,7 +99,16 @@ function Layout() {
 
     //external header
     const isExternalOrders = location.pathname.includes('external-orders');
-    if (isExternalOrders && isDetailOpen) return <ExternalOrderDetailHeader />;
+    const isFromAnalytics = location.state?.from === 'analytics';
+    const isExternalDetail =
+      isDetailOpen || /\/external-orders\/.+\/.+/.test(location.pathname);
+    if (isExternalOrders && isExternalDetail) {
+      return isFromAnalytics ? (
+        <ExternalOrderDetailHeader fromAnalytics />
+      ) : (
+        <ExternalOrderDetailHeader />
+      );
+    }
     if (isExternalOrders)
       return (
         <ExternalOrderHeader
@@ -113,15 +122,23 @@ function Layout() {
 
     //internal header
     const isInternalOrders = location.pathname.includes('internal-order');
-    if (isInternalOrders && isInternalDetailOpen)
+    const isInternalDetail =
+      isInternalDetailOpen ||
+      /\/internal-orders\/.+\/.+/.test(location.pathname);
+    if (isInternalOrders && isInternalDetail)
       return <InternalOrderDetailHeader />;
     if (isInternalOrders) return <InternalOrderHeader />;
 
     //analytics header
     const isAnalytics = location.pathname.includes('analytics');
-    const isStatsDetail = location.pathname.includes('/analytics/by');
 
-    if (isAnalytics && isStatsDetail)
+    const isStatsDetail = location.pathname.includes('/analytics/by');
+    const isPurchaseDetail = [
+      '/analytics/biggestorders',
+      '/analytics/biggestsuppliers',
+      '/analytics/pricevariation',
+    ].includes(location.pathname);
+    if (isAnalytics && (isStatsDetail || isPurchaseDetail))
       return (
         <AnalyticsHeader
           inventories={inventoryData?.Data || inventoryData?.data || []}
@@ -194,7 +211,31 @@ function Layout() {
               }
             />
             <Route path='/external-orders' element={<ExternalOrderPage />} />
+            <Route
+              path='/external-orders/scheduled-order/:orderId'
+              element={<ExternalOrderPage />}
+            />
+            <Route
+              path='/external-orders/partially-delivered/:orderId'
+              element={<ExternalOrderPage />}
+            />
+            <Route
+              path='/external-orders/delivered-orders/:orderId'
+              element={<ExternalOrderPage />}
+            />
             <Route path='/internal-orders' element={<InternalOrderPage />} />
+            <Route
+              path='/internal-orders/internal-scheduled-order/:orderId'
+              element={<InternalOrderPage />}
+            />
+            <Route
+              path='/internal-orders/internal-partially-order/:orderId'
+              element={<InternalOrderPage />}
+            />
+            <Route
+              path='/internal-orders/internal-delivered-order/:orderId'
+              element={<InternalOrderPage />}
+            />
             <Route path='/analytics-overview' element={<AnalyticsPage />} />
             <Route path='/analytics' element={<AnalyticsPage />} />
             <Route path='/analytics/*' element={<AnalyticsPage />} />

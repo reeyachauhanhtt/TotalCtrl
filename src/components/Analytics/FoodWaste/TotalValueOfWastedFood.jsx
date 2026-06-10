@@ -2,9 +2,6 @@ import { formatPrice } from '../../../utils/format';
 import ProgressBar from '../../Analytics/common/ProgressBar';
 
 export default function TotalValueOfWastedFood({ totalValue, percent }) {
-  //   const progressPercent = Math.min(percent ?? 0, 100);
-  //   const dashArray = `${progressPercent}, 100`;
-
   return (
     <div style={{ width: '50%', marginTop: 16 }}>
       <span
@@ -28,7 +25,7 @@ export default function TotalValueOfWastedFood({ totalValue, percent }) {
           marginBottom: 0,
         }}
       >
-        {formatPrice(totalValue ?? 0)}
+        {totalValue ? formatPrice(totalValue) : '0 kr'}
       </h2>
 
       <div style={{ margin: '24px 0' }}>
@@ -39,7 +36,7 @@ export default function TotalValueOfWastedFood({ totalValue, percent }) {
         className='text-[#19191c]'
         style={{ fontWeight: 400, fontSize: 14 }}
       >
-        = {percent?.toFixed(2) ?? '0.00'}% of all checked-out food
+        = {percent ? percent.toFixed(2) : '0'}% of all checked-out food
       </span>
     </div>
   );

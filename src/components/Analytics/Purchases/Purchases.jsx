@@ -1,0 +1,129 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
+import { fetchPurchaseTotal } from '../../../services/purchasesService';
+import { formatPrice } from '../../../utils/format';
+import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
+import GreenButton from '../../common/GreenButton';
+import MonthPicker from '../common/MonthPicker';
+import ExportButton from '../common/ExportButton';
+import BiggestOrders from './BiggestOrders';
+import BiggestSuppliers from './BiggestSuppliers';
+import PriceVariations from './PriceVariations';
+
+export default function Purchases() {
+  const persisted = getPersistedDateRange();
+  const [dateRange, setDateRange] = useState({
+    fromDate: persisted.fromDate,
+    toDate: persisted.toDate,
+    label: 'Last Month',
+  });
+
+  const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
+
+  const { data: totalData } = useQuery({
+    queryKey: [
+      'purchaseTotal',
+      inventoryId,
+      dateRange.fromDate,
+      dateRange.toDate,
+    ],
+    queryFn: () =>
+      fetchPurchaseTotal({
+        inventoryId,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate,
+      }),
+    enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+  });
+
+  const purchaseValue = totalData?.Data?.purchaseValue?.[0];
+  // const currencySymbol = totalData?.Data?.currencySymbol ?? 'kr';
+  const totalDisplay = purchaseValue
+    ? `${formatPrice(purchaseValue.totalPurchases)}`
+    : '0 kr';
+
+  const isEmpty =
+    !totalData || totalData?.Data?.purchaseValue?.[0]?.totalPurchases === 0;
+
+  function handleDateApply({ startDate, endDate, label }) {
+    setDateRange({ fromDate: startDate, toDate: endDate, label });
+  }
+
+  return (
+    <div className='px-8.75 pb-15 pr-10'>
+      <div className='flex justify-between items-start mt-9.5'>
+        {/* Left */}
+        <div>
+          <span className='text-[20px] font-semibold text-[#19191c] tracking-[-0.01em] leading-7'>
+            Purchases
+          </span>
+        </div>
+
+        {/* Right */}
+        <div className='flex items-center gap-5 px-20'>
+          <ExportButton disabled={isEmpty} />
+          <MonthPicker
+            fromDate={dateRange.fromDate}
+            toDate={dateRange.toDate}
+            label={dateRange.label}
+            onApply={handleDateApply}
+          />
+        </div>
+      </div>
+
+      {isEmpty ? (
+        <div className='h-125 w-full flex flex-col justify-center items-center'>
+          <img
+            src='/icons/PurchaseIllustration.svg'
+            alt=''
+            style={{ height: 108, width: 151 }}
+          />
+          <span className='text-[24px] font-semibold text-[#19191c] tracking-[-0.01em] leading-8 text-center mt-6'>
+            No orders found
+          </span>
+          <div className='flex justify-center mt-4 mb-4 w-2/3'>
+            <ul className='text-[16px] text-[#97979b] text-center font-normal tracking-[-0.16px]'>
+              <li>
+                {' '}
+                We can't show any useful information without orders. Please add
+                a
+              </li>
+              <li> new one using the button below.</li>
+            </ul>
+          </div>
+          <div className='mt-4'>
+            <GreenButton onClick={() => navigate('/external-orders')}>
+              <img src='/icons/upload.svg' alt='' width={20} height={20} />
+              <span> Add order with receipt</span>
+            </GreenButton>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className='mb-10'>
+            <label className='block text-[12px] font-bold uppercase tracking-[0.08em] text-[#6b6b6f] mt-12 mb-4'>
+              Total Purchases
+            </label>
+            <label className='block text-[64px] font-medium text-[#19191c] leading-16 tracking-[-0.01em]'>
+              {totalDisplay}
+            </label>
+          </div>
+
+          {/* Biggest Orders + Biggest Suppliers */}
+          <div className='flex w-[95%] mt-0'>
+            <BiggestOrders inventoryId={inventoryId} dateRange={dateRange} />
+            <BiggestSuppliers inventoryId={inventoryId} dateRange={dateRange} />
+          </div>
+
+          {/* Price Variations */}
+          <div className='mt-15'>
+            <PriceVariations inventoryId={inventoryId} dateRange={dateRange} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}

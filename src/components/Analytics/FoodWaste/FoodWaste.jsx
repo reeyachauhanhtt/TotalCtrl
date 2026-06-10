@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { format, startOfMonth, endOfMonth } from 'date-fns';
 
 import MonthPicker from '../common/MonthPicker';
 import ExportButton from '../common/ExportButton';
@@ -28,7 +28,13 @@ const SLUG_KEY_MAP = {
 
 export default function FoodWaste({ inventoryId }) {
   const persisted = getPersistedDateRange();
-  const [dateRange, setDateRange] = useState(persisted);
+
+  const [dateRange, setDateRange] = useState({
+    fromDate:
+      persisted?.fromDate ?? format(startOfMonth(new Date()), 'yyyy-MM-dd'),
+    toDate: persisted?.toDate ?? format(endOfMonth(new Date()), 'yyyy-MM-dd'),
+    label: persisted?.label ?? 'This Month',
+  });
   const [detailView, setDetailView] = useState(null); // null | 'items' | 'categories'
 
   // TOTAL WASTE VALUE QUERY
@@ -37,9 +43,8 @@ export default function FoodWaste({ inventoryId }) {
     queryFn: () =>
       fetchTotalFoodWaste({
         inventoryId,
-        fromDate:
-          dateRange.fromDate ?? format(dateRange.startDate, 'yyyy-MM-dd'),
-        toDate: dateRange.toDate ?? format(dateRange.endDate, 'yyyy-MM-dd'),
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate,
       }),
     enabled: !!inventoryId && !!(dateRange.fromDate || dateRange.startDate),
     select: (res) => res.Data,
@@ -75,13 +80,14 @@ export default function FoodWaste({ inventoryId }) {
         inventoryId,
         fromDate: dateRange.fromDate,
         toDate: dateRange.toDate,
-        limit: 4,
+        limit: 5,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
+
     select: (res) => res.Data,
   });
 
-  const categories = (categoryData?.categories ?? []).map((c) => ({
+  const categories = (categoryData?.categories ?? []).slice(0, 4).map((c) => ({
     name: c.name,
     percent: c.totalWastePercentage,
     value: c.totalWasteValue,
@@ -101,7 +107,7 @@ export default function FoodWaste({ inventoryId }) {
     select: (res) => res.Data,
   });
 
-  const items = (mostWastedData?.products ?? []).map((p) => ({
+  const items = (mostWastedData?.products ?? []).slice(0, 4).map((p) => ({
     name: p.name,
     quantity: p.totalWasteQty,
     unit: p.stockTakingUnitPlural,
@@ -150,10 +156,11 @@ export default function FoodWaste({ inventoryId }) {
     col3: `${c.totalWastePercentage?.toFixed(2)}%`,
   }));
 
-  function handleApply({ startDate, endDate }) {
+  function handleApply({ startDate, endDate, label }) {
     setDateRange({
       fromDate: format(startDate, 'yyyy-MM-dd'),
       toDate: format(endDate, 'yyyy-MM-dd'),
+      label,
     });
   }
 
@@ -209,6 +216,7 @@ export default function FoodWaste({ inventoryId }) {
           inventoryId={inventoryId}
           fromDate={dateRange.fromDate}
           toDate={dateRange.toDate}
+          dateLabel={dateRange.label}
         />
       </div>
 
@@ -221,48 +229,64 @@ export default function FoodWaste({ inventoryId }) {
       {/* See all row */}
       <div className='flex'>
         <div className='flex items-end' style={{ width: '50%', height: 63 }}>
-          <label
-            className='flex items-center cursor-pointer text-[#1f8e4e]'
-            style={{
-              width: 150,
-              height: 36,
-              paddingTop: 7,
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-            onClick={() => setDetailView('items')}
-          >
-            See all wasted items
-            <img
-              src='/img/download.png'
-              alt=''
-              height={10}
-              width={6}
-              className='ml-2'
-            />
-          </label>
+          {(() => {
+            const enabled = (mostWastedData?.products?.length ?? 0) > 4;
+            return (
+              <label
+                className='flex items-center text-[#1f8e4e]'
+                style={{
+                  width: 150,
+                  height: 36,
+                  paddingTop: 7,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  opacity: enabled ? 1 : 0.5,
+                  cursor: enabled ? 'pointer' : 'not-allowed',
+                }}
+                onClick={enabled ? () => setDetailView('items') : undefined}
+              >
+                See all wasted items
+                <img
+                  src='/img/download.png'
+                  alt=''
+                  height={10}
+                  width={6}
+                  className='ml-2'
+                />
+              </label>
+            );
+          })()}
         </div>
         <div className='flex items-end' style={{ width: '50%', height: 63 }}>
-          <label
-            className='flex items-center cursor-pointer text-[#1f8e4e]'
-            style={{
-              width: 150,
-              height: 36,
-              paddingTop: 7,
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-            onClick={() => setDetailView('categories')}
-          >
-            See all categories
-            <img
-              src='/img/download.png'
-              alt=''
-              height={10}
-              width={6}
-              className='ml-2'
-            />
-          </label>
+          {(() => {
+            const enabled = (categoryData?.categories?.length ?? 0) > 4;
+            return (
+              <label
+                className='flex items-center text-[#1f8e4e]'
+                style={{
+                  width: 150,
+                  height: 36,
+                  paddingTop: 7,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  opacity: enabled ? 1 : 0.5,
+                  cursor: enabled ? 'pointer' : 'not-allowed',
+                }}
+                onClick={
+                  enabled ? () => setDetailView('categories') : undefined
+                }
+              >
+                See all categories
+                <img
+                  src='/img/download.png'
+                  alt=''
+                  height={10}
+                  width={6}
+                  className='ml-2'
+                />
+              </label>
+            );
+          })()}
         </div>
       </div>
 

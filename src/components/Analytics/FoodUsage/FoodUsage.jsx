@@ -145,7 +145,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
 
         <div style={{ width: 268 }}>
           <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
-            Used Food ({usedFoodPercent.toFixed(2)} %)
+            Used Food
           </span>
           <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
             {usedFoodValue}
@@ -157,7 +157,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
 
         <div style={{ width: 268 }}>
           <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
-            Food Waste ({foodWastePercent.toFixed(2)} %)
+            Food Waste
           </span>
           <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
             {foodWasteValue}

@@ -19,6 +19,7 @@ export default function FoodWasteByCause({
   inventoryId,
   fromDate,
   toDate,
+  dateLabel,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -27,16 +28,25 @@ export default function FoodWasteByCause({
   const { data: lineItemsData } = useQuery({
     queryKey: ['foodWaste-other-reason', inventoryId, fromDate, toDate],
     queryFn: () => fetchOtherReasonLineItems({ inventoryId, fromDate, toDate }),
-    enabled: fetchDetails && !!inventoryId && !!fromDate,
+    enabled: fetchDetails && !!inventoryId && !!fromDate && !!toDate,
     select: (res) => res.Data,
   });
 
   const otherCause = (causes ?? []).find((c) => c.key === 'other_reason');
+  const otherTotal =
+    otherCause?.otherReasons?.reduce((sum, r) => sum + r.foodWasteValue, 0) ||
+    0;
 
+  // const tooltipReasons = (otherCause?.otherReasons ?? []).map((r) => ({
+  //   label: r.label,
+  //   value: formatPrice(r.foodWasteValue),
+  //   percent: r.foodWastePercentage,
+  // }));
   const tooltipReasons = (otherCause?.otherReasons ?? []).map((r) => ({
     label: r.label,
     value: formatPrice(r.foodWasteValue),
-    percent: r.foodWastePercentage,
+    percent:
+      otherTotal > 0 ? +((r.foodWasteValue / otherTotal) * 100).toFixed(1) : 0,
   }));
 
   const modalData = {
@@ -45,13 +55,22 @@ export default function FoodWasteByCause({
       otherCause?.otherReasons?.reduce((sum, r) => sum + r.lineCount, 0) ??
       0,
     totalValue: lineItemsData?.totalWasteValue ?? otherCause?.value ?? 0,
-    dateLabel: '',
+    dateLabel: dateLabel ?? '',
     insightName: otherCause?.otherReasons?.[0]?.label ?? '',
     insightText: `account for ${otherCause?.otherReasons?.[0]?.foodWastePercentage?.toFixed(1)}% of all 'other' waste. Export the full log to see exact dates and items.`,
+    // reasons: (otherCause?.otherReasons ?? []).map((r) => ({
+    //   label: r.label,
+    //   value: r.foodWasteValue,
+    //   percent: r.foodWastePercentage,
+    //   logs: r.lineCount,
+    // })),
     reasons: (otherCause?.otherReasons ?? []).map((r) => ({
       label: r.label,
       value: r.foodWasteValue,
-      percent: r.foodWastePercentage,
+      percent:
+        otherTotal > 0
+          ? +((r.foodWasteValue / otherTotal) * 100).toFixed(1)
+          : 0,
       logs: r.lineCount,
     })),
   };
@@ -71,14 +90,15 @@ export default function FoodWasteByCause({
 
       <div>
         {(causes ?? []).map((cause) => (
-          <div key={cause.key} style={{ width: '85%', marginTop: 24 }}>
+          <div key={cause.key} style={{ width: '85%', marginTop: 25 }}>
             <div className='flex justify-between'>
               <span
                 className='flex items-center text-[#19191c]'
                 style={{ fontWeight: 400, fontSize: 14, lineHeight: '20px' }}
               >
-                {CAUSE_LABELS[cause.key]} ({cause.percent?.toFixed(2)}%)
-                {cause.key === 'other_reason' && (
+                {CAUSE_LABELS[cause.key]} (
+                {cause.percent ? cause.percent.toFixed(2) : '0'}%)
+                {cause.key === 'other_reason' && cause.value > 0 && (
                   <span
                     style={{
                       position: 'relative',
@@ -121,7 +141,7 @@ export default function FoodWasteByCause({
               </span>
             </div>
 
-            <div style={{ marginTop: 6 }}>
+            <div style={{ marginTop: 15 }}>
               <WasteCauseProgressBar
                 cause={cause.key}
                 percent={cause.percent ?? 0}

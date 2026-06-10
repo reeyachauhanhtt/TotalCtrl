@@ -1,5 +1,3 @@
-// src/features/analytics/FoodWaste/FoodWasteDetailView.jsx
-
 import { useState } from 'react';
 import MonthPicker from '../common/MonthPicker';
 import ExportButton from '../common/ExportButton';
@@ -53,7 +51,6 @@ export default function FoodWasteDetailView({ type, onBack, rows }) {
             style={{
               fontSize: 14,
               lineHeight: '24px',
-              //   letterSpacing: '0.01em',
               marginLeft: 8,
             }}
           >

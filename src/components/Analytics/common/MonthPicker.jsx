@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { DateRangePicker, createStaticRanges } from 'react-date-range';
 import {
   startOfDay,
@@ -18,6 +18,8 @@ import {
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './MonthPicker.css';
+
+const STORAGE_KEY = 'analytics_date_range';
 
 const staticRanges = createStaticRanges([
   {
@@ -78,18 +80,29 @@ const staticRanges = createStaticRanges([
   },
 ]);
 
-const STORAGE_KEY = 'analytics_date_range';
+function parseStoredDate(value) {
+  if (!value) return new Date();
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  return new Date(value);
+}
 
 function loadPersistedRange() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
+
     const { startDate, endDate, label } = JSON.parse(saved);
+
     return {
       range: [
         {
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
+          startDate: parseStoredDate(startDate),
+          endDate: parseStoredDate(endDate),
           key: 'selection',
         },
       ],
@@ -104,8 +117,8 @@ function saveRange(range, label) {
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
-      startDate: range[0].startDate,
-      endDate: range[0].endDate,
+      startDate: format(range[0].startDate, 'yyyy-MM-dd'),
+      endDate: format(range[0].endDate, 'yyyy-MM-dd'),
       label,
     }),
   );
@@ -132,7 +145,10 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
   const SHOW_DATE_LABELS = ['This Year', 'Custom'];
 
   const displayLabel = SHOW_DATE_LABELS.includes(label)
-    ? `${format(range[0].startDate, 'yyyy-MM-dd')} to ${format(range[0].endDate, 'yyyy-MM-dd')}`
+    ? `${format(range[0].startDate, 'yyyy-MM-dd')} to ${format(
+        range[0].endDate,
+        'yyyy-MM-dd',
+      )}`
     : label;
 
   const showClear = SHOW_DATE_LABELS.includes(label);
@@ -147,25 +163,46 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     setOpen(false);
   }
 
+  function applyRange(nextRange, nextLabel) {
+    setRange(nextRange);
+    setPendingRange(nextRange);
+    setLabel(nextLabel);
+    saveRange(nextRange, nextLabel);
+
+    onApply?.({
+      startDate: nextRange[0].startDate,
+      endDate: nextRange[0].endDate,
+      label: nextLabel,
+    });
+  }
+
   function handleApply() {
     const matched = staticRanges.find((r) => {
       const { startDate, endDate } = r.range();
+
       return (
         startDate.toDateString() === pendingRange[0].startDate.toDateString() &&
         endDate.toDateString() === pendingRange[0].endDate.toDateString()
       );
     });
-    const newLabel = matched ? matched.label : 'Custom';
 
-    setRange(pendingRange);
-    setLabel(newLabel);
-    saveRange(pendingRange, newLabel); //  persist to localStorage
-    onApply?.({
-      startDate: pendingRange[0].startDate,
-      endDate: pendingRange[0].endDate,
-      label: newLabel,
-    });
+    applyRange(pendingRange, matched ? matched.label : 'Custom');
     setOpen(false);
+  }
+
+  function handleClear(event) {
+    event.stopPropagation();
+
+    const nextLabel = 'This Month';
+    const nextRange = [
+      {
+        startDate: startOfMonth(new Date()),
+        endDate: endOfMonth(new Date()),
+        key: 'selection',
+      },
+    ];
+
+    applyRange(nextRange, nextLabel);
   }
 
   return (
@@ -176,28 +213,10 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
         style={{ border: '1px solid #d7d8e0', width: showClear ? 240 : 200 }}
       >
         <span>{displayLabel}</span>
+
         {showClear && !open ? (
           <span
-            onClick={(e) => {
-              e.stopPropagation();
-              const defaultLabel = 'This Month';
-              const defaultRange = [
-                {
-                  startDate: startOfMonth(new Date()),
-                  endDate: endOfMonth(new Date()),
-                  key: 'selection',
-                },
-              ];
-              setRange(defaultRange);
-              setPendingRange(defaultRange);
-              setLabel(defaultLabel);
-              saveRange(defaultRange, defaultLabel);
-              onApply?.({
-                startDate: defaultRange[0].startDate,
-                endDate: defaultRange[0].endDate,
-                label: defaultLabel,
-              });
-            }}
+            onClick={handleClear}
             className='ml-2 text-[#19191c] leading-none'
             style={{ fontSize: 16 }}
           >
@@ -222,7 +241,9 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
 
       {open && (
         <div
-          className={`absolute right-0 z-50 analytics-calendar ${singleMonth ? 'single-month' : ''}`}
+          className={`absolute right-0 z-50 analytics-calendar ${
+            singleMonth ? 'single-month' : ''
+          }`}
           style={{ top: 'calc(100% + 4px)', width: singleMonth ? 504 : 900 }}
         >
           <DateRangePicker
@@ -245,6 +266,7 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
             >
               <span className='calendar-cancel-span'>Cancel</span>
             </div>
+
             <div
               className='calendar-apply-button-container'
               onClick={handleApply}

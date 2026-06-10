@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import OrderTabs from '../components/Common/OrderTab';
@@ -36,6 +37,7 @@ export default function InternalOrderPage() {
   const statusParam = activeTab.toLowerCase().replace(' ', '-');
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ['internal-order', selectedInventory?.id, activeTab],
@@ -92,6 +94,15 @@ export default function InternalOrderPage() {
   function handleRowClick(order) {
     dispatch(setSelectedInternalOrder(order));
     dispatch(setInternalDetailOpen(true));
+    const slugMap = {
+      scheduled: 'internal-scheduled-order',
+      'partially-delivered': 'internal-partially-order',
+      'partially delivered': 'internal-partially-order',
+      delivered: 'internal-delivered-order',
+    };
+    const slug =
+      slugMap[order.status?.toLowerCase()] ?? 'internal-scheduled-order';
+    navigate(`/internal-orders/${slug}/${order.id}`);
   }
 
   if (isDetailOpen && selectedOrder) {

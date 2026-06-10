@@ -1,8 +1,4 @@
-// src/features/analytics/FoodWaste/OtherReasonTooltip.jsx
-
 export default function OtherReasonTooltip({ reasons, onSeeDetails }) {
-  // reasons: [{ label: 'Uncategorised', value: 0.29, percent: 24 }]
-
   return (
     <div
       className='absolute bg-white'
