@@ -1,354 +1,56 @@
-<div class="slim-header-right bt-bdr">
-   <div class="breadcrumbs">
-      <div class="header-breadcrumbstitle"><a class="navigation-link" href="/restaurant/admin/analytics">    <span>Purchases</span> </a></div>
+<div>
+   <div style="" class="empty-state-food-usage-container">
+      <img src="I WILL WRITE DOWN THE PATH ON OWN" style="height: 108px; width: 151px;"><span class="empty-state-food-usage-title">No items transferred</span>
+      <h3 class="empty-state-food-usage-discription">There aren't any items transferred into or from this inventory yet.</h3>
    </div>
 </div>
 
-same header as in viewdetail.jsx
 
-
-<div class="">
-   <div class="order-info-container" style="margin-bottom: 10px;">
-      <div class="left-sec">
-         <div><span class="spanTitle cap">Price Variations</span></div>
-      </div>
-      <div class="right-sec" style="text-align: right; display: flex;">
-         <div></div>
-         <div style="margin-left: 20px;"><label class="select-field select-date-range" style="width: 200px; height: 36px; padding: 6px 10px 10px; cursor: pointer; text-align: left; text-transform: initial; background: url(&quot;./img/select-box-down-icon.png&quot;) 175px center / 10px no-repeat;">Last Month</label></div>
-      </div>
-   </div>
-   <div class="order-info-container" style="margin-right: 0px; margin-left: 15px;">
-      <div id="scrollableDiv" class="grid-detail " style="overflow: hidden auto; position: fixed; width: calc(100% - 217px); height: calc(100% - 250px);">
-         <div>
-            <div class="infinite-scroll-component " style="height: auto; overflow: auto;">
-               <div style="display: flex;">
-                  <div class="col-6 grid-detail">
-                     <table style="width: 100%;">
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">Coca Cola Zero <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">148,90 kr <label>per Tray</label> <span class="inner-span color-red">157.66%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">JÆDER BACON I SKIVER (1.0 kg) <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">194,76 kr <label>per Carton</label> <span class="inner-span color-red">111.81%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">ALUMINIUMFOLIE I BOX 45CMX150M (1/st) <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">140,40 kr <label>per Piece</label> <span class="inner-span color-red">99.18%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">Avocado Edamame Burger 1kg <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">169,26 kr <label>per Package</label> <span class="inner-span color-red">44.38%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">(TDC) AJINOMOTO VEGETABLE GYOZA SPINACH PASTRY 10/600G(30PC) <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">190,12 kr <label>per Piece</label> <span class="inner-span color-red">41.65%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">JARLSBERG 27% HOTELLBRETT 600G TINE (40.0 stk) <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">197,92 kr <label>per Carton</label> <span class="inner-span color-red">24.43%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">ALT SPARKLING BLANC DE BLANCS ALK.FRI 75 (0.75 ltr) <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">136,94 kr <label>per Carton</label> <span class="inner-span color-red">23.83%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">Allegrini Valpolicella Classico 20 <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">151,40 kr <label>per Carton</label> <span class="inner-span color-red">14.25%</span></td>
-                        </tr>
-                     </table>
-                  </div>
-                  <div class="col-6 grid-detail">
-                     <table style="width: 100%;">
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">20,0 NØ INDIA PALE ALE 1FT <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">135,41 kr <label>per Keg</label> <span class="inner-span color-green" style="color: rgb(35, 169, 86);"> 27.79%</span></td>
-                        </tr>
-                        <tr>
-                           <td class="hederWithDtl" style="width: 70%;">Reker i lake, håndpillede pr spann <span>Not Specified</span></td>
-                           <td class="grid-detail-left" style="width: 30%;">118,36 kr <label>per Piece</label> <span class="inner-span color-green" style="color: rgb(35, 169, 86);"> 0.14%</span></td>
-                        </tr>
-                     </table>
-                  </div>
-               </div>
-               <p style="text-align: center;"></p>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
-
-css : 
-.order-info-container {
-    width: 95%;
-    margin: 40px auto 24px;
+CSS :
+.empty-state-food-usage-container {
+    height: 500px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
     display: flex;
-    justify-content: space-between;
-    transition: all .5s ease-in-out;
+    flex-direction: column;
 }
-.order-info-container .left-sec {
-    display: block;
-    transition: all 1.2s ease-in-out;
+element.style {
+    height: 108px;
+    width: 151px;
 }
-.spanTitle.cap {
-    text-transform: capitalize;
+img {
+    vertical-align: middle;
+    border-style: none;
 }
-.spanTitle {
-    width: 87px;
-    height: 28px;
-    left: 248px;
-    top: 178px;
-    font-family: SourceSansProRegular !important;
+.empty-state-food-usage-title {
     font-style: normal;
     font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
     letter-spacing: -.01em;
     color: #19191c;
-    padding-bottom: 48px;
+    margin-top: 24px;
 }
-element.style {
-    text-align: right;
-    display: flex;
-}
-element.style {
-    margin-left: 20px;
-}
-
-MONTH PICKER COMPONENT
-element.style {
-    margin-right: 0px;
-    margin-left: 15px;
-}
-.order-info-container {
-    width: 95%;
-    margin: 40px auto 24px;
-    display: flex;
-    justify-content: space-between;
-    transition: all .5s ease-in-out;
-}
-element.style {
-    overflow: hidden auto;
-    position: fixed;
-    width: calc(100% - 217px);
-    height: calc(100% - 250px);
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-element.style {
-    height: auto;
-    overflow: auto;
-}
-element.style {
-    display: flex;
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-element.style {
-    width: 100%;
-}
-table {
-    border-collapse: collapse;
-}
-element.style {
-    width: 70%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-
-table td {
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-element.style {
-    width: 30%;
-}
-.grid-detail .grid-detail-left {
-    text-align: left;
-    font-weight: 400;
-    color: #19191c;
-}
-table td:last-child, table th:last-child {
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-
-table td {
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-label {
-    display: inline-block;
-}
-.grid-detail .color-red {
-    color: #e2232e !important;
-    background-image: url(/restaurant/admin/static/media/Rectangle 48.e0d995c7.svg);
-}
-.grid-detail .inner-span {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-weight: 600 !important;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-position-x: 0;
-    padding-left: 15px;
-}
-.grid-detail span {
-table td span {
-    display: block;
-    font-size: 12px;
-    line-height: 16px;
-}
-.grid-detail {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    padding-right: 40px;
-}
-.col-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-element.style {
-    width: 100%;
-}
-table {
-    border-collapse: collapse;
-}
-element.style {
-    width: 70%;
-}
-.grid-detail .hederWithDtl {
-    font-weight: 400;
-    color: #19191c;
-}
-table td:first-child, table th:first-child {
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-table td {
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-element.style {
-    width: 30%;
-}
-.grid-detail .grid-detail-left {
-    text-align: left;
-    font-weight: 400;
-    color: #19191c;
-}
-
-table td:last-child, table th:last-child {
-.grid-detail td {
-    padding: 10px 0 16px 7px !important;
-    vertical-align: top;
-    height: auto;
-    border-bottom: none;
-}
-table td {
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-.grid-detail label {
-    color: #6b6b6f !important;
-    font-weight: 400 !important;
-    line-height: 24px;
-    color: #6b6b6f;
-    margin-left: 8px;
-}
-
-.grid-detail .price, .grid-detail label {
-    font-family: SourceSansProRegular !important;
-}
-label {
-    display: inline-block;
-}
-element.style {
-    color: rgb(35, 169, 86);
-}
-.grid-detail .color-green {
-    color: #23a956 !important;
-    background-image: url(/restaurant/admin/static/media/Rectangle 48green.7abc85a9.svg);
-}
-.grid-detail .inner-span {
-    font-family: SourceSansProRegular !important;
-    font-style: normal;
-    font-weight: 600 !important;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-position-x: 0;
-    padding-left: 15px;
-}
-.grid-detail span {
-table td span {
-    display: block;
-    font-size: 12px;
-    line-height: 16px;
-}
-element.style {
+.empty-state-food-usage-discription {
+    color: #97979b;
     text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -.16px;
 }
-p {
-    margin: 0;
-    padding: 0;
+h3, .h3 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
 }

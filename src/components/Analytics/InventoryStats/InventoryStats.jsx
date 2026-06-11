@@ -38,18 +38,21 @@ export default function InventoryStats({ onViewMore }) {
     queryKey: ['inventoryTotal', inventoryId],
     queryFn: () => fetchInventoryTotal({ inventoryId }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const { data: supplierData } = useQuery({
     queryKey: ['valueBySupplier', inventoryId],
     queryFn: () => fetchValueBySupplier({ inventoryId, limit: 4 }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const { data: categoryData } = useQuery({
     queryKey: ['valueByCategory', inventoryId],
     queryFn: () => fetchValueByCategory({ inventoryId, limit: 4 }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const { data: checkInData } = useQuery({
@@ -57,6 +60,7 @@ export default function InventoryStats({ onViewMore }) {
     queryFn: () =>
       fetchCheckInValue({ inventoryId, ...checkInRange, limit: 4 }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const { data: checkOutData } = useQuery({
@@ -64,6 +68,7 @@ export default function InventoryStats({ onViewMore }) {
     queryFn: () =>
       fetchCheckOutValue({ inventoryId, ...checkOutRange, limit: 4 }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const inventoryName =

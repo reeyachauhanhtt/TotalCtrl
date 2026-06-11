@@ -92,7 +92,7 @@ export default function FoodUsageTable({
               </table>
             </InfiniteScroll>
 
-            <div className='h-12' />
+            <div className='h-20' />
           </div>
         )}
       </div>

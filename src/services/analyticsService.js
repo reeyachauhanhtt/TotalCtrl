@@ -34,3 +34,43 @@ export const fetchPurchases = async ({ fromDate, toDate }) => {
   });
   return response.data;
 };
+
+//FETCH TOTAL FOOD COST
+export const fetchTotalFoodCost = async ({ fromDate, toDate }) => {
+  const userId = getUserIdFromToken();
+  const response = await axiosInstance.get(
+    '/analytics/food-cost/total-food-cost',
+    {
+      params: { language: 'en', fromDate, toDate, ...(userId && { userId }) },
+    },
+  );
+  return response.data;
+};
+
+//FETCH FOOD COST PERCENTAGE OVER TIME
+export const fetchFoodCostPercentageTime = async ({
+  fromDate,
+  toDate,
+  dateRangeType,
+}) => {
+  const userId = getUserIdFromToken();
+  const response = await axiosInstance.get(
+    '/analytics/food-cost/food-cost-percentage-time',
+    {
+      params: { fromDate, toDate, dateRangeType, ...(userId && { userId }) },
+    },
+  );
+  return response.data;
+};
+
+//FETCH MONTHLY COGS MONTH LIST
+export const fetchMonthlyCogsMonthList = async () => {
+  const userId = getUserIdFromToken();
+  const response = await axiosInstance.get(
+    '/analytics/monthly-cogs/month-list',
+    {
+      params: { ...(userId && { userId }) },
+    },
+  );
+  return response.data;
+};

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
@@ -14,6 +15,7 @@ import {
   fetchMeasurementUnits,
   fetchQualityIssues,
 } from '../../services/masterDataService';
+import { setSelectedOrder } from '../../store/externalOrderSlice';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
 import { ExternalOrderDetailSkeleton } from '../Common/Skeleton';
@@ -242,6 +244,7 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
   const [toastMessage, setToastMessage] = useState(null);
 
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const handleBack = (options) => {
     queryClient.removeQueries({ queryKey: ['order-detail', order.id] });
@@ -370,6 +373,18 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
     : isDeliveredLoading || isDeliveredFetching;
 
   const isErrorAny = isScheduled ? isError : isDeliveredError;
+
+  useEffect(() => {
+    if (supplierName && orderNumber) {
+      dispatch(
+        setSelectedOrder({
+          ...order,
+          supplier: supplierName,
+          number: orderNumber,
+        }),
+      );
+    }
+  }, [supplierName, orderNumber]);
 
   const tdBase =
     'text-[14px] leading-[16px] text-[#19191c] font-normal border-b border-[#e6e6ed] align-top py-[5px]';

@@ -98,10 +98,10 @@ function Layout() {
     if (!selectedInventory) return <HeaderSkeleton />;
 
     //external header
-    const isExternalOrders = location.pathname.includes('external-orders');
+    const isExternalOrders = location.pathname.includes('external-order');
     const isFromAnalytics = location.state?.from === 'analytics';
     const isExternalDetail =
-      isDetailOpen || /\/external-orders\/.+\/.+/.test(location.pathname);
+      isDetailOpen || /\/external-order\/.+\/.+/.test(location.pathname);
     if (isExternalOrders && isExternalDetail) {
       return isFromAnalytics ? (
         <ExternalOrderDetailHeader fromAnalytics />
@@ -124,7 +124,7 @@ function Layout() {
     const isInternalOrders = location.pathname.includes('internal-order');
     const isInternalDetail =
       isInternalDetailOpen ||
-      /\/internal-orders\/.+\/.+/.test(location.pathname);
+      /\/internal-order\/.+\/.+/.test(location.pathname);
     if (isInternalOrders && isInternalDetail)
       return <InternalOrderDetailHeader />;
     if (isInternalOrders) return <InternalOrderHeader />;
@@ -220,7 +220,7 @@ function Layout() {
               element={<ExternalOrderPage />}
             />
             <Route
-              path='/external-orders/delivered-orders/:orderId'
+              path='/external-orders/delivered-order/:orderId'
               element={<ExternalOrderPage />}
             />
             <Route path='/internal-orders' element={<InternalOrderPage />} />

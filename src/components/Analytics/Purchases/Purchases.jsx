@@ -22,6 +22,7 @@ export default function Purchases() {
   });
 
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
+  const navigate = useNavigate();
 
   const { data: totalData } = useQuery({
     queryKey: [
@@ -37,10 +38,10 @@ export default function Purchases() {
         toDate: dateRange.toDate,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+    staleTime: 0,
   });
 
   const purchaseValue = totalData?.Data?.purchaseValue?.[0];
-  // const currencySymbol = totalData?.Data?.currencySymbol ?? 'kr';
   const totalDisplay = purchaseValue
     ? `${formatPrice(purchaseValue.totalPurchases)}`
     : '0 kr';
@@ -51,18 +52,26 @@ export default function Purchases() {
   function handleDateApply({ startDate, endDate, label }) {
     setDateRange({ fromDate: startDate, toDate: endDate, label });
   }
+  console.log(
+    'isEmpty:',
+    isEmpty,
+    'totalData:',
+    totalData,
+    'inventoryId:',
+    inventoryId,
+    'dateRange:',
+    dateRange,
+  );
 
   return (
     <div className='px-8.75 pb-15 pr-10'>
+      {/* Header */}
       <div className='flex justify-between items-start mt-9.5'>
-        {/* Left */}
         <div>
           <span className='text-[20px] font-semibold text-[#19191c] tracking-[-0.01em] leading-7'>
             Purchases
           </span>
         </div>
-
-        {/* Right */}
         <div className='flex items-center gap-5 px-20'>
           <ExportButton disabled={isEmpty} />
           <MonthPicker
@@ -74,7 +83,8 @@ export default function Purchases() {
         </div>
       </div>
 
-      {isEmpty ? (
+      {/* Empty state */}
+      {isEmpty && (
         <div className='h-125 w-full flex flex-col justify-center items-center'>
           <img
             src='/icons/PurchaseIllustration.svg'
@@ -87,43 +97,41 @@ export default function Purchases() {
           <div className='flex justify-center mt-4 mb-4 w-2/3'>
             <ul className='text-[16px] text-[#97979b] text-center font-normal tracking-[-0.16px]'>
               <li>
-                {' '}
                 We can't show any useful information without orders. Please add
                 a
               </li>
-              <li> new one using the button below.</li>
+              <li>new one using the button below.</li>
             </ul>
           </div>
           <div className='mt-4'>
             <GreenButton onClick={() => navigate('/external-orders')}>
               <img src='/icons/upload.svg' alt='' width={20} height={20} />
-              <span> Add order with receipt</span>
+              <span>Add order with receipt</span>
             </GreenButton>
           </div>
         </div>
-      ) : (
-        <>
-          <div className='mb-10'>
-            <label className='block text-[12px] font-bold uppercase tracking-[0.08em] text-[#6b6b6f] mt-12 mb-4'>
-              Total Purchases
-            </label>
-            <label className='block text-[64px] font-medium text-[#19191c] leading-16 tracking-[-0.01em]'>
-              {totalDisplay}
-            </label>
-          </div>
-
-          {/* Biggest Orders + Biggest Suppliers */}
-          <div className='flex w-[95%] mt-0'>
-            <BiggestOrders inventoryId={inventoryId} dateRange={dateRange} />
-            <BiggestSuppliers inventoryId={inventoryId} dateRange={dateRange} />
-          </div>
-
-          {/* Price Variations */}
-          <div className='mt-15'>
-            <PriceVariations inventoryId={inventoryId} dateRange={dateRange} />
-          </div>
-        </>
       )}
+
+      {/* Data content — always mounted for API calls, hidden when empty */}
+      <div className={isEmpty ? 'hidden' : ''}>
+        <div className='mb-10'>
+          <label className='block text-[12px] font-bold uppercase tracking-[0.08em] text-[#6b6b6f] mt-12 mb-4'>
+            Total Purchases
+          </label>
+          <label className='block text-[64px] font-medium text-[#19191c] leading-16 tracking-[-0.01em]'>
+            {totalDisplay}
+          </label>
+        </div>
+
+        <div className='flex w-[95%] mt-0'>
+          <BiggestOrders inventoryId={inventoryId} dateRange={dateRange} />
+          <BiggestSuppliers inventoryId={inventoryId} dateRange={dateRange} />
+        </div>
+
+        <div className='mt-15'>
+          <PriceVariations inventoryId={inventoryId} dateRange={dateRange} />
+        </div>
+      </div>
     </div>
   );
 }

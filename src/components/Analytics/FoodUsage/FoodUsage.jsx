@@ -59,6 +59,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
         toDate: dateRange.toDate,
       }),
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const totalData =
@@ -85,6 +86,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
       );
     },
     enabled: !!inventoryId,
+    staleTime: 0,
   });
 
   const rows =

@@ -1,4 +1,4 @@
-export default function ProgressBar({ value = 0, fullWidth = false }) {
+export default function ProgressBar({ value = 0, fullWidth = false, ...rest }) {
   const minVisible = value > 0 ? Math.max(value, 3) : 0;
 
   return (

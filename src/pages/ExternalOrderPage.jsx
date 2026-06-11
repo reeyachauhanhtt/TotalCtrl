@@ -91,7 +91,7 @@ export default function ExternalOrderPage() {
       const slugMap = {
         'scheduled-order': 'Scheduled',
         'partially-delivered': 'Partially Delivered',
-        'delivered-orders': 'Delivered',
+        'delivered-order': 'Delivered',
       };
       const slug = window.location.pathname.split('/')[2];
       dispatch(setDetailOpen(true));
@@ -141,8 +141,10 @@ export default function ExternalOrderPage() {
         ? 'scheduled-order'
         : o.status === 'partially delivered'
           ? 'partially-delivered'
-          : 'delivered-orders',
+          : 'delivered-order',
   }));
+
+  console.log('selectedOrder:', selectedOrder, 'isDetailOpen:', isDetailOpen);
 
   if (isDetailOpen && selectedOrder) {
     return (

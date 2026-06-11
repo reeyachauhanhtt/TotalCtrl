@@ -10,6 +10,8 @@ import PriceVariationDetail from '../components/Analytics/Purchases/PriceVariati
 import FoodUsage from '../components/Analytics/FoodUsage/FoodUsage';
 import FoodWaste from '../components/Analytics/FoodWaste/FoodWaste';
 import Purchases from '../components/Analytics/Purchases/Purchases';
+import DeliveryStats from '../components/Analytics/DeliveryStats/DeliveryStats';
+import TransfersTab from '../components/Analytics/Transfers/Transfers';
 import { setAnalyticsSelectedTab } from '../store/analyticsSlice';
 
 export default function AnalyticsDetailPage() {
@@ -97,9 +99,9 @@ export default function AnalyticsDetailPage() {
             <Purchases inventoryId={selectedInventory?.id} />
           ))}
 
-        {activeTab === 'Delivery Stats' && null}
+        {activeTab === 'Delivery Stats' && <DeliveryStats />}
 
-        {activeTab === 'Transfers' && null}
+        {activeTab === 'Transfers' && <TransfersTab />}
       </div>
     </div>
   );

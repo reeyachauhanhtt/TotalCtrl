@@ -47,6 +47,7 @@ export default function FoodWaste({ inventoryId }) {
         toDate: dateRange.toDate,
       }),
     enabled: !!inventoryId && !!(dateRange.fromDate || dateRange.startDate),
+    staleTime: 0,
     select: (res) => res.Data,
   });
 
@@ -62,6 +63,7 @@ export default function FoodWaste({ inventoryId }) {
         toDate: dateRange.toDate,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
+    staleTime: 0,
     select: (res) => res.Data,
   });
 
@@ -83,6 +85,7 @@ export default function FoodWaste({ inventoryId }) {
         limit: 5,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
+    staleTime: 0,
 
     select: (res) => res.Data,
   });
@@ -104,6 +107,7 @@ export default function FoodWaste({ inventoryId }) {
         limit: 4,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
+    staleTime: 0,
     select: (res) => res.Data,
   });
 
@@ -125,6 +129,7 @@ export default function FoodWaste({ inventoryId }) {
         limit: 5,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && detailView === 'items',
+    staleTime: 0,
     select: (res) => res.Data,
   });
 
@@ -140,6 +145,7 @@ export default function FoodWaste({ inventoryId }) {
       }),
     enabled:
       !!inventoryId && !!dateRange.fromDate && detailView === 'categories',
+    staleTime: 0,
     select: (res) => res.Data,
   });
 

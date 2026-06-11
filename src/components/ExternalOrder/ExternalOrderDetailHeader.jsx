@@ -13,6 +13,9 @@ export default function ExternalOrderDetailHeader({ onBack }) {
   const location = useLocation();
   const navigate = useNavigate();
   const isFromAnalytics = location.state?.from === 'analytics';
+  const isScheduled =
+    selectedOrder?.status === 'Scheduled' ||
+    selectedOrder?.status === 'scheduled';
 
   function handleBack() {
     dispatch(setDetailOpen(false));
@@ -31,11 +34,15 @@ export default function ExternalOrderDetailHeader({ onBack }) {
         padding: '0 35px',
       }}
     >
-      {isFromAnalytics ? (
+      {isFromAnalytics && isScheduled ? (
         <div className='flex items-center gap-2 text-[14px] leading-5'>
           <span
             className='cursor-pointer'
-            onClick={() => navigate('/external-orders')}
+            onClick={() => {
+              dispatch(setDetailOpen(false));
+              dispatch(setSelectedOrder(null));
+              navigate('/external-orders');
+            }}
           >
             <img
               src='/img/grey-back.png'
@@ -46,15 +53,20 @@ export default function ExternalOrderDetailHeader({ onBack }) {
 
           <span
             style={{ color: '#6b6b6f', fontWeight: 400, cursor: 'pointer' }}
-            onClick={() => navigate('/external-orders')}
+            onClick={() => {
+              dispatch(setDetailOpen(false));
+              dispatch(setSelectedOrder(null));
+              navigate('/external-orders');
+            }}
           >
             Back to Orders
           </span>
         </div>
       ) : (
         <div className='flex items-center gap-1 text-[14px] leading-5'>
-          {(selectedOrder?.status === 'scheduled' ||
-            selectedOrder?.status === 'Scheduled') && (
+          {isScheduled && (
+            // (selectedOrder?.status === 'scheduled' ||
+            //   selectedOrder?.status === 'Scheduled')
             <span className='cursor-pointer mr-3' onClick={handleBack}>
               <img src='/icons/back-icon.svg' alt='back' />
             </span>
