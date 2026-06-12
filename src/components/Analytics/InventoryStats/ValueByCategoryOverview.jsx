@@ -1,6 +1,11 @@
 import { formatPrice } from '../../../utils/format';
+import { SkeletonBar } from '../../Common/Skeleton';
 
-export default function ValueByCategoryOverview({ rows = [], onViewMore }) {
+export default function ValueByCategoryOverview({
+  rows = [],
+  onViewMore,
+  isLoading = false,
+}) {
   const displayRows = rows.slice(0, 3);
   const hasMore = rows.length > 3;
 

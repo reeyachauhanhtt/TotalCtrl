@@ -13,9 +13,15 @@ import {
 } from '../../store/analyticsSlice';
 
 export default function RealTimeInventorySection() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: ['analyticsStockValue'],
     queryFn: fetchAnalyticsStockValue,
+    // queryFn: () =>
+    //   new Promise((r) => setTimeout(r, 5000)).then(() =>
+    //     fetchAnalyticsStockValue(),
+    //   ),
+    staleTime: 0,
+    gcTime: 0,
   });
   const navigate = useNavigate();
 
@@ -37,15 +43,26 @@ export default function RealTimeInventorySection() {
         hasData={hasData}
       />
 
-      {isLoading && (
-        <div className='text-sm text-gray-400 py-4'>Loading...</div>
+      {isFetching && (
+        <div
+          className='flex flex-wrap w-full overflow-hidden rounded-lg'
+          style={{
+            border: '1px solid #e7e7ec',
+            boxShadow:
+              '0 2px 4px rgba(51,51,82,.08), 0 2px 6px rgba(51,51,82,.08)',
+          }}
+        >
+          {Array.from({ length: 4 }).map((_, i) => (
+            <InventoryCard key={i} variant='realtime' isLoading />
+          ))}
+        </div>
       )}
 
       {error && (
         <div className='text-sm text-red-400 py-4'>Failed to load data.</div>
       )}
 
-      {!isLoading && !error && (
+      {!isFetching && !error && (
         <div
           className='flex flex-wrap w-full overflow-hidden rounded-lg'
           style={{

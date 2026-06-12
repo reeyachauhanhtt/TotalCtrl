@@ -14,6 +14,7 @@ import {
   fetchCheckOutValue,
 } from '../../../services/inventoryStatsService';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
+import { InventoryStatsDetailSkeleton } from './InventoryStatSkeletonLoading';
 
 const LIMIT = 20;
 
@@ -50,22 +51,28 @@ export default function InventoryStatsDetail({ type }) {
   const { title, hasDatePicker } = CONFIG[type];
   const fetcher = fetchFn(type);
 
-  const { data, fetchNextPage, hasNextPage, status } = useInfiniteQuery({
-    queryKey: ['inventoryStatsDetail', type, inventoryId, dateRange],
-    queryFn: ({ pageParam = 0 }) =>
-      fetcher({
-        inventoryId,
-        limit: LIMIT,
-        offset: pageParam,
-        ...(hasDatePicker ? dateRange : {}),
-      }),
-    getNextPageParam: (lastPage, allPages) => {
-      const lastBatch = lastPage?.Data?.Data ?? [];
-      if (lastBatch.length < LIMIT) return undefined;
-      return allPages.reduce((acc, p) => acc + (p?.Data?.Data?.length ?? 0), 0);
-    },
-    enabled: !!inventoryId,
-  });
+  const { data, fetchNextPage, hasNextPage, status, isLoading } =
+    useInfiniteQuery({
+      queryKey: ['inventoryStatsDetail', type, inventoryId, dateRange],
+      queryFn: ({ pageParam = 0 }) =>
+        fetcher({
+          inventoryId,
+          limit: LIMIT,
+          offset: pageParam,
+          ...(hasDatePicker ? dateRange : {}),
+        }),
+      getNextPageParam: (lastPage, allPages) => {
+        const lastBatch = lastPage?.Data?.Data ?? [];
+        if (lastBatch.length < LIMIT) return undefined;
+        return allPages.reduce(
+          (acc, p) => acc + (p?.Data?.Data?.length ?? 0),
+          0,
+        );
+      },
+      enabled: !!inventoryId,
+      staleTime: 0,
+      gcTime: 0,
+    });
 
   const rows = data?.pages.flatMap((p) => p?.Data?.Data ?? []) ?? [];
 
@@ -75,6 +82,8 @@ export default function InventoryStatsDetail({ type }) {
       toDate: format(range.endDate, 'yyyy-MM-dd'),
     });
   }, []);
+
+  if (isLoading) return <InventoryStatsDetailSkeleton />;
 
   return (
     <div

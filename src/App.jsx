@@ -52,7 +52,7 @@ function Layout() {
 
   const dispatch = useDispatch(); //added
 
-  const { data: inventoryData } = useQuery({
+  const { data: inventoryData, isLoading: isInventoryLoading } = useQuery({
     queryKey: ['inventories'],
     queryFn: fetchInventory,
   }); //added
@@ -148,7 +148,11 @@ function Layout() {
           }
         />
       );
-    if (isAnalytics && analyticsIsDetailOpen)
+    if (
+      isAnalytics &&
+      analyticsIsDetailOpen &&
+      location.pathname === '/analytics'
+    )
       return (
         <AnalyticsDetailHeader
           selectedInventory={analyticsSelectedInventory}
@@ -161,6 +165,7 @@ function Layout() {
             dispatch(setAnalyticsSelectedInventory(null));
           }}
           inventoryError={null}
+          isInventoryLoading={isInventoryLoading}
         />
       );
     if (isAnalytics) return <AnalyticsHeader />;

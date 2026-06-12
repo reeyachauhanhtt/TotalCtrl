@@ -16,12 +16,6 @@ import {
 } from '../../store/analyticsSlice';
 
 export default function FoodUsageSection() {
-  // const today = new Date();
-  // const [dateRange, setDateRange] = useState({
-  //   fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
-  //   toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
-  // });
-
   const today = new Date();
   const defaultRange = {
     fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
@@ -35,9 +29,15 @@ export default function FoodUsageSection() {
 
   const dispatch = useDispatch();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: ['analyticsFoodUsage', dateRange],
     queryFn: () => fetchFoodUsage(dateRange),
+    // queryFn: () =>
+    //   new Promise((r) => setTimeout(r, 5000)).then(() =>
+    //     fetchFoodUsage(dateRange),
+    //   ),
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const foodUsage = data?.Data?.foodUsage || [];
@@ -70,15 +70,26 @@ export default function FoodUsageSection() {
         hasData={hasData}
       />
 
-      {isLoading && (
-        <div className='text-sm text-gray-400 py-4'>Loading...</div>
+      {isFetching && (
+        <div
+          className='flex flex-wrap w-full overflow-hidden rounded-lg'
+          style={{
+            border: '1px solid #e7e7ec',
+            boxShadow:
+              '0 2px 4px rgba(51,51,82,.08), 0 2px 6px rgba(51,51,82,.08)',
+          }}
+        >
+          {Array.from({ length: 3 }).map((_, i) => (
+            <InventoryCard key={i} variant='foodusage' isLoading />
+          ))}
+        </div>
       )}
 
       {error && (
         <div className='text-sm text-red-400 py-4'>Failed to load data.</div>
       )}
 
-      {!isLoading && !error && (
+      {!isFetching && !error && (
         <div
           className='flex flex-wrap w-full overflow-hidden rounded-lg'
           style={{

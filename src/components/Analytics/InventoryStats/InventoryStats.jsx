@@ -19,6 +19,8 @@ import {
   fetchCheckOutValue,
   fetchInventoryExport,
 } from '../../../services/inventoryStatsService';
+import { SkeletonBar } from '../../Common/Skeleton';
+import { InventoryStatsSkeleton } from './InventoryStatSkeletonLoading';
 
 export default function InventoryStats({ onViewMore }) {
   const selectedInventory = useSelector((s) => s.analytics.selectedInventory);
@@ -34,41 +36,46 @@ export default function InventoryStats({ onViewMore }) {
   const [checkInRange, setCheckInRange] = useState(persistedRange);
   const [checkOutRange, setCheckOutRange] = useState(persistedRange);
 
-  const { data: totalData } = useQuery({
+  const { data: totalData, isLoading: isTotalLoading } = useQuery({
     queryKey: ['inventoryTotal', inventoryId],
     queryFn: () => fetchInventoryTotal({ inventoryId }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
-  const { data: supplierData } = useQuery({
+  const { data: supplierData, isLoading: isSupplierLoading } = useQuery({
     queryKey: ['valueBySupplier', inventoryId],
     queryFn: () => fetchValueBySupplier({ inventoryId, limit: 4 }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
-  const { data: categoryData } = useQuery({
+  const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
     queryKey: ['valueByCategory', inventoryId],
     queryFn: () => fetchValueByCategory({ inventoryId, limit: 4 }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
-  const { data: checkInData } = useQuery({
+  const { data: checkInData, isLoading: isCheckInLoading } = useQuery({
     queryKey: ['checkInValue', inventoryId, checkInRange],
     queryFn: () =>
       fetchCheckInValue({ inventoryId, ...checkInRange, limit: 4 }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
-  const { data: checkOutData } = useQuery({
+  const { data: checkOutData, isLoading: isCheckOutLoading } = useQuery({
     queryKey: ['checkOutValue', inventoryId, checkOutRange],
     queryFn: () =>
       fetchCheckOutValue({ inventoryId, ...checkOutRange, limit: 4 }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
   const inventoryName =
@@ -115,6 +122,14 @@ export default function InventoryStats({ onViewMore }) {
     XLSX.writeFile(wb, `inventory${Date.now()}.xlsx`);
   }
 
+  const isLoading =
+    isTotalLoading ||
+    isSupplierLoading ||
+    isCategoryLoading ||
+    isCheckInLoading ||
+    isCheckOutLoading;
+  if (isLoading) return <InventoryStatsSkeleton />;
+
   return (
     <div className='px-8.75 pr-10 pb-15'>
       {/* Title + Export */}
@@ -128,9 +143,16 @@ export default function InventoryStats({ onViewMore }) {
             <label className='block font-extrabold! text-[12px] leading-4 tracking-[0.08em] uppercase text-[#6b6b6f] mb-4'>
               Total Inventory Value
             </label>
-            <label className='block text-[64px] font-medium leading-16 tracking-[-0.01em] text-[#19191c]'>
-              {totalValue != null ? formatPrice(totalValue) : '—'}
-            </label>
+
+            {isTotalLoading ? (
+              <SkeletonBar
+                style={{ height: 56, width: 280, borderRadius: 8 }}
+              />
+            ) : (
+              <label className='block text-[64px] font-medium leading-16 tracking-[-0.01em] text-[#19191c]'>
+                {totalValue != null ? formatPrice(totalValue) : '—'}
+              </label>
+            )}
           </div>
         </div>
 
@@ -144,6 +166,7 @@ export default function InventoryStats({ onViewMore }) {
         <div className='flex-1 min-w-0'>
           <ValueBySupplierOverview
             rows={suppliers}
+            isLoading={isSupplierLoading}
             onViewMore={() => onViewMore('supplier')}
           />
         </div>
@@ -151,6 +174,7 @@ export default function InventoryStats({ onViewMore }) {
         <div className='flex-1 min-w-0'>
           <ValueByCategoryOverview
             rows={categories}
+            isLoading={isCategoryLoading}
             onViewMore={() => onViewMore('category')}
           />
         </div>
@@ -168,6 +192,7 @@ export default function InventoryStats({ onViewMore }) {
         <CheckInOverview
           total={checkInTotal}
           rows={checkInRows}
+          isLoading={isCheckInLoading}
           onApplyDateRange={(range) =>
             setCheckInRange({
               fromDate: format(range.startDate, 'yyyy-MM-dd'),
@@ -180,6 +205,7 @@ export default function InventoryStats({ onViewMore }) {
         <CheckOutOverview
           total={checkOutTotal}
           rows={checkOutRows}
+          isLoading={isCheckOutLoading}
           onApplyDateRange={(range) =>
             setCheckOutRange({
               fromDate: format(range.startDate, 'yyyy-MM-dd'),

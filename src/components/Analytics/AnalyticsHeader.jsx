@@ -1,4 +1,7 @@
+import { useState, useEffect } from 'react';
+
 import InventoryDropdown from '../Common/InventoryDropDown';
+import { SkeletonBar } from '../Common/Skeleton';
 
 export default function AnalyticsHeader({
   inventories = [],
@@ -26,7 +29,15 @@ export function AnalyticsDetailHeader({
   onSelectInventory,
   onBack,
   inventoryError,
+  isInventoryLoading,
 }) {
+  const [showSkeleton, setShowSkeleton] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowSkeleton(false), 800);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className='h-18 flex items-center justify-between px-10 border-b border-gray-200 bg-white'>
       {/* Breadcrumb */}
@@ -44,12 +55,16 @@ export function AnalyticsDetailHeader({
       </div>
 
       {/* Inventory Dropdown */}
-      <InventoryDropdown
-        inventories={inventories}
-        selectedInventory={selectedInventory}
-        onSelect={onSelectInventory}
-        error={inventoryError}
-      />
+      {showSkeleton ? (
+        <SkeletonBar style={{ height: 36, width: 200, borderRadius: 6 }} />
+      ) : (
+        <InventoryDropdown
+          inventories={inventories}
+          selectedInventory={selectedInventory}
+          onSelect={onSelectInventory}
+          error={inventoryError}
+        />
+      )}
     </div>
   );
 }

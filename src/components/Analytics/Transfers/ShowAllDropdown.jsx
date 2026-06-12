@@ -47,52 +47,6 @@ export default function ShowAllDropdown({ value, onChange, isOpen, onToggle }) {
         }}
       >
         {/* Left: selected value + hidden input */}
-        {/* <div
-          className='flex items-center flex-1 overflow-hidden relative'
-          style={{
-            padding: '0px 12px',
-            fontSize: 14,
-            fontWeight: 400,
-            lineHeight: '20px',
-          }}
-        >
-          {!isOpen && (
-            <span
-              className='absolute'
-              style={{
-                color: '#333',
-                maxWidth: 'calc(100% - 8px)',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                top: '50%',
-                transform: 'translateY(-50%)',
-              }}
-            >
-              {selected.label}
-            </span>
-          )}
-          <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!isOpen) onToggle();
-            }}
-            className='bg-transparent outline-none'
-            style={{
-              boxSizing: 'content-box',
-              width: isOpen ? '100%' : 2,
-              border: 0,
-              fontSize: 'inherit',
-              opacity: 1,
-              padding: 0,
-              color: '#333',
-            }}
-            readOnly={!isOpen}
-          />
-        </div> */}
-
         <div
           className='flex items-center flex-1 overflow-hidden relative'
           style={{
@@ -164,7 +118,7 @@ export default function ShowAllDropdown({ value, onChange, isOpen, onToggle }) {
             top: '100%',
             marginTop: 8,
             marginBottom: 8,
-            width: '100%',
+            width: 375,
             borderRadius: 4,
             boxShadow:
               'rgba(0,0,0,0.1) 0px 0px 0px 1px, rgba(0,0,0,0.1) 0px 4px 11px',
@@ -172,7 +126,7 @@ export default function ShowAllDropdown({ value, onChange, isOpen, onToggle }) {
         >
           <div
             style={{
-              maxHeight: 320,
+              maxHeight: 380,
               overflowY: 'auto',
               paddingTop: 4,
               paddingBottom: 4,
@@ -191,7 +145,7 @@ export default function ShowAllDropdown({ value, onChange, isOpen, onToggle }) {
                     backgroundColor: isSelected
                       ? 'rgb(234,247,238)'
                       : 'transparent',
-                    padding: '8px 24px',
+                    padding: '15px 30px',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',

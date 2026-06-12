@@ -1,11 +1,13 @@
 import MonthPicker from '../common/MonthPicker';
 import { formatPrice } from '../../../utils/format';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 export default function CheckOutOverview({
   total = 0,
   rows = [],
   onApplyDateRange,
   onViewMore,
+  isLoading = false,
 }) {
   const hasData = total > 0 && rows.length > 0;
   const displayRows = rows.slice(0, 3);

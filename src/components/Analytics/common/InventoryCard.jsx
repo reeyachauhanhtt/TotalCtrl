@@ -1,12 +1,77 @@
+import { SkeletonBar } from '../../../components/Common/Skeleton';
 import ProgressBar from '../common/ProgressBar';
 
 export default function InventoryCard({
   variant = 'realtime',
   item,
   onViewDetails,
+  isLoading = false,
 }) {
   const hasValue =
     item?.value && item.value !== '0,00' && item.value !== '0,00 kr';
+
+  const wrapperStyle = {
+    width: variant === 'foodusage' ? '33.333%' : '25%',
+    padding:
+      variant === 'foodusage' ? '40px 56px 40px 58px' : '40px 5px 40px 58px',
+    borderRight: '1px solid #e7e7ec',
+    borderBottom: '1px solid #e7e7ec',
+    boxSizing: 'border-box',
+    minHeight: variant === 'foodusage' ? 400 : 'auto',
+  };
+
+  if (isLoading) {
+    return (
+      <div className='flex flex-col box-border' style={wrapperStyle}>
+        <SkeletonBar
+          style={{ height: 24, width: 90, borderRadius: 10, marginBottom: 18 }}
+        />
+        <SkeletonBar
+          style={{ height: 40, width: 120, borderRadius: 12, marginBottom: 0 }}
+        />
+        <SkeletonBar
+          style={{ height: 14, width: 150, borderRadius: 50, marginBottom: 6 }}
+        />
+
+        {variant === 'foodusage' && (
+          <div className='w-full' style={{ marginTop: 30 }}>
+            <div className='flex justify-between w-full'>
+              <SkeletonBar
+                style={{ height: 20, width: 100, borderRadius: 10 }}
+              />
+              <SkeletonBar
+                style={{ height: 20, width: 90, borderRadius: 10 }}
+              />
+            </div>
+            <SkeletonBar style={{ height: 8, borderRadius: 4, marginTop: 8 }} />
+
+            <div
+              className='flex justify-between w-full'
+              style={{ marginTop: 24 }}
+            >
+              <SkeletonBar
+                style={{ height: 20, width: 100, borderRadius: 10 }}
+              />
+              <SkeletonBar
+                style={{ height: 20, width: 90, borderRadius: 10 }}
+              />
+            </div>
+            <SkeletonBar style={{ height: 8, borderRadius: 4, marginTop: 8 }} />
+          </div>
+        )}
+
+        {variant !== 'foodusage' && (
+          <SkeletonBar
+            style={{ height: 12, width: 260, borderRadius: 50, marginTop: 2 }}
+          />
+        )}
+
+        <SkeletonBar
+          style={{ height: 24, width: 100, borderRadius: 8, marginTop: 40 }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
