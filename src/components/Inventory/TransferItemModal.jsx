@@ -1,0 +1,906 @@
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { FiX, FiSearch, FiChevronDown } from 'react-icons/fi';
+
+import { fetchInventory } from '../../services/inventoryService';
+import { fetchProducts } from '../../services/productService';
+import { transferItems } from '../../services/transferService';
+import { TransferProductListSkeleton } from '../Common/Skeleton';
+import {
+  setStep,
+  setFromInventory,
+  setToInventory,
+  setFromDropdownOpen,
+  setToDropdownOpen,
+  toggleItem,
+  removeItem,
+  setQuantity,
+  setSearchQuery,
+  setLocationError,
+  setSelectionError,
+  clearSelection,
+  resetTransfer,
+} from '../../store/transferSlice';
+import GreenButton from '../Common/GreenButton';
+import WhiteButton from '../Common/WhiteButton';
+import TransferInventoryDropdown from '../Common/TransferInvDropdown';
+
+export default function TransferItemModal({
+  open,
+  onClose,
+  selectedInventory,
+  onTransferSuccess,
+}) {
+  const dispatch = useDispatch();
+  const {
+    step,
+    fromInventory,
+    toInventory,
+    fromDropdownOpen,
+    toDropdownOpen,
+    selectedItems,
+    quantities,
+    searchQuery,
+    locationError,
+    selectionError,
+  } = useSelector((s) => s.transfer);
+
+  // Reset on close
+  useEffect(() => {
+    if (!open) {
+      dispatch(resetTransfer());
+      setSearchInputValue('');
+      setDebouncedSearch('');
+      setSearchDropdownOpen(false);
+      setSearchFocused(false);
+    }
+  }, [open]);
+
+  // Default fromInventory to currently selected
+  useEffect(() => {
+    if (open && selectedInventory)
+      dispatch(setFromInventory(selectedInventory));
+  }, [open, selectedInventory]);
+
+  // Fetch inventories
+  const { data: inventoriesData } = useQuery({
+    queryKey: ['inventories'],
+    queryFn: fetchInventory,
+    enabled: open,
+    select: (data) => {
+      const list = data.Data || data.data || [];
+      return list.filter(
+        (inv) => inv.permission === 'Editor' || inv.accessType === 'Editor',
+      );
+    },
+  });
+  const inventories = inventoriesData || [];
+
+  // If fromInventory changes to same as toInventory, reset toInventory
+  useEffect(() => {
+    if (fromInventory && toInventory && fromInventory.id === toInventory.id) {
+      dispatch(setToInventory(null));
+    }
+  }, [fromInventory]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    // whenever inventory changes → reset step 2 data
+    dispatch(toggleItem([])); //  this won't work (explained below)
+  }, [fromInventory, toInventory]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    // reset items when inventory changes
+    dispatch(clearSelection());
+
+    // also reset local search states
+    setSearchInputValue('');
+    setDebouncedSearch('');
+    setSearchDropdownOpen(false);
+    setSearchFocused(false);
+  }, [fromInventory, toInventory]);
+
+  // Fetch products for step 2
+  const inventoryId =
+    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
+
+  // const { data: products = [], isFetching: loadingProducts } = useQuery({
+  //   queryKey: ['products', inventoryId],
+
+  //   queryFn: async () => {
+  //     if (!inventoryId) return [];
+  //     return fetchProducts({ inventoryId });
+  //   },
+
+  //   enabled: step === 2 && !!inventoryId,
+  //   staleTime: 0,
+  // });
+
+  const {
+    data: productsData,
+    isFetching: loadingProducts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['products', inventoryId],
+    queryFn: ({ pageParam = 0 }) =>
+      fetchProducts({
+        inventoryId,
+        offset: pageParam,
+        limit: 20,
+        isInStock: '1,2',
+      }),
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length === 20) return allPages.length * 20;
+      return undefined;
+    },
+    enabled: step === 2 && !!inventoryId,
+    staleTime: 0,
+  });
+
+  const products = productsData?.pages?.flat() ?? [];
+
+  const queryClient = useQueryClient();
+
+  const transferMutation = useMutation({
+    mutationFn: async (payload) => {
+      // console.log('Transfer payload:', payload);
+      return transferItems(payload);
+    },
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['products', fromInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', fromInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['products', toInventory?.id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['stock-value', toInventory?.id],
+      });
+
+      onClose();
+
+      if (onTransferSuccess) {
+        onTransferSuccess({ transferId: data?.Data?.transferId });
+      }
+    },
+
+    onError: (err) => {
+      console.error('Transfer error:', err);
+    },
+  });
+
+  // console.log('products sample:', products[0]);
+
+  // Search input state for debounce & dropdown
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
+  const [showFooterError, setShowFooterError] = useState(false);
+  const [isDebouncing, setIsDebouncing] = useState(false);
+  const searchRef = useRef(null);
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchInputValue);
+      dispatch(setSearchQuery(searchInputValue));
+      setIsDebouncing(false);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchInputValue]);
+
+  // Close search dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchFocused(false);
+        setSearchDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  if (!open) return null;
+
+  const fromName = fromInventory?.name || '---';
+  const toName = toInventory?.name || '';
+  const progress = (step / 3) * 100;
+
+  // const filteredProducts = products
+  //   .filter((p) => Number(p.totalQuantity ?? p.quantity ?? 0) > 0)
+  //   .filter((p) =>
+  //     p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
+  //   );
+
+  const filteredProducts = products.filter((p) =>
+    p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  function handleStep1Continue() {
+    if (!fromInventory || !toInventory) {
+      dispatch(setLocationError(true));
+      return;
+    }
+    dispatch(setLocationError(false));
+    setShowFooterError(false);
+    dispatch(setStep(2));
+  }
+
+  function handleStep2Continue() {
+    if (selectedItems.length === 0) {
+      dispatch(setSelectionError(true));
+      return;
+    }
+    dispatch(setSelectionError(false));
+    setShowFooterError(false);
+    dispatch(setStep(3));
+  }
+
+  function handleTransfer() {
+    if (selectedItems.length === 0) {
+      setShowFooterError(true);
+      return;
+    }
+
+    const hasInvalidQty = selectedItems.some((item) => {
+      const qty = Number(quantities[item.id]);
+
+      return (
+        !qty || // empty / undefined
+        qty <= 0 || // zero or negative
+        qty > item.totalQuantity // exceeds available
+      );
+    });
+
+    if (hasInvalidQty) {
+      dispatch(setSelectionError(true));
+      return;
+    }
+
+    setShowFooterError(false);
+    dispatch(setSelectionError(false));
+
+    transferMutation.mutate({
+      fromInventoryId: fromInventory?.id,
+      toInventoryId: toInventory?.id,
+      items: selectedItems.flatMap((i) =>
+        (i.products || []).map((batch) => ({
+          storeProductId: batch.storeProductId,
+          quantity: quantities[i.id],
+        })),
+      ),
+    });
+  }
+
+  return (
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[0.5px]'>
+      <div
+        className='bg-white rounded-lg shadow-xl flex flex-col w-360 h-217 max-w-[95vw]'
+        style={{ minHeight: '560px', maxHeight: '100vh', overflowX: 'hidden' }}
+      >
+        {/* HEADER */}
+        <div className='flex items-center justify-between px-6 py-5 border-b border-gray-200'>
+          <div className='flex items-center gap-4'>
+            <span className='text-[20px] pl-5 font-semibold text-gray-900'>
+              {step === 1
+                ? 'Transfer items'
+                : `Transfer items from ${fromName}`}
+            </span>
+            <span className='text-[20px] font-semibold text-gray-900'>
+              Step {step}/3
+            </span>
+          </div>
+          <button onClick={onClose} className='text-gray-700'>
+            <FiX size={22} />
+          </button>
+        </div>
+
+        <div
+          className={`flex-1 flex flex-col min-h-0 ${step === 2 ? 'overflow-hidden' : 'overflow-y-auto'}`}
+        >
+          {/* STEP 1 */}
+          {step === 1 && (
+            <div className='px-15 py-8'>
+              <div className='max-w-sm'>
+                <h2 className='text-[20px] font-semibold text-gray-900 mb-6'>
+                  Select location
+                </h2>
+
+                <TransferInventoryDropdown
+                  label='From'
+                  value={fromInventory}
+                  inventories={inventories}
+                  isOpen={fromDropdownOpen}
+                  setOpen={(val) => dispatch(setFromDropdownOpen(val))}
+                  onSelect={(inv) => dispatch(setFromInventory(inv))}
+                />
+
+                <TransferInventoryDropdown
+                  label='To'
+                  value={toInventory}
+                  inventories={inventories}
+                  isOpen={toDropdownOpen}
+                  setOpen={(val) => dispatch(setToDropdownOpen(val))}
+                  onSelect={(inv) => dispatch(setToInventory(inv))}
+                  excludeId={fromInventory?.id}
+                />
+
+                {locationError && (
+                  <p className='text-red-700 text-sm '>
+                    Please select 'From' and 'To' location.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <div className='flex flex-1 self-stretch' style={{ minHeight: 0 }}>
+              {/* Left panel */}
+              <div
+                className='flex flex-col flex-1 pl-6 mt-3 mb-3'
+                style={{ borderRight: '1px solid #e5e7eb', margin: 0 }}
+              >
+                <h2 className='text-[24px] font-semibold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
+                  Pick items to transfer
+                </h2>
+
+                {/* Search input with dropdown */}
+                <div className='px-6 mb-0' ref={searchRef}>
+                  <div className='relative'>
+                    <div
+                      className={`flex items-center border rounded px-3 gap-2 transition-colors ${
+                        searchFocused
+                          ? 'border-emerald-500 ring-1 ring-emerald-500'
+                          : 'border-gray-300'
+                      }`}
+                    >
+                      <FiSearch size={15} className='text-gray-400 shrink-0' />
+                      <input
+                        type='text'
+                        placeholder='Search items...'
+                        value={searchInputValue}
+                        onFocus={() => {
+                          setSearchFocused(true);
+                          setSearchDropdownOpen(true);
+                        }}
+                        onChange={(e) => {
+                          setSearchInputValue(e.target.value);
+                          setIsDebouncing(true);
+                          setSearchDropdownOpen(true);
+                        }}
+                        className='w-full py-2 text-sm outline-none bg-transparent text-gray-700 placeholder-gray-400'
+                      />
+                      <FiChevronDown
+                        size={15}
+                        className='text-gray-400 shrink-0'
+                      />
+                    </div>
+
+                    {/* Search dropdown - only shows when typing */}
+                    {searchDropdownOpen && searchFocused && (
+                      <div className='absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-50 max-h-48 overflow-y-auto'>
+                        {searchInputValue.trim() === '' ? (
+                          <div className='px-4 py-3 text-sm text-gray-400'>
+                            No options
+                          </div>
+                        ) : isDebouncing ? (
+                          <div className='px-4 py-3 text-sm text-gray-400'>
+                            Loading...
+                          </div>
+                        ) : filteredProducts.length === 0 ? (
+                          <div className='px-4 py-3 text-sm text-gray-400'>
+                            No options
+                          </div>
+                        ) : (
+                          <div className='flex flex-col gap-1.5'>
+                            {filteredProducts.map((product) => {
+                              const sel = selectedItems.some(
+                                (i) => i.id === product.id,
+                              );
+                              return (
+                                <div
+                                  key={product.id}
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    dispatch(toggleItem(product));
+                                  }}
+                                  className={`flex items-center gap-3 px-3 py-2.5 text-sm cursor-pointer transition-colors ${
+                                    sel ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                                  }`}
+                                >
+                                  <div
+                                    className={`w-4 h-4 rounded flex items-center justify-center border shrink-0 ${
+                                      sel
+                                        ? 'bg-emerald-600 border-emerald-600'
+                                        : 'border-gray-300 bg-white'
+                                    }`}
+                                  >
+                                    {sel && (
+                                      <svg
+                                        className='w-2.5 h-2.5 text-white'
+                                        viewBox='0 0 24 24'
+                                        fill='none'
+                                        stroke='currentColor'
+                                        strokeWidth='3'
+                                      >
+                                        <path d='M5 13l4 4L19 7' />
+                                      </svg>
+                                    )}
+                                  </div>
+                                  <span className='text-gray-700'>
+                                    {product.productName}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className='border-b border-gray-200 mt-7.5' />
+
+                {/* Product list */}
+                {/* <div className='flex-1 overflow-y-auto px-6 pt-10'> */}
+                <div
+                  className='flex-1 overflow-y-auto px-6 pt-10'
+                  onScroll={(e) => {
+                    const { scrollTop, scrollHeight, clientHeight } = e.target;
+                    if (
+                      scrollHeight - scrollTop - clientHeight < 150 &&
+                      hasNextPage &&
+                      !isFetchingNextPage
+                    ) {
+                      fetchNextPage();
+                    }
+                  }}
+                >
+                  {loadingProducts && !isFetchingNextPage ? (
+                    <TransferProductListSkeleton />
+                  ) : (
+                    <div>
+                      {filteredProducts.map((product) => {
+                        const sel = selectedItems.some(
+                          (i) => i.id === product.id,
+                        );
+                        return (
+                          <div
+                            key={product.id}
+                            onClick={() => dispatch(toggleItem(product))}
+                            style={{
+                              padding: '14px 24px',
+                              display: 'flex',
+                              marginRight: 24,
+                              marginBottom: 5,
+                              color: '#19191c',
+                              fontWeight: 400,
+                              fontSize: 14,
+                              lineHeight: '20px',
+                              cursor: 'pointer',
+                              backgroundColor: sel ? '#f0fdf4' : 'transparent',
+                            }}
+                          >
+                            {/* Checkbox */}
+                            <div style={{ width: 36, flexShrink: 0 }}>
+                              <div
+                                style={{
+                                  width: 20,
+                                  height: 20,
+                                  borderRadius: 4,
+                                  border: sel
+                                    ? '1px solid #059669'
+                                    : '1px solid #d7d8e0',
+                                  backgroundColor: sel ? '#059669' : '#fff',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                {sel && (
+                                  <svg
+                                    width='12'
+                                    height='12'
+                                    viewBox='0 0 24 24'
+                                    fill='none'
+                                    stroke='white'
+                                    strokeWidth='3'
+                                  >
+                                    <path d='M5 13l4 4L19 7' />
+                                  </svg>
+                                )}
+                              </div>
+                            </div>
+                            {/* Name */}
+                            <div>{product.productName}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Right panel — Selected items */}
+              <div className='flex flex-col shrink-0 overflow-y-auto bg-gray-50 w-125'>
+                <h2 className='text-[24px] font-semibold text-gray-900 px-10 pt-8 pb-4'>
+                  Selected items
+                </h2>
+                <div className='flex flex-col px-6'>
+                  {selectedItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className='flex items-center justify-between py-4 px-4'
+                    >
+                      <span className='text-[14px] text-gray-800'>
+                        {item.productName}
+                      </span>
+                      <button
+                        onClick={() => dispatch(removeItem(item.id))}
+                        className='text-gray-500 ml-3 shrink-0'
+                      >
+                        <FiX size={19} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <div className='flex flex-col min-h-0 flex-1 overflow-y-auto'>
+              {/* Title */}
+              <div style={{ marginLeft: 48, marginTop: 32, marginBottom: 32 }}>
+                <h2
+                  style={{
+                    fontSize: 24,
+                    lineHeight: '32px',
+                    fontWeight: 600,
+                    letterSpacing: '-0.01em',
+                    color: '#19191c',
+                    textAlign: 'left',
+                    marginBottom: 0,
+                  }}
+                >
+                  Specify quantities
+                </h2>
+              </div>
+
+              {/* Divider */}
+              <hr
+                style={{
+                  margin: '0 -24px',
+                  borderTop: '1px solid rgba(0,0,0,0.1)',
+                  width: 'calc(100% + 48px)',
+                }}
+              />
+
+              {/* Table container */}
+              <div
+                style={{
+                  marginLeft: 48,
+                  marginTop: 0,
+                  marginBottom: 10,
+                  paddingRight: 24,
+                }}
+              >
+                {selectedItems.length === 0 ? (
+                  <div
+                    style={{
+                      border: '1px solid #dee2e6',
+                      borderRadius: 4,
+                      marginTop: 10,
+                      marginBottom: 24,
+                      marginLeft: 5,
+                      marginRight: 5,
+                      minHeight: 70,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontWeight: 600,
+                        fontSize: 18,
+                        lineHeight: '24px',
+                        letterSpacing: '-0.01em',
+                        color: '#19191c',
+                        margin: 0,
+                      }}
+                    >
+                      Sorry no product found
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      border: '1px solid #dee2e6',
+                      borderRadius: 4,
+                      marginTop: 10,
+                      // marginBottom: 24,
+                      padding: '0 24px',
+                    }}
+                  >
+                    <table
+                      style={{
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                        fontSize: 14,
+                        marginTop: 20,
+                        marginBottom: 20,
+                      }}
+                    >
+                      <tbody>
+                        {selectedItems.map((item, i) => {
+                          const qty = Number(quantities[item.id]);
+                          const unitPlural =
+                            item.stockTakingUnitPlural || item.unit || '';
+                          const unitLabel =
+                            qty === 1
+                              ? unitPlural.endsWith('s')
+                                ? unitPlural.slice(0, -1)
+                                : unitPlural
+                              : unitPlural;
+                          const isLast = i === selectedItems.length - 1;
+
+                          return (
+                            <tr
+                              key={item.id}
+                              style={{
+                                borderBottom: isLast
+                                  ? 'none'
+                                  : '1px solid #e6e6ed',
+                                height: 95,
+                              }}
+                            >
+                              {/* Product name */}
+                              <td
+                                style={{
+                                  width: '30%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontWeight: 400,
+                                    fontSize: 14,
+                                    lineHeight: '20px',
+                                    color: '#19191c',
+                                  }}
+                                >
+                                  {item.productName}
+                                </span>
+                              </td>
+
+                              {/* Available */}
+                              <td
+                                style={{
+                                  width: '25%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <span
+                                  style={{ fontSize: 14, color: '#19191c' }}
+                                >
+                                  {Number(item.totalQuantity ?? 0)} available to
+                                  transfer
+                                </span>
+                              </td>
+
+                              {/* Input + unit */}
+                              <td
+                                style={{
+                                  width: '30%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    backgroundColor: '#f1f1f5',
+                                    borderRadius: 4,
+                                    width: 160,
+                                    height: 36,
+                                    overflow: 'hidden',
+                                  }}
+                                >
+                                  <input
+                                    type='text'
+                                    value={quantities[item.id] ?? ''}
+                                    onChange={(e) =>
+                                      dispatch(
+                                        setQuantity({
+                                          id: item.id,
+                                          value: e.target.value,
+                                        }),
+                                      )
+                                    }
+                                    style={{
+                                      border: 'none',
+                                      outline: 'none',
+                                      flex: 1,
+                                      minWidth: 0,
+                                      backgroundColor: '#f1f1f5',
+                                      padding: '0 8px',
+                                      fontSize: 12,
+                                      lineHeight: '24px',
+                                      color: '#333',
+                                    }}
+                                  />
+                                  <span
+                                    style={{
+                                      paddingRight: 12,
+                                      paddingLeft: 4,
+                                      color: '#19191c',
+                                      fontSize: 14,
+                                      whiteSpace: 'nowrap',
+                                      flexShrink: 0,
+                                    }}
+                                  >
+                                    {unitLabel}
+                                  </span>
+                                </div>
+                                {quantities[item.id] !== undefined &&
+                                  quantities[item.id] !== '' &&
+                                  (qty <= 0 || qty > item.totalQuantity) && (
+                                    <span
+                                      style={{
+                                        fontSize: 12,
+                                        color: '#e2232e',
+                                        marginTop: 4,
+                                        display: 'block',
+                                      }}
+                                    >
+                                      {qty <= 0
+                                        ? 'Quantity must be greater than 0'
+                                        : `Qty equal or less than ${item.totalQuantity}`}
+                                    </span>
+                                  )}
+                              </td>
+
+                              {/* Remove */}
+                              <td
+                                style={{
+                                  width: '15%',
+                                  verticalAlign: 'middle',
+                                  padding: '0',
+                                  textAlign: 'right',
+                                  borderTop: 0,
+                                }}
+                              >
+                                <button
+                                  onClick={() => dispatch(removeItem(item.id))}
+                                  style={{
+                                    cursor: 'pointer',
+                                    background: 'none',
+                                    border: 'none',
+                                    padding: 0,
+                                  }}
+                                >
+                                  <FiX size={24} color='#19191c' />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              {/* </div> */}
+            </div>
+          )}
+        </div>
+
+        {/* FOOTER */}
+        <div>
+          <div className='flex items-center justify-between px-6 py-4 border-t border-gray-100'>
+            <WhiteButton
+              className='border border-gray-300 rounded text-gray-700 hover:border-gray-900 hover:text-gray-900 transition'
+              onClick={onClose}
+            >
+              Cancel
+            </WhiteButton>
+
+            {(selectionError || showFooterError) && (
+              <div className='w-[60%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-4.5 rounded px-3 py-2 flex items-center'>
+                <img src='/icons/error.svg' className='w-5 ml-2 mr-2' />
+                <span className='ml-2'>
+                  {step === 3 && selectedItems.length === 0
+                    ? 'Please select products or set qty to transfer'
+                    : 'Please select products to transfer'}
+                </span>
+              </div>
+            )}
+
+            <div className='flex items-center gap-3'>
+              {step > 1 && (
+                <WhiteButton
+                  onClick={() => {
+                    queryClient.invalidateQueries({
+                      queryKey: ['products', fromInventory?.id],
+                    });
+                    dispatch(setStep(step - 1));
+                    setShowFooterError(false);
+                  }}
+                  className='flex items-center gap-1 text-sm px-4 py-2 border border-gray-300 rounded text-gray-700 hover:border-gray-900 transition'
+                >
+                  <img
+                    src='/icons/arrow-left.svg'
+                    alt=''
+                    width={16}
+                    height={16}
+                  />
+                  Previous step
+                </WhiteButton>
+              )}
+
+              {step < 3 && (
+                <GreenButton
+                  onClick={
+                    step === 1 ? handleStep1Continue : handleStep2Continue
+                  }
+                >
+                  Continue
+                  <img
+                    src='/icons/arrow-right.svg'
+                    alt=''
+                    width={16}
+                    height={16}
+                  />
+                </GreenButton>
+              )}
+
+              {step === 3 && (
+                <button
+                  disabled={transferMutation.isPending}
+                  onClick={handleTransfer}
+                  className='flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white text-sm px-5 py-2 rounded font-bold transition'
+                >
+                  {transferMutation.isPending
+                    ? ' Please wait'
+                    : `Transfer to ${toName}`}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+#root {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* body {
+    font-family: 'Inter', sans-serif;
+} */
+
+body {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* thick scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #f1f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8a8a8a;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b4b4b;
+}
+
+.tx-12 {
+  font-size: 12px;
+}
+
+.tx-left {
+  text-align: left;
+}
+
+.tx-right {
+  text-align: right;
+}
+
+.tx-center {
+  text-align: center;
+}
+
+.pd-y-5 {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.inventorytbl {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+.mg-b-0 {
+  margin-bottom: 0;
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* button {
+    cursor: inherit;
+} */
+
+button {
+  cursor: pointer;
+}
+
+button.inv-action-btn:disabled {
+  cursor: not-allowed;
+}
+
+.err-fields {
+  background: #fff0f1 !important;
+  color: #a71a23 !important;
+  border: 2px solid #e2232e !important;
+  border-radius: 4px !important;
+}
+
+/*sidebar css*/
+.nav-link img {
+  filter: invert(0.55) brightness(0.8);
+  transition: filter 0.2s;
+}
+
+.nav-link.active img {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(110deg);
+}
+
+.nav-link:hover img {
+  filter: brightness(0) !important;
+}
+
+/*settings dropdown css*/
+.settings-menu-item:hover {
+  color: #19191c;
+  filter: brightness(0);
+}
+
+.settings-menu-item:hover a {
+  color: #19191c !important;
+}
+
+.settings-menu-item:hover img {
+  filter: brightness(0);
+}
+
+.settings-active {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(110deg) !important;
+}
+
+/*duplicate row items red bar*/
+.duplicate-bar-left::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  bottom: 20px;
+  left: 14px;
+  width: 6px;
+  background-color: #e2232e;
+  z-index: -1;
+  border-radius: 20px;
+}
+
+.duplicate-bar-right::after {
+  content: "";
+  position: absolute;
+  top: -30px;
+  bottom: 20px;
+  right: 14px;
+  width: 6px;
+  background-color: #e2232e;
+  z-index: -1;
+  border-radius: 20px;
+}

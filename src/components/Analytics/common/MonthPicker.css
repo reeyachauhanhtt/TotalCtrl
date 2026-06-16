@@ -1,0 +1,469 @@
+.analytics-calendar {
+    border: 1px solid #e7e7ec;
+    box-shadow: 0 2px 4px rgba(51, 51, 82, 0.08), 0 2px 6px rgba(51, 51, 82, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    width: 900px;
+}
+
+.analytics-calendar .rdrDateRangePickerWrapper {
+    border: none;
+    border-bottom: 1px solid #e7e7ec;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    display: flex !important;
+}
+
+.analytics-calendar .rdrDateDisplayWrapper {
+    display: none !important;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper {
+    width: 250px !important;
+    font-size: 12px;
+    border-right: 1px solid #eff2f7;
+    /* ✅ Fix #1: sidebar right border */
+    background: #fff;
+}
+
+.analytics-calendar .rdrStaticRanges {
+    display: flex;
+    flex-direction: column;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper .rdrStaticRange {
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
+    border-bottom: 0;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    outline: 0;
+    padding: 0;
+    background: #fff;
+}
+
+.analytics-calendar .rdrStaticRangeLabel {
+    display: block;
+    outline: 0;
+    line-height: 18px;
+    padding: 10px 20px;
+    font-size: 12px;
+    text-align: left;
+    color: #19191c !important;
+    white-space: nowrap;
+}
+
+.analytics-calendar .rdrDefinedRangesWrapper .rdrStaticRangeSelected {
+    background-color: #eaf7ee;
+    color: currentColor;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%2323a956' d='M10.28 2.28L4 8.56 1.72 6.28a1 1 0 0 0-1.44 1.44l3 3a1 1 0 0 0 1.44 0l7-7a1 1 0 0 0-1.44-1.44z'/%3E%3C/svg%3E");
+    background-position: 90% center;
+    background-repeat: no-repeat;
+    background-size: 12px;
+    border-radius: 5px;
+    border-bottom: 0;
+    font-weight: 600;
+}
+
+.analytics-calendar .rdrInputRanges {
+    display: none !important;
+}
+
+.analytics-calendar .rdrCalendarWrapper {
+    width: 100% !important;
+    margin: 5px auto;
+    display: block !important;
+    position: relative;
+    border-left: 0 solid #e6e6ed;
+    border-right: 0 solid #e6e6ed;
+    font-size: 12px;
+    background: #fff;
+    padding: 0 50px;
+    /* reserve space for left & right chevrons */
+}
+
+.analytics-calendar .rdrMonthAndYearWrapper {
+    height: 0 !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar .rdrMonthAndYearPickers {
+    display: none !important;
+}
+
+.analytics-calendar .rdrNextPrevButton {
+    background-repeat: no-repeat !important;
+    background-position: 50% !important;
+    background-color: unset !important;
+    margin: 8px 20px !important;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    border: 2px solid #e6e6ed;
+    display: block;
+    cursor: pointer;
+    outline: none;
+}
+
+.analytics-calendar .rdrPprevButton {
+    left: 0;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3SURBVHgBjZOxEcMgDEWR7PQZwStkBEZwk7uUmcxlSo/gFTICI6QPiCCf7YsxMvoNB/ekj5AAU9FrnLq2aQYfwvPRWwc1+II4RWO6BLovkUUNzHtazkEDp9WFlL14pTP44FCDdwE5nPTxRLd/mIUSHLPMm4ME33v7NgXNDmT0gvVKTXIBhcuuaE3Q1mkukJ+Qn3I5uiLiyImKDpLTOkPFxmmCxGmVgsRpzWs6ndbcqQUYfIzzB/oBLnaabR8PDMMAAAAASUVORK5CYII=") !important;
+}
+
+.analytics-calendar .rdrNextButton {
+    right: 0;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBlZBBDsIgEEX5eBIP4sIDuHDRtd5EehJd20UTPYBRT+I96GAhLS1tYegkEPh5b4YgRFfV83uxSzCFHhZEyiVSquKwK2OCdLumrU9aMTUJ/kn1+9bqp6HV8iSMLzkSph04aSZw0qKQkqJCTJIpwWxggkBrRCfcH58rjDn7gKgsjnuFNbA9Yg08Ezg4EHJgL+TCtty3oml+OXBQVf1SdnHcH+y4dhiSoXd9AAAAAElFTkSuQmCC") !important;
+}
+
+.analytics-calendar .rdrNextPrevButton i {
+    display: none !important;
+}
+
+.analytics-calendar .rdrMonths {
+    display: flex;
+    justify-content: center;
+}
+
+.analytics-calendar .rdrMonth {
+    padding: 0 !important;
+    width: 25.667em;
+}
+
+.analytics-calendar .rdrMonthName {
+    text-align: center !important;
+    font-size: 16px;
+    line-height: 20px;
+    color: #333 !important;
+    padding: 20px 15px 15px !important;
+    font-weight: 600;
+}
+
+.analytics-calendar .rdrWeekDays {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.analytics-calendar .rdrWeekDay {
+    font-size: 10px;
+    line-height: 24px !important;
+    color: #808186 !important;
+    flex-basis: 37px !important;
+    text-align: center;
+    font-weight: 500;
+}
+
+.analytics-calendar .rdrDay {
+    height: 46px !important;
+    width: 14.28571%;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    box-sizing: inherit;
+    position: relative;
+    font: inherit;
+    line-height: 3em;
+    text-align: center;
+}
+
+.analytics-calendar .rdrDays {
+    width: 252px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.analytics-calendar .rdrDayPassive {
+    visibility: hidden !important;
+    pointer-events: none;
+}
+
+.analytics-calendar .rdrDayNumber span {
+    color: #000000 !important;
+    font-size: 12px;
+}
+
+.analytics-calendar .rdrDayNumber {
+    top: 5px;
+    bottom: 5px;
+    outline: 0;
+    font-weight: 400;
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.analytics-calendar .rdrDayToday .rdrDayNumber {
+    border: 1px solid #19191c;
+    border-radius: 50% !important;
+}
+
+.analytics-calendar .rdrDayToday .rdrDayNumber span::after {
+    display: none !important;
+}
+
+.analytics-calendar .rdrStartEdge,
+.analytics-calendar .rdrEndEdge,
+.analytics-calendar .rdrInRange,
+.analytics-calendar .rdrSelected {
+    background: currentColor;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    pointer-events: none;
+}
+
+.analytics-calendar .rdrStartEdge {
+    border-top-left-radius: 1.042em;
+    border-bottom-left-radius: 1.042em;
+    left: 2px;
+}
+
+.analytics-calendar .rdrEndEdge {
+    border-top-right-radius: 1.042em;
+    border-bottom-right-radius: 1.042em;
+    right: 2px;
+}
+
+.analytics-calendar .rdrDayEndOfMonth .rdrInRange,
+.analytics-calendar .rdrDayEndOfMonth .rdrStartEdge,
+.analytics-calendar .rdrDayEndOfWeek .rdrInRange,
+.analytics-calendar .rdrDayEndOfWeek .rdrStartEdge {
+    border-top-right-radius: 1.042em;
+    border-bottom-right-radius: 1.042em;
+    right: 2px;
+}
+
+.analytics-calendar .rdrDayStartOfMonth .rdrEndEdge,
+.analytics-calendar .rdrDayStartOfMonth .rdrInRange,
+.analytics-calendar .rdrDayStartOfWeek .rdrEndEdge,
+.analytics-calendar .rdrDayStartOfWeek .rdrInRange {
+    border-top-left-radius: 1.042em;
+    border-bottom-left-radius: 1.042em;
+    left: 2px;
+}
+
+.analytics-calendar .calendar-bottom-container {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid #e6e6ed;
+}
+
+.analytics-calendar .calendar-cancel-button-container {
+    height: 36px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7d7db;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.analytics-calendar .calendar-cancel-span {
+    width: 100%;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    color: #6b6b6f;
+    text-align: center;
+}
+
+.analytics-calendar .calendar-apply-button-container {
+    height: 36px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #23a956;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.analytics-calendar .calendar-apply-span {
+    width: 100%;
+    font-weight: 600;
+    font-size: 14px;
+    /* ✅ Fix #9: match reference font size */
+    color: #fff !important;
+    text-align: center;
+}
+
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayStartPreview,
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayInPreview,
+.analytics-calendar .rdrDay:not(.rdrDayPassive) .rdrDayEndPreview,
+.analytics-calendar .rdrDayStartPreview,
+.analytics-calendar .rdrDayInPreview,
+.analytics-calendar .rdrDayEndPreview {
+    display: none !important;
+}
+
+/* 
+.analytics-calendar.single-month {
+    width: 520px;
+}
+
+.analytics-calendar.single-month .rdrDefinedRangesWrapper {
+    width: 18px !important;
+    min-width: 180px !important;
+    flex-shrink: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper {
+    width: 100% !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper .rdrCalendarWrapper {
+    flex: 1 !important;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper .rdrCalendarWrapper .rdrMonth {
+    width: 280px !important;
+}
+
+.analytics-calendar.single-month .rdrDays {
+    width: 280px !important;
+}
+
+.analytics-calendar.single-month .rdrWeekDay {
+    flex-basis: 60px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearWrapper {
+    height: auto !important;
+    padding: 0 !important;
+    position: relative !important;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers {
+    display: flex !important;
+    justify-content: center;
+    flex: 1;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers select {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    pointer-events: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: default;
+}
+
+.analytics-calendar.single-month .rdrNextPrevButton {
+    position: relative !important;
+    top: auto !important;
+    margin: 8px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthName {
+    display: none !important;
+} */
+
+.analytics-calendar.single-month {
+    width: 504px !important;
+}
+
+.analytics-calendar.single-month .rdrDateRangePickerWrapper {
+    width: 492px !important;
+}
+
+.analytics-calendar.single-month .rdrDefinedRangesWrapper {
+    width: 180px !important;
+    min-width: 180px !important;
+    flex-shrink: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrCalendarWrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: auto !important;
+    padding: 0 40px !important;
+}
+
+.analytics-calendar.single-month .rdrMonth {
+    width: auto !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrDays {
+    width: 252px !important;
+    margin: auto !important;
+}
+
+.analytics-calendar.single-month .rdrWeekDay {
+    flex-basis: 37px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearWrapper {
+    height: auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers {
+    display: flex !important;
+    justify-content: center !important;
+    flex: 1 !important;
+}
+
+.analytics-calendar.single-month .rdrMonthAndYearPickers select {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    pointer-events: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    cursor: default !important;
+    padding: 0 !important;
+}
+
+.analytics-calendar.single-month .rdrNextPrevButton {
+    position: relative !important;
+    top: auto !important;
+    margin: 8px !important;
+}
+
+.analytics-calendar.single-month .rdrMonthName {
+    display: none !important;
+}

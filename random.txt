@@ -1,0 +1,1610 @@
+
+
+.position-relative {
+    position: relative !important;
+}
+.custom-global-table tbody tr td:first-child, .custom-global-table thead th:first-child {
+    padding-left: 50px;
+}
+.product-setting tbody tr td:first-child, .product-setting thead th:first-child {
+    padding-left: 32px !important;
+}
+table td:first-child, table th:first-child
+Specificity: (0,1,2)
+ {
+    padding-left: 0;
+}
+
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl .containerCheckBox, .product-setting .containerCheckBox {
+    padding-left: 20px !important;
+}
+.containerCheckBox, .containerCheckBox.survey {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.containerCheckBox {
+    padding-left: 35px;
+    font-size: 22px;
+}
+label {
+    display: inline-block;
+}
+.containerCheckBox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+button, input {
+    overflow: visible;
+}
+input, button, select, optgroup, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.inventorytbl .checkmark, .product-setting .checkmark {
+    height: 20px !important;
+    width: 20px !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.checkmark, .checkmarksurvey {
+    top: 0;
+    left: 0;
+    background-color: transparant;
+    border-radius: 4px;
+    border: 1px solid #d7d7db;
+}
+.checkmark {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+}
+.checkmark {
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border: 1px solid #d7d8e0;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+when checkmarked : 
+.containerCheckBox input:checked~.checkmark:after {
+    display: block;
+}
+
+.inventorytbl .containerCheckBox .checkmark:after, .product-setting .containerCheckBox .checkmark:after {
+    left: 7px;
+    top: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.containerCheckBox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.stock-setting td.Item_SKU, td.Item_name {
+    overflow-wrap: anywhere;
+}
+.product-setting td.Item_SKU, td.Item_name {
+    overflow-wrap: anywhere;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.position-relative {
+    position: relative !important;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.product-setting span.dark-text {
+    color: #000 !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.dark-text {
+    color: #19191c;
+}
+.font-weight-600 {
+    font-weight: 600;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.product-setting td.Item_SKU, td.Item_name {
+    overflow-wrap: anywhere;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-center {
+    text-align: center;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.inventorytbl span.dark-text
+ {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+
+.product-setting span.dark-text {
+    color: #000 !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.dark-text {
+    color: #19191c;
+}
+.font-weight-600 {
+    font-weight: 600;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+.tx-left {
+    text-align: left;
+}
+
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.inventorytbl td .multiple:first-child {
+    margin-bottom: 26px;
+}
+
+.inventorytbl td .multiple {
+    display: block;
+    margin: 0 0 20px;
+}
+.flex-column {
+    flex-direction: column !important;
+}
+.d-flex {
+    display: flex !important;
+}
+* {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+
+.product-setting span.dark-text {
+    color: #000 !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.dark-text {
+    color: #19191c;
+}
+.dark-text-info {
+    font-size: 13px !important;
+    font-weight: 400;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span.grey-text {
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #6b6b6f;
+}
+
+.product-setting span.grey-text {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span.grey-text {
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #6b6b6f;
+}
+.product-setting span.grey-text {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.mt-2, .my-2 {
+    margin-top: 0.5rem !important;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl td .multiple:first-child {
+    margin-bottom: 26px;
+}
+.inventorytbl td .multiple {
+    display: block;
+    margin: 0 0 20px;
+}
+.flex-column {
+    flex-direction: column !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span.dark-text {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+}
+.product-setting span.dark-text {
+    color: #000 !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.dark-text {
+    color: #19191c;
+}
+.dark-text-info {
+    font-size: 13px !important;
+    font-weight: 400;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span.grey-text {
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #6b6b6f;
+}
+
+.product-setting span.grey-text {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.mt-2, .my-2 {
+    margin-top: 0.5rem !important;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.inventorytbl td .multiple:first-child {
+    margin-bottom: 26px;
+}
+.inventorytbl td .multiple
+Specificity: (0,2,1)
+ {
+    display: block;
+    margin: 0 0 20px;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.product-setting tbody tr td:last-child, .product-setting thead th:last-child {
+    padding-right: 32px !important;
+}
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+
+.tx-left {
+    text-align: left;
+}
+.pd-y-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.position-relative {
+    position: relative !important;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+element.style {
+    max-width: 130px;
+}
+.inventorytbl td .multiple:first-child {
+    margin-bottom: 26px;
+}
+.inventorytbl td .multiple {
+    display: block;
+    margin: 0 0 20px;
+}
+.flex-column {
+    flex-direction: column !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.product-setting td .multiple span.link-text.text-auto-fit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100% !important;
+}
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+
+.product-setting tbody tr td:last-child, .product-setting thead th:last-child {
+    padding-right: 32px !important;
+}
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+
+.position-relative {
+    position: relative !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.btn:not(:disabled):not(.disabled), .sp-container button:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.btn.default-non_active, .default-non_active {
+    background-color: initial;
+}
+
+button, html [type="button"], [type="reset"], [type="submit"] {
+    -webkit-appearance: button;
+}
+.action-event {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+.btn, .sp-container button {
+    border-radius: 0;
+}
+.btn, .sp-container button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.594rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 3px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+button, select {
+    text-transform: none;
+}
+button, input {
+    overflow: visible;
+}
+input, button, select, optgroup, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+button {
+    border-radius: 0;
+}
+table img {
+    vertical-align: middle;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+when clicked on 3 dots icon it opens a dropdown 
+
+element.style {
+    position: absolute;
+    transform: translate3d(-134px, 48px, 0px);
+    top: 0px;
+    left: 0px;
+    will-change: transform;
+}
+.product-setting .dropdown-menu {
+    z-index: 1 !important;
+}
+
+.dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
+    right: auto;
+    bottom: auto;
+}
+.right-sec-dropdown {
+    min-width: 219px;
+    max-width: 219px;
+    right: 0 !important;
+    left: unset !important;
+    margin-left: 0 !important;
+    transform: none !important;
+    top: 55px !important;
+}
+.drop-with-icon {
+    border-radius: 4px;
+    border: 1px solid #d7d7db;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .12);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 9px 0;
+}
+.dropdown-menu {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px 8px 8px 8px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 0.875rem;
+    color: #868ba1;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #E6E6ED;
+    border-radius: 3px;
+}
+
+element.style {
+    position: absolute;
+    transform: translate3d(-134px, 48px, 0px);
+    top: 0px;
+    left: 0px;
+    will-change: transform;
+}
+.product-setting .dropdown-menu {
+    z-index: 1 !important;
+}
+.dropdown-menu.show {
+    display: block;
+    margin-left: 21px;
+    /* margin-top: 387px; */
+    width: 300px;
+}
+.dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
+    right: auto;
+    bottom: auto;
+}
+.right-sec-dropdown {
+    min-width: 219px;
+    max-width: 219px;
+    right: 0 !important;
+    left: unset !important;
+    margin-left: 0 !important;
+    transform: none !important;
+    top: 55px !important;
+}
+.drop-with-icon {
+    border-radius: 4px;
+    border: 1px solid #d7d7db;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .12);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 9px 0;
+}
+.dropdown-menu {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px 8px 8px 8px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 0.875rem;
+    color: #868ba1;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #E6E6ED;
+    border-radius: 3px;
+}
+
+element.style {
+}
+a:not([href]):not([tabindex])
+Specificity: (0,2,1)
+ {
+    color: inherit;
+    text-decoration: none;
+}
+
+.drop-with-icon .dropdown-item {
+    white-space: wrap;
+    padding: 8px 18px;
+}
+.theme-text-dark {
+    color: #19191c !important;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.d-flex {
+    display: flex !important;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+a {
+    transition: all 0.2s ease-in-out;
+}
+a {
+    color: #1b84e7;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+drop-with-icon .dropdown-item .icon {
+    margin-right: 8px;
+}
+.product-setting .dropdown-menu span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0;
+    text-align: left;
+}
+.inventorytbl span {
+    display: unset;
+}
+
+.product-setting-option span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    color: #19191c;
+}
+.align-items-center {
+    align-items: center !important;
+}
+.d-flex {
+    display: flex !important;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+table img {
+    vertical-align: middle;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.product-setting .dropdown-menu span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.inventorytbl span {
+    display: unset;
+}
+.product-setting-option span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    color: #19191c;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.tableRow-ManualOrder {
+    scroll-margin: 2.5em;
+}
+element.style {
+    height: 1px;
+    padding: 0px;
+}
+.custom-global-table tbody tr td:first-child, .custom-global-table thead th:first-child {
+    padding-left: 50px;
+}
+.product-setting tbody tr td:last-child, .product-setting thead th:last-child {
+    padding-right: 32px !important;
+}
+
+.product-setting tbody tr td:first-child, .product-setting thead th:first-child {
+    padding-left: 32px !important;
+}
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+table td:first-child, table th:first-child {
+    padding-left: 0;
+}
+.tableRow-ManualOrder td {
+    border: none;
+    height: 64px;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+element.style {
+    margin: 0px;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+.position-relative {
+    position: relative !important;
+}
+element.style {
+    max-width: 130px;
+}
+.inventorytbl td .multiple:first-child {
+    margin-bottom: 26px;
+}
+.inventorytbl td .multiple {
+    display: block;
+    margin: 0 0 20px;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+.d-flex {
+    display: flex !important;
+}
+element.style {
+    cursor: pointer;
+}
+.inventorytbl td .multiple span {
+    width
+Specifies the width of the content area, padding area or border area (depending on 'box-sizing') of certain boxes.
+
+Widely available across major browsers (Baseline since January 2018)
+Learn more
+
+Don't show
+: 108px;
+}
+
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.more-text {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #6b6b6f;
+    text-decoration: underline;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+element.style {
+    left: 1602px;
+    top: 331px;
+}
+<style>
+.__react_component_tooltip.place-bottom {
+    margin-top: 10px;
+}
+<style>
+.__react_component_tooltip.type-light {
+    color: #222;
+    background-color: #fff;
+}
+<style>
+.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
+    pointer-events: auto;
+}
+<style>
+.__react_component_tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    left: -999em;
+    opacity: 0;
+    padding: 8px 21px;
+    position: fixed;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    top: -999em;
+    visibility: hidden;
+    z-index: 999;
+}
+.tooltip-Button, .tooltip-light-button {
+    padding: 12px !important;
+    text-align: left !important;
+    width: 207px;
+    opacity: 1 !important;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #fff;
+}
+.tooltip-light-button {
+    background-color: #fff !important;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .12156862745098039) !important;
+}
+.__react_component_tooltip {
+    padding: 0;
+}
+
+<style>
+.__react_component_tooltip.place-bottom:before {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    top: -8px;
+    left: 50%;
+    margin-left: -10px;
+}
+<style>
+.__react_component_tooltip:before, .__react_component_tooltip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+<style>
+.__react_component_tooltip.type-light {
+    color: #222;
+    background-color: #fff;
+}
+<style>
+.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
+    pointer-events: auto;
+}
+<style>
+.__react_component_tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    left: -999em;
+    opacity: 0;
+    padding: 8px 21px;
+    position: fixed;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    top: -999em;
+    visibility: hidden;
+    z-index: 999;
+}
+.tooltip-Button, .tooltip-light-button {
+    padding: 12px !important;
+    text-align: left !important;
+    width: 207px;
+    opacity: 1 !important;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #fff;
+}
+.product-setting td .multiple span.link-text.text-auto-fit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100% !important;
+}
+
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.link-text {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #23a956;
+    text-decoration: underline;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+table td span {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+}
+.__react_component_tooltip.type-light.place-bottom:after {
+    border-bottom-color: #fff;
+    border-bottom-style: solid;
+    border-bottom-width: 6px;
+}
+<style>
+.__react_component_tooltip.place-bottom:after
+Specificity: (0,2,1)
+ {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    top: -6px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+<style>
+.__react_component_tooltip:before, .__react_component_tooltip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+<style>
+.__react_component_tooltip.type-light {
+    color: #222;
+    background-color: #fff;
+}
+<style>
+.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
+    pointer-events: auto;
+}
+<style>
+.__react_component_tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    left: -999em;
+    opacity: 0;
+    padding: 8px 21px;
+    position: fixed;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    top: -999em;
+    visibility: hidden;
+    z-index: 999;
+}
+.tooltip-Button, .tooltip-light-button {
+    padding: 12px !important;
+    text-align: left !important;
+    width: 207px;
+    opacity: 1 !important;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #fff;
+}
+on hovering tooltip css : 
+element.style {
+    left: 1602px;
+    top: 331px;
+}
+<style>
+.__react_component_tooltip.place-bottom {
+    margin-top: 10px;
+}
+
+<style>
+.__react_component_tooltip.type-light {
+    color: #222;
+    background-color: #fff;
+}
+<style>
+.__react_component_tooltip.show {
+    opacity: 0.9;
+    margin-top: 0px;
+    margin-left: 0px;
+    visibility: visible;
+}
+<style>
+.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
+    pointer-events: auto;
+}
+<style>
+.__react_component_tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    left: -999em;
+    opacity: 0;
+    padding: 8px 21px;
+    position: fixed;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    top: -999em;
+    visibility: hidden;
+    z-index: 999;
+}
+.tooltip-Button, .tooltip-light-button {
+    padding: 12px !important;
+    text-align: left !important;
+    width: 207px;
+    opacity: 1 !important;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #fff;
+}
+.tooltip-light-button {
+    background-color: #fff !important;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .12156862745098039) !important;
+}
+.__react_component_tooltip {
+    padding: 0;
+}
+
+<style>
+.__react_component_tooltip.place-bottom:before {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    top: -8px;
+    left: 50%;
+    margin-left: -10px;
+}
+<style>
+.__react_component_tooltip:before, .__react_component_tooltip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+<style>
+.__react_component_tooltip.type-light {
+    color: #222;
+    background-color: #fff;
+}
+<style>
+.__react_component_tooltip.show {
+    opacity: 0.9;
+    margin-top: 0px;
+    margin-left: 0px;
+    visibility: visible;
+}
+<style>
+.__react_component_tooltip.allow_hover, .__react_component_tooltip.allow_click {
+    pointer-events: auto;
+}
+<style>
+.__react_component_tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    left: -999em;
+    opacity: 0;
+    padding: 8px 21px;
+    position: fixed;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    top: -999em;
+    visibility: hidden;
+    z-index: 999;
+}
+.tooltip-Button, .tooltip-light-button {
+    padding: 12px !important;
+    text-align: left !important;
+    width: 207px;
+    opacity: 1 !important;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 4px;
+    font-weight: 400;
+    color: #fff;
+}
+.product-setting td .multiple span.link-text.text-auto-fit {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100% !important;
+}
+
+.inventorytbl td .multiple span {
+    width: 108px;
+}
+.product-setting td .multiple span {
+    width: 100% !important;
+}
+.inventorytbl span {
+    display: unset;
+}
+.link-text {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #23a956;
+    text-decoration: underline;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.__react_component_tooltip.type-light.place-bottom:after {
+    border-bottom-color: #fff;
+    border-bottom-style: solid;
+    border-bottom-width: 6px;
+}
+<style>
+.__react_component_tooltip.place-bottom:after {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    top: -6px;
+    left: 50%;
+    margin-left: -8px;
+}
+<style>
+.__react_component_tooltip:before, .__react_component_tooltip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+.position-relative {
+    position: relative !important;
+}
+.custom-global-table tbody tr td:first-child, .custom-global-table thead th:first-child {
+    padding-left: 50px;
+}
+.product-setting tbody tr td:last-child, .product-setting thead th:last-child {
+    padding-right: 32px !important;
+}
+.product-setting tbody tr td:first-child, .product-setting thead th:first-child {
+    padding-left: 32px !important;
+}
+
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+table td:first-child, table th:first-child {
+    padding-left: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+.p-0 {
+    padding: 0 !important;
+}
+.position-relative {
+    position: relative !important;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.custom-global-table.product-setting tr.suberror td:first-child:before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    bottom: 20px;
+    left: 14px;
+    width: 6px;
+    background-color: #e2232e;
+    z-index: -1;
+    border-radius: 20px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.error-alert {
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+}
+.error-alert, .statusdiv.error {
+    background: #fff0f1;
+    border-radius: 8px;
+    color: #a71a23;
+}
+.w-100 {
+    width: 100% !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+.d-flex {
+    display: flex !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+.sorting-btn {
+    cursor: pointer;
+}
+.error-green-text {
+    color: #23a956;
+}
+.pl-5, .px-5 {
+    padding-left: 3rem !important;
+}
+.pr-3, .px-3 {
+    padding-right: 1rem !important;
+}
+.ml-1, .mx-1 {
+    margin-left: 0.25rem !important;
+}
+table img {
+    vertical-align: middle;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+..custom-global-table.product-setting tr.suberror td:last-child:after {
+    content: "";
+    position: absolute;
+    top: -30px;
+    bottom: 20px;
+    right: 14px;
+    width: 6px;
+    background-color: #e2232e;
+    z-index: -1;
+    border-radius: 20px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+.collapsed {
+    visibility: collapse;
+    display: none;
+}
+.position-relative {
+    position: relative !important;
+}
+.custom-global-table tbody tr td:first-child, .custom-global-table thead th:first-child {
+    padding-left: 50px;
+}
+
+.product-setting tbody tr td:first-child, .product-setting thead th:first-child {
+    padding-left: 32px !important;
+}
+table td:first-child, table th:first-child {
+    padding-left: 0;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
+.expand {
+    visibility: visible;
+    display: table-row;
+}
+.position-relative {
+    position: relative !important;
+}
+.expand {
+    visibility: visible;
+    display: table-row;
+}
+.tableRow-ManualOrder {
+    scroll-margin: 2.5em;
+}
+
+element.style {
+    height: 1px;
+    padding: 0px;
+}
+.custom-global-table tbody tr td:first-child, .custom-global-table thead th:first-child {
+    padding-left: 50px;
+}
+.product-setting tbody tr td:last-child, .product-setting thead th:last-child {
+    padding-right: 32px !important;
+}
+.product-setting tbody tr td:first-child, .product-setting thead th:first-child {
+    padding-left: 32px !important;
+}
+
+table td:last-child, table th:last-child {
+    padding-right: 0;
+}
+table td:first-child, table th:first-child {
+    padding-left: 0;
+}
+.tableRow-ManualOrder td {
+    border: none;
+    height: 64px;
+}
+.inventorytbl td {
+    vertical-align: top;
+    padding-top: 26px;
+}
+.custom-global-table td {
+    height: 64px;
+    padding: 4px 10px;
+    border: 0;
+}
+table td {
+    height: 72px;
+}
+.tablepopup td, table td {
+    border-bottom: 1px solid #e6e6ed;
+    font-size: 14px;
+    line-height: 16px;
+}
