@@ -8,6 +8,7 @@ import MonthPicker from '../common/MonthPicker';
 import { formatPrice } from '../../../utils/format';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { fetchPriceVariations } from '../../../services/purchasesService';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 function PriceVariationDetailTable({ rows, isIncrease }) {
   return (
@@ -51,9 +52,11 @@ function PriceVariationDetailTable({ rows, isIncrease }) {
 export default function PriceVariationDetail() {
   const navigate = useNavigate();
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
-  const [dateRange, setDateRange] = useState(getPersistedDateRange());
+  const [dateRange, setDateRange] = useState(
+    getPersistedDateRange('analytics_date_range_purchases'),
+  );
 
-  const { data } = useQuery({
+  const { data, isFetching: isLoading } = useQuery({
     queryKey: [
       'priceVariationDetail',
       inventoryId,
@@ -68,6 +71,8 @@ export default function PriceVariationDetail() {
         limit: 20,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const increaseRows = data?.Data?.increase ?? [];
@@ -119,6 +124,7 @@ export default function PriceVariationDetail() {
           fromDate={dateRange.fromDate}
           toDate={dateRange.toDate}
           onApply={handleApplyDate}
+          storageKey='analytics_date_range_purchases'
         />
       </div>
 
@@ -134,7 +140,52 @@ export default function PriceVariationDetail() {
         }}
       >
         <style>{`#priceVariationDetailScroll::-webkit-scrollbar { display: none; }`}</style>
-        {increaseRows.length === 0 && decreaseRows.length === 0 ? (
+        {isLoading ? (
+          <div className='flex mt-4'>
+            {[0, 1].map((col) => (
+              <div key={col} className='w-1/2 pr-10'>
+                {Array.from({ length: 1 }).map((_, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      paddingTop: 10,
+                      paddingBottom: 16,
+                    }}
+                  >
+                    <div className='flex justify-between items-start'>
+                      <div style={{ width: '70%' }}>
+                        <SkeletonBar
+                          style={{
+                            height: 12,
+                            width: 80,
+                            borderRadius: 20,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <SkeletonBar
+                          style={{ height: 10, width: 50, borderRadius: 20 }}
+                        />
+                      </div>
+                      <div style={{ width: '30%' }}>
+                        <SkeletonBar
+                          style={{
+                            height: 12,
+                            width: 80,
+                            borderRadius: 20,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <SkeletonBar
+                          style={{ height: 10, width: 50, borderRadius: 20 }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : increaseRows.length === 0 && decreaseRows.length === 0 ? (
           <p className='text-center text-[16px] text-[#939397] py-12'>
             No data found
           </p>

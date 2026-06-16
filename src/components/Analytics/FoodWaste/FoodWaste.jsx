@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 
 import MonthPicker from '../common/MonthPicker';
@@ -27,7 +27,7 @@ const SLUG_KEY_MAP = {
 };
 
 export default function FoodWaste({ inventoryId }) {
-  const persisted = getPersistedDateRange();
+  const persisted = getPersistedDateRange('analytics_date_range_food_waste');
 
   const [dateRange, setDateRange] = useState({
     fromDate:
@@ -38,7 +38,7 @@ export default function FoodWaste({ inventoryId }) {
   const [detailView, setDetailView] = useState(null); // null | 'items' | 'categories'
 
   // TOTAL WASTE VALUE QUERY
-  const { data: totalWasteData } = useQuery({
+  const { data: totalWasteData, isLoading: isTotalLoading } = useQuery({
     queryKey: ['foodWaste-total', inventoryId, dateRange],
     queryFn: () =>
       fetchTotalFoodWaste({
@@ -48,13 +48,14 @@ export default function FoodWaste({ inventoryId }) {
       }),
     enabled: !!inventoryId && !!(dateRange.fromDate || dateRange.startDate),
     staleTime: 0,
+    gcTime: 0,
     select: (res) => res.Data,
   });
 
   const wasteEntry = totalWasteData?.foodWaste?.[0];
 
   // WASTE BY CAUSE QUERY
-  const { data: causeData } = useQuery({
+  const { data: causeData, isLoading: isCauseLoading } = useQuery({
     queryKey: ['foodWaste-cause', inventoryId, dateRange],
     queryFn: () =>
       fetchFoodWasteByCause({
@@ -64,6 +65,7 @@ export default function FoodWaste({ inventoryId }) {
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
     staleTime: 0,
+    gcTime: 0,
     select: (res) => res.Data,
   });
 
@@ -75,7 +77,7 @@ export default function FoodWaste({ inventoryId }) {
   }));
 
   // WASTE BY CATEGORY QUERY
-  const { data: categoryData } = useQuery({
+  const { data: categoryData, isLoading: isCategoryLoading } = useQuery({
     queryKey: ['foodWaste-category', inventoryId, dateRange],
     queryFn: () =>
       fetchFoodWasteByCategory({
@@ -86,6 +88,7 @@ export default function FoodWaste({ inventoryId }) {
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
     staleTime: 0,
+    gcTime: 0,
 
     select: (res) => res.Data,
   });
@@ -97,7 +100,7 @@ export default function FoodWaste({ inventoryId }) {
   }));
 
   // MOST WASTED ITEMS QUERY
-  const { data: mostWastedData } = useQuery({
+  const { data: mostWastedData, isLoading: isItemsLoading } = useQuery({
     queryKey: ['foodWaste-most-wasted', inventoryId, dateRange],
     queryFn: () =>
       fetchMostWastedItems({
@@ -108,6 +111,7 @@ export default function FoodWaste({ inventoryId }) {
       }),
     enabled: !!inventoryId && !!dateRange.fromDate,
     staleTime: 0,
+    gcTime: 0,
     select: (res) => res.Data,
   });
 
@@ -118,36 +122,71 @@ export default function FoodWaste({ inventoryId }) {
     value: p.totalWasteValue,
   }));
 
+  // // DETAIL - ALL WASTED ITEMS
+  // const { data: allItemsData, isFetching: isItemsDetailFetching } = useQuery({
+  //   queryKey: ['foodWaste-all-items', inventoryId, dateRange],
+  //   queryFn: () =>
+  //     fetchMostWastedItems({
+  //       inventoryId,
+  //       fromDate: dateRange.fromDate,
+  //       toDate: dateRange.toDate,
+  //       limit: 5,
+  //     }),
+  //   enabled: !!inventoryId && !!dateRange.fromDate && detailView === 'items',
+  //   staleTime: 0,
+  //   gcTime: 0,
+  //   select: (res) => res.Data,
+  // });
+
+  // // DETAIL - ALL CATEGORIES
+  // const { data: allCategoryData, isFetching: isCategoryDetailFetching } =
+  //   useQuery({
+  //     queryKey: ['foodWaste-all-categories', inventoryId, dateRange],
+  //     queryFn: () =>
+  //       fetchFoodWasteByCategory({
+  //         inventoryId,
+  //         fromDate: dateRange.fromDate,
+  //         toDate: dateRange.toDate,
+  //         limit: 10,
+  //       }),
+  //     enabled:
+  //       !!inventoryId && !!dateRange.fromDate && detailView === 'categories',
+  //     staleTime: 0,
+  //     gcTime: 0,
+  //     select: (res) => res.Data,
+  //   });
+
   // DETAIL - ALL WASTED ITEMS
-  const { data: allItemsData } = useQuery({
+  const { data: allItemsData, isFetching: isItemsDetailFetching } = useQuery({
     queryKey: ['foodWaste-all-items', inventoryId, dateRange],
     queryFn: () =>
       fetchMostWastedItems({
         inventoryId,
         fromDate: dateRange.fromDate,
         toDate: dateRange.toDate,
-        limit: 5,
+        limit: 500,
+        offset: 0,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && detailView === 'items',
-    staleTime: 0,
     select: (res) => res.Data,
   });
 
   // DETAIL - ALL CATEGORIES
-  const { data: allCategoryData } = useQuery({
-    queryKey: ['foodWaste-all-categories', inventoryId, dateRange],
-    queryFn: () =>
-      fetchFoodWasteByCategory({
-        inventoryId,
-        fromDate: dateRange.fromDate,
-        toDate: dateRange.toDate,
-        limit: 10,
-      }),
-    enabled:
-      !!inventoryId && !!dateRange.fromDate && detailView === 'categories',
-    staleTime: 0,
-    select: (res) => res.Data,
-  });
+  const { data: allCategoryData, isFetching: isCategoryDetailFetching } =
+    useQuery({
+      queryKey: ['foodWaste-all-categories', inventoryId, dateRange],
+      queryFn: () =>
+        fetchFoodWasteByCategory({
+          inventoryId,
+          fromDate: dateRange.fromDate,
+          toDate: dateRange.toDate,
+          limit: 500,
+          offset: 0,
+        }),
+      enabled:
+        !!inventoryId && !!dateRange.fromDate && detailView === 'categories',
+      select: (res) => res.Data,
+    });
 
   // DETAIL VIEW ROWS
   const itemRows = (allItemsData?.products ?? []).map((p) => ({
@@ -162,6 +201,22 @@ export default function FoodWaste({ inventoryId }) {
     col3: `${c.totalWastePercentage?.toFixed(2)}%`,
   }));
 
+  // const itemRows = (allItemsPages?.pages ?? [])
+  //   .flatMap((p) => p?.Data?.products ?? [])
+  //   .map((p) => ({
+  //     col1: p.name,
+  //     col2: `${p.totalWasteQty} ${p.stockTakingUnitPlural}`,
+  //     col3: formatPrice(p.totalWasteValue),
+  //   }));
+
+  // const categoryRows = (allCategoryPages?.pages ?? [])
+  //   .flatMap((p) => p?.Data?.categories ?? [])
+  //   .map((c) => ({
+  //     col1: c.name,
+  //     col2: formatPrice(c.totalWasteValue),
+  //     col3: `${c.totalWastePercentage?.toFixed(2)}%`,
+  //   }));
+
   function handleApply({ startDate, endDate, label }) {
     setDateRange({
       fromDate: format(startDate, 'yyyy-MM-dd'),
@@ -172,13 +227,39 @@ export default function FoodWaste({ inventoryId }) {
 
   function handleExport() {}
 
+  // console.log('allCategoryPages', allCategoryPages);
+  // console.log('categoryRows', categoryRows);
+  // console.log(
+  //   'pages raw',
+  //   allCategoryPages?.pages?.map((p) => p?.Data?.categories?.length),
+  // );
+
   if (detailView) {
     return (
       <FoodWasteDetailView
         type={detailView}
         onBack={() => setDetailView(null)}
         rows={detailView === 'items' ? itemRows : categoryRows}
+        isLoading={detailView === 'items' ? !allItemsData : !allCategoryData}
+        onDateApply={handleApply}
       />
+      // <FoodWasteDetailView
+      //   type={detailView}
+      //   onBack={() => setDetailView(null)}
+      //   rows={detailView === 'items' ? itemRows : categoryRows}
+      //   isLoading={
+      //     detailView === 'items'
+      //       ? isItemsDetailFetching && itemRows.length === 0
+      //       : isCategoryDetailFetching && categoryRows.length === 0
+      //   }
+      //   onDateApply={handleApply}
+      //   fetchNextPage={
+      //     detailView === 'items' ? fetchNextItemsPage : fetchNextCategoryPage
+      //   }
+      //   hasNextPage={
+      //     detailView === 'items' ? hasNextItemsPage : hasNextCategoryPage
+      //   }
+      // />
     );
   }
 
@@ -206,7 +287,10 @@ export default function FoodWaste({ inventoryId }) {
         <div className='flex items-center'>
           <ExportButton onClick={handleExport} />
           <div style={{ marginLeft: 20 }}>
-            <MonthPicker onApply={handleApply} />
+            <MonthPicker
+              onApply={handleApply}
+              storageKey='analytics_date_range_food_waste'
+            />
           </div>
         </div>
       </div>
@@ -216,20 +300,27 @@ export default function FoodWaste({ inventoryId }) {
         <TotalValueOfWastedFood
           totalValue={wasteEntry?.totalWasteValue ?? 0}
           percent={wasteEntry?.totalWastePercentage ?? 0}
+          isLoading={isTotalLoading}
         />
+
         <FoodWasteByCause
           causes={causes}
           inventoryId={inventoryId}
           fromDate={dateRange.fromDate}
           toDate={dateRange.toDate}
           dateLabel={dateRange.label}
+          isLoading={isCauseLoading}
         />
       </div>
 
       {/* Row 2 */}
       <div className='flex' style={{ marginTop: 60 }}>
-        <MostWastedItems items={items} />
-        <FoodWasteByCategory categories={categories} />
+        <MostWastedItems items={items} isLoading={isItemsLoading} />
+
+        <FoodWasteByCategory
+          categories={categories}
+          isLoading={isCategoryLoading}
+        />
       </div>
 
       {/* See all row */}

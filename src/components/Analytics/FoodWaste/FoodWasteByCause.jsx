@@ -6,6 +6,7 @@ import WasteCauseProgressBar from './WasteCauseProgressBar';
 import OtherReasonTooltip from './OtherReasonTooltip';
 import OtherReasonModal from './OtherReasonPopModal';
 import { fetchOtherReasonLineItems } from '../../../services/foodWasteService';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 const CAUSE_LABELS = {
   expiration: 'Expiration',
@@ -20,6 +21,7 @@ export default function FoodWasteByCause({
   fromDate,
   toDate,
   dateLabel,
+  isLoading = false,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -89,66 +91,95 @@ export default function FoodWasteByCause({
       </span>
 
       <div>
-        {(causes ?? []).map((cause) => (
-          <div key={cause.key} style={{ width: '85%', marginTop: 25 }}>
-            <div className='flex justify-between'>
-              <span
-                className='flex items-center text-[#19191c]'
-                style={{ fontWeight: 400, fontSize: 14, lineHeight: '20px' }}
-              >
-                {CAUSE_LABELS[cause.key]} (
-                {cause.percent ? cause.percent.toFixed(2) : '0'}%)
-                {cause.key === 'other_reason' && cause.value > 0 && (
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} style={{ width: '85%', marginTop: 10 }}>
+                <div className='flex justify-between'>
+                  <SkeletonBar
+                    style={{ height: 20, width: 100, borderRadius: 20 }}
+                  />
+                  <SkeletonBar
+                    style={{ height: 20, width: 100, borderRadius: 20 }}
+                  />
+                </div>
+                <SkeletonBar
+                  style={{
+                    height: 12,
+                    width: '100%',
+                    borderRadius: 20,
+                    marginTop: 10,
+                  }}
+                />
+              </div>
+            ))
+          : (causes ?? []).map((cause) => (
+              <div key={cause.key} style={{ width: '85%', marginTop: 25 }}>
+                <div className='flex justify-between'>
                   <span
+                    className='flex items-center text-[#19191c]'
                     style={{
-                      position: 'relative',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      marginLeft: 6,
-                      verticalAlign: 'middle',
+                      fontWeight: 400,
+                      fontSize: 14,
+                      lineHeight: '20px',
                     }}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
                   >
-                    <img
-                      src={
-                        showTooltip
-                          ? '/icons/info-green.svg'
-                          : '/icons/info.svg'
-                      }
-                      alt='info'
-                      style={{ width: 18, height: 18, cursor: 'pointer' }}
-                    />
-
-                    {showTooltip && (
-                      <OtherReasonTooltip
-                        reasons={tooltipReasons}
-                        onSeeDetails={() => {
-                          setFetchDetails(true);
-                          setShowModal(true);
+                    {CAUSE_LABELS[cause.key]} (
+                    {cause.percent ? cause.percent.toFixed(2) : '0'}%)
+                    {cause.key === 'other_reason' && cause.value > 0 && (
+                      <span
+                        style={{
+                          position: 'relative',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          marginLeft: 6,
+                          verticalAlign: 'middle',
                         }}
-                      />
+                        onMouseEnter={() => setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                      >
+                        <img
+                          src={
+                            showTooltip
+                              ? '/icons/info-green.svg'
+                              : '/icons/info.svg'
+                          }
+                          alt='info'
+                          style={{ width: 18, height: 18, cursor: 'pointer' }}
+                        />
+
+                        {showTooltip && (
+                          <OtherReasonTooltip
+                            reasons={tooltipReasons}
+                            onSeeDetails={() => {
+                              setFetchDetails(true);
+                              setShowModal(true);
+                            }}
+                          />
+                        )}
+                      </span>
                     )}
                   </span>
-                )}
-              </span>
 
-              <span
-                className='text-[#19191c]'
-                style={{ fontWeight: 400, fontSize: 14, lineHeight: '20px' }}
-              >
-                {formatPrice(cause.value ?? 0)}
-              </span>
-            </div>
+                  <span
+                    className='text-[#19191c]'
+                    style={{
+                      fontWeight: 400,
+                      fontSize: 14,
+                      lineHeight: '20px',
+                    }}
+                  >
+                    {formatPrice(cause.value ?? 0)}
+                  </span>
+                </div>
 
-            <div style={{ marginTop: 15 }}>
-              <WasteCauseProgressBar
-                cause={cause.key}
-                percent={cause.percent ?? 0}
-              />
-            </div>
-          </div>
-        ))}
+                <div style={{ marginTop: 15 }}>
+                  <WasteCauseProgressBar
+                    cause={cause.key}
+                    percent={cause.percent ?? 0}
+                  />
+                </div>
+              </div>
+            ))}
       </div>
 
       {showModal && (

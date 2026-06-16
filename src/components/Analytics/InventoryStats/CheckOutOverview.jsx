@@ -20,20 +20,36 @@ export default function CheckOutOverview({
         <span className='text-[16px] font-normal text-[#19191c]'>
           Check out
         </span>
-        <MonthPicker onApply={onApplyDateRange} singleMonth />
+        <MonthPicker
+          onApply={onApplyDateRange}
+          singleMonth
+          storageKey='analytics_date_range_inventory_stats'
+        />
       </div>
 
       {/* Total */}
-      {hasData && (
-        <div className='mt-3 mb-6'>
-          <span className='text-[24px] font-medium leading-8 text-[#19191c]'>
-            {formatPrice(total)}
-          </span>
-        </div>
+      {isLoading ? (
+        <SkeletonBar
+          style={{
+            height: 30,
+            width: 220,
+            borderRadius: 10,
+            marginTop: 12,
+            marginBottom: 24,
+          }}
+        />
+      ) : (
+        hasData && (
+          <div className='mt-3 mb-6'>
+            <span className='text-[24px] font-medium leading-8 text-[#19191c]'>
+              {formatPrice(total)}
+            </span>
+          </div>
+        )
       )}
 
       {/* Empty state */}
-      {!hasData && (
+      {!hasData && !isLoading && (
         <div className='text-center px-12 pt-9 pb-6 mt-0'>
           <div className='mb-4'>
             <img
@@ -62,39 +78,65 @@ export default function CheckOutOverview({
       )}
 
       {/* Rows */}
-      {hasData && (
-        <>
-          <table className='w-full border-collapse'>
-            <tbody>
-              {displayRows.map((row, i) => (
-                <tr
-                  key={row.id || i}
-                  className={
-                    i === displayRows.length - 1
-                      ? ''
-                      : 'border-b border-[#e7e7ec]'
-                  }
-                >
-                  <td className='w-4/5 font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
-                    {row.name}
-                  </td>
-                  <td className='w-1/5 text-right font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
-                    - {formatPrice(row.total)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <table className='w-full border-collapse'>
+          <tbody>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <tr key={i} className={i < 2}>
+                <td className='w-4/5 pb-3 pl-1.75'>
+                  <SkeletonBar
+                    style={{ height: 12, width: 90, borderRadius: 20 }}
+                  />
+                </td>
+                <td className='w-1/5 pb-3 pl-1.75'>
+                  <SkeletonBar
+                    style={{
+                      height: 12,
+                      width: 40,
+                      borderRadius: 20,
+                      marginLeft: 'auto',
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        hasData && (
+          <>
+            <table className='w-full border-collapse'>
+              <tbody>
+                {displayRows.map((row, i) => (
+                  <tr
+                    key={row.id || i}
+                    className={
+                      i === displayRows.length - 1
+                        ? ''
+                        : 'border-b border-[#e7e7ec]'
+                    }
+                  >
+                    <td className='w-4/5 font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
+                      {row.name}
+                    </td>
+                    <td className='w-1/5 text-right font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
+                      - {formatPrice(row.total)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-          {hasMore && (
-            <div
-              onClick={onViewMore}
-              className='text-center text-[14px] bg-[#f4faf6] py-3 font-bold text-[#1f8e4e] tracking-[0.04em] cursor-pointer mt-2'
-            >
-              View more
-            </div>
-          )}
-        </>
+            {hasMore && (
+              <div
+                onClick={onViewMore}
+                className='text-center text-[14px] bg-[#f4faf6] py-3 font-bold text-[#1f8e4e] tracking-[0.04em] cursor-pointer mt-2'
+              >
+                View more
+              </div>
+            )}
+          </>
+        )
       )}
     </div>
   );

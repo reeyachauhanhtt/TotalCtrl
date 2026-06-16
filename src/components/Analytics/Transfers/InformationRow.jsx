@@ -1,3 +1,5 @@
+import { SkeletonBar } from '../../Common/Skeleton';
+
 export default function InformationRow({
   type,
   item,
@@ -6,8 +8,60 @@ export default function InformationRow({
   inventory,
   quantity,
   value,
+  isLoading = false,
 }) {
   const isIn = type === 'in';
+
+  if (isLoading) {
+    return (
+      <tr>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '10%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 60, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 120, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 100, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 110, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 120, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <SkeletonBar style={{ height: 16, width: 80, borderRadius: 20 }} />
+        </td>
+        <td
+          className='px-3 h-18 align-top pt-6.5 border-b border-[#e6e6ed]'
+          style={{ width: '15%' }}
+        >
+          <div className='flex justify-end'>
+            <SkeletonBar style={{ height: 16, width: 80, borderRadius: 20 }} />
+          </div>
+        </td>
+      </tr>
+    );
+  }
 
   return (
     <tr>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { format, startOfMonth, endOfMonth, subMonths } from 'date-fns';
 
 import { fetchPurchaseTotal } from '../../../services/purchasesService';
 import { formatPrice } from '../../../utils/format';
@@ -12,19 +13,24 @@ import ExportButton from '../common/ExportButton';
 import BiggestOrders from './BiggestOrders';
 import BiggestSuppliers from './BiggestSuppliers';
 import PriceVariations from './PriceVariations';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 export default function Purchases() {
-  const persisted = getPersistedDateRange();
+  const persisted = getPersistedDateRange('analytics_date_range_purchases');
   const [dateRange, setDateRange] = useState({
-    fromDate: persisted.fromDate,
-    toDate: persisted.toDate,
-    label: 'Last Month',
+    fromDate:
+      persisted?.fromDate ??
+      format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
+    toDate:
+      persisted?.toDate ??
+      format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
+    label: persisted?.label ?? 'Last Month',
   });
 
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
   const navigate = useNavigate();
 
-  const { data: totalData } = useQuery({
+  const { data: totalData, isLoading: isTotalLoading } = useQuery({
     queryKey: [
       'purchaseTotal',
       inventoryId,
@@ -39,6 +45,7 @@ export default function Purchases() {
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
     staleTime: 0,
+    gcTime: 0,
   });
 
   const purchaseValue = totalData?.Data?.purchaseValue?.[0];
@@ -47,7 +54,8 @@ export default function Purchases() {
     : '0 kr';
 
   const isEmpty =
-    !totalData || totalData?.Data?.purchaseValue?.[0]?.totalPurchases === 0;
+    !isTotalLoading &&
+    (!totalData || totalData?.Data?.purchaseValue?.[0]?.totalPurchases === 0);
 
   function handleDateApply({ startDate, endDate, label }) {
     setDateRange({ fromDate: startDate, toDate: endDate, label });
@@ -79,6 +87,7 @@ export default function Purchases() {
             toDate={dateRange.toDate}
             label={dateRange.label}
             onApply={handleDateApply}
+            storageKey='analytics_date_range_purchases'
           />
         </div>
       </div>
@@ -113,14 +122,19 @@ export default function Purchases() {
       )}
 
       {/* Data content — always mounted for API calls, hidden when empty */}
-      <div className={isEmpty ? 'hidden' : ''}>
+      <div className={!isTotalLoading && isEmpty ? 'hidden' : ''}>
         <div className='mb-10'>
           <label className='block text-[12px] font-bold uppercase tracking-[0.08em] text-[#6b6b6f] mt-12 mb-4'>
             Total Purchases
           </label>
-          <label className='block text-[64px] font-medium text-[#19191c] leading-16 tracking-[-0.01em]'>
-            {totalDisplay}
-          </label>
+
+          {isTotalLoading ? (
+            <SkeletonBar style={{ height: 56, width: 320, borderRadius: 12 }} />
+          ) : (
+            <label className='block text-[64px] font-medium text-[#19191c] leading-16 tracking-[-0.01em]'>
+              {totalDisplay}
+            </label>
+          )}
         </div>
 
         <div className='flex w-[95%] mt-0'>

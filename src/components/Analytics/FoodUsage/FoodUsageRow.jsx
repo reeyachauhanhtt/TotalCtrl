@@ -1,4 +1,43 @@
-export default function FoodUsageRow({ item }) {
+import { SkeletonBar } from '../../Common/Skeleton';
+
+export default function FoodUsageRow({ item, isLoading = false }) {
+  if (isLoading) {
+    return (
+      <tr className='border-b border-[#e6e6ed]'>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '40%' }}>
+          <SkeletonBar style={{ height: 16, width: 600, borderRadius: 20 }} />
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <SkeletonBar style={{ height: 16, width: 140, borderRadius: 20 }} />
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <SkeletonBar style={{ height: 16, width: 140, borderRadius: 20 }} />
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <SkeletonBar style={{ height: 16, width: 140, borderRadius: 20 }} />
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <SkeletonBar style={{ height: 16, width: 140, borderRadius: 20 }} />
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <div className='flex justify-end'>
+            <SkeletonBar
+              style={{
+                height: 16,
+                width: 70,
+                borderRadius: 20,
+                marginLeft: 'auto',
+              }}
+            />
+          </div>
+        </td>
+        <td className='pt-6.5 pb-6.5 px-3' style={{ width: '10%' }}>
+          <SkeletonBar style={{ height: 16, width: 80, borderRadius: 20 }} />
+        </td>
+      </tr>
+    );
+  }
+
   const {
     name,
     usedFood,

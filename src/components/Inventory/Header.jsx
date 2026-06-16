@@ -41,9 +41,9 @@ export default function Header() {
 
   function getTitle() {
     const path = location.pathname.toLowerCase();
-    if (path.includes('analytics')) return 'Analytics';
-    if (path.includes('inventory-count')) return 'Inventory Count';
-    if (path.includes('cogs-calculator')) return 'COGS Calculator';
+    // if (path.includes('analytics')) return 'Analytics';
+    // if (path.includes('inventory-count')) return 'Inventory Count';
+    // if (path.includes('cogs-calculator')) return 'COGS Calculator';
     return 'Inventories';
   }
 

@@ -8,9 +8,12 @@ import { format, startOfMonth, endOfMonth } from 'date-fns';
 import MonthPicker from '../common/MonthPicker';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { fetchFoodWasteOverview } from '../../../services/foodWasteService';
+import { TransferProductListSkeleton } from '../../Common/Skeleton';
 
 export default function OverviewOfWastedFood({ inventoryId }) {
-  const persisted = getPersistedDateRange();
+  const persisted = getPersistedDateRange(
+    'analytics_date_range_overview_of_wasted_food',
+  );
 
   const [dateRange, setDateRange] = useState({
     fromDate:
@@ -25,7 +28,7 @@ export default function OverviewOfWastedFood({ inventoryId }) {
   const [xAxisHover, setXAxisHover] = useState(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
 
-  const { data: overviewData } = useQuery({
+  const { data: overviewData, isLoading } = useQuery({
     queryKey: ['foodWaste-overview', inventoryId, dateRange],
     queryFn: () =>
       fetchFoodWasteOverview({
@@ -35,6 +38,8 @@ export default function OverviewOfWastedFood({ inventoryId }) {
         dateRangeType: dateRange.label ?? 'This Month',
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+    staleTime: 0,
+    gcTime: 0,
     select: (res) => res.Data?.foodWaste,
   });
 
@@ -224,7 +229,10 @@ export default function OverviewOfWastedFood({ inventoryId }) {
         </span>
 
         <div style={{ marginLeft: 20 }}>
-          <MonthPicker onApply={handleApply} />
+          <MonthPicker
+            onApply={handleApply}
+            storageKey='analytics_date_range_overview_of_wasted_food'
+          />
         </div>
       </div>
 
@@ -273,14 +281,18 @@ export default function OverviewOfWastedFood({ inventoryId }) {
           }
         `}</style>
 
-        <ReactApexChart
-          key={`${dateRange.fromDate}-${dateRange.toDate}-${xAxis.length}-${yAxis.length}`}
-          options={options}
-          series={series}
-          type='bar'
-          width='100%'
-          height={234}
-        />
+        {isLoading ? (
+          <TransferProductListSkeleton />
+        ) : (
+          <ReactApexChart
+            key={`${dateRange.fromDate}-${dateRange.toDate}-${xAxis.length}-${yAxis.length}`}
+            options={options}
+            series={series}
+            type='bar'
+            width='100%'
+            height={234}
+          />
+        )}
 
         {xAxisHover && (
           <div

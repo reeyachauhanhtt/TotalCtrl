@@ -14,7 +14,7 @@ import {
   fetchCheckOutValue,
 } from '../../../services/inventoryStatsService';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
-import { InventoryStatsDetailSkeleton } from './InventoryStatSkeletonLoading';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 const LIMIT = 20;
 
@@ -45,7 +45,8 @@ export default function InventoryStatsDetail({ type }) {
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
   };
   const [dateRange, setDateRange] = useState(
-    getPersistedDateRange() ?? defaultRange,
+    getPersistedDateRange('analytics_date_range_inventory_stats_detail') ??
+      defaultRange,
   );
 
   const { title, hasDatePicker } = CONFIG[type];
@@ -82,8 +83,6 @@ export default function InventoryStatsDetail({ type }) {
       toDate: format(range.endDate, 'yyyy-MM-dd'),
     });
   }, []);
-
-  if (isLoading) return <InventoryStatsDetailSkeleton />;
 
   return (
     <div
@@ -122,7 +121,10 @@ export default function InventoryStatsDetail({ type }) {
         </span>
         {hasDatePicker && (
           <div className='flex items-center'>
-            <MonthPicker onApply={handleApplyDate} />
+            <MonthPicker
+              onApply={handleApplyDate}
+              storageKey='analytics_date_range_inventory_stats_detail'
+            />
           </div>
         )}
       </div>
@@ -164,40 +166,68 @@ export default function InventoryStatsDetail({ type }) {
                   </td>
                 </tr>
               )}
-              {rows.map((row, i) => (
-                <tr key={`${row.name ?? row.supplierName ?? i}-${i}`}>
-                  <td
-                    className='text-[14px] leading-4 text-[#939397]'
-                    style={{
-                      width: '5%',
-                      padding: '10px 0 18px 9px',
-                      borderBottom: 0,
-                    }}
-                  >
-                    {i + 1}.
-                  </td>
-                  <td
-                    className='text-[14px] leading-4 text-[#19191c]'
-                    style={{
-                      width: '75%',
-                      padding: '6px 0 18px 2px',
-                      borderBottom: 0,
-                    }}
-                  >
-                    {row.name ?? row.supplierName ?? '—'}
-                  </td>
-                  <td
-                    className='text-right text-[14px] leading-4 text-[#19191c]'
-                    style={{
-                      width: '20%',
-                      padding: '10px 150px 18px 0',
-                      borderBottom: 0,
-                    }}
-                  >
-                    {formatPrice(row.total ?? row.value ?? 0)}
-                  </td>
-                </tr>
-              ))}
+
+              {isLoading
+                ? Array.from({ length: 1 }).map((_, i) => (
+                    <tr key={i}>
+                      <td style={{ width: '5%', padding: '10px 0 18px 9px' }}>
+                        <SkeletonBar
+                          style={{ height: 10, width: 10, borderRadius: '50%' }}
+                        />
+                      </td>
+                      <td style={{ width: '75%', padding: '6px 0 18px 2px' }}>
+                        <SkeletonBar
+                          style={{ height: 12, width: 200, borderRadius: 20 }}
+                        />
+                      </td>
+                      <td
+                        style={{ width: '20%', padding: '10px 150px 18px 0' }}
+                      >
+                        <SkeletonBar
+                          style={{
+                            height: 12,
+                            width: 100,
+                            borderRadius: 20,
+                            marginLeft: 'auto',
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                : rows.map((row, i) => (
+                    <tr key={`${row.name ?? row.supplierName ?? i}-${i}`}>
+                      <td
+                        className='text-[14px] leading-4 text-[#939397]'
+                        style={{
+                          width: '5%',
+                          padding: '10px 0 18px 9px',
+                          borderBottom: 0,
+                        }}
+                      >
+                        {i + 1}.
+                      </td>
+                      <td
+                        className='text-[14px] leading-4 text-[#19191c]'
+                        style={{
+                          width: '75%',
+                          padding: '6px 0 18px 2px',
+                          borderBottom: 0,
+                        }}
+                      >
+                        {row.name ?? row.supplierName ?? '—'}
+                      </td>
+                      <td
+                        className='text-right text-[14px] leading-4 text-[#19191c]'
+                        style={{
+                          width: '20%',
+                          padding: '10px 150px 18px 0',
+                          borderBottom: 0,
+                        }}
+                      >
+                        {formatPrice(row.total ?? row.value ?? 0)}
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </InfiniteScroll>

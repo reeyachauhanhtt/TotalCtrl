@@ -6,6 +6,7 @@ import ProgressBar from '../../Analytics/common/ProgressBar';
 import ExportButton from '../../Analytics/common/ExportButton';
 import MonthPicker from '../../Analytics/common/MonthPicker';
 import FoodUsageTable from '../../Analytics/FoodUsage/FoodUsageTable';
+import { SkeletonBar } from '../../Common/Skeleton';
 import {
   fetchFoodUsageTotal,
   fetchFoodUsageProducts,
@@ -44,13 +45,13 @@ function mapProduct(product) {
 
 export default function FoodUsage({ inventoryId, onTabChange }) {
   const [dateRange, setDateRange] = useState(
-    getPersistedDateRange() ?? {
+    getPersistedDateRange('analytics_date_range_food_usage') ?? {
       fromDate: new Date().toISOString().slice(0, 8) + '01',
       toDate: new Date().toISOString().slice(0, 10),
     },
   );
 
-  const { data: totalResult } = useQuery({
+  const { data: totalResult, isFetching: isTotalLoading } = useQuery({
     queryKey: ['foodUsageTotal', inventoryId, dateRange],
     queryFn: () =>
       fetchFoodUsageTotal({
@@ -60,6 +61,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
       }),
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
   const totalData =
@@ -87,6 +89,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
     },
     enabled: !!inventoryId,
     staleTime: 0,
+    gcTime: 0,
   });
 
   const rows =
@@ -109,8 +112,23 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
   const usedFoodPercent = totalData?.usagePercentage ?? 0;
   const foodWastePercent = totalData?.wastePercentage ?? 0;
 
-  console.log('totalResult', totalResult?.Data?.foodUsage);
-  console.log('inventoryId', inventoryId);
+  const stats = [
+    {
+      label: 'Total value of checked out food',
+      value: totalCheckout,
+      progress: totalData?.totalCheckoutPercentage ?? 0,
+    },
+    {
+      label: 'Used Food',
+      value: usedFoodValue,
+      progress: usedFoodPercent,
+    },
+    {
+      label: 'Food Waste',
+      value: foodWasteValue,
+      progress: foodWastePercent,
+    },
+  ];
 
   return (
     <div
@@ -125,49 +143,52 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
         <div className='flex items-center gap-5'>
           <ExportButton
             onClick={handleExport}
-            disabled={isLoading || rows.length === 0}
+            disabled={isLoading || isTotalLoading || rows.length === 0}
           />
-          <MonthPicker onApply={handleDateApply} />
+          <MonthPicker
+            onApply={handleDateApply}
+            storageKey='analytics_date_range_food_usage'
+          />
         </div>
       </div>
 
       {/* Progress Stats */}
       <div className='flex gap-0' style={{ lineHeight: 'normal' }}>
-        <div style={{ width: 268 }}>
-          <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
-            Total value of checked out food
-          </span>
-          <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
-            {totalCheckout}
-          </h2>
-          <div className='mt-2'>
-            <ProgressBar value={totalData?.totalCheckoutPercentage ?? 0} />
+        {stats.map((stat, i) => (
+          <div key={i} style={{ width: 268 }}>
+            {isTotalLoading ? (
+              <>
+                <SkeletonBar
+                  style={{ height: 20, width: 200, borderRadius: 20 }}
+                />
+                <SkeletonBar
+                  style={{
+                    height: 32,
+                    width: 160,
+                    borderRadius: 12,
+                    marginTop: 4,
+                    marginBottom: 2,
+                  }}
+                />
+                <SkeletonBar
+                  style={{ height: 10, width: 180, borderRadius: 20 }}
+                />
+              </>
+            ) : (
+              <>
+                <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
+                  {stat.label}
+                </span>
+                <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
+                  {stat.value}
+                </h2>
+                <div className='mt-2'>
+                  <ProgressBar value={stat.progress} />
+                </div>
+              </>
+            )}
           </div>
-        </div>
-
-        <div style={{ width: 268 }}>
-          <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
-            Used Food
-          </span>
-          <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
-            {usedFoodValue}
-          </h2>
-          <div className='mt-2'>
-            <ProgressBar value={usedFoodPercent} />
-          </div>
-        </div>
-
-        <div style={{ width: 268 }}>
-          <span className='text-[14px] leading-5 font-normal text-[#19191c]'>
-            Food Waste
-          </span>
-          <h2 className='text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#19191c] m-0 mt-1'>
-            {foodWasteValue}
-          </h2>
-          <div className='mt-2'>
-            <ProgressBar value={foodWastePercent} />
-          </div>
-        </div>
+        ))}
       </div>
 
       <FoodUsageTable

@@ -22,21 +22,43 @@ export default function ValueByCategoryOverview({
           </tr>
         </thead>
         <tbody>
-          {displayRows.map((row, i) => (
-            <tr
-              key={row.id || i}
-              className={
-                i === displayRows.length - 1 ? '' : 'border-b border-[#e7e7ec]'
-              }
-            >
-              <td className='w-4/5 font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
-                {row.name}
-              </td>
-              <td className='w-1/5 text-right font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
-                {formatPrice(row.total)}
-              </td>
-            </tr>
-          ))}
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <tr key={i} className={i < 2}>
+                  <td className='w-4/5 pb-3 pl-1.75'>
+                    <SkeletonBar
+                      style={{ height: 12, width: 90, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td className='w-1/5 pb-3 pl-1.75'>
+                    <SkeletonBar
+                      style={{
+                        height: 12,
+                        width: 60,
+                        borderRadius: 20,
+                        marginLeft: 'auto',
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))
+            : displayRows.map((row, i) => (
+                <tr
+                  key={row.id || i}
+                  className={
+                    i === displayRows.length - 1
+                      ? ''
+                      : 'border-b border-[#e7e7ec]'
+                  }
+                >
+                  <td className='w-4/5 font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
+                    {row.name}
+                  </td>
+                  <td className='w-1/5 text-right font-normal text-[14px] leading-4 text-[#19191c] pt-6.75 pb-5 pl-1.75'>
+                    {formatPrice(row.total)}
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </table>
 

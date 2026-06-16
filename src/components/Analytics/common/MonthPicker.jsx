@@ -19,7 +19,7 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './MonthPicker.css';
 
-const STORAGE_KEY = 'analytics_date_range';
+// const STORAGE_KEY = 'analytics_date_range';
 
 const staticRanges = createStaticRanges([
   {
@@ -91,13 +91,11 @@ function parseStoredDate(value) {
   return new Date(value);
 }
 
-function loadPersistedRange() {
+function loadPersistedRange(key) {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(key);
     if (!saved) return null;
-
     const { startDate, endDate, label } = JSON.parse(saved);
-
     return {
       range: [
         {
@@ -113,9 +111,9 @@ function loadPersistedRange() {
   }
 }
 
-function saveRange(range, label) {
+function saveRange(range, label, key) {
   localStorage.setItem(
-    STORAGE_KEY,
+    key,
     JSON.stringify({
       startDate: format(range[0].startDate, 'yyyy-MM-dd'),
       endDate: format(range[0].endDate, 'yyyy-MM-dd'),
@@ -124,8 +122,12 @@ function saveRange(range, label) {
   );
 }
 
-export default function MonthPicker({ onApply, singleMonth = false }) {
-  const persisted = loadPersistedRange();
+export default function MonthPicker({
+  onApply,
+  singleMonth = false,
+  storageKey = 'analytics_date_range',
+}) {
+  const persisted = loadPersistedRange(storageKey);
 
   const defaultRange = [
     {
@@ -167,7 +169,7 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
     setRange(nextRange);
     setPendingRange(nextRange);
     setLabel(nextLabel);
-    saveRange(nextRange, nextLabel);
+    saveRange(nextRange, nextLabel, storageKey);
 
     onApply?.({
       startDate: nextRange[0].startDate,
@@ -210,11 +212,11 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
       <button
         onClick={open ? handleCancel : handleOpen}
         className='flex items-center justify-between h-9 text-[14px] text-[#19191c] font-normal cursor-pointer rounded-sm px-3 bg-white'
-        style={{ border: '1px solid #d7d8e0', width: showClear ? 240 : 200 }}
+        style={{ border: '1px solid #d7d8e0', width: 200 }}
       >
         <span>{displayLabel}</span>
 
-        {showClear && !open ? (
+        {/* {showClear && !open ? (
           <span
             onClick={handleClear}
             className='ml-2 text-[#19191c] leading-none'
@@ -223,6 +225,22 @@ export default function MonthPicker({ onApply, singleMonth = false }) {
             ×
           </span>
         ) : open ? (
+          <img
+            src='/icons/closepopup-icon.svg'
+            alt='close'
+            width={10}
+            height={10}
+          />
+        ) : (
+          <img
+            src='/icons/select-box-down-icon.png'
+            alt='open'
+            width={10}
+            height={10}
+          />
+        )} */}
+
+        {open ? (
           <img
             src='/icons/closepopup-icon.svg'
             alt='close'

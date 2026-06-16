@@ -22,7 +22,12 @@ export default function SectionHeader({
           </span>
         )}
         <ExportButton onClick={onExport} disabled={!hasData} />
-        {showMonthPicker && <MonthPicker onApply={onApplyDateRange} />}
+        {showMonthPicker && (
+          <MonthPicker
+            onApply={onApplyDateRange}
+            storageKey='analytics_date_section_header'
+          />
+        )}
       </div>
     </div>
   );

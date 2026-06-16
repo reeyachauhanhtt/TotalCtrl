@@ -4,8 +4,15 @@ import { useQuery } from '@tanstack/react-query';
 
 import { fetchPriceVariations } from '../../../services/purchasesService';
 import { formatPrice } from '../../../utils/format';
+import { SkeletonBar } from '../../Common/Skeleton';
 
-function PriceVariationTable({ title, rows = [], onViewMore, isIncrease }) {
+function PriceVariationTable({
+  title,
+  rows = [],
+  onViewMore,
+  isIncrease,
+  isLoading = false,
+}) {
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
 
   return (
@@ -21,39 +28,77 @@ function PriceVariationTable({ title, rows = [], onViewMore, isIncrease }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr
-              key={row.id}
-              className='border-b border-[#e7e7ec] last:border-b-0'
-            >
-              <td
-                className='text-[14px] text-[#19191c] font-normal align-top pt-6.75 pb-5 pl-1.75'
-                style={{ width: '74%' }}
-              >
-                {row.name}
-                <span className='block text-[14px] text-[#6b6b6f] font-normal leading-4'>
-                  {row.supplierName}
-                </span>
-              </td>
-              <td
-                className='text-right text-[14px] text-[#19191c] font-normal align-top pt-6.75 pb-5 pl-1.75'
-                style={{ width: '26%' }}
-              >
-                {formatPrice(row.pricePerPurchaseUnit)}
-                <label className='text-[#6b6b6f] font-normal text-[14px] leading-6 ml-2'>
-                  per {row.measurementUnitName}
-                </label>
-                <div>
-                  <span
-                    className='inline-block text-[12px] font-bold uppercase tracking-[0.08em] leading-4 pl-3.75 bg-no-repeat bg-left'
-                    style={{ color: isIncrease ? '#e2232e' : '#23a956' }}
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <tr key={i}>
+                  <td
+                    className='align-top pt-1 pb-1.5 pl-1.75'
+                    style={{ width: '74%' }}
                   >
-                    {isIncrease ? '▲' : '▼'} {row.variation?.toFixed(2)}%
-                  </span>
-                </div>
-              </td>
-            </tr>
-          ))}
+                    <SkeletonBar
+                      style={{
+                        height: 12,
+                        width: 100,
+                        borderRadius: 20,
+                        // marginBottom: 8,
+                      }}
+                    />
+                    <SkeletonBar
+                      style={{ height: 12, width: 50, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='align-top pt-1 pb-1.5'
+                    style={{ width: '26%' }}
+                  >
+                    <div className='flex flex-col items-end'>
+                      <SkeletonBar
+                        style={{ height: 12, width: 100, borderRadius: 20 }}
+                      />
+                      <SkeletonBar
+                        style={{
+                          height: 12,
+                          width: 50,
+                          borderRadius: 20,
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            : rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className='border-b border-[#e7e7ec] last:border-b-0'
+                >
+                  <td
+                    className='text-[14px] text-[#19191c] font-normal align-top pt-6.75 pb-5 pl-1.75'
+                    style={{ width: '74%' }}
+                  >
+                    {row.name}
+                    <span className='block text-[14px] text-[#6b6b6f] font-normal leading-4'>
+                      {row.supplierName}
+                    </span>
+                  </td>
+                  <td
+                    className='text-right text-[14px] text-[#19191c] font-normal align-top pt-6.75 pb-5 pl-1.75'
+                    style={{ width: '26%' }}
+                  >
+                    {formatPrice(row.pricePerPurchaseUnit)}
+                    <label className='text-[#6b6b6f] font-normal text-[14px] leading-6 ml-2'>
+                      per {row.measurementUnitName}
+                    </label>
+                    <div>
+                      <span
+                        className='inline-block text-[12px] font-bold uppercase tracking-[0.08em] leading-4 pl-3.75 bg-no-repeat bg-left'
+                        style={{ color: isIncrease ? '#e2232e' : '#23a956' }}
+                      >
+                        {isIncrease ? '▲' : '▼'} {row.variation?.toFixed(2)}%
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
         </tbody>
       </table>
 
@@ -72,7 +117,7 @@ function PriceVariationTable({ title, rows = [], onViewMore, isIncrease }) {
 export default function PriceVariations({ inventoryId, dateRange }) {
   const navigate = useNavigate();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [
       'priceVariations',
       inventoryId,
@@ -87,6 +132,8 @@ export default function PriceVariations({ inventoryId, dateRange }) {
         limit: 8,
       }),
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const increase = data?.Data?.increase ?? data?.data?.increase ?? [];
@@ -103,6 +150,7 @@ export default function PriceVariations({ inventoryId, dateRange }) {
         title='Price Variations'
         rows={increaseRows}
         isIncrease={true}
+        isLoading={isLoading}
         onViewMore={
           increaseHasMore ? () => navigate('/analytics/pricevariation') : null
         }
@@ -111,6 +159,7 @@ export default function PriceVariations({ inventoryId, dateRange }) {
         title=''
         rows={decreaseRows}
         isIncrease={false}
+        isLoading={isLoading}
         onViewMore={
           decreaseHasMore ? () => navigate('/analytics/pricevariation') : null
         }

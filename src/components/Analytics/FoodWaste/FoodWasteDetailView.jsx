@@ -1,13 +1,23 @@
 import { useState } from 'react';
+
 import MonthPicker from '../common/MonthPicker';
 import ExportButton from '../common/ExportButton';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { formatPrice } from '../../../utils/format';
+import { SkeletonBar } from '../../Common/Skeleton';
 
-export default function FoodWasteDetailView({ type, onBack, rows }) {
-  // type: 'items' | 'categories'
-  const persisted = getPersistedDateRange();
-  const [dateRange, setDateRange] = useState(persisted);
+export default function FoodWasteDetailView({
+  type,
+  onBack,
+  rows,
+  isLoading = false,
+  onDateApply,
+  fetchNextPage,
+  hasNextPage,
+}) {
+  const persisted = getPersistedDateRange(
+    'analytics_date_range_food_waste_detail',
+  );
 
   const isItems = type === 'items';
 
@@ -16,10 +26,6 @@ export default function FoodWasteDetailView({ type, onBack, rows }) {
   const headers = isItems
     ? ['ITEM NAME', 'AMOUNT', 'VALUE']
     : ['CATEGORY', 'VALUE', 'INVENTORY %'];
-
-  function handleApply({ startDate, endDate }) {
-    setDateRange({ startDate, endDate });
-  }
 
   return (
     <div
@@ -73,7 +79,10 @@ export default function FoodWasteDetailView({ type, onBack, rows }) {
         <div className='flex items-center'>
           <ExportButton onClick={() => {}} />
           <div style={{ marginLeft: 20 }}>
-            <MonthPicker onApply={handleApply} />
+            <MonthPicker
+              onApply={onDateApply}
+              storageKey='analytics_date_range_food_waste_detail'
+            />
           </div>
         </div>
       </div>
@@ -153,63 +162,113 @@ export default function FoodWasteDetailView({ type, onBack, rows }) {
             style={{ width: '95%', margin: 'auto' }}
           >
             <tbody>
-              {(rows ?? []).map((row, i) => (
-                <tr key={i}>
-                  <td
-                    className='text-left'
-                    style={{
-                      width: '60%',
-                      height: 72,
-                      borderBottom: '1px solid #e6e6ed',
-                      paddingLeft: 0,
-                      verticalAlign: 'top',
-                      paddingTop: 26,
-                    }}
-                  >
-                    <span
-                      className='text-[#19191c]'
-                      style={{ fontSize: 14, lineHeight: '20px' }}
-                    >
-                      {row.col1}
-                    </span>
-                  </td>
-                  <td
-                    className='text-right'
-                    style={{
-                      width: '20%',
-                      height: 72,
-                      borderBottom: '1px solid #e6e6ed',
-                      verticalAlign: 'top',
-                      paddingTop: 26,
-                    }}
-                  >
-                    <span
-                      className='text-[#19191c]'
-                      style={{ fontSize: 14, lineHeight: '20px' }}
-                    >
-                      {row.col2}
-                    </span>
-                  </td>
-                  <td
-                    className='text-right'
-                    style={{
-                      width: '20%',
-                      height: 72,
-                      borderBottom: '1px solid #e6e6ed',
-                      paddingRight: 0,
-                      verticalAlign: 'top',
-                      paddingTop: 26,
-                    }}
-                  >
-                    <span
-                      className='text-[#19191c]'
-                      style={{ fontSize: 14, lineHeight: '20px' }}
-                    >
-                      {row.col3}
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              {isLoading
+                ? Array.from({ length: 1 }).map((_, i) => (
+                    <tr key={i}>
+                      <td
+                        style={{
+                          width: '60%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          paddingLeft: 0,
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <SkeletonBar
+                          style={{ height: 16, width: 600, borderRadius: 20 }}
+                        />
+                      </td>
+                      <td
+                        style={{
+                          width: '20%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <div className='flex justify-end'>
+                          <SkeletonBar
+                            style={{ height: 16, width: 100, borderRadius: 20 }}
+                          />
+                        </div>
+                      </td>
+                      <td
+                        style={{
+                          width: '20%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          paddingRight: 0,
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <div className='flex justify-end'>
+                          <SkeletonBar
+                            style={{ height: 16, width: 80, borderRadius: 20 }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                : (rows ?? []).map((row, i) => (
+                    <tr key={i}>
+                      <td
+                        className='text-left'
+                        style={{
+                          width: '60%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          paddingLeft: 0,
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <span
+                          className='text-[#19191c]'
+                          style={{ fontSize: 14, lineHeight: '20px' }}
+                        >
+                          {row.col1}
+                        </span>
+                      </td>
+                      <td
+                        className='text-right'
+                        style={{
+                          width: '20%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <span
+                          className='text-[#19191c]'
+                          style={{ fontSize: 14, lineHeight: '20px' }}
+                        >
+                          {row.col2}
+                        </span>
+                      </td>
+                      <td
+                        className='text-right'
+                        style={{
+                          width: '20%',
+                          height: 72,
+                          borderBottom: '1px solid #e6e6ed',
+                          paddingRight: 0,
+                          verticalAlign: 'top',
+                          paddingTop: 26,
+                        }}
+                      >
+                        <span
+                          className='text-[#19191c]'
+                          style={{ fontSize: 14, lineHeight: '20px' }}
+                        >
+                          {row.col3}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
           <div style={{ height: 80 }} />

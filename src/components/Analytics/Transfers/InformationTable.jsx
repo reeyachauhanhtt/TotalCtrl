@@ -49,6 +49,7 @@ export default function InformationTable({
   onSort,
   fetchNextPage,
   hasNextPage,
+  isLoading = false,
 }) {
   const isEmpty = rows.length === 0;
 
@@ -109,7 +110,18 @@ export default function InformationTable({
         className='overflow-y-auto bg-white'
         style={rows.length >= 10 ? { height: 500 } : { height: 'auto' }}
       >
-        {isEmpty ? (
+        {isLoading ? (
+          <table
+            className='w-[95%] mx-auto border-collapse text-[13px]'
+            style={{ tableLayout: 'fixed' }}
+          >
+            <tbody>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <InformationRow key={i} isLoading />
+              ))}
+            </tbody>
+          </table>
+        ) : isEmpty ? (
           <div className='w-full flex justify-center items-center py-16'>
             <p className='text-[18px] text-[#97979b]'>No result found</p>
           </div>

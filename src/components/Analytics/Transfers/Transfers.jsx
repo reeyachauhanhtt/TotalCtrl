@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { format, parseISO } from 'date-fns';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  subMonths,
+  parseISO,
+} from 'date-fns';
 
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { formatPrice } from '../../../utils/format';
@@ -36,23 +42,33 @@ const TRANSFER_TYPE_MAP = {
 };
 
 export default function TransfersTab() {
-  const persisted = getPersistedDateRange();
-
+  const persisted = getPersistedDateRange('analytics_date_range_transfers');
   const [dateRange, setDateRange] = useState({
-    fromDate: persisted.fromDate,
-    toDate: persisted.toDate,
-    label: 'Last Month',
+    fromDate:
+      persisted?.fromDate ??
+      format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
+    toDate:
+      persisted?.toDate ??
+      format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
   });
+
   const [showAllValue, setShowAllValue] = useState('all');
   const [inventoryValue, setInventoryValue] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [sortKey, setSortKey] = useState('date');
   const [sortDir, setSortDir] = useState('desc');
+  // const [isTableLoading, setIsTableLoading] = useState(false);
+
+  const prevQueryKeyRef = useRef(null);
 
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
   const enabled = !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate;
 
-  const { data: inData } = useQuery({
+  // useEffect(() => {
+  //   setIsTableLoading(true);
+  // }, [inventoryId, dateRange, showAllValue, inventoryValue, sortKey, sortDir]);
+
+  const { data: inData, isLoading: isInLoading } = useQuery({
     queryKey: ['transferIn', inventoryId, dateRange.fromDate, dateRange.toDate],
     queryFn: () =>
       fetchTransferIn({
@@ -62,9 +78,10 @@ export default function TransfersTab() {
       }),
     enabled,
     staleTime: 0,
+    gcTime: 0,
   });
 
-  const { data: outData } = useQuery({
+  const { data: outData, isLoading: isOutLoading } = useQuery({
     queryKey: [
       'transferOut',
       inventoryId,
@@ -79,12 +96,15 @@ export default function TransfersTab() {
       }),
     enabled,
     staleTime: 0,
+    gcTime: 0,
   });
 
   const {
     data: itemsData,
     fetchNextPage,
     hasNextPage,
+    isFetching: isItemsLoading,
+    isPending: isItemsPending,
   } = useInfiniteQuery({
     queryKey: [
       'transferItems',
@@ -115,17 +135,8 @@ export default function TransfersTab() {
     },
     enabled,
     staleTime: 0,
+    gcTime: 0,
   });
-
-  const inInfo = inData?.Data;
-  const outInfo = outData?.Data;
-
-  function mapInventories(inventories = []) {
-    return inventories.map((inv) => ({
-      ...inv,
-      value: formatPrice(inv.value),
-    }));
-  }
 
   const allRows = (itemsData?.pages ?? [])
     .flatMap((p) => p?.Data?.products ?? [])
@@ -141,7 +152,49 @@ export default function TransfersTab() {
       value: formatPrice(p.totalTransferredValue),
     }));
 
+  const queryKey = [
+    inventoryId,
+    dateRange,
+    showAllValue,
+    inventoryValue,
+    sortKey,
+    sortDir,
+  ].join('|');
+  const isFilterChange =
+    prevQueryKeyRef.current !== null && prevQueryKeyRef.current !== queryKey;
+  if (prevQueryKeyRef.current !== queryKey) {
+    prevQueryKeyRef.current = queryKey;
+  }
+  const showTableSkeleton =
+    isItemsLoading && (isFilterChange || allRows.length === 0);
+
+  // useEffect(() => {
+  //   if (itemsData !== undefined) {
+  //     setIsTableLoading(false);
+  //   }
+  // }, [itemsData]);
+
+  // useEffect(() => {
+  //   if (!isItemsLoading) {
+  //     setIsTableLoading(false);
+  //   } else {
+  //     setIsTableLoading(true);
+  //   }
+  // }, [isItemsLoading]);
+
+  const inInfo = inData?.Data;
+  const outInfo = outData?.Data;
+
+  function mapInventories(inventories = []) {
+    return inventories.map((inv) => ({
+      ...inv,
+      value: formatPrice(inv.value),
+    }));
+  }
+
   const isEmpty =
+    !isInLoading &&
+    !isOutLoading &&
     (!inInfo || inInfo.totalItems === 0) &&
     (!outInfo || outInfo.totalItems === 0);
 
@@ -192,6 +245,7 @@ export default function TransfersTab() {
             toDate={dateRange.toDate}
             label={dateRange.label}
             onApply={handleDateApply}
+            storageKey='analytics_date_range_transfers'
           />
         </div>
       </div>
@@ -221,9 +275,11 @@ export default function TransfersTab() {
               }
               itemCount={inInfo?.totalItems ?? 0}
               inventoryCount={inInfo?.totalInventories ?? 0}
+              isLoading={isInLoading}
             />
             <ItemsTransferredIn
               inventories={mapInventories(inInfo?.inventories)}
+              isLoading={isInLoading}
             />
           </div>
 
@@ -235,9 +291,11 @@ export default function TransfersTab() {
               }
               itemCount={outInfo?.totalItems ?? 0}
               inventoryCount={outInfo?.totalInventories ?? 0}
+              isLoading={isOutLoading}
             />
             <ItemsTransferredOut
               inventories={mapInventories(outInfo?.inventories)}
+              isLoading={isOutLoading}
             />
           </div>
 
@@ -253,7 +311,8 @@ export default function TransfersTab() {
           />
 
           <InformationTable
-            rows={allRows}
+            rows={showTableSkeleton ? [] : allRows}
+            isLoading={showTableSkeleton}
             sortKey={sortKey}
             sortDir={sortDir}
             onSort={handleSort}

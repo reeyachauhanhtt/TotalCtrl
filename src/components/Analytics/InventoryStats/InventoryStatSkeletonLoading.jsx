@@ -113,7 +113,7 @@ export function InventoryStatsSkeleton() {
 export function InventoryStatsDetailSkeleton() {
   return (
     <div style={{ padding: '0 35px' }}>
-      {Array.from({ length: 6 }).map((_, i) => (
+      {Array.from({ length: 1 }).map((_, i) => (
         <div
           key={i}
           className='flex items-center justify-between'

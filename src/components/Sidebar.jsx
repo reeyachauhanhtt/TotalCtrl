@@ -289,7 +289,7 @@ export default function Sidebar() {
             ref={settingsBtnRef}
             onClick={() => setSettingsOpen((p) => !p)}
             className={`nav-link flex items-center transition-all duration-200 w-full bg-transparent border-none cursor-pointer ${
-              settingsOpen
+              settingsOpen || location.pathname === '/product-database'
                 ? 'text-[#23A956]'
                 : 'text-[#6B6B6F] hover:text-[#19191c]'
             }`}
@@ -304,7 +304,11 @@ export default function Sidebar() {
             <img
               src='/icons/settings.svg'
               alt=''
-              className={settingsOpen ? 'settings-active' : ''}
+              className={
+                settingsOpen || location.pathname === '/product-database'
+                  ? 'settings-active'
+                  : ''
+              }
               style={{
                 marginRight: '18px',
                 width: '24px',

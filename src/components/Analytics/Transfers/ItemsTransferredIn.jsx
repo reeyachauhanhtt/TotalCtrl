@@ -1,6 +1,10 @@
 import ProgressBar from '../common/ProgressBar';
+import { SkeletonBar } from '../../Common/Skeleton';
 
-export default function ItemsTransferredIn({ inventories = [] }) {
+export default function ItemsTransferredIn({
+  inventories = [],
+  isLoading = false,
+}) {
   return (
     <div className='w-1/2 mt-4'>
       {/* Title */}
@@ -16,7 +20,28 @@ export default function ItemsTransferredIn({ inventories = [] }) {
         </span>
       </span>
 
-      {inventories.length === 0 ? (
+      {isLoading ? (
+        Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className='w-[85%] mt-6'>
+            <div className='flex justify-between'>
+              <SkeletonBar
+                style={{ height: 20, width: 100, borderRadius: 20 }}
+              />
+              <SkeletonBar
+                style={{ height: 20, width: 100, borderRadius: 20 }}
+              />
+            </div>
+            <SkeletonBar
+              style={{
+                height: 12,
+                width: '100%',
+                borderRadius: 20,
+                marginTop: 12,
+              }}
+            />
+          </div>
+        ))
+      ) : inventories.length === 0 ? (
         <p className='text-[16px] text-[#97979b]'>No result found</p>
       ) : (
         inventories.map((inv, i) => (

@@ -24,20 +24,17 @@ export default function ValueBySupplierOverview({
         <tbody>
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <tr
-                  key={i}
-                  className={i < 2 ? 'border-b border-[#e7e7ec]' : ''}
-                >
-                  <td className='w-4/5 pt-6.75 pb-5 pl-1.75'>
+                <tr key={i} className={i < 2}>
+                  <td className='w-4/5 pb-3 pl-1.75'>
                     <SkeletonBar
-                      style={{ height: 12, width: 160, borderRadius: 8 }}
+                      style={{ height: 12, width: 90, borderRadius: 8 }}
                     />
                   </td>
-                  <td className='w-1/5 pt-6.75 pb-5 pl-1.75'>
+                  <td className='w-1/5 pb-3 pl-1.75'>
                     <SkeletonBar
                       style={{
                         height: 12,
-                        width: 70,
+                        width: 60,
                         borderRadius: 8,
                         marginLeft: 'auto',
                       }}

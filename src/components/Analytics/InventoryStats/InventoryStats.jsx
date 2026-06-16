@@ -20,7 +20,6 @@ import {
   fetchInventoryExport,
 } from '../../../services/inventoryStatsService';
 import { SkeletonBar } from '../../Common/Skeleton';
-import { InventoryStatsSkeleton } from './InventoryStatSkeletonLoading';
 
 export default function InventoryStats({ onViewMore }) {
   const selectedInventory = useSelector((s) => s.analytics.selectedInventory);
@@ -122,14 +121,6 @@ export default function InventoryStats({ onViewMore }) {
     XLSX.writeFile(wb, `inventory${Date.now()}.xlsx`);
   }
 
-  const isLoading =
-    isTotalLoading ||
-    isSupplierLoading ||
-    isCategoryLoading ||
-    isCheckInLoading ||
-    isCheckOutLoading;
-  if (isLoading) return <InventoryStatsSkeleton />;
-
   return (
     <div className='px-8.75 pr-10 pb-15'>
       {/* Title + Export */}
@@ -146,7 +137,7 @@ export default function InventoryStats({ onViewMore }) {
 
             {isTotalLoading ? (
               <SkeletonBar
-                style={{ height: 56, width: 280, borderRadius: 8 }}
+                style={{ height: 50, width: 320, borderRadius: 8 }}
               />
             ) : (
               <label className='block text-[64px] font-medium leading-16 tracking-[-0.01em] text-[#19191c]'>
@@ -156,7 +147,13 @@ export default function InventoryStats({ onViewMore }) {
           </div>
         </div>
 
-        <div className='py-0 px-20 h-9'>
+        <div
+          className='py-0 px-20 h-9'
+          style={{
+            opacity: isTotalLoading ? 0.5 : 1,
+            pointerEvents: isTotalLoading ? 'none' : 'auto',
+          }}
+        >
           <ExportButton onClick={handleExport} />
         </div>
       </div>

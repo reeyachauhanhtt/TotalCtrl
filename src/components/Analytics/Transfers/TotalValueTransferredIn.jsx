@@ -1,7 +1,10 @@
+import { SkeletonBar } from '../../Common/Skeleton';
+
 export default function TotalValueTransferredIn({
   totalValue,
   itemCount,
   inventoryCount,
+  isLoading = false,
 }) {
   return (
     <div className='w-1/2 mt-4'>
@@ -18,17 +21,41 @@ export default function TotalValueTransferredIn({
         </span>
       </span>
 
-      {/* Value */}
-      <h2 className='w-full text-[64px] font-semibold leading-16 tracking-[-0.01em] text-[#19191c]'>
-        {totalValue ?? '0 kr'}
-      </h2>
+      {isLoading ? (
+        <>
+          <SkeletonBar
+            style={{
+              height: 56,
+              width: 280,
+              borderRadius: 12,
+              marginBottom: 24,
+            }}
+          />
+          <SkeletonBar
+            style={{
+              height: 9,
+              width: 400,
+              borderRadius: 50,
+              marginBottom: 12,
+            }}
+          />
+          <SkeletonBar style={{ height: 14, width: 150, borderRadius: 20 }} />
+        </>
+      ) : (
+        <>
+          {/* Value */}
+          <h2 className='w-full text-[64px] font-semibold leading-16 tracking-[-0.01em] text-[#19191c]'>
+            {totalValue ?? '0 kr'}
+          </h2>
 
-      {/* Description */}
-      <span className='block text-[14px] font-normal text-[#19191c] mt-6'>
-        {itemCount ?? 0} items transferred from {inventoryCount ?? 0}{' '}
-        inventories
-      </span>
-      <span className='block text-[14px] font-normal text-[#19191c]'></span>
+          {/* Description */}
+          <span className='block text-[14px] font-normal text-[#19191c] mt-6'>
+            {itemCount ?? 0} items transferred from {inventoryCount ?? 0}{' '}
+            inventories
+          </span>
+          <span className='block text-[14px] font-normal text-[#19191c]'></span>
+        </>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { formatPrice } from '../../../utils/format';
+import { SkeletonBar } from '../../Common/Skeleton';
 
-export default function MostWastedItems({ items }) {
+export default function MostWastedItems({ items, isLoading = false }) {
   const isEmpty = !items || items.length === 0;
 
   return (
@@ -20,7 +21,38 @@ export default function MostWastedItems({ items }) {
 
       <div className='h-px bg-[#d7d7db]' style={{ width: '80%' }} />
 
-      {isEmpty ? (
+      {isLoading ? (
+        <table
+          className='border-collapse'
+          style={{ width: '80%', marginTop: 25 }}
+        >
+          <tbody>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <tr key={i}>
+                <td style={{ width: '60%', height: 43 }}>
+                  <SkeletonBar
+                    style={{ height: 20, width: 150, borderRadius: 20 }}
+                  />
+                </td>
+                <td style={{ width: '20%', height: 43 }}>
+                  <div className='flex justify-end'>
+                    <SkeletonBar
+                      style={{ height: 20, width: 80, borderRadius: 20 }}
+                    />
+                  </div>
+                </td>
+                <td style={{ width: '20%', height: 43 }}>
+                  <div className='flex justify-end'>
+                    <SkeletonBar
+                      style={{ height: 20, width: 60, borderRadius: 20 }}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : isEmpty ? (
         <div
           className='flex flex-col justify-center items-center'
           style={{ height: 237, width: '80%' }}

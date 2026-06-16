@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const menuItems = [
   { label: 'Personal Settings', icon: '/icons/Account.svg', path: '#' },
@@ -7,7 +8,11 @@ const menuItems = [
   { label: 'Manage Users', icon: '/icons/people.svg', path: '#' },
   { label: 'Manage Roles', icon: '/icons/roles.svg', path: '#' },
   { label: 'Manage Inventories', icon: '/icons/box.svg', path: '#' },
-  { label: 'Manage Item Templates', icon: '/icons/products.svg', path: '#' },
+  {
+    label: 'Manage Item Templates',
+    icon: '/icons/products.svg',
+    path: '/product-database',
+  },
   { label: 'Roles & Permissions', icon: '/icons/roles.svg', path: '#' },
   {
     label: 'Manage Integrations',
@@ -24,6 +29,7 @@ export default function SettingsDropdown({
   userName,
   orgName,
 }) {
+  const location = useLocation();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -90,44 +96,67 @@ export default function SettingsDropdown({
       {/* Menu Items */}
       <div>
         <ul style={{ listStyle: 'none', padding: '12px 0', margin: 0 }}>
-          {menuItems.map((item) => (
-            <li
-              key={item.label}
-              className='settings-menu-item'
-              style={{
-                padding: '8px 28px',
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <img
-                src={item.icon}
-                alt=''
+          {menuItems.map((item) => {
+            const isActive =
+              item.path !== '#' && location.pathname === item.path;
+            return (
+              <li
+                key={item.label}
+                className='settings-menu-item'
                 style={{
-                  width: '24px',
-                  height: '24px',
-                  objectFit: 'scale-down',
-                  flexShrink: 0,
-                }}
-              />
-
-              <a
-                href={item.path}
-                style={{
-                  margin: '0 0 0 20px',
-                  fontSize: '14px',
-                  lineHeight: '14px',
-                  fontWeight: '600',
-                  color: '#6b6b6f',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
+                  padding: '8px 28px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
                 }}
               >
-                {item.label}
-              </a>
-            </li>
-          ))}
+                <img
+                  src={item.icon}
+                  alt=''
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    objectFit: 'scale-down',
+                    flexShrink: 0,
+                    filter: isActive
+                      ? 'invert(47%) sepia(98%) saturate(400%) hue-rotate(95deg) brightness(90%)'
+                      : 'none',
+                  }}
+                />
+                {item.path === '#' ? (
+                  <a
+                    href='#'
+                    style={{
+                      margin: '0 0 0 20px',
+                      fontSize: '14px',
+                      lineHeight: '14px',
+                      fontWeight: '600',
+                      color: '#6b6b6f',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <NavLink
+                    to={item.path}
+                    style={{
+                      margin: '0 0 0 20px',
+                      fontSize: '14px',
+                      lineHeight: '14px',
+                      fontWeight: '600',
+                      color: isActive ? '#23A956' : '#6b6b6f',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
 

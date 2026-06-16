@@ -15,6 +15,7 @@ import InventoryPage from './pages/InventoryPage';
 import ExternalOrderPage from './pages/ExternalOrderPage';
 import InternalOrderPage from './pages/InternalOrderPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import ManageItemTemplatePage from './pages/ManageItemTemplatePage';
 import { HeaderSkeleton } from './components/Common/Skeleton';
 import ExternalOrderHeader from './components/ExternalOrder/ExternalOrderHeader';
 import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderDetailHeader';
@@ -170,6 +171,9 @@ function Layout() {
       );
     if (isAnalytics) return <AnalyticsHeader />;
 
+    //no header in manage item template page
+    if (location.pathname === '/product-database') return null;
+
     return <Header />;
   }
 
@@ -244,6 +248,10 @@ function Layout() {
             <Route path='/analytics-overview' element={<AnalyticsPage />} />
             <Route path='/analytics' element={<AnalyticsPage />} />
             <Route path='/analytics/*' element={<AnalyticsPage />} />
+            <Route
+              path='/product-database'
+              element={<ManageItemTemplatePage />}
+            />
           </Routes>
         </div>
       </div>

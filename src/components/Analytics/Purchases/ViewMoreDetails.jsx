@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { format } from 'date-fns';
+import { format, startOfMonth, endOfMonth, subMonths } from 'date-fns';
 
 import MonthPicker from '../common/MonthPicker';
 import { formatPrice } from '../../../utils/format';
@@ -12,6 +12,7 @@ import {
   fetchBiggestOrders,
   fetchBiggestSuppliers,
 } from '../../../services/purchasesService';
+import { SkeletonBar } from '../../Common/Skeleton';
 
 const LIMIT = 10;
 
@@ -32,11 +33,25 @@ export default function ViewMoreDetail({ type }) {
   const navigate = useNavigate();
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
 
-  const [dateRange, setDateRange] = useState(getPersistedDateRange());
+  const persisted = getPersistedDateRange('analytics_date_range_purchases'); // ←  use purchases key, not a separate one
+  const [dateRange, setDateRange] = useState({
+    fromDate:
+      persisted?.fromDate ??
+      format(startOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
+    toDate:
+      persisted?.toDate ??
+      format(endOfMonth(subMonths(new Date(), 1)), 'yyyy-MM-dd'),
+  });
 
   const { title, fetcher, tableWidth } = CONFIG[type];
 
-  const { data, fetchNextPage, hasNextPage, status } = useInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    status,
+    isFetching: isLoading,
+  } = useInfiniteQuery({
     queryKey: ['purchasesViewMore', type, inventoryId, dateRange],
     queryFn: ({ pageParam = 0 }) =>
       fetcher({
@@ -52,6 +67,8 @@ export default function ViewMoreDetail({ type }) {
       return allPages.reduce((acc, p) => acc + (p?.Data?.Data?.length ?? 0), 0);
     },
     enabled: !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const rows = data?.pages.flatMap((p) => p?.Data?.Data ?? []) ?? [];
@@ -108,9 +125,8 @@ export default function ViewMoreDetail({ type }) {
           {title}
         </span>
         <MonthPicker
-          fromDate={dateRange.fromDate}
-          toDate={dateRange.toDate}
           onApply={handleApplyDate}
+          storageKey='analytics_date_range_purchases'
         />
       </div>
 
@@ -141,43 +157,79 @@ export default function ViewMoreDetail({ type }) {
         >
           <table style={{ width: tableWidth, borderCollapse: 'collapse' }}>
             <tbody>
-              {status === 'success' && rows.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={3}
-                    className='text-center py-14 text-[#939397] text-[14px]'
-                  >
-                    No data found
-                  </td>
-                </tr>
+              {isLoading ? (
+                Array.from({ length: 1 }).map((_, i) => (
+                  <tr key={i}>
+                    <td style={{ width: '5%', padding: '10px 0 18px 9px' }}>
+                      <SkeletonBar
+                        style={{ height: 10, width: 10, borderRadius: '50%' }}
+                      />
+                    </td>
+                    <td style={{ width: '75%', padding: '10px 0 18px 7px' }}>
+                      <SkeletonBar
+                        style={{
+                          height: 12,
+                          width: 200,
+                          borderRadius: 20,
+                          marginBottom: 6,
+                        }}
+                      />
+                      {type === 'orders' && (
+                        <SkeletonBar
+                          style={{ height: 10, width: 100, borderRadius: 20 }}
+                        />
+                      )}
+                    </td>
+                    <td style={{ width: '20%', padding: '10px 0 18px 0' }}>
+                      <div className='flex justify-end'>
+                        <SkeletonBar
+                          style={{ height: 12, width: 80, borderRadius: 20 }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <>
+                  {status === 'success' && rows.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={3}
+                        className='text-center py-14 text-[#939397] text-[14px]'
+                      >
+                        No data found
+                      </td>
+                    </tr>
+                  )}
+                  {rows.map((row, i) => (
+                    <tr key={`${row.id ?? i}-${i}`}>
+                      <td
+                        className='text-[14px] leading-4 text-[#939397]'
+                        style={{ width: '5%', padding: '10px 0 18px 9px' }}
+                      >
+                        {i + 1}.
+                      </td>
+                      <td
+                        className='text-[14px] leading-4 text-[#19191c] font-normal'
+                        style={{ width: '75%', padding: '10px 0 18px 7px' }}
+                      >
+                        {type === 'orders' ? row.supplierName : row.name}
+                        {type === 'orders' && (
+                          <span className='block text-[12px] text-[#6b6b6f] leading-4'>
+                            #{row.number}
+                          </span>
+                        )}
+                      </td>
+                      <td
+                        className='text-right text-[14px] leading-4 text-[#19191c] font-normal'
+                        style={{ width: '20%', padding: '10px 0 18px 0' }}
+                      >
+                        {formatPrice(row.total)}
+                      </td>
+                    </tr>
+                  ))}
+                </>
               )}
-              {rows.map((row, i) => (
-                <tr key={`${row.id ?? i}-${i}`}>
-                  <td
-                    className='text-[14px] leading-4 text-[#939397]'
-                    style={{ width: '5%', padding: '10px 0 18px 9px' }}
-                  >
-                    {i + 1}.
-                  </td>
-                  <td
-                    className='text-[14px] leading-4 text-[#19191c] font-normal'
-                    style={{ width: '75%', padding: '10px 0 18px 7px' }}
-                  >
-                    {type === 'orders' ? row.supplierName : row.name}
-                    {type === 'orders' && (
-                      <span className='block text-[12px] text-[#6b6b6f] leading-4'>
-                        #{row.number}
-                      </span>
-                    )}
-                  </td>
-                  <td
-                    className='text-right text-[14px] leading-4 text-[#19191c] font-normal'
-                    style={{ width: '20%', padding: '10px 0 18px 0' }}
-                  >
-                    {formatPrice(row.total)}
-                  </td>
-                </tr>
-              ))}
             </tbody>
           </table>
         </InfiniteScroll>

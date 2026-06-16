@@ -54,7 +54,18 @@ export default function FoodUsageTable({
         className='overflow-y-auto bg-white'
         style={data.length > 8 ? { height: 420 } : { height: 'auto' }}
       >
-        {isEmpty ? (
+        {loading ? (
+          <table
+            className='w-[95%] mx-auto border-collapse text-[13px]'
+            style={{ tableLayout: 'fixed' }}
+          >
+            <tbody>
+              {Array.from({ length: 1 }).map((_, i) => (
+                <FoodUsageRow key={i} isLoading />
+              ))}
+            </tbody>
+          </table>
+        ) : isEmpty ? (
           <div className='h-125 w-full flex flex-col justify-center items-center'>
             <img
               src='/img/lemon.png'
@@ -71,29 +82,37 @@ export default function FoodUsageTable({
             </h3>
           </div>
         ) : (
-          <div className='overflow-auto' style={{ height: 'auto' }}>
-            <InfiniteScroll
-              dataLength={data.length}
-              next={fetchNextPage}
-              hasMore={!!hasNextPage}
-              loader={null}
-              scrollableTarget='scrollableDiv'
-              style={{ overflow: 'visible' }}
-            >
+          <InfiniteScroll
+            dataLength={data.length}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            // loader={null}
+            loader={
               <table
                 className='w-[95%] mx-auto border-collapse text-[13px]'
                 style={{ tableLayout: 'fixed' }}
               >
                 <tbody>
-                  {data.map((item, idx) => (
-                    <FoodUsageRow key={idx} item={item} />
-                  ))}
+                  <FoodUsageRow isLoading />
                 </tbody>
               </table>
-            </InfiniteScroll>
+            }
+            scrollableTarget='scrollableDiv'
+            style={{ overflow: 'visible' }}
+          >
+            <table
+              className='w-[95%] mx-auto border-collapse text-[13px]'
+              style={{ tableLayout: 'fixed' }}
+            >
+              <tbody>
+                {data.map((item, idx) => (
+                  <FoodUsageRow key={idx} item={item} />
+                ))}
+              </tbody>
+            </table>
 
             <div className='h-20' />
-          </div>
+          </InfiniteScroll>
         )}
       </div>
     </div>
