@@ -17,26 +17,21 @@ export default function ItemRow({ item, checked, onToggle }) {
   }, [menuOpen]);
 
   const tdBase = 'align-top text-left border-b border-[#e6e6ed] px-[10px]';
-  const tdPadY = 'pt-[26px] pb-[5px]';
+  const tdPadY = 'pt-[26px] pb-[26px]';
 
   function UnitCell({ unit }) {
-    if (!unit) return null;
+    if (!unit || !unit.name) {
+      return (
+        <span className='text-[#6b6b6f] text-[12px] italic font-normal leading-4 w-full'>
+          -----
+        </span>
+      );
+    }
     return (
       <div className='flex flex-col w-full'>
-        {unit.name === '-----' ? (
-          <span className='text-[#6b6b6f] text-[12px] italic font-normal leading-4 w-full'>
-            -----
-          </span>
-        ) : (
-          <span className='text-[#000] text-[13px] font-normal leading-5 w-full'>
-            {unit.name}
-          </span>
-        )}
-        {unit.sub && (
-          <span className='text-[#6b6b6f] text-[12px] italic font-normal leading-4 mt-2 w-full'>
-            {unit.sub}
-          </span>
-        )}
+        <span className='text-[#000] text-[13px] font-normal leading-5 w-full'>
+          {unit.name}
+        </span>
         {unit.price && (
           <span className='text-[#6b6b6f] text-[12px] italic font-normal leading-4 mt-2 w-full'>
             {unit.price}
@@ -98,6 +93,8 @@ export default function ItemRow({ item, checked, onToggle }) {
   }
 
   function renderRow(rowItem, rowChecked, rowToggle, isRed = false) {
+    const inStock = Array.isArray(rowItem.inStock) ? rowItem.inStock : [];
+
     return (
       <>
         <tr className='relative'>
@@ -105,7 +102,7 @@ export default function ItemRow({ item, checked, onToggle }) {
             className={`${tdBase} ${tdPadY} pl-8 pr-[10px]`}
             style={{
               minWidth: '62px',
-              height: '72px',
+              minHeight: '72px',
               ...(isRed ? { borderLeft: '6px solid #e2232e' } : {}),
             }}
           >
@@ -214,13 +211,13 @@ export default function ItemRow({ item, checked, onToggle }) {
             style={{ width: '15%', minWidth: '150px', height: '72px' }}
           >
             <div className='flex flex-col' style={{ maxWidth: '130px' }}>
-              {rowItem.inStock.length === 0 ? (
+              {!inStock || inStock.length === 0 ? (
                 <span className='text-[#6b6b6f] text-[12px] italic font-normal'>
                   -----
                 </span>
               ) : (
                 <>
-                  {rowItem.inStock
+                  {(inStock || [])
                     .slice(0, MAX_VISIBLE_INVENTORIES)
                     .map((inv) => (
                       <span
@@ -230,10 +227,9 @@ export default function ItemRow({ item, checked, onToggle }) {
                         {inv}
                       </span>
                     ))}
-                  {rowItem.inStock.length - MAX_VISIBLE_INVENTORIES > 0 && (
+                  {(inStock || []).length - MAX_VISIBLE_INVENTORIES > 0 && (
                     <span className='text-[13px] font-semibold leading-5 text-[#6b6b6f] underline cursor-pointer mt-1'>
-                      &amp; {rowItem.inStock.length - MAX_VISIBLE_INVENTORIES}{' '}
-                      more
+                      &amp; {inStock.length - MAX_VISIBLE_INVENTORIES} more
                     </span>
                   )}
                 </>

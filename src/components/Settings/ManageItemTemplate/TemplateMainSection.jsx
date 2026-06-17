@@ -1,54 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  fetchProductGroups,
+  fetchSuppliers,
+  fetchSubcategories,
+} from '../../../services/manageItemTemplateService';
+import { fetchInventory } from '../../../services/inventoryService';
 
 const ISSUE_OPTIONS = [
   'All item templates',
   'Duplicate item templates',
   'Item templates without SKU',
-];
-
-const CATEGORY_OPTIONS = [
-  { label: 'No category', isHeader: true },
-  'Alcoholic Beverages',
-  'Cleaning Products',
-  'Dry Goods',
-  'Frozen Goods',
-  'Fruits & Vegetables',
-  'In-House Production',
-  'Non-alcoholic Beverages',
-  'Non-foods',
-  'Other',
-  'Refrigerated Goods',
-];
-
-const SUBCATEGORY_MAP = {
-  'Alcoholic Beverages': ['Beer', 'Wine', 'Spirits', 'Armagnac'],
-  'Dry Goods': ['Bread', 'Pasta', 'Rice'],
-  'Fruits & Vegetables': ['Roots', 'Leafy Greens', 'Citrus'],
-  'Refrigerated Goods': ['Butter and margarine', 'Dairy', 'Meat'],
-  'Frozen Goods': ['Frozen Meat', 'Frozen Vegetables'],
-  'Non-foods': ['Cleaning', 'Packaging'],
-};
-
-const INVENTORY_OPTIONS = [
-  { label: 'No inventory', isHeader: true },
-  'Main Inventory',
-  'Walk-in fridge I RFID',
-  'Dry Storage I RFID',
-  'Empty inventory',
-  'Tanvi Inventory',
-  'Pinkesh Inventory',
-];
-
-const SUPPLIER_OPTIONS = [
-  'No supplier',
-  'Asko Engros',
-  'Bama Gruppen',
-  'Coop',
-  'Findus Norge',
-  'GF Solutions',
-  'Nortura',
-  'Prior Norge',
-  'Røst Seafood',
 ];
 
 function FilterDropdown({
@@ -96,24 +58,34 @@ function FilterDropdown({
         <ul className='absolute bg-white z-50 mt-2 py-[15px] list-none m-0 p-0 min-w-[250px] max-h-[480px] overflow-y-auto border border-[#d7d7db] rounded shadow-[0_2px_8px_rgba(0,0,0,0.12)]'>
           {options.map((opt, i) => {
             const isHeader = typeof opt === 'object' && opt.isHeader;
-            const optLabel = isHeader ? opt.label : opt;
+            const optLabel = typeof opt === 'object' ? opt.label : opt;
+
             return (
               <li
                 key={i}
                 onClick={() => {
                   if (!isHeader) {
-                    onSelect(optLabel);
+                    onSelect(optLabel, opt.isClear ? null : opt.value);
                     setOpen(false);
                   }
                 }}
-                className={`w-full text-sm font-semibold leading-5 cursor-pointer inline-block text-[#19191c] hover:bg-[#f1f1f5] px-4 py-2 ${
+                className={`w-full text-sm leading-5 cursor-pointer inline-flex items-center justify-between text-[#19191c] hover:bg-[#f1f1f5] px-4 py-2 ${
                   isHeader
-                    ? 'border-b border-[#dee2e6] mb-2 pb-2.5 cursor-default hover:bg-white'
-                    : ''
-                } ${selected === optLabel ? 'text-[#23a956]' : ''}`}
+                    ? 'border-b border-[#dee2e6] mb-2 pb-2.5 cursor-default hover:bg-white font-semibold'
+                    : selected === optLabel
+                      ? 'bg-[#f1f1f5] font-normal'
+                      : 'font-semibold'
+                }`}
                 style={{ whiteSpace: 'break-spaces' }}
               >
-                {optLabel}
+                <span>{optLabel}</span>
+                {selected === optLabel && !isHeader && (
+                  <img
+                    src='/icons/check-small.svg'
+                    alt=''
+                    className='w-6 h-6 shrink-0'
+                  />
+                )}
               </li>
             );
           })}
@@ -123,39 +95,91 @@ function FilterDropdown({
   );
 }
 
-export default function TemplateMainSection() {
-  const [search, setSearch] = useState('');
+export default function TemplateMainSection({
+  search,
+  filters,
+  onSearchChange,
+  onFiltersChange,
+  checkedIds,
+  onClearChecked,
+}) {
   const [focused, setFocused] = useState(false);
-  const [filters, setFilters] = useState({
-    issue: null,
-    category: null,
-    subcategory: null,
-    inventory: null,
-    supplier: null,
+
+  //categories query
+  const { data: categoriesData } = useQuery({
+    queryKey: ['productGroups'],
+    queryFn: fetchProductGroups,
   });
+
+  const selectedCategoryObj = (categoriesData || []).find(
+    (c) => c.name === filters.category,
+  );
+
+  //subcategories query
+  const { data: subcategoriesData } = useQuery({
+    queryKey: ['subcategories', selectedCategoryObj?.id],
+    queryFn: () => fetchSubcategories(selectedCategoryObj.id),
+    enabled: !!selectedCategoryObj?.id,
+  });
+
+  //invenotories query
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventories'],
+    queryFn: fetchInventory,
+  });
+
+  //supplier query
+  const { data: suppliersData } = useQuery({
+    queryKey: ['suppliers'],
+    queryFn: fetchSuppliers,
+  });
+
+  const categoryOptions = [
+    { label: 'No category', value: null, isClear: true },
+    ...(categoriesData || []).map((c) => ({ label: c.name, value: c.id })),
+  ];
+
+  const subcategoryOptions = selectedCategoryObj
+    ? [
+        { label: 'No subcategory', value: null, isClear: true },
+        ...(subcategoriesData || []).map((s) => ({
+          label: s.name,
+          value: s.id,
+        })),
+      ]
+    : [];
+
+  const inventoryOptions = [
+    { label: 'No inventory', value: null, isClear: true },
+    ...(inventoryData?.Data || inventoryData?.data || []).map((inv) => ({
+      label: inv.name,
+      value: inv.id,
+    })),
+  ];
+
+  const supplierOptions = [
+    { label: 'No supplier', value: null, isClear: true },
+    ...(suppliersData || []).map((s) => ({ label: s.Name, value: s.Id })),
+  ];
 
   const hasActiveFilter = Object.values(filters).some(Boolean);
 
+  const subcategoryDisabled =
+    !filters.category || (subcategoriesData || []).length === 0;
+
   function clearFilters() {
-    setFilters({
+    onFiltersChange({
       issue: null,
       category: null,
+      categoryId: null,
       subcategory: null,
+      subcategoryId: null,
       inventory: null,
+      inventoryId: null,
       supplier: null,
+      supplierId: null,
     });
   }
-
-  const subcategoryOptions =
-    filters.category && SUBCATEGORY_MAP[filters.category]
-      ? [
-          { label: 'No subcategory', isHeader: true },
-          ...SUBCATEGORY_MAP[filters.category],
-        ]
-      : [];
-
-  const subcategoryDisabled =
-    !filters.category || subcategoryOptions.length === 0;
 
   return (
     <div className='w-full px-8'>
@@ -170,7 +194,7 @@ export default function TemplateMainSection() {
           type='text'
           placeholder='Enter item name or SKU...'
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className={`w-full text-sm text-[#333] outline-none bg-white rounded py-2 pl-9 pr-4 leading-6 transition-all ${
@@ -186,38 +210,66 @@ export default function TemplateMainSection() {
           options={ISSUE_OPTIONS}
           width={150}
           selected={filters.issue}
-          onSelect={(v) => setFilters((p) => ({ ...p, issue: v }))}
+          onSelect={(v) => onFiltersChange((p) => ({ ...p, issue: v }))}
         />
+
         <FilterDropdown
           label='Category'
-          options={CATEGORY_OPTIONS}
+          options={categoryOptions}
           width={200}
           selected={filters.category}
-          onSelect={(v) =>
-            setFilters((p) => ({ ...p, category: v, subcategory: null }))
-          }
+          onSelect={(label, value) => {
+            onFiltersChange((p) => ({
+              ...p,
+              category: value ? label : null,
+              categoryId: value || null,
+              subcategory: null,
+              subcategoryId: null,
+            }));
+          }}
         />
+
         <FilterDropdown
           label='Subcategory'
           options={subcategoryOptions}
           disabled={subcategoryDisabled}
           width={200}
           selected={filters.subcategory}
-          onSelect={(v) => setFilters((p) => ({ ...p, subcategory: v }))}
+          onSelect={(label, value) => {
+            onFiltersChange((p) => ({
+              ...p,
+              subcategory: value ? label : null,
+              subcategoryId: value || null,
+            }));
+          }}
         />
+
         <FilterDropdown
           label='Inventory'
-          options={INVENTORY_OPTIONS}
+          options={inventoryOptions}
           width={200}
           selected={filters.inventory}
-          onSelect={(v) => setFilters((p) => ({ ...p, inventory: v }))}
+          onSelect={(label, value) => {
+            onFiltersChange((p) => ({
+              ...p,
+              inventory: value ? label : null,
+              inventoryId: value || null,
+            }));
+          }}
         />
+
         <FilterDropdown
           label='Supplier'
-          options={SUPPLIER_OPTIONS}
+          options={supplierOptions}
           width={150}
           selected={filters.supplier}
-          onSelect={(v) => setFilters((p) => ({ ...p, supplier: v }))}
+          onSelect={(label, value) => {
+            onFiltersChange((p) => ({
+              ...p,
+              supplier: value ? label : null,
+              supplierId: value || null,
+            }));
+          }}
         />
 
         {hasActiveFilter && (
@@ -230,6 +282,24 @@ export default function TemplateMainSection() {
           </span>
         )}
       </div>
+
+      {checkedIds.length > 0 && (
+        <div className='flex w-full items-center justify-end pb-[18px] pt-2 bg-white'>
+          <label className='text-[11px] font-semibold leading-4 uppercase tracking-[0.08em] text-[#0f6f36] bg-[#dcf1e3] rounded px-3 py-2'>
+            {checkedIds.length} item{checkedIds.length > 1 ? 's' : ''} selected
+          </label>
+          <div className='flex ml-4 gap-4'>
+            <a className='flex items-center gap-2 text-sm font-semibold leading-6 text-[#19191c] border border-[#d7d8e0] rounded px-[9px] py-[6px] cursor-pointer'>
+              <img src='/icons/plus-dark.svg' width={18} height={18} alt='' />
+              <span>Assign supplier</span>
+            </a>
+            <a className='flex items-center gap-2 text-sm font-semibold leading-6 text-white bg-[#e2232e] border border-[#e2232e] rounded px-[9px] py-[6px] cursor-pointer'>
+              <img src='/icons/white-bin.svg' width={12} height={12} alt='' />
+              <span>Delete all</span>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

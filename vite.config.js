@@ -79,6 +79,16 @@ export default defineConfig(({ mode }) => {
             }
           },
         },
+        '/products': {
+          target: env.VITE_API_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/product-groups': {
+          target: env.VITE_API_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
   };
