@@ -132,7 +132,7 @@ export default function InventoryTable({
             {selected.length} ITEM{selected.length > 1 ? 'S' : ''} SELECTED
           </span>
           <button className='flex items-center gap-2 bg-red-500 text-white text-sm px-4 py-1.5 rounded'>
-            <img src='/icons/white-bin.svg' width={14} height={14} alt='' />
+            <img src='/icons/white-bin.svg' width={12} height={12} alt='' />
             Delete
           </button>
         </div>

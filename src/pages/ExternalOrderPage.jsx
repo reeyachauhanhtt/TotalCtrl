@@ -8,7 +8,7 @@ import OrderTabs from '../components/Common/OrderTab';
 import ExternalOrderTable from '../components/ExternalOrder/ExternalOrderTable';
 import ExternalOrderDetail from '../components/ExternalOrder/ExternalOrderDetail';
 import AddOrderManuallyModal from '../components/ExternalOrder/AddOrderManuallyModal';
-import UploadOrderModal from '../components/ExternalOrder/UploadOrderModal';
+import UploadOrderModal from '../components/Common/UploadOrderModal';
 import UploadingOrdersDrawer from '../components/ExternalOrder/UploadingOrderDrawer';
 import { fetchExternalOrders } from '../services/externalOrderService';
 import { setDetailOpen, setSelectedOrder } from '../store/externalOrderSlice';

@@ -1,10 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 
+import EditItemTemplate from './EditItemTemplate';
+import ConfirmModal from '../../Common/ConfirmModal';
+
 const MAX_VISIBLE_INVENTORIES = 3;
 
-export default function ItemRow({ item, checked, onToggle }) {
+export default function ItemRow({
+  item,
+  checked,
+  onToggle,
+  checkedIds,
+  onDupToggle,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDuplicates, setShowDuplicates] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -70,6 +81,16 @@ export default function ItemRow({ item, checked, onToggle }) {
             ].map((action) => (
               <button
                 key={action.label}
+                onClick={() => {
+                  if (action.label === 'Edit item template') {
+                    setMenuOpen(false);
+                    setShowEditModal(true);
+                  }
+                  if (action.label === 'Delete item template') {
+                    setMenuOpen(false);
+                    setShowDeleteModal(true);
+                  }
+                }}
                 className='flex items-center gap-2 w-full px-[18px] py-2 text-[14px] font-normal leading-4 text-[#19191c] hover:bg-[#f1f1f5] cursor-pointer bg-transparent border-none text-left'
               >
                 <span className='flex items-center mr-2'>
@@ -91,9 +112,10 @@ export default function ItemRow({ item, checked, onToggle }) {
       </div>
     );
   }
-
   function renderRow(rowItem, rowChecked, rowToggle, isRed = false) {
     const inStock = Array.isArray(rowItem.inStock) ? rowItem.inStock : [];
+
+    console.log(item);
 
     return (
       <>
@@ -333,14 +355,30 @@ export default function ItemRow({ item, checked, onToggle }) {
                   >
                     <input
                       type='checkbox'
-                      checked={false}
-                      onChange={() => {}}
+                      checked={checkedIds.includes(dupItem.id)}
+                      onChange={() => onDupToggle(dupItem.id)}
                       className='absolute opacity-0 cursor-pointer h-0 w-0'
                     />
                     <span
-                      className='absolute top-0 left-0 h-5 w-5 border bg-white border-[#d7d7db]'
+                      className={`absolute top-0 left-0 h-5 w-5 border ${checkedIds.includes(dupItem.id) ? 'bg-[#23a956] border-[#23a956]' : 'bg-white border-[#d7d7db]'}`}
                       style={{ borderRadius: '4px' }}
-                    />
+                    >
+                      {checkedIds.includes(dupItem.id) && (
+                        <span
+                          className='absolute'
+                          style={{
+                            left: '7px',
+                            top: '4px',
+                            width: '4px',
+                            height: '8px',
+                            border: 'solid white',
+                            borderWidth: '0 2px 2px 0',
+                            transform: 'rotate(45deg)',
+                            display: 'block',
+                          }}
+                        />
+                      )}
+                    </span>
                   </label>
                 </td>
                 <td
@@ -449,6 +487,24 @@ export default function ItemRow({ item, checked, onToggle }) {
           </tr>
         </>
       )}
+
+      {showEditModal && (
+        <EditItemTemplate
+          isOpen={showEditModal}
+          item={item}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
+
+      <ConfirmModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title='Delete the template?'
+        description='is currently not listed in any inventory. Please note that deleting the item template is irreversible and all associated data will be permanently deleted.'
+        confirmLabel='Delete Item Template'
+        cancelLabel='Cancel'
+        onConfirm={() => setShowDeleteModal(false)}
+      />
     </>
   );
 }

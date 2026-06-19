@@ -48,12 +48,10 @@ export default function ItemTable({
   checkedIds,
   onCheckedChange,
 }) {
-  // const [checkedIds, setCheckedIds] = useState([]);
-  const [sortKey, setSortKey] = useState(null);
-  const [sortDir, setSortDir] = useState('asc');
+  const [sortKey, setSortKey] = useState('name');
+  const [sortDir, setSortDir] = useState('desc');
   const [isSorting, setIsSorting] = useState(false);
-  // const selectedBarRef = useRef(null);
-  // const [selectedBarHeight, setSelectedBarHeight] = useState(0);
+
   const [debouncedSearch, setDebouncedSearch] = useState(search || '');
 
   useEffect(() => {
@@ -62,12 +60,6 @@ export default function ItemTable({
     }, 400);
     return () => clearTimeout(timer);
   }, [search]);
-
-  // useEffect(() => {
-  //   if (selectedBarRef.current) {
-  //     setSelectedBarHeight(selectedBarRef.current.offsetHeight);
-  //   }
-  // }, [checkedIds.length]);
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -174,6 +166,37 @@ export default function ItemTable({
     return true;
   });
 
+  // const sortedFilteredItems = sortKey
+  //   ? [...filteredItems].sort((a, b) => {
+  //       let aVal, bVal;
+
+  //       if (
+  //         sortKey === 'purchaseUnit' ||
+  //         sortKey === 'stockTakingUnit' ||
+  //         sortKey === 'basicMeasUnit'
+  //       ) {
+  //         aVal = a[sortKey]?.name ?? '';
+  //         bVal = b[sortKey]?.name ?? '';
+  //       } else if (sortKey === 'inStock') {
+  //         aVal = a.inStock?.length ?? 0;
+  //         bVal = b.inStock?.length ?? 0;
+  //       } else if (sortKey === 'durabilityDays') {
+  //         aVal = a.durabilityDays === '----' ? -1 : Number(a.durabilityDays);
+  //         bVal = b.durabilityDays === '----' ? -1 : Number(b.durabilityDays);
+  //       } else {
+  //         aVal = a[sortKey];
+  //         bVal = b[sortKey];
+  //       }
+
+  //       if (aVal == null || aVal === '') return 1;
+  //       if (bVal == null || bVal === '') return -1;
+
+  //       const cmp =
+  //         typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
+  //       return sortDir === 'asc' ? cmp : -cmp;
+  //     })
+  //   : filteredItems;
+
   const sortedFilteredItems = sortKey
     ? [...filteredItems].sort((a, b) => {
         let aVal, bVal;
@@ -191,13 +214,38 @@ export default function ItemTable({
         } else if (sortKey === 'durabilityDays') {
           aVal = a.durabilityDays === '----' ? -1 : Number(a.durabilityDays);
           bVal = b.durabilityDays === '----' ? -1 : Number(b.durabilityDays);
+        } else if (sortKey === 'sku') {
+          const aEmpty = !a.sku;
+          const bEmpty = !b.sku;
+          if (aEmpty && bEmpty) return 0;
+          if (aEmpty) return sortDir === 'asc' ? -1 : 1;
+          if (bEmpty) return sortDir === 'asc' ? 1 : -1;
+
+          const aIsNum = !isNaN(Number(a.sku));
+          const bIsNum = !isNaN(Number(b.sku));
+
+          // alpha before numeric
+          if (!aIsNum && bIsNum) return sortDir === 'asc' ? -1 : 1;
+          if (aIsNum && !bIsNum) return sortDir === 'asc' ? 1 : -1;
+
+          if (aIsNum && bIsNum) {
+            const cmp = Number(a.sku) - Number(b.sku);
+            return sortDir === 'asc' ? cmp : -cmp;
+          }
+
+          const cmp = a.sku.localeCompare(b.sku);
+          return sortDir === 'asc' ? cmp : -cmp;
         } else {
           aVal = a[sortKey];
           bVal = b[sortKey];
         }
 
-        if (aVal == null || aVal === '') return 1;
-        if (bVal == null || bVal === '') return -1;
+        // For non-SKU cols: empty first on asc, empty last on desc
+        const aEmpty = aVal == null || aVal === '' || aVal === '----';
+        const bEmpty = bVal == null || bVal === '' || bVal === '----';
+        if (aEmpty && bEmpty) return 0;
+        if (aEmpty) return sortDir === 'asc' ? -1 : 1;
+        if (bEmpty) return sortDir === 'asc' ? 1 : -1;
 
         const cmp =
           typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
@@ -205,11 +253,17 @@ export default function ItemTable({
       })
     : filteredItems;
 
+  const allSelectableIds = filteredItems.flatMap((item) => [
+    item.id,
+    ...(item.duplicateProducts || []).map((d) => d.id),
+  ]);
+
   const allChecked =
-    filteredItems.length > 0 && checkedIds.length === filteredItems.length;
+    allSelectableIds.length > 0 &&
+    allSelectableIds.every((id) => checkedIds.includes(id));
 
   function toggleAll() {
-    onCheckedChange(allChecked ? [] : filteredItems.map((i) => i.id));
+    onCheckedChange(allChecked ? [] : allSelectableIds);
   }
 
   function toggleOne(id) {
@@ -308,7 +362,7 @@ export default function ItemTable({
                     <img
                       src={
                         sortKey === h.key
-                          ? sortDir === 'asc'
+                          ? sortDir === 'desc'
                             ? '/icons/asc-order-inv-green.svg'
                             : '/icons/desc-order-inv-green.svg'
                           : '/icons/desc-order.svg'
@@ -343,7 +397,7 @@ export default function ItemTable({
                   {filters?.issue === 'Duplicate item templates' ? (
                     <div className='flex flex-col items-center justify-center text-center px-12 py-9 mt-20'>
                       <img
-                        src='/img/empty-state-product-duplication.svg'
+                        src='/icons/empty-state-product-duplication.svg'
                         height={108}
                         width={151}
                         alt=''
@@ -414,6 +468,8 @@ export default function ItemTable({
                   item={item}
                   checked={checkedIds.includes(item.id)}
                   onToggle={() => toggleOne(item.id)}
+                  checkedIds={checkedIds}
+                  onDupToggle={toggleOne}
                 />
               ))
             )}

@@ -21,7 +21,7 @@ import ExternalOrderHeader from './components/ExternalOrder/ExternalOrderHeader'
 import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderDetailHeader';
 import InternalOrderHeader from './components/InternalOrder/InternalOrderHeader';
 import InternalOrderDetailHeader from './components/InternalOrder/InternalOrderDetailHeader';
-import UploadOrderModal from './components/ExternalOrder/UploadOrderModal';
+import UploadOrderModal from './components/Common/UploadOrderModal';
 import AnalyticsHeader, {
   AnalyticsDetailHeader,
 } from './components/Analytics/AnalyticsHeader';

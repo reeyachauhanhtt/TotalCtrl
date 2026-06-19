@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
 import {
   fetchProductGroups,
   fetchSuppliers,
   fetchSubcategories,
+  deleteItemTemplates,
 } from '../../../services/manageItemTemplateService';
 import { fetchInventory } from '../../../services/inventoryService';
+import ConfirmModal from '../../Common/ConfirmModal';
+import AssignSupplierModal from './AssignSupplierModal';
 
 const ISSUE_OPTIONS = [
   'All item templates',
@@ -13,6 +17,7 @@ const ISSUE_OPTIONS = [
   'Item templates without SKU',
 ];
 
+//FILTER DROPDOWN
 function FilterDropdown({
   label,
   options = [],
@@ -104,6 +109,19 @@ export default function TemplateMainSection({
   onClearChecked,
 }) {
   const [focused, setFocused] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toastTimerRef = useRef(null);
+
+  function showToast() {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToastMessage('assigned');
+    toastTimerRef.current = setTimeout(() => setToastMessage(null), 3500);
+  }
+
+  const queryClient = useQueryClient();
 
   //categories query
   const { data: categoriesData } = useQuery({
@@ -132,6 +150,15 @@ export default function TemplateMainSection({
   const { data: suppliersData } = useQuery({
     queryKey: ['suppliers'],
     queryFn: fetchSuppliers,
+  });
+
+  const { mutate: deleteTemplates, isLoading: isDeleting } = useMutation({
+    mutationFn: deleteItemTemplates,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['itemTemplates'] });
+      onClearChecked?.();
+      setShowDeleteModal(false);
+    },
   });
 
   const categoryOptions = [
@@ -289,14 +316,47 @@ export default function TemplateMainSection({
             {checkedIds.length} item{checkedIds.length > 1 ? 's' : ''} selected
           </label>
           <div className='flex ml-4 gap-4'>
-            <a className='flex items-center gap-2 text-sm font-semibold leading-6 text-[#19191c] border border-[#d7d8e0] rounded px-[9px] py-[6px] cursor-pointer'>
+            <a
+              onClick={() => setShowAssignModal(true)}
+              className='flex items-center gap-2 text-sm font-semibold leading-6 text-[#19191c] border border-[#d7d8e0] rounded px-[9px] py-[6px] cursor-pointer'
+            >
               <img src='/icons/plus-dark.svg' width={18} height={18} alt='' />
               <span>Assign supplier</span>
             </a>
-            <a className='flex items-center gap-2 text-sm font-semibold leading-6 text-white bg-[#e2232e] border border-[#e2232e] rounded px-[9px] py-[6px] cursor-pointer'>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className='flex items-center gap-2 text-sm font-semibold leading-6 text-white bg-[#e2232e] border border-[#e2232e] rounded px-[9px] py-[6px] cursor-pointer'
+            >
               <img src='/icons/white-bin.svg' width={12} height={12} alt='' />
               <span>Delete all</span>
-            </a>
+            </button>
+          </div>
+        </div>
+      )}
+
+      <AssignSupplierModal
+        open={showAssignModal}
+        onClose={() => setShowAssignModal(false)}
+        suppliers={suppliersData || []}
+        checkedIds={checkedIds}
+        onSuccess={showToast}
+      />
+
+      <ConfirmModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title={`Are you sure you want to delete ${checkedIds.length} selected item${checkedIds.length > 1 ? 's' : ''}?`}
+        description='Please note that deleting this item template is irreversible, all associated data will be permanently deleted and the item will be removed from all the listed inventories.'
+        confirmLabel='Delete All'
+        cancelLabel='Cancel'
+        onConfirm={() => deleteTemplates(checkedIds)}
+      />
+
+      {toastMessage && (
+        <div className='fixed bottom-0 right-0 z-50' style={{ left: '200px' }}>
+          <div className='mx-6 mb-8 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm flex items-center gap-3'>
+            <img src='/icons/right.svg' alt='' className='w-5 h-5' />
+            Products added
           </div>
         </div>
       )}

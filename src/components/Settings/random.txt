@@ -1,0 +1,126 @@
+endpoint : POST : /products
+
+request url : https://dev.totalctrl.com:2053/products
+
+payload : {
+    "sku": "tc",
+    "pricePerPurchaseUnit": 600,
+    "pricePerBaseUnit": 0.4,
+    "name": "lotus stem soup",
+    "stockTakingQuantityPerPurchaseUnit": 6,
+    "stockTakingQuantityPerBaseMeasurementUnit": 250,
+    "purchaseUnitId": "09510f52-03c3-4e99-b2cb-48acc66f393b",
+    "stockTakingUnitId": "5bca25af-75ac-4ae4-9c96-35fe68d2bd83",
+    "baseMeasurementUnitId": "ed2a2584-f672-4d37-8e56-d8f1596dac3a",
+    "durabilityDays": 3,
+    "subparLevel": 2,
+    "pricePerStockTakingUnit": 100,
+    "productGroupId": "6d01241f-9c91-40a9-9de7-18247a276938"
+}
+
+preview : {
+    "Status": true,
+    "StatusCode": 201,
+    "Data": {
+        "product": {
+            "id": "56932480-7fc1-46a9-a40b-aad935e080c6",
+            "image": null,
+            "sku": "tc",
+            "unitBarcode": null,
+            "cartonBarcode": null,
+            "paletteBarcode": null,
+            "name": "lotus stem soup",
+            "languageId": "0c97328a-66b6-4ea6-9c45-81dc49698d12",
+            "targetTypeId": "81434228-4afe-4202-b08a-5105bfdf20bc",
+            "baseMeasurementUnitId": "ed2a2584-f672-4d37-8e56-d8f1596dac3a",
+            "quantityBaseMeasurmentUnit": 0,
+            "purchaseSubUnitId": null,
+            "preppingUnitId": null,
+            "purchaseUnitId": "09510f52-03c3-4e99-b2cb-48acc66f393b",
+            "stockTakingUnitId": "5bca25af-75ac-4ae4-9c96-35fe68d2bd83",
+            "stockTakingQuantityPerPurchaseUnit": 6000,
+            "stockTakingQuantityPerBaseMeasurementUnit": 250000,
+            "pricePerPurchaseUnit": 600000,
+            "pricePerStockTakingUnit": 100000,
+            "pricePerBaseUnit": 400,
+            "storeId": "fca64f35-8686-4348-9882-dc53b2b05b27",
+            "userId": "0815c954-3c02-43f0-9ea8-a177c0c2ac6d",
+            "productGroupId": "6d01241f-9c91-40a9-9de7-18247a276938",
+            "gtinTypeId": "0",
+            "stkPerCarton": "0",
+            "cartonPerPallet": "0",
+            "status": 0,
+            "isWeighted": 0,
+            "isFromScrapped": 0,
+            "scrappedRefrenceId": null,
+            "durabilityDays": 3,
+            "costUnit": "PU",
+            "subparLevel": 2000,
+            "isActive": 1,
+            "isDeleted": 0,
+            "createdAt": "2026-06-19T12:00:50.424Z",
+            "updatedAt": "2026-06-19T12:00:50.424Z"
+        },
+        "productId": "56932480-7fc1-46a9-a40b-aad935e080c6",
+        "isNew": true
+    }
+}
+
+response : {
+    "Status": true,
+    "StatusCode": 201,
+    "Data": {
+        "product": {
+            "id": "56932480-7fc1-46a9-a40b-aad935e080c6",
+            "image": null,
+            "sku": "tc",
+            "unitBarcode": null,
+            "cartonBarcode": null,
+            "paletteBarcode": null,
+            "name": "lotus stem soup",
+            "languageId": "0c97328a-66b6-4ea6-9c45-81dc49698d12",
+            "targetTypeId": "81434228-4afe-4202-b08a-5105bfdf20bc",
+            "baseMeasurementUnitId": "ed2a2584-f672-4d37-8e56-d8f1596dac3a",
+            "quantityBaseMeasurmentUnit": 0,
+            "purchaseSubUnitId": null,
+            "preppingUnitId": null,
+            "purchaseUnitId": "09510f52-03c3-4e99-b2cb-48acc66f393b",
+            "stockTakingUnitId": "5bca25af-75ac-4ae4-9c96-35fe68d2bd83",
+            "stockTakingQuantityPerPurchaseUnit": 6000,
+            "stockTakingQuantityPerBaseMeasurementUnit": 250000,
+            "pricePerPurchaseUnit": 600000,
+            "pricePerStockTakingUnit": 100000,
+            "pricePerBaseUnit": 400,
+            "storeId": "fca64f35-8686-4348-9882-dc53b2b05b27",
+            "userId": "0815c954-3c02-43f0-9ea8-a177c0c2ac6d",
+            "productGroupId": "6d01241f-9c91-40a9-9de7-18247a276938",
+            "gtinTypeId": "0",
+            "stkPerCarton": "0",
+            "cartonPerPallet": "0",
+            "status": 0,
+            "isWeighted": 0,
+            "isFromScrapped": 0,
+            "scrappedRefrenceId": null,
+            "durabilityDays": 3,
+            "costUnit": "PU",
+            "subparLevel": 2000,
+            "isActive": 1,
+            "isDeleted": 0,
+            "createdAt": "2026-06-19T12:00:50.424Z",
+            "updatedAt": "2026-06-19T12:00:50.424Z"
+        },
+        "productId": "56932480-7fc1-46a9-a40b-aad935e080c6",
+        "isNew": true
+    }
+}
+
+
+    AssignSupplierModal — reused SupplierSearchDropdown + GreenButton, wired POST suppliers/{id}/products, auto-dismiss black toast, no backdrop close
+    AddItemTemplateModal — full modal scaffold with header/body/footer
+    Basic item info — Item Name (validation + green focus border), SKU, Category dropdown, Subcategory dropdown (loading state, empty state, disabled until category selected), Durability Days
+    CategoryDropdown and SubcategoryDropdown — new reusable components in ManageItemTemplate/common/
+    Units section — UnitDropdown reusable component, Purchase Unit, Stocktaking Unit, BMU with field notes
+    Conversions section — dynamic labels/placeholders based on selected units, purple info messages, suffix unit label inline after typed value, green focus border, col-1 validation on blur
+    Subpar level section — info tooltip via react-tooltip, green focus border, inline unit suffix
+    Cancel/X → ConfirmModal before closing
+    Footer layout fixed to justify-between

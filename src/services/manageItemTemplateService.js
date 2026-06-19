@@ -70,7 +70,30 @@ export const fetchStoreProductsSearch = async ({
 };
 
 // Delete item template
-export const deleteItemTemplate = async (id) => {
-  const { data } = await axiosInstance.delete(`/products/${id}`);
+// export const deleteItemTemplate = async (id) => {
+//   const { data } = await axiosInstance.delete(`/products/${id}`);
+//   return data;
+// };
+
+//delete selected product/s
+export const deleteItemTemplates = async (ids) => {
+  const { data } = await axiosInstance.delete('/products', {
+    data: { productIds: ids },
+  });
   return data;
 };
+
+//assign supplier to the product
+export async function assignSupplier({ supplierId, storeId, productIds }) {
+  const res = await axiosInstance.post(`/suppliers/${supplierId}/products`, {
+    storeId,
+    productIds,
+  });
+  return res.data;
+}
+
+//add item template
+export async function createItemTemplate(payload) {
+  const res = await axiosInstance.post('/products', payload);
+  return res.data;
+}

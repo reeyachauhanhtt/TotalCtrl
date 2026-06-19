@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Tooltip } from 'react-tooltip';
-import GreenButton from '../Common/GreenButton';
-import WhiteButton from '../Common/WhiteButton';
-import ConfirmModal from '../Common/ConfirmModal';
+import GreenButton from './GreenButton';
+import WhiteButton from './WhiteButton';
+import ConfirmModal from './ConfirmModal';
 
 export default function UploadOrderModal({ isOpen, onClose }) {
   const [file, setFile] = useState(null);

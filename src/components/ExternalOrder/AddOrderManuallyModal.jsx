@@ -8,7 +8,7 @@ import { fetchSuppliers } from '../../services/supplierService';
 import { setSelectedInventory } from '../../store/inventorySlice';
 import { fetchMeasurementUnits } from '../../services/masterDataService';
 import { createOrder } from '../../services/externalOrderService';
-import SupplierSearchDropdown from '../ExternalOrder/SupplierSearchDropdown';
+import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
 import GreenButton from '../Common/GreenButton';

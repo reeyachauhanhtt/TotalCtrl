@@ -8,7 +8,7 @@ import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
-import SupplierSearchDropdown from '../ExternalOrder/SupplierSearchDropdown';
+import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
 import { searchProducts } from '../../services/productService';
 
 const MONTHS = [
