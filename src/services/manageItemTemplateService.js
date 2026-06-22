@@ -69,13 +69,9 @@ export const fetchStoreProductsSearch = async ({
   return data;
 };
 
-// Delete item template
-// export const deleteItemTemplate = async (id) => {
-//   const { data } = await axiosInstance.delete(`/products/${id}`);
-//   return data;
-// };
+//--------------------------------------------------------------------------
 
-//delete selected product/s
+//delete selected product/s from the selected product/s
 export const deleteItemTemplates = async (ids) => {
   const { data } = await axiosInstance.delete('/products', {
     data: { productIds: ids },
@@ -83,7 +79,7 @@ export const deleteItemTemplates = async (ids) => {
   return data;
 };
 
-//assign supplier to the product
+//assign supplier to the selected product/s
 export async function assignSupplier({ supplierId, storeId, productIds }) {
   const res = await axiosInstance.post(`/suppliers/${supplierId}/products`, {
     storeId,
@@ -92,8 +88,28 @@ export async function assignSupplier({ supplierId, storeId, productIds }) {
   return res.data;
 }
 
+//GET THE INFO ABOUT THE PRODUCS WHEN OPENED AN EDIT MODAL
+export const fetchItemTemplateDetail = async (id) => {
+  const { data } = await axiosInstance.get(`/products/${id}`);
+  return data?.Data || null;
+};
+
+//--------------------------------------------------------------------------
+
 //add item template
 export async function createItemTemplate(payload) {
   const res = await axiosInstance.post('/products', payload);
   return res.data;
 }
+
+//edit item template
+export const updateItemTemplate = async ({ id, payload }) => {
+  const { data } = await axiosInstance.put(`/products/${id}`, payload);
+  return data;
+};
+
+// Delete item template
+export const deleteItemTemplate = async (id) => {
+  const { data } = await axiosInstance.delete(`/products/${id}`);
+  return data;
+};

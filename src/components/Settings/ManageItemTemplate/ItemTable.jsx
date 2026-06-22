@@ -47,6 +47,8 @@ export default function ItemTable({
   onClearIssueFilter,
   checkedIds,
   onCheckedChange,
+  onItemEdited,
+  onItemDeleted,
 }) {
   const [sortKey, setSortKey] = useState('name');
   const [sortDir, setSortDir] = useState('desc');
@@ -109,6 +111,21 @@ export default function ItemTable({
 
   const items = (rawItems || []).map((p) => ({
     id: p.id,
+    productGroup: p.productGroup,
+    purchaseUnitId: p.purchaseUnitId,
+    stockTakingUnitId: p.stockTakingUnitId,
+    baseMeasurementUnitId: p.baseMeasurementUnitId,
+    stockTakingQuantityPerPurchaseUnit: p.stockTakingQuantityPerPurchaseUnit,
+    stockTakingQuantityPerBaseMeasurementUnit:
+      p.stockTakingQuantityPerBaseMeasurementUnit,
+    subparLevel: p.subparLevel,
+    pricePerPurchaseUnit: p.pricePerPurchaseUnit,
+    pricePerStockTakingUnit: p.pricePerStockTakingUnit,
+    pricePerBaseUnit: p.pricePerBaseUnit,
+    costUnit: p.costUnit, // 'PU', 'SU', or 'BMU'
+    stockTakingUnit: p.stockTakingUnit,
+    pricePerStockTakingUnit: p.pricePerStockTakingUnit,
+    inventoryQuantities: p.inventoryQuantities,
     name: p.name,
     sku: p.sku || '',
     purchaseUnit: p.purchaseUnit
@@ -470,6 +487,8 @@ export default function ItemTable({
                   onToggle={() => toggleOne(item.id)}
                   checkedIds={checkedIds}
                   onDupToggle={toggleOne}
+                  onItemEdited={onItemEdited}
+                  onItemDeleted={onItemDeleted}
                 />
               ))
             )}

@@ -9,6 +9,7 @@ export default function CategoryDropdown({ selected, onSelect, error }) {
   const { data: categories = [] } = useQuery({
     queryKey: ['productGroups'],
     queryFn: fetchProductGroups,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

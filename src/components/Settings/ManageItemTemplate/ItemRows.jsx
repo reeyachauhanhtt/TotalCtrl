@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { createPortal } from 'react-dom';
 
 import EditItemTemplate from './EditItemTemplate';
 import ConfirmModal from '../../Common/ConfirmModal';
+import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
 
 const MAX_VISIBLE_INVENTORIES = 3;
 
@@ -11,12 +14,24 @@ export default function ItemRow({
   onToggle,
   checkedIds,
   onDupToggle,
+  onItemEdited,
+  onItemDeleted,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDuplicates, setShowDuplicates] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const menuRef = useRef(null);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteTemplate } = useMutation({
+    mutationFn: deleteItemTemplate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['itemTemplates'] });
+      onItemDeleted?.(item.name);
+    },
+  });
 
   useEffect(() => {
     function handleClick(e) {
@@ -57,7 +72,7 @@ export default function ItemRow({
       <div className='relative' ref={itemRef}>
         <button
           onClick={() => setMenuOpen((p) => !p)}
-          className='w-12 h-12 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer bg-transparent border-none mb-2'
+          className='w-12 h-12 flex items-center justify-center rounded-full hover:bg-[#dcf1e3] cursor-pointer bg-transparent border-none mb-2'
         >
           <img src='/icons/dark-more.svg' alt='' className='align-middle' />
         </button>
@@ -91,7 +106,7 @@ export default function ItemRow({
                     setShowDeleteModal(true);
                   }
                 }}
-                className='flex items-center gap-2 w-full px-[18px] py-2 text-[14px] font-normal leading-4 text-[#19191c] hover:bg-[#f1f1f5] cursor-pointer bg-transparent border-none text-left'
+                className='flex items-center gap-2 w-full px-[18px] py-2 text-[14px] font-normal leading-4 text-[#19191c] bg-transparent border-none text-left hover:bg-[#dcf1e3] cursor-pointer'
               >
                 <span className='flex items-center mr-2'>
                   <img
@@ -112,10 +127,11 @@ export default function ItemRow({
       </div>
     );
   }
+
   function renderRow(rowItem, rowChecked, rowToggle, isRed = false) {
     const inStock = Array.isArray(rowItem.inStock) ? rowItem.inStock : [];
 
-    console.log(item);
+    // console.log(item);
 
     return (
       <>
@@ -488,23 +504,36 @@ export default function ItemRow({
         </>
       )}
 
-      {showEditModal && (
-        <EditItemTemplate
-          isOpen={showEditModal}
-          item={item}
-          onClose={() => setShowEditModal(false)}
-        />
-      )}
+      {showEditModal &&
+        createPortal(
+          <EditItemTemplate
+            isOpen={showEditModal}
+            item={item}
+            onClose={() => setShowEditModal(false)}
+            onSuccess={(itemName) => {
+              // lift to parent for toast — same as AddItemTemplateModal pattern
+              setShowEditModal(false);
+              onItemEdited?.(itemName);
+            }}
+          />,
+          document.body,
+        )}
 
-      <ConfirmModal
-        open={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        title='Delete the template?'
-        description='is currently not listed in any inventory. Please note that deleting the item template is irreversible and all associated data will be permanently deleted.'
-        confirmLabel='Delete Item Template'
-        cancelLabel='Cancel'
-        onConfirm={() => setShowDeleteModal(false)}
-      />
+      {createPortal(
+        <ConfirmModal
+          open={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          title='Delete the template?'
+          description='is currently not listed in any inventory. Please note that deleting the item template is irreversible and all associated data will be permanently deleted.'
+          confirmLabel='Delete Item Template'
+          cancelLabel='Cancel'
+          onConfirm={() => {
+            setShowDeleteModal(false);
+            deleteTemplate(item.id);
+          }}
+        />,
+        document.body,
+      )}
     </>
   );
 }
