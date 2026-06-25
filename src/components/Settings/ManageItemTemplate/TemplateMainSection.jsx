@@ -107,6 +107,7 @@ export default function TemplateMainSection({
   onFiltersChange,
   checkedIds,
   onClearChecked,
+  onItemDeleted,
 }) {
   const [focused, setFocused] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
@@ -152,12 +153,15 @@ export default function TemplateMainSection({
     queryFn: fetchSuppliers,
   });
 
-  const { mutate: deleteTemplates, isLoading: isDeleting } = useMutation({
+  const { mutate: deleteTemplates } = useMutation({
     mutationFn: deleteItemTemplates,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['itemTemplates'] });
       onClearChecked?.();
       setShowDeleteModal(false);
+      onItemDeleted?.(
+        `${checkedIds.length} item${checkedIds.length > 1 ? 's' : ''}`,
+      );
     },
   });
 

@@ -5,6 +5,7 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'; //used useDispatch
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'; //useQuery
@@ -277,6 +278,8 @@ function Layout() {
           </button>
         </div>
       )}
+
+      <Toaster position='bottom-center' />
     </div>
   );
 }

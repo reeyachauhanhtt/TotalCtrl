@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
 import UploadOrderModal from '../../Common/UploadOrderModal';
+import UploadAnExcelModal from './UploadAnExcelModal';
 import AddItemTemplateModal from './AddItemTemplate';
 
 export default function TemplatePanel({
@@ -12,6 +14,9 @@ export default function TemplatePanel({
 }) {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
+  const [showExcelModal, setShowExcelModal] = useState(false);
+  // const [showSuccessToast, setShowSuccessToast] = useState(false);
+  // const toastTimerRef = useRef(null);
 
   return (
     <>
@@ -28,7 +33,7 @@ export default function TemplatePanel({
 
         <div className='flex items-center gap-4'>
           <WhiteButton
-            onClick={onUploadExcel}
+            onClick={() => setShowExcelModal(true)}
             className='flex items-center gap-3'
           >
             <img src='/icons/uploadgrey.svg' alt='' className='h-4 w-4' />
@@ -49,6 +54,32 @@ export default function TemplatePanel({
           </GreenButton>
         </div>
 
+        {showExcelModal && (
+          <UploadAnExcelModal
+            isOpen={showExcelModal}
+            onClose={() => setShowExcelModal(false)}
+            onSuccess={() => {
+              setShowExcelModal(false);
+              // onItemAdded?.('Products');
+              toast.success('Products added successfully', {
+                style: {
+                  background: '#19191c',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  fontSize: '13px',
+                },
+                iconTheme: {
+                  primary: '#23a956',
+                  secondary: '#fff',
+                },
+                duration: 3500,
+              });
+            }}
+          />
+        )}
+
         {showUploadModal && (
           <UploadOrderModal
             isOpen={showUploadModal}
@@ -56,6 +87,27 @@ export default function TemplatePanel({
           />
         )}
       </div>
+      {/* 
+      {showSuccessToast && (
+        <div
+          className='fixed bottom-0 z-50'
+          style={{ left: '200px', right: '0' }}
+        >
+          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm flex items-center gap-3'>
+            <img src='/icons/right.svg' alt='' className='w-5 h-5' />
+            <span>
+              <strong>Products</strong> have been successfully added to your
+              product database
+            </span>
+            <button
+              onClick={() => setShowSuccessToast(false)}
+              className='ml-auto text-white text-[18px] leading-none cursor-pointer bg-transparent border-none'
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )} */}
 
       {showAddItemModal && (
         <AddItemTemplateModal

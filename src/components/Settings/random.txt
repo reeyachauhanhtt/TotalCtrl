@@ -1,94 +1,15 @@
 
-element.style {
-}
-.action-event.active-btn, .btn.default-non_active:hover, .default-non_active:hover {
-    background-color: #dcf1e3;
-}
-.btn:not(:disabled):not(.disabled), .sp-container button:not(:disabled):not(.disabled) {
-    cursor: pointer;
-}
-.btn.default-non_active, .default-non_active {
-.action-event:hover {
-.btn:hover, .sp-container button:hover, .btn:focus, .sp-container button:focus {
-    text-decoration: none;
-}
-button, html [type="button"], [type="reset"], [type="submit"] {
-    -webkit-appearance: button;
-}
-.action-event {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin-bottom: 8px;
-}
-.btn, .sp-container button {
-.btn, .sp-container button {
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: 0.594rem 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    border-radius: 3px;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-button, select {
-    text-transform: none;
-}
-button, input {
-    overflow: visible;
-}
-input, button, select, optgroup, textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
 
-
-a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-    color: inherit;
-    text-decoration: none;
-}
-.drop-with-icon .dropdown-item:hover {
-    background: #dcf1e3;
-}
-a:not([href]):not([tabindex]) {
-.drop-with-icon .dropdown-item {
-    white-space: wrap;
-    padding: 8px 18px;
-}
-
-.dropdown-item:hover, .dropdown-item:focus {
-a:hover {
-.theme-text-dark {
-    color: #19191c !important;
-}
-.cursor-pointer {
-    cursor: pointer;
-}
-.d-flex {
-    display: flex !important;
-}
-.dropdown-item {
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
-}
-a {
-    transition: all 0.2s ease-in-out;
-}
+Built UploadAnExcelModal with full 3-step flow: file upload → supplier selection → unit conversions
+Step 1: drag & drop + file picker, SheetJS xlsx parsing, POST to /products/parse-excel, loading/success/error states
+Step 2: supplier search dropdown (reused SupplierSearchDropdown), footer error validation
+Step 3: product table with checkbox per row, inline SimpleUnitDropdown for PU/SU, conversion input with singular/plural unit label, full validation (PU required for all rows, conversion > 0 for checked rows, at least one checked)
+Wired POST /products/add-initial mutation with cache invalidation on ['itemTemplates']
+Added success toast in TemplatePanel on submit
+Fixed column alignment issues, dropdown error states, button enable/disable logic throughout
+Wired POST /products/add-initial with correct userId (from JWT) and currencyId (from env + localStorage fallback)
+Fixed modal not closing by switching isLoading → isPending for TanStack Query v5
+Added react-hot-toast for the upload excel success toast
+Fixed bulk delete in TemplateMainSection — added onItemDeleted prop bubbling to ManageItemTemplatePage toast
+Added "Congratulations" screen for when all parsed products already exist in DB (isInDB === 1)
+Handled partial re-upload — filtering out isInDB === 1 products from step 3 table so only new products show

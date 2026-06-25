@@ -49,6 +49,7 @@ export default function ItemTable({
   onCheckedChange,
   onItemEdited,
   onItemDeleted,
+  onItemAdded,
 }) {
   const [sortKey, setSortKey] = useState('name');
   const [sortDir, setSortDir] = useState('desc');
@@ -489,6 +490,7 @@ export default function ItemTable({
                   onDupToggle={toggleOne}
                   onItemEdited={onItemEdited}
                   onItemDeleted={onItemDeleted}
+                  onItemAdded={onItemAdded}
                 />
               ))
             )}

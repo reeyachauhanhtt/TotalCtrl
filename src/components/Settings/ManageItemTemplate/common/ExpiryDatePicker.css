@@ -1,0 +1,211 @@
+.expiry-cal-wrapper {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 4px);
+  z-index: 100;
+  background: #fff;
+  border: 1px solid #e6e6ed;
+  border-radius: 5px;
+  width: 334px;
+  overflow: hidden;
+}
+
+.expiry-cal-wrapper .rdrCalendarWrapper {
+  width: 334px !important;
+  font-size: 12px !important;
+  background: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrDateDisplayWrapper {
+  display: none !important;
+}
+
+/* Month/year header row */
+.expiry-cal-wrapper .rdrMonthAndYearWrapper {
+  position: relative !important;
+  height: auto !important;
+  min-height: 56px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrMonthAndYearPickers {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex: 1 !important;
+  pointer-events: none !important;
+}
+
+.expiry-cal-wrapper .rdrMonthAndYearPickers select {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+  pointer-events: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 0 3px !important;
+  cursor: default !important;
+}
+
+/* Prev/Next buttons */
+.expiry-cal-wrapper .rdrNextPrevButton {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  height: 32px !important;
+  width: 32px !important;
+  margin: 0 8px !important;
+  border: 1px solid #e6e6ed !important;
+  background-color: transparent !important;
+  border-radius: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+.expiry-cal-wrapper .rdrPprevButton {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC3SURBVHgBjZOxEcMgDEWR7PQZwStkBEZwk7uUmcxlSo/gFTICI6QPiCCf7YsxMvoNB/ekj5AAU9FrnLq2aQYfwvPRWwc1+II4RWO6BLovkUUNzHtazkEDp9WFlL14pTP44FCDdwE5nPTxRLd/mIUSHLPMm4ME33v7NgXNDmT0gvVKTXIBhcuuaE3Q1mkukJ+Qn3I5uiLiyImKDpLTOkPFxmmCxGmVgsRpzWs6ndbcqQUYfIzzB/oBLnaabR8PDMMAAAAASUVORK5CYII=) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.expiry-cal-wrapper .rdrNextButton {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACmSURBVHgBlZBBDsIgEEX5eBIP4sIDuHDRtd5EehJd20UTPYBRT+I96GAhLS1tYegkEPh5b4YgRFfV83uxSzCFHhZEyiVSquKwK2OCdLumrU9aMTUJ/kn1+9bqp6HV8iSMLzkSph04aSZw0qKQkqJCTJIpwWxggkBrRCfcH58rjDn7gKgsjnuFNbA9Yg08Ezg4EHJgL+TCtty3oml+OXBQVf1SdnHcH+y4dhiSoXd9AAAAAElFTkSuQmCC) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.expiry-cal-wrapper .rdrNextPrevButton i {
+  display: none !important;
+}
+
+/* Month grid */
+.expiry-cal-wrapper .rdrMonths {
+  display: flex !important;
+  justify-content: center !important;
+  background: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrMonth {
+  padding: 0 !important;
+  width: 25.667em !important;
+  background: #fff !important;
+}
+
+/* Weekday header */
+.expiry-cal-wrapper .rdrWeekDays {
+  border-top: 1px solid #e6e6ed !important;
+  border-bottom: 1px solid #e6e6ed !important;
+  justify-content: center !important;
+  background: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrWeekDay {
+  font-size: 11px !important;
+  line-height: 24px !important;
+  color: #8b8c97 !important;
+  flex-basis: 37px !important;
+  font-weight: 400 !important;
+}
+
+/* Days */
+.expiry-cal-wrapper .rdrDays {
+  width: 252px !important;
+  margin: auto !important;
+  background: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrDay {
+  height: 46px !important;
+  background: transparent !important;
+}
+
+.expiry-cal-wrapper .rdrDayPassive {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.expiry-cal-wrapper .rdrDayNumber span {
+  color: #19191c !important;
+}
+
+/* Today — border circle only, no fill */
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber {
+  border: 1px solid #19191c !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber span {
+  color: #19191c !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber span::after {
+  display: none !important;
+}
+
+/* Selected day */
+.expiry-cal-wrapper .rdrSelected {
+  background: #23a956 !important;
+  border-radius: 50% !important;
+}
+
+.expiry-cal-wrapper .rdrDayStartPreview,
+.expiry-cal-wrapper .rdrDayEndPreview,
+.expiry-cal-wrapper .rdrDayInPreview {
+  display: none !important;
+}
+
+/* Disabled */
+.expiry-cal-wrapper .rdrDayDisabled {
+  background-color: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrDayDisabled .rdrDayNumber span {
+  color: lightgray !important;
+}
+
+.expiry-cal-wrapper .rdrMonthPicker,
+.expiry-cal-wrapper .rdrYearPicker {
+  margin: 0 !important;
+}
+
+.expiry-cal-wrapper .rdrMonthPicker select,
+.expiry-cal-wrapper .rdrYearPicker select {
+  padding: 0 2px !important;
+}
+
+/* Today */
+.expiry-cal-wrapper .rdrDayToday {
+  color: #fff !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber {
+  border: 1px solid #19191c !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  top: 5px !important;
+  bottom: 5px !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber span {
+  color: #19191c !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday .rdrDayNumber span::after {
+  display: none !important;
+}
+
+.expiry-cal-wrapper .rdrDay {
+  color: #23a956 !important;
+}
+
+.expiry-cal-wrapper .rdrDayToday:not(.rdrDaySelected) {
+  color: transparent !important;
+}

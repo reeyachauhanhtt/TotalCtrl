@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 
 import EditItemTemplate from './EditItemTemplate';
+import AddItemToInventory from './AddItemToInventory';
 import ConfirmModal from '../../Common/ConfirmModal';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
 
@@ -16,11 +17,13 @@ export default function ItemRow({
   onDupToggle,
   onItemEdited,
   onItemDeleted,
+  onItemAdded,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDuplicates, setShowDuplicates] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const menuRef = useRef(null);
 
   const queryClient = useQueryClient();
@@ -104,6 +107,10 @@ export default function ItemRow({
                   if (action.label === 'Delete item template') {
                     setMenuOpen(false);
                     setShowDeleteModal(true);
+                  }
+                  if (action.label === 'Add item to inventory') {
+                    setMenuOpen(false);
+                    setShowAddModal(true);
                   }
                 }}
                 className='flex items-center gap-2 w-full px-[18px] py-2 text-[14px] font-normal leading-4 text-[#19191c] bg-transparent border-none text-left hover:bg-[#dcf1e3] cursor-pointer'
@@ -258,12 +265,16 @@ export default function ItemRow({
                   {(inStock || [])
                     .slice(0, MAX_VISIBLE_INVENTORIES)
                     .map((inv) => (
-                      <span
-                        key={inv}
+                      //naviagte to inv page with url
+                      <a
+                        key={inv.id || inv}
+                        href={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                        target='_blank'
+                        rel='noopener noreferrer'
                         className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
                       >
-                        {inv}
-                      </span>
+                        {inv.name || inv}
+                      </a>
                     ))}
                   {(inStock || []).length - MAX_VISIBLE_INVENTORIES > 0 && (
                     <span className='text-[13px] font-semibold leading-5 text-[#6b6b6f] underline cursor-pointer mt-1'>
@@ -534,6 +545,17 @@ export default function ItemRow({
         />,
         document.body,
       )}
+
+      {showAddModal &&
+        createPortal(
+          <AddItemToInventory
+            isOpen={showAddModal}
+            item={item}
+            onClose={() => setShowAddModal(false)}
+            onItemAdded={onItemAdded}
+          />,
+          document.body,
+        )}
     </>
   );
 }

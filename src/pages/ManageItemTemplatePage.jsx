@@ -60,6 +60,7 @@ const ManageItemTemplatePage = () => {
         onFiltersChange={setFilters}
         checkedIds={checkedIds}
         onClearChecked={() => setCheckedIds([])}
+        onItemDeleted={(itemName) => showToast(itemName, 'deleted')}
       />
 
       <div className='flex-1 min-h-0'>
@@ -84,6 +85,7 @@ const ManageItemTemplatePage = () => {
           onCheckedChange={setCheckedIds}
           onItemEdited={(itemName) => showToast(itemName, 'edited')}
           onItemDeleted={(itemName) => showToast(itemName, 'deleted')}
+          onItemAdded={(itemName) => showToast(itemName, 'added')}
         />
       </div>
 
@@ -94,7 +96,7 @@ const ManageItemTemplatePage = () => {
             <span>
               <strong>{toastMessage}</strong>{' '}
               {toastType === 'deleted'
-                ? 'has been successfully deleted'
+                ? 'have been successfully deleted'
                 : toastType === 'edited'
                   ? 'has been successfully updated'
                   : 'has been successfully added to your product database...'}

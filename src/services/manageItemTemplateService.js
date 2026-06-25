@@ -94,6 +94,18 @@ export const fetchItemTemplateDetail = async (id) => {
   return data?.Data || null;
 };
 
+//parse an excel
+export const parseExcel = async (payload) => {
+  const { data } = await axiosInstance.post('/products/parse-excel', payload);
+  return data;
+};
+
+//UPLOAD AN EXCEL
+export const addInitialProducts = async (payload) => {
+  const { data } = await axiosInstance.post('/products/add-initial', payload);
+  return data;
+};
+
 //--------------------------------------------------------------------------
 
 //add item template
@@ -113,3 +125,12 @@ export const deleteItemTemplate = async (id) => {
   const { data } = await axiosInstance.delete(`/products/${id}`);
   return data;
 };
+
+//add item to an inventory
+export async function addProductToInventory(payload) {
+  const response = await axiosInstance.post(
+    '/inventory-management/store-products',
+    payload,
+  );
+  return response.data;
+}
