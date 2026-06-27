@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
 
 import EditItemTemplate from './EditItemTemplate';
 import AddItemToInventory from './AddItemToInventory';
 import ConfirmModal from '../../Common/ConfirmModal';
+import Checkbox from '../../Common/Checkbox';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
+import { ROUTES } from '../../../constants/routes';
 
 const MAX_VISIBLE_INVENTORIES = 3;
 
@@ -152,37 +155,7 @@ export default function ItemRow({
               ...(isRed ? { borderLeft: '6px solid #e2232e' } : {}),
             }}
           >
-            <label
-              className='relative block cursor-pointer select-none'
-              style={{ paddingLeft: '20px', marginBottom: '12px' }}
-            >
-              <input
-                type='checkbox'
-                checked={rowChecked}
-                onChange={rowToggle}
-                className='absolute opacity-0 cursor-pointer h-0 w-0'
-              />
-              <span
-                className={`absolute top-0 left-0 h-5 w-5 border ${rowChecked ? 'bg-[#23a956] border-[#23a956]' : 'bg-white border-[#d7d7db]'}`}
-                style={{ borderRadius: '4px' }}
-              >
-                {rowChecked && (
-                  <span
-                    className='absolute'
-                    style={{
-                      left: '7px',
-                      top: '4px',
-                      width: '4px',
-                      height: '8px',
-                      border: 'solid white',
-                      borderWidth: '0 2px 2px 0',
-                      transform: 'rotate(45deg)',
-                      display: 'block',
-                    }}
-                  />
-                )}
-              </span>
-            </label>
+            <Checkbox checked={rowChecked} onChange={rowToggle} />
           </td>
 
           <td
@@ -269,7 +242,7 @@ export default function ItemRow({
                       //navigate to inventory page
                       <a
                         key={inv.id}
-                        href={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                        href={`${ROUTES.INVENTORY}?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
@@ -303,15 +276,15 @@ export default function ItemRow({
                       >
                         <div className='flex flex-col gap-1'>
                           {inStock.slice(MAX_VISIBLE_INVENTORIES).map((inv) => (
-                            <a
-                              key={inv.id}
-                              href={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                            <Link
+                              // key={inv.id}
+                              to={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full block'
                             >
                               {inv.name}
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </Tooltip>
@@ -413,37 +386,10 @@ export default function ItemRow({
                     borderLeft: '6px solid #e2232e',
                   }}
                 >
-                  <label
-                    className='relative block cursor-pointer select-none'
-                    style={{ paddingLeft: '20px', marginBottom: '12px' }}
-                  >
-                    <input
-                      type='checkbox'
-                      checked={checkedIds.includes(dupItem.id)}
-                      onChange={() => onDupToggle(dupItem.id)}
-                      className='absolute opacity-0 cursor-pointer h-0 w-0'
-                    />
-                    <span
-                      className={`absolute top-0 left-0 h-5 w-5 border ${checkedIds.includes(dupItem.id) ? 'bg-[#23a956] border-[#23a956]' : 'bg-white border-[#d7d7db]'}`}
-                      style={{ borderRadius: '4px' }}
-                    >
-                      {checkedIds.includes(dupItem.id) && (
-                        <span
-                          className='absolute'
-                          style={{
-                            left: '7px',
-                            top: '4px',
-                            width: '4px',
-                            height: '8px',
-                            border: 'solid white',
-                            borderWidth: '0 2px 2px 0',
-                            transform: 'rotate(45deg)',
-                            display: 'block',
-                          }}
-                        />
-                      )}
-                    </span>
-                  </label>
+                  <Checkbox
+                    checked={checkedIds.includes(dupItem.id)}
+                    onChange={() => onDupToggle(dupItem.id)}
+                  />
                 </td>
 
                 <td
@@ -538,15 +484,15 @@ export default function ItemRow({
                           const id = inv?.id ?? idx;
                           const name = inv?.name ?? inv;
                           return (
-                            <a
-                              key={id}
-                              href={`/?id=${id}&productName=${encodeURIComponent(dupItem.name)}`}
+                            <Link
+                              // key={id}
+                              to={`${ROUTES.INVENTORY}?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
                             >
                               {name}
-                            </a>
+                            </Link>
                           );
                         })
                     )}

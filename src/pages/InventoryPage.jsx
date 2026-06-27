@@ -78,12 +78,6 @@ export default function InventoryPage({ onTransferSuccess }) {
     setHeaderScrolled(false);
   }, [selectedInventory?.id]);
 
-  const handleSearchChange = (value) => {
-    setSearchQuery(value);
-    clearTimeout(window._searchTimer);
-    window._searchTimer = setTimeout(() => setDebouncedSearch(value), 300);
-  };
-
   const { data: stockData, isLoading: isStockLoading } = useQuery({
     queryKey: ['stock-value', selectedInventory?.id],
     queryFn: () => fetchStockValue(selectedInventory.id),
@@ -201,14 +195,6 @@ export default function InventoryPage({ onTransferSuccess }) {
 
   const filteredProducts = products.filter((item) => {
     const qty = Number(item.quantity ?? 0);
-    // const matchesStock =
-    //   stockFilter === 'out'
-    //     ? qty === 0
-    //     : stockFilter === 'low'
-    //       ? qty > 0 && qty <= LOW_STOCK_THRESHOLD
-    //       : stockFilter === 'in'
-    //         ? qty > 0 // ← was qty >= LOW_STOCK_THRESHOLD
-    //         : true; // 'all' — show everything
 
     const matchesSearch =
       debouncedSearch.trim() === '' ||
@@ -237,7 +223,8 @@ export default function InventoryPage({ onTransferSuccess }) {
         stockFilter={stockFilter}
         setStockFilter={setStockFilter}
         searchQuery={searchQuery}
-        setSearchQuery={handleSearchChange}
+        setSearchQuery={setSearchQuery}
+        setDebouncedSearch={setDebouncedSearch}
         setShowTransfer={setShowTransfer}
         isProductsFetching={isFetching}
         selectedSupplier={selectedSupplier}
@@ -253,11 +240,6 @@ export default function InventoryPage({ onTransferSuccess }) {
         ref={scrollRef}
         onScroll={handleScroll}
       >
-        {/* {filteredProducts.length === 0 && !isFetching ? (
-          <p className='p-10 text-center text-gray-400 text-sm'>
-            No results found
-          </p>
-        ) : ( */}
         <>
           <InventoryTable
             data={filteredProducts}

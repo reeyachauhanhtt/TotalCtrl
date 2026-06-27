@@ -6,6 +6,7 @@ import { formatNumber } from '../../utils/format';
 import { SkeletonBar } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import FormInput from '../Common/FormInput';
 import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
 import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
@@ -624,9 +625,7 @@ export default function EditOrderModal({
                     <label className='block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                       Order number *
                     </label>
-                    <input
-                      type='text'
-                      placeholder='Enter Order number'
+                    <FormInput
                       value={orderNumber}
                       onChange={(e) => {
                         setOrderNumber(e.target.value);
@@ -635,13 +634,12 @@ export default function EditOrderModal({
                       onBlur={() => {
                         if (!orderNumber) setOrderNumberError(true);
                       }}
-                      className={`w-full rounded-sm px-4 py-3 text-[14px] leading-6 outline-none ${
-                        orderNumberError
-                          ? 'border-2 border-[#e2232e] bg-[#fff0f1] text-[#333]'
-                          : 'border border-[#d7d8e0] text-[#333] focus:border-green-600 focus:ring-1 focus:ring-green-600'
-                      }`}
+                      placeholder='Enter Order number'
+                      error={orderNumberError}
+                      errorMessage='This field is required'
+                      className='w-full'
                     />
-                    {orderNumberError && errHighlight('This field is required')}
+                    {/* {orderNumberError && errHighlight('This field is required')} */}
                   </div>
 
                   {/* Scheduled for */}

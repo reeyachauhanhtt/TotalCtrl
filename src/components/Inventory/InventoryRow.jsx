@@ -8,6 +8,7 @@ import {
   deleteStoreProduct,
 } from '../../services/productService';
 import ConfirmModal from '../Common/ConfirmModal';
+import Checkbox from '../Common/Checkbox';
 
 function formatQty(num) {
   return num.toFixed(2).replace('.', ',');
@@ -347,25 +348,12 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
     onError: (err) => console.error('Delete failed:', err),
   });
 
-  // const singleExpDisplay =
-  //   item.expirationInfo && item.expirationInfo !== 'Multiple'
-  //     ? item.expirationInfo
-  //     : null;
-
   const singleExpDisplay =
     item.expirationInfo &&
     item.expirationInfo !== 'Multiple' &&
     item.expirationInfo !== '----'
       ? item.expirationInfo
       : null;
-
-  // console.log(
-  //   item.name,
-  //   '| expirationInfo:',
-  //   item.expirationInfo,
-  //   '| singleExpDisplay:',
-  //   singleExpDisplay,
-  // );
 
   useEffect(() => {
     if (!showMenu) return;
@@ -459,54 +447,11 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             paddingTop: 25,
           }}
         >
-          <label
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              cursor: isViewOnly ? 'default' : 'pointer',
-            }}
-          >
-            <input
-              type='checkbox'
-              className='hidden'
-              onChange={isViewOnly ? undefined : onSelect}
-              disabled={isViewOnly}
-            />
-            <div
-              style={{
-                width: 20,
-                height: 20,
-                border: isViewOnly
-                  ? '1px solid #e5e7eb'
-                  : selected
-                    ? '1px solid #059669'
-                    : '1px solid #d1d5db',
-                borderRadius: 4,
-                backgroundColor: isViewOnly
-                  ? '#f3f4f6'
-                  : selected
-                    ? '#059669'
-                    : '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              {!isViewOnly && selected && (
-                <svg
-                  width='14'
-                  height='14'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='white'
-                  strokeWidth='3'
-                >
-                  <path d='M5 13l4 4L19 7' />
-                </svg>
-              )}
-            </div>
-          </label>
+          <Checkbox
+            checked={selected}
+            onChange={isViewOnly ? undefined : onSelect}
+            disabled={isViewOnly}
+          />
         </td>
 
         {/* Item Name */}

@@ -9,6 +9,7 @@ import {
 } from '../../../services/manageItemTemplateService';
 import { fetchInventory } from '../../../services/inventoryService';
 import ConfirmModal from '../../Common/ConfirmModal';
+import SearchInput from '../../Common/SearchInput';
 import AssignSupplierModal from './AssignSupplierModal';
 
 const ISSUE_OPTIONS = [
@@ -109,7 +110,7 @@ export default function TemplateMainSection({
   onClearChecked,
   onItemDeleted,
 }) {
-  const [focused, setFocused] = useState(false);
+  // const [focused, setFocused] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -215,24 +216,15 @@ export default function TemplateMainSection({
   return (
     <div className='w-full px-8'>
       {/* Search */}
-      <div className='relative w-full'>
-        <img
-          src='/icons/search.svg'
-          alt=''
-          className='absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none brightness-0'
-        />
-        <input
-          type='text'
-          placeholder='Enter item name or SKU...'
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className={`w-full text-sm text-[#333] outline-none bg-white rounded py-2 pl-9 pr-4 leading-6 transition-all ${
-            focused ? 'border-2 border-[#23a956]' : 'border border-[#d7d8e0]'
-          }`}
-        />
-      </div>
+
+      <SearchInput
+        value={search}
+        onChange={(e) => onSearchChange(e.target.value)}
+        onDebouncedChange={onSearchChange}
+        debounceMs={400}
+        placeholder='Enter item name or SKU...'
+        className='w-full'
+      />
 
       {/* Filters */}
       <div className='flex gap-6 w-full py-[18px] items-center'>

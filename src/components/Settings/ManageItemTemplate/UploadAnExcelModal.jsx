@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 
 import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
+import Checkbox from '../../Common/Checkbox';
 import SupplierSearchDropdown from '../../Common/SupplierSearchDropdown';
 import {
   parseExcel,
@@ -533,40 +534,27 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
                             >
                               <div className='flex items-start'>
                                 <div className='mr-6 pt-[5px]'>
-                                  <label className='relative block cursor-pointer select-none pl-[35px] mb-3'>
-                                    <input
-                                      type='checkbox'
-                                      checked={row.checked}
-                                      onChange={(e) => {
-                                        const checked = e.target.checked;
-                                        updateRow(index, { checked });
-                                        const updatedRows = productRows.map(
-                                          (r, i) =>
-                                            i === index ? { ...r, checked } : r,
-                                        );
-                                        const newCheckedRows =
-                                          updatedRows.filter((r) => r.checked);
-                                        if (newCheckedRows.length === 0) {
-                                          setAttempted(true);
-                                          setFooterError(true);
-                                        } else {
-                                          setFooterError(false);
-                                        }
-                                      }}
-                                      className='absolute opacity-0 cursor-pointer h-0 w-0'
-                                    />
-                                    <span
-                                      className={`absolute top-0 left-0 h-[25px] w-[25px] rounded-[4px] border ${
-                                        row.checked
-                                          ? 'bg-[#23a956] border-[#23a956]'
-                                          : 'bg-white border-[#d7d8e0]'
-                                      }`}
-                                    >
-                                      {row.checked && (
-                                        <span className='absolute left-[9px] top-[5px] w-[5px] h-[10px] border-white border-r-2 border-b-2 rotate-45 block' />
-                                      )}
-                                    </span>
-                                  </label>
+                                  <Checkbox
+                                    checked={row.checked}
+                                    onChange={(e) => {
+                                      const checked = e.target.checked;
+                                      updateRow(index, { checked });
+                                      const updatedRows = productRows.map(
+                                        (r, i) =>
+                                          i === index ? { ...r, checked } : r,
+                                      );
+                                      const newCheckedRows = updatedRows.filter(
+                                        (r) => r.checked,
+                                      );
+                                      if (newCheckedRows.length === 0) {
+                                        setAttempted(true);
+                                        setFooterError(true);
+                                      } else {
+                                        setFooterError(false);
+                                      }
+                                    }}
+                                    size={25}
+                                  />
                                 </div>
                                 <div>
                                   <label className='font-semibold text-[18px] leading-6 text-[#19191c] block'>
@@ -725,7 +713,7 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
               {step === 3 && (attempted || footerError) && step3Invalid && (
                 <div className='w-[70%] bg-[#fff0f1] text-[#a71a23] font-semibold text-[14px] leading-[18px] rounded-[4px] flex items-center'>
                   <img
-                    src='/img/error.svg'
+                    src='/icons/error.svg'
                     alt='error'
                     className='ml-[18px] w-5'
                   />

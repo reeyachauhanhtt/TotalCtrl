@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
 
 import InventoryRow from './InventoryRow';
+import Checkbox from '../Common/Checkbox';
 import { TableRowSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import { generateProductsPdf } from '../../services/productService';
+import { INVENTORY_SORT_KEYS } from '../../constants/sortKeys';
 
 export default function InventoryTable({
   data,
@@ -182,94 +184,67 @@ export default function InventoryTable({
                   cursor: 'default',
                 }}
               >
-                <label
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: isViewOnly ? 'default' : 'pointer',
-                  }}
-                >
-                  <input
-                    type='checkbox'
-                    className='hidden'
+                <div className='mb-5'>
+                  <Checkbox
                     checked={allSelected}
                     onChange={isViewOnly ? undefined : toggleAll}
                     disabled={isViewOnly}
                   />
-                  <div
-                    style={{
-                      width: 20,
-                      height: 20,
-                      border: isViewOnly
-                        ? '1px solid #e5e7eb'
-                        : allSelected
-                          ? '1px solid #059669'
-                          : '1px solid #d1d5db',
-                      borderRadius: 4,
-                      backgroundColor: isViewOnly
-                        ? '#f3f4f6'
-                        : allSelected
-                          ? '#059669'
-                          : '#fff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    {!isViewOnly && allSelected && (
-                      <svg
-                        width='14'
-                        height='14'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='white'
-                        strokeWidth='3'
-                      >
-                        <path d='M5 13l4 4L19 7' />
-                      </svg>
-                    )}
-                  </div>
-                </label>
+                </div>
               </th>
 
               {/* Item */}
               <th
-                style={{ ...thBase, paddingLeft: 48, ...thActive('name') }}
-                onClick={() => handleSort('name')}
+                style={{
+                  ...thBase,
+                  paddingLeft: 48,
+                  ...thActive(INVENTORY_SORT_KEYS.NAME),
+                }}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.NAME)}
               >
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Item <SortIcon col='name' />
+                  Item <SortIcon col={INVENTORY_SORT_KEYS.NAME} />
                 </span>
               </th>
 
               {/* Arrival Info */}
               <th
-                style={{ ...thBase, ...thActive('arrivalInfo') }}
-                onClick={() => handleSort('arrivalInfo')}
+                style={{
+                  ...thBase,
+                  ...thActive(INVENTORY_SORT_KEYS.ARRIVAL_INFO),
+                }}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.ARRIVAL_INFO)}
               >
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Arrival info. <SortIcon col='arrivalInfo' />
+                  Arrival info.{' '}
+                  <SortIcon col={INVENTORY_SORT_KEYS.ARRIVAL_INFO} />
                 </span>
               </th>
 
               {/* Expiration Info */}
               <th
-                style={{ ...thBase, ...thActive('expirationInfo') }}
-                onClick={() => handleSort('expirationInfo')}
+                style={{
+                  ...thBase,
+                  ...thActive(INVENTORY_SORT_KEYS.EXPIRATION_INFO),
+                }}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.EXPIRATION_INFO)}
               >
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Expiration info. <SortIcon col='expirationInfo' />
+                  Expiration info.{' '}
+                  <SortIcon col={INVENTORY_SORT_KEYS.EXPIRATION_INFO} />
                 </span>
               </th>
 
               {/* Quantity */}
               <th
-                style={{ ...thBase, ...thActive('quantity') }}
-                onClick={() => handleSort('quantity')}
+                style={{
+                  ...thBase,
+                  ...thActive(INVENTORY_SORT_KEYS.QUANTITY),
+                }}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.QUANTITY)}
               >
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Quantity <SortIcon col='quantity' />
+                  Quantity <SortIcon col={INVENTORY_SORT_KEYS.QUANTITY} />
                 </span>
               </th>
 
@@ -278,9 +253,9 @@ export default function InventoryTable({
                 style={{
                   ...thBase,
                   textAlign: 'center',
-                  ...thActive('unitPrice'),
+                  ...thActive(INVENTORY_SORT_KEYS.UNIT_PRICE),
                 }}
-                onClick={() => handleSort('unitPrice')}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.UNIT_PRICE)}
               >
                 <span
                   style={{
@@ -289,7 +264,7 @@ export default function InventoryTable({
                     justifyContent: 'center',
                   }}
                 >
-                  Unit Price <SortIcon col='unitPrice' />
+                  Unit Price <SortIcon col={INVENTORY_SORT_KEYS.UNIT_PRICE} />
                 </span>
               </th>
 
@@ -299,9 +274,9 @@ export default function InventoryTable({
                   ...thBase,
                   textAlign: 'right',
                   paddingRight: 30,
-                  ...thActive('total'),
+                  ...thActive(INVENTORY_SORT_KEYS.TOTAL),
                 }}
-                onClick={() => handleSort('total')}
+                onClick={() => handleSort(INVENTORY_SORT_KEYS.TOTAL)}
               >
                 <span
                   style={{
@@ -310,7 +285,7 @@ export default function InventoryTable({
                     justifyContent: 'flex-end',
                   }}
                 >
-                  Total value <SortIcon col='total' />
+                  Total value <SortIcon col={INVENTORY_SORT_KEYS.TOTAL} />
                 </span>
               </th>
 

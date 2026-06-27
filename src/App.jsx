@@ -7,9 +7,10 @@ import {
 } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux'; //used useDispatch
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'; //useQuery
+import { useSelector, useDispatch } from 'react-redux';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { ROUTES } from './constants/routes';
 import Sidebar from './components/Sidebar';
 import Header from './components/Inventory/Header';
 import InventoryPage from './pages/InventoryPage';
@@ -32,12 +33,12 @@ import AnalyticsHeader, {
 import UploadOrderModal from './components/Common/UploadOrderModal';
 
 import { undoTransfer } from './services/transferService';
-import { fetchInventory } from './services/inventoryService'; //added
-import { setSelectedInventory } from './store/inventorySlice'; //added
+import { fetchInventory } from './services/inventoryService';
+import { setSelectedInventory } from './store/inventorySlice';
 import {
   setAnalyticsDetailOpen,
   setAnalyticsSelectedInventory,
-} from './store/analyticsSlice'; //added
+} from './store/analyticsSlice';
 
 function Layout() {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
@@ -57,19 +58,19 @@ function Layout() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [errorToast, setErrorToast] = useState('');
 
-  const dispatch = useDispatch(); //added
+  const dispatch = useDispatch();
 
   const { data: inventoryData, isLoading: isInventoryLoading } = useQuery({
     queryKey: ['inventories'],
     queryFn: fetchInventory,
-  }); //added
+  });
 
   useEffect(() => {
     if (!selectedInventory && inventoryData) {
       const list = inventoryData?.Data || inventoryData?.data || [];
       if (list.length > 0) dispatch(setSelectedInventory(list[0]));
     }
-  }, [inventoryData, selectedInventory]); //added
+  }, [inventoryData, selectedInventory]);
 
   useEffect(() => {
     if (!transferToast) return;
@@ -102,8 +103,8 @@ function Layout() {
 
   function renderHeader() {
     //no header in manage item template page
-    if (location.pathname === '/product-database') return null;
-    if (location.pathname === '/manage-storage') return null;
+    if (location.pathname === ROUTES.PRODUCT_DATABASE) return null;
+    if (location.pathname === ROUTES.MANAGE_STORAGE) return null;
 
     //inventory header
     if (!selectedInventory) return <HeaderSkeleton />;
@@ -222,54 +223,64 @@ function Layout() {
           <Routes>
             <Route
               path='/'
+              element={<Navigate to={ROUTES.INVENTORY} replace />}
+            />
+
+            <Route
+              path={ROUTES.INVENTORY}
               element={
                 <InventoryPage onTransferSuccess={handleTransferSuccess} />
               }
             />
-            <Route path='/external-orders' element={<ExternalOrderPage />} />
-
             <Route
-              path='/external-orders/scheduled-order/:orderId'
+              path={ROUTES.EXTERNAL_ORDERS}
               element={<ExternalOrderPage />}
             />
-
             <Route
-              path='/external-orders/partially-delivered/:orderId'
+              path={ROUTES.EXTERNAL_ORDER_SCHEDULED}
               element={<ExternalOrderPage />}
             />
-
             <Route
-              path='/external-orders/delivered-order/:orderId'
+              path={ROUTES.EXTERNAL_ORDER_PARTIAL}
               element={<ExternalOrderPage />}
             />
-
-            <Route path='/internal-orders' element={<InternalOrderPage />} />
-
             <Route
-              path='/internal-orders/internal-scheduled-order/:orderId'
+              path={ROUTES.EXTERNAL_ORDER_DELIVERED}
+              element={<ExternalOrderPage />}
+            />
+            <Route
+              path={ROUTES.INTERNAL_ORDERS}
               element={<InternalOrderPage />}
             />
-
             <Route
-              path='/internal-orders/internal-partially-order/:orderId'
+              path={ROUTES.INTERNAL_ORDER_SCHEDULED}
               element={<InternalOrderPage />}
             />
-
             <Route
-              path='/internal-orders/internal-delivered-order/:orderId'
+              path={ROUTES.INTERNAL_ORDER_PARTIAL}
               element={<InternalOrderPage />}
             />
-
-            <Route path='/analytics-overview' element={<AnalyticsPage />} />
-            <Route path='/analytics' element={<AnalyticsPage />} />
-            <Route path='/analytics/*' element={<AnalyticsPage />} />
-
             <Route
-              path='/product-database'
+              path={ROUTES.INTERNAL_ORDER_DELIVERED}
+              element={<InternalOrderPage />}
+            />
+            <Route
+              path={ROUTES.ANALYTICS_OVERVIEW}
+              element={<AnalyticsPage />}
+            />
+            <Route path={ROUTES.ANALYTICS} element={<AnalyticsPage />} />
+            <Route
+              path={ROUTES.ANALYTICS_DETAILPAGE}
+              element={<AnalyticsPage />}
+            />
+            <Route
+              path={ROUTES.PRODUCT_DATABASE}
               element={<ManageItemTemplatePage />}
             />
-
-            <Route path='/manage-storage' element={<ManageInventories />} />
+            <Route
+              path={ROUTES.MANAGE_STORAGE}
+              element={<ManageInventories />}
+            />
           </Routes>
         </div>
       </div>

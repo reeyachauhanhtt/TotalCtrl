@@ -60,13 +60,6 @@ export default function ExternalOrderPage() {
 
   const prevDetailOpen = useRef(false);
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(setDetailOpen(false));
-  //     dispatch(setSelectedOrder(null));
-  //   };
-  // }, []);
-
   useEffect(() => {
     return () => {
       if (!window.location.pathname.includes('/external-orders/')) {
@@ -93,7 +86,7 @@ export default function ExternalOrderPage() {
         'partially-delivered': 'Partially Delivered',
         'delivered-order': 'Delivered',
       };
-      const slug = window.location.pathname.split('/')[2];
+      const slug = window.location.pathname.split('/inventory')[2];
       dispatch(setDetailOpen(true));
       dispatch(
         setSelectedOrder({

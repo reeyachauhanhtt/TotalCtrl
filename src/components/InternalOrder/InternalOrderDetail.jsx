@@ -4,11 +4,13 @@ import { format } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import { FiX } from 'react-icons/fi';
 
+import { canEdit, PERMISSIONS } from '../../constants/permissions';
 import {
   setInternalDetailOpen,
   setSelectedInternalOrder,
 } from '../../store/internalOrderSlice';
 import { fetchQualityIssues } from '../../services/masterDataService';
+import { fetchInventory } from '../../services/inventoryService';
 import {
   fetchInternalOrderDetail,
   deleteInternalOrder,
@@ -244,6 +246,11 @@ export default function InternalOrderDetail({ order }) {
     refetchOnWindowFocus: false,
   });
 
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventories'],
+    queryFn: fetchInventory,
+  });
+
   const deleteMutation = useMutation({
     mutationFn: () => deleteInternalOrder(order.id),
     onSuccess: () => {
@@ -270,6 +277,16 @@ export default function InternalOrderDetail({ order }) {
   const lastDeliveredAt = detail?.lastDeliveredAt ?? order.lastDeliveredAt;
   const totalItems = detail?.totalItems ?? order.totalItems ?? 0;
   const groups = detail?.data ?? [];
+
+  // permission for invs
+
+  const inventories = inventoryData?.Data || inventoryData?.data || [];
+
+  const fromInventory = inventories.find(
+    (inv) => inv.id === (detail?.fromInventory?.id ?? order.fromInventory?.id),
+  );
+  const userPermission = fromInventory?.permission ?? PERMISSIONS.NO_ACCESS;
+  const hasEditAccess = canEdit(userPermission);
 
   const isLoadingAny = isLoading || isFetching;
 
@@ -402,19 +419,25 @@ export default function InternalOrderDetail({ order }) {
           {isScheduled && (
             <div className='flex items-start justify-end gap-1'>
               <button
-                onClick={() => setShowEditModal(true)}
-                className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'
+                onClick={() => hasEditAccess && setShowEditModal(true)}
+                disabled={!hasEditAccess}
+                className={`w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent transition
+        ${hasEditAccess ? 'cursor-pointer hover:bg-[#dcf1e3]' : 'cursor-not-allowed opacity-30'}`}
               >
                 <img src='/icons/dark-edit.svg' alt='edit' />
               </button>
+
               <div className='relative'>
                 <button
-                  onClick={() => setShowDropdown((p) => !p)}
-                  className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'
+                  onClick={() => hasEditAccess && setShowDropdown((p) => !p)}
+                  disabled={!hasEditAccess}
+                  className={`w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent transition
+          ${hasEditAccess ? 'cursor-pointer hover:bg-[#dcf1e3]' : 'cursor-not-allowed opacity-30'}`}
                 >
                   <img src='/icons/dark-more.svg' alt='more' />
                 </button>
-                {showDropdown && (
+
+                {hasEditAccess && showDropdown && (
                   <div
                     style={{
                       position: 'absolute',
@@ -627,6 +650,9 @@ export default function InternalOrderDetail({ order }) {
                 <path d='M5 13l4 4L19 7' />
               </svg>
             </div>
+            <span className='text-white text-[14px]'>
+              ORDER UPDATED SUCCESSFULLY
+            </span>
             <button
               onClick={() => setShowUpdateToast(false)}
               className='text-white opacity-100 ml-2'

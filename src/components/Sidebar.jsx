@@ -10,7 +10,7 @@ export default function Sidebar() {
   const settingsBtnRef = useRef(null);
 
   const navItems = [
-    { name: 'Inventories', icon: '/icons/box.svg', path: '/' },
+    { name: 'Inventories', icon: '/icons/box.svg', path: '/inventory' },
     {
       name: 'External Orders',
       icon: '/icons/transport.svg',

@@ -29,6 +29,7 @@ import {
 } from '../../store/transferSlice';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import Checkbox from '../Common/Checkbox';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 
 export default function TransferItemModal({
@@ -112,18 +113,6 @@ export default function TransferItemModal({
   // Fetch products for step 2
   const inventoryId =
     fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
-
-  // const { data: products = [], isFetching: loadingProducts } = useQuery({
-  //   queryKey: ['products', inventoryId],
-
-  //   queryFn: async () => {
-  //     if (!inventoryId) return [];
-  //     return fetchProducts({ inventoryId });
-  //   },
-
-  //   enabled: step === 2 && !!inventoryId,
-  //   staleTime: 0,
-  // });
 
   const {
     data: productsData,
@@ -225,12 +214,6 @@ export default function TransferItemModal({
   const fromName = fromInventory?.name || '---';
   const toName = toInventory?.name || '';
   const progress = (step / 3) * 100;
-
-  // const filteredProducts = products
-  //   .filter((p) => Number(p.totalQuantity ?? p.quantity ?? 0) > 0)
-  //   .filter((p) =>
-  //     p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
-  //   );
 
   const filteredProducts = products.filter((p) =>
     p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -430,25 +413,12 @@ export default function TransferItemModal({
                                     sel ? 'bg-emerald-50' : 'hover:bg-gray-50'
                                   }`}
                                 >
-                                  <div
-                                    className={`w-4 h-4 rounded flex items-center justify-center border shrink-0 ${
-                                      sel
-                                        ? 'bg-emerald-600 border-emerald-600'
-                                        : 'border-gray-300 bg-white'
-                                    }`}
-                                  >
-                                    {sel && (
-                                      <svg
-                                        className='w-2.5 h-2.5 text-white'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        strokeWidth='3'
-                                      >
-                                        <path d='M5 13l4 4L19 7' />
-                                      </svg>
-                                    )}
-                                  </div>
+                                  <Checkbox
+                                    checked={sel}
+                                    onChange={() =>
+                                      dispatch(toggleItem(product))
+                                    }
+                                  />
                                   <span className='text-gray-700'>
                                     {product.productName}
                                   </span>
@@ -507,33 +477,10 @@ export default function TransferItemModal({
                           >
                             {/* Checkbox */}
                             <div style={{ width: 36, flexShrink: 0 }}>
-                              <div
-                                style={{
-                                  width: 20,
-                                  height: 20,
-                                  borderRadius: 4,
-                                  border: sel
-                                    ? '1px solid #059669'
-                                    : '1px solid #d7d8e0',
-                                  backgroundColor: sel ? '#059669' : '#fff',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                {sel && (
-                                  <svg
-                                    width='12'
-                                    height='12'
-                                    viewBox='0 0 24 24'
-                                    fill='none'
-                                    stroke='white'
-                                    strokeWidth='3'
-                                  >
-                                    <path d='M5 13l4 4L19 7' />
-                                  </svg>
-                                )}
-                              </div>
+                              <Checkbox
+                                checked={sel}
+                                onChange={() => dispatch(toggleItem(product))}
+                              />
                             </div>
                             {/* Name */}
                             <div>{product.productName}</div>

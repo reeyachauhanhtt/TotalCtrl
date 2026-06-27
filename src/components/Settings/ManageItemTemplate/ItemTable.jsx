@@ -3,12 +3,14 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import ItemRow from './ItemRows';
 import { SkeletonBar } from '../../Common/Skeleton';
-import {
-  fetchItemTemplates,
-  fetchStoreProductsSearch,
-} from '../../../services/manageItemTemplateService';
+import { fetchItemTemplates } from '../../../services/manageItemTemplateService';
 import { formatPrice } from '../../../utils/format';
 import GreenButton from '../../Common/GreenButton';
+import Checkbox from '../../Common/Checkbox';
+import {
+  ITEM_TEMPLATE_SORT_KEYS,
+  ITEM_TEMPLATE_UNIT_SORT_KEYS,
+} from '../../../constants/sortKeys';
 
 const HEADERS = [
   {
@@ -52,21 +54,13 @@ export default function ItemTable({
   onItemDeleted,
   onItemAdded,
   onDuplicateCountChange,
+  onUploadClick,
 }) {
-  const [sortKey, setSortKey] = useState('name');
+  const [sortKey, setSortKey] = useState(ITEM_TEMPLATE_SORT_KEYS.NAME);
   const [sortDir, setSortDir] = useState('desc');
   const [isSorting, setIsSorting] = useState(false);
   const [prevIssue, setPrevIssue] = useState(filters?.issue);
   const [isFilteringIssue, setIsFilteringIssue] = useState(false);
-
-  const [debouncedSearch, setDebouncedSearch] = useState(search || '');
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search || '');
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [search]);
 
   useEffect(() => {
     if (filters?.issue !== prevIssue) {
@@ -87,7 +81,7 @@ export default function ItemTable({
   } = useInfiniteQuery({
     queryKey: [
       'itemTemplates',
-      debouncedSearch,
+      search,
       filters?.categoryId || '',
       filters?.subcategoryId || '',
       filters?.inventoryId || '',
@@ -95,7 +89,7 @@ export default function ItemTable({
     ],
     queryFn: ({ pageParam = 0 }) =>
       fetchItemTemplates({
-        name: debouncedSearch,
+        name: search,
         parentProductGroupId: filters?.categoryId || '',
         productGroupId: filters?.subcategoryId || '',
         inventoryId: filters?.inventoryId || '',
@@ -215,20 +209,16 @@ export default function ItemTable({
     ? [...filteredItems].sort((a, b) => {
         let aVal, bVal;
 
-        if (
-          sortKey === 'purchaseUnit' ||
-          sortKey === 'stockTakingUnit' ||
-          sortKey === 'basicMeasUnit'
-        ) {
+        if (ITEM_TEMPLATE_UNIT_SORT_KEYS.includes(sortKey)) {
           aVal = a[sortKey]?.name ?? '';
           bVal = b[sortKey]?.name ?? '';
-        } else if (sortKey === 'inStock') {
+        } else if (sortKey === ITEM_TEMPLATE_SORT_KEYS.IN_STOCK) {
           aVal = a.inStock?.length ?? 0;
           bVal = b.inStock?.length ?? 0;
-        } else if (sortKey === 'durabilityDays') {
+        } else if (sortKey === ITEM_TEMPLATE_SORT_KEYS.DURABILITY_DAYS) {
           aVal = a.durabilityDays === '----' ? -1 : Number(a.durabilityDays);
           bVal = b.durabilityDays === '----' ? -1 : Number(b.durabilityDays);
-        } else if (sortKey === 'sku') {
+        } else if (sortKey === ITEM_TEMPLATE_SORT_KEYS.SKU) {
           const aEmpty = !a.sku;
           const bEmpty = !b.sku;
           if (aEmpty && bEmpty) return 0;
@@ -320,41 +310,7 @@ export default function ItemTable({
                   paddingBottom: '16px',
                 }}
               >
-                <label
-                  className='relative block cursor-pointer select-none'
-                  style={{ paddingLeft: '20px', marginBottom: 0 }}
-                >
-                  <input
-                    type='checkbox'
-                    checked={allChecked}
-                    onChange={toggleAll}
-                    className='absolute opacity-0 cursor-pointer h-0 w-0'
-                  />
-                  <span
-                    className={`absolute top-0 left-0 rounded h-5 w-5 border ${
-                      allChecked
-                        ? 'bg-[#23a956] border-[#23a956]'
-                        : 'bg-white border-[#d7d7db]'
-                    }`}
-                    style={{ borderRadius: '4px' }}
-                  >
-                    {allChecked && (
-                      <span
-                        className='absolute border-white'
-                        style={{
-                          left: '7px',
-                          top: '4px',
-                          width: '4px',
-                          height: '8px',
-                          border: 'solid white',
-                          borderWidth: '0 2px 2px 0',
-                          transform: 'rotate(45deg)',
-                          display: 'block',
-                        }}
-                      />
-                    )}
-                  </span>
-                </label>
+                <Checkbox checked={allChecked} onChange={toggleAll} />
               </th>
 
               {HEADERS.map((h) => (
@@ -541,7 +497,7 @@ export default function ItemTable({
                         pdf, jpg or png format and we'll extract all the
                         products for you.
                       </p>
-                      <GreenButton>
+                      <GreenButton onClick={onUploadClick}>
                         <img
                           src='/icons/upload.svg'
                           alt=''

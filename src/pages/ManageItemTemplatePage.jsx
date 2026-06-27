@@ -3,12 +3,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import TemplatePanel from '../components/Settings/ManageItemTemplate/TemplatePanel';
 import TemplateMainSection from '../components/Settings/ManageItemTemplate/TemplateMainSection';
+import UploadAnExcelModal from '../components/Settings/ManageItemTemplate/UploadAnExcelModal';
 import ItemTable from '../components/Settings/ManageItemTemplate/ItemTable';
 import { fetchProductGroups } from '../services/manageItemTemplateService';
 
 const ManageItemTemplatePage = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search || '');
+  const [showExcelModal, setShowExcelModal] = useState(false);
   const [duplicateCount, setDuplicateCount] = useState(0);
   const [filters, setFilters] = useState({
     issue: null,
@@ -86,6 +88,7 @@ const ManageItemTemplatePage = () => {
           checkedIds={checkedIds}
           onCheckedChange={setCheckedIds}
           onDuplicateCountChange={setDuplicateCount}
+          onUploadClick={() => setShowExcelModal(true)}
           onItemEdited={(itemName) => showToast(itemName, 'edited')}
           onItemDeleted={(itemName) => showToast(itemName, 'deleted')}
           onItemAdded={(itemName) => showToast(itemName, 'added')}
@@ -107,6 +110,15 @@ const ManageItemTemplatePage = () => {
           </div>
         </div>
       )}
+
+      <UploadAnExcelModal
+        isOpen={showExcelModal}
+        onClose={() => setShowExcelModal(false)}
+        onSuccess={() => {
+          setShowExcelModal(false);
+          showToast('Products', 'added');
+        }}
+      />
     </div>
   );
 };

@@ -24,7 +24,7 @@ export default function Header() {
     return () => clearTimeout(t);
   }, [location.pathname]);
 
-  const isInventory = location.pathname.includes('/');
+  const isInventory = location.pathname.includes('/inventory');
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['inventories'],
@@ -41,9 +41,7 @@ export default function Header() {
 
   function getTitle() {
     const path = location.pathname.toLowerCase();
-    // if (path.includes('analytics')) return 'Analytics';
-    // if (path.includes('inventory-count')) return 'Inventory Count';
-    // if (path.includes('cogs-calculator')) return 'COGS Calculator';
+
     return 'Inventories';
   }
 

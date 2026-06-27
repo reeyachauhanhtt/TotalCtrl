@@ -4,6 +4,8 @@ import { Tooltip } from 'react-tooltip';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
+import Checkbox from '../../Common/Checkbox';
+import FormInput from '../../Common/FormInput';
 import ConfirmModal from '../../Common/ConfirmModal';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
@@ -377,58 +379,35 @@ export default function EditItemTemplateModal({
                     Item Name
                     <span className='ml-1 text-[#e2232e] text-[12px]'>*</span>
                   </label>
-                  <div
-                    className={`flex h-12 w-full items-center rounded border px-4 ${
-                      focusedField === 'name'
-                        ? 'border-2 border-[#23a956]'
-                        : touched.name && !name.trim()
-                          ? 'border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63] bg-[#fff7f7]'
-                          : 'border-[#D7D8E0]'
-                    }`}
-                  >
-                    <input
-                      type='text'
-                      value={name}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                        if (touched.name)
-                          setTouched((p) => ({ ...p, name: false }));
-                      }}
-                      onFocus={() => setFocusedField('name')}
-                      onBlur={() => {
-                        setFocusedField(null);
-                        setTouched((p) => ({ ...p, name: true }));
-                      }}
-                      className='w-full text-sm text-[#333] outline-none bg-transparent'
-                    />
-                  </div>
-                  {touched.name && !name.trim() && (
-                    <p className='mt-2 text-[13px] text-[#D93A3F]'>
-                      This field is required
-                    </p>
-                  )}
+
+                  <FormInput
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (touched.name)
+                        setTouched((p) => ({ ...p, name: false }));
+                    }}
+                    onBlur={() => {
+                      setTouched((p) => ({ ...p, name: true }));
+                    }}
+                    placeholder=''
+                    autoFocus
+                    error={touched.name && !name.trim()}
+                    errorMessage='This field is required'
+                    className='col-span-8'
+                  />
                 </div>
 
                 <div className='col-span-4'>
                   <label className='mb-1 block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6B6F]'>
                     SKU
                   </label>
-                  <div
-                    className={`flex h-12 w-full items-center rounded border px-4 ${
-                      focusedField === 'sku'
-                        ? 'border-2 border-[#23a956]'
-                        : 'border-[#D7D8E0]'
-                    }`}
-                  >
-                    <input
-                      type='text'
-                      value={sku}
-                      onChange={(e) => setSku(e.target.value)}
-                      onFocus={() => setFocusedField('sku')}
-                      onBlur={() => setFocusedField(null)}
-                      className='w-full text-sm text-[#333] outline-none bg-transparent'
-                    />
-                  </div>
+
+                  <FormInput
+                    value={sku}
+                    onChange={(e) => setSku(e.target.value)}
+                    className='col-span-4'
+                  />
                 </div>
               </div>
 
@@ -463,7 +442,8 @@ export default function EditItemTemplateModal({
                   <label className='mb-1 block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6B6F]'>
                     Durability Days
                   </label>
-                  <div
+
+                  {/* <div
                     className={`flex h-12 w-full items-center rounded border px-4 ${
                       focusedField === 'durability'
                         ? 'border-2 border-[#23a956]'
@@ -479,7 +459,15 @@ export default function EditItemTemplateModal({
                       onBlur={() => setFocusedField(null)}
                       className='w-full text-sm text-[#333] outline-none bg-transparent'
                     />
-                  </div>
+                  </div> */}
+
+                  <FormInput
+                    type='number'
+                    value={durabilityDays}
+                    onChange={(e) => setDurabilityDays(e.target.value)}
+                    className='col-span-4'
+                  />
+
                   <span className='mt-2 block text-[13px] leading-4 text-[#6b6b6f]'>
                     Maximum recommended storage days before the item may spoil.
                   </span>
@@ -576,6 +564,7 @@ export default function EditItemTemplateModal({
                   <p className='mb-6 text-[14px] font-semibold leading-5 text-[#19191c]'>
                     Purchase unit to stocktaking unit
                   </p>
+
                   <div className='mb-2'>
                     <label className='mb-1 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6B6F]'>
                       1 {purchaseUnit ? purchaseUnit.name : 'purchase unit'}
@@ -585,50 +574,27 @@ export default function EditItemTemplateModal({
                       =
                     </label>
 
-                    <div
-                      className={`relative flex h-12 w-full items-center rounded border px-4 ${
-                        focusedField === 'puToStu'
-                          ? 'border-2 border-[#23a956]'
-                          : touchedConversions.puToStu &&
-                              !puToStu &&
-                              purchaseUnit &&
-                              stockTakingUnit
-                            ? 'border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63] bg-[#fff7f7]'
-                            : !purchaseUnit
-                              ? 'border-[#D7D8E0] bg-[#f1f1f5]'
-                              : 'border-[#D7D8E0]'
-                      }`}
-                    >
-                      <input
-                        type='text'
-                        value={puToStu}
-                        onChange={(e) => setPuToStu(e.target.value)}
-                        disabled={!purchaseUnit}
-                        onFocus={() => setFocusedField('puToStu')}
-                        onBlur={() => {
-                          setFocusedField(null);
-                          setTouchedConversions((p) => ({
-                            ...p,
-                            puToStu: true,
-                          }));
-                        }}
-                        placeholder={
-                          stockTakingUnit
-                            ? stockTakingUnit.name.toLowerCase()
-                            : 'stocktaking units'
-                        }
-                        className='min-w-0 shrink text-sm text-[#333] outline-none bg-transparent disabled:cursor-not-allowed'
-                        style={{
-                          width: puToStu ? `${puToStu.length + 1}ch` : '100%',
-                        }}
-                      />
-
-                      {puToStu && stockTakingUnit && (
-                        <span className='shrink-0 text-[14px] text-[#19191c] whitespace-nowrap'>
-                          {stockTakingUnit.name.toLowerCase()}
-                        </span>
-                      )}
-                    </div>
+                    <FormInput
+                      value={puToStu}
+                      onChange={(e) => setPuToStu(e.target.value)}
+                      onBlur={() =>
+                        setTouchedConversions((p) => ({ ...p, puToStu: true }))
+                      }
+                      disabled={!purchaseUnit}
+                      placeholder={
+                        stockTakingUnit
+                          ? stockTakingUnit.name.toLowerCase()
+                          : 'stocktaking units'
+                      }
+                      suffix={stockTakingUnit?.name.toLowerCase()}
+                      error={
+                        touchedConversions.puToStu &&
+                        !puToStu &&
+                        !!purchaseUnit &&
+                        !!stockTakingUnit
+                      }
+                      // errorMessage='This field is required'
+                    />
 
                     <span className='mt-2 block text-[13px] leading-4 text-[#6b6b6f]'>
                       How many{' '}
@@ -681,41 +647,23 @@ export default function EditItemTemplateModal({
                         =
                       </label>
 
-                      <div
-                        className={`relative flex h-12 w-full items-center rounded border px-4 ${
-                          focusedField === 'stuToBmu'
-                            ? 'border-2 border-[#23a956]'
-                            : !bmu
-                              ? 'border-[#D7D8E0] bg-[#f1f1f5]'
-                              : 'border-[#D7D8E0]'
-                        }`}
-                      >
-                        <input
-                          type='text'
-                          value={stuToBmu}
-                          onChange={(e) => setStuToBmu(e.target.value)}
-                          disabled={!bmu}
-                          onFocus={() => setFocusedField('stuToBmu')}
-                          onBlur={() => setFocusedField(null)}
-                          placeholder={
-                            bmu
-                              ? bmu.name.toLowerCase()
-                              : 'basic measurement units'
-                          }
-                          className='min-w-0 shrink text-sm text-[#333] outline-none bg-transparent disabled:cursor-not-allowed'
-                          style={{
-                            width: stuToBmu
-                              ? `${stuToBmu.length + 1}ch`
-                              : '100%',
-                          }}
-                        />
-
-                        {stuToBmu && bmu && (
-                          <span className='shrink-0 text-[14px] text-[#19191c] whitespace-nowrap'>
-                            {bmu.name.toLowerCase()}
-                          </span>
-                        )}
-                      </div>
+                      <FormInput
+                        value={stuToBmu}
+                        onChange={(e) => setStuToBmu(e.target.value)}
+                        onBlur={() =>
+                          setTouchedConversions((p) => ({
+                            ...p,
+                            stuToBmu: true,
+                          }))
+                        }
+                        disabled={!bmu}
+                        placeholder={
+                          bmu
+                            ? bmu.name.toLowerCase()
+                            : 'basic measurement units'
+                        }
+                        suffix={bmu?.name.toLowerCase()}
+                      />
 
                       <span className='mt-2 block text-[13px] leading-4 text-[#6b6b6f]'>
                         How many{' '}
@@ -782,37 +730,16 @@ export default function EditItemTemplateModal({
 
               <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-4'>
-                  <div
-                    className={`relative flex h-12 w-full items-center rounded border px-4 gap-1 ${
-                      focusedField === 'subparLevel'
-                        ? 'border-2 border-[#23a956]'
-                        : 'border-[#D7D8E0]'
-                    }`}
-                  >
-                    <input
-                      type='text'
-                      value={subparLevel}
-                      onChange={(e) => setSubparLevel(e.target.value)}
-                      onFocus={() => setFocusedField('subparLevel')}
-                      onBlur={() => setFocusedField(null)}
-                      placeholder={
-                        stockTakingUnit
-                          ? stockTakingUnit.name.toLowerCase()
-                          : 'stocktaking units'
-                      }
-                      className='min-w-0 shrink text-sm text-[#333] outline-none bg-transparent'
-                      style={{
-                        width: subparLevel
-                          ? `${subparLevel.length + 1}ch`
-                          : '100%',
-                      }}
-                    />
-                    {subparLevel && stockTakingUnit && (
-                      <span className='shrink-0 text-[14px] text-[#19191c] whitespace-nowrap'>
-                        {stockTakingUnit.name.toLowerCase()}
-                      </span>
-                    )}
-                  </div>
+                  <FormInput
+                    value={subparLevel}
+                    onChange={(e) => setSubparLevel(e.target.value)}
+                    placeholder={
+                      stockTakingUnit
+                        ? stockTakingUnit.name.toLowerCase()
+                        : 'stocktaking units'
+                    }
+                    suffix={stockTakingUnit?.name.toLowerCase()}
+                  />
                 </div>
               </div>
             </section>
@@ -827,42 +754,19 @@ export default function EditItemTemplateModal({
               <div className='flex items-start gap-0'>
                 {/* Cost input */}
                 <div className='w-[25%]'>
-                  <div
-                    className={`relative flex h-12 items-center rounded border px-4 gap-1 ${
-                      focusedField === 'cost'
-                        ? 'border-2 border-[#23a956]'
-                        : touchedCost && !cost
-                          ? 'border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63] bg-[#fff7f7]'
-                          : 'border-[#D7D8E0]'
-                    }`}
-                  >
-                    <input
-                      type='text'
-                      value={cost}
-                      onChange={(e) => {
-                        setCost(e.target.value);
-                        if (touchedCost) setTouchedCost(false);
-                      }}
-                      onFocus={() => setFocusedField('cost')}
-                      onBlur={() => {
-                        setFocusedField(null);
-                        setTouchedCost(true);
-                      }}
-                      placeholder='0'
-                      className='min-w-0 shrink text-sm text-[#333] outline-none bg-transparent'
-                      style={{ width: cost ? `${cost.length + 1}ch` : '100%' }}
-                    />
-                    {cost && (
-                      <span className='shrink-0 text-[14px] text-[#19191c] whitespace-nowrap'>
-                        kr
-                      </span>
-                    )}
-                  </div>
-                  {touchedCost && !cost && (
-                    <p className='mt-1 text-[13px] text-[#d93a3f]'>
-                      This field is required
-                    </p>
-                  )}
+                  <FormInput
+                    value={cost}
+                    onChange={(e) => {
+                      setCost(e.target.value);
+                      if (touchedCost) setTouchedCost(false);
+                    }}
+                    onBlur={() => setTouchedCost(true)}
+                    placeholder='0'
+                    suffix='kr'
+                    error={touchedCost && !cost}
+                    errorMessage='This field is required'
+                    className='w-[100%]'
+                  />
                 </div>
 
                 {/* "per" text */}
@@ -1185,46 +1089,18 @@ export default function EditItemTemplateModal({
                                 <td
                                   className={`px-5 py-[14px] text-center ${!isLast ? 'border-b border-[#dee2e6]' : ''} ${isLast ? 'rounded-br-lg' : ''}`}
                                 >
-                                  <label
-                                    className='relative inline-block cursor-pointer'
-                                    style={{ paddingLeft: '20px' }}
-                                    data-tooltip-id='remove-inv-tooltip'
-                                  >
-                                    <input
-                                      type='checkbox'
-                                      checked={
-                                        !!removeFromInventory[inv.inventoryId]
-                                      }
-                                      onChange={() =>
-                                        setRemoveFromInventory((prev) => ({
-                                          ...prev,
-                                          [inv.inventoryId]:
-                                            !prev[inv.inventoryId],
-                                        }))
-                                      }
-                                      className='absolute opacity-0 cursor-pointer h-0 w-0'
-                                    />
-                                    <span
-                                      className={`absolute top-0 left-0 h-5 w-5 border ${removeFromInventory[inv.inventoryId] ? 'bg-[#23a956] border-[#23a956]' : 'bg-white border-[#d7d7db]'}`}
-                                      style={{ borderRadius: '4px' }}
-                                    >
-                                      {removeFromInventory[inv.inventoryId] && (
-                                        <span
-                                          className='absolute'
-                                          style={{
-                                            left: '7px',
-                                            top: '4px',
-                                            width: '4px',
-                                            height: '8px',
-                                            border: 'solid white',
-                                            borderWidth: '0 2px 2px 0',
-                                            transform: 'rotate(45deg)',
-                                            display: 'block',
-                                          }}
-                                        />
-                                      )}
-                                    </span>
-                                  </label>
+                                  <Checkbox
+                                    checked={
+                                      !!removeFromInventory[inv.inventoryId]
+                                    }
+                                    onChange={() =>
+                                      setRemoveFromInventory((prev) => ({
+                                        ...prev,
+                                        [inv.inventoryId]:
+                                          !prev[inv.inventoryId],
+                                      }))
+                                    }
+                                  />
                                 </td>
                               </tr>
                             );

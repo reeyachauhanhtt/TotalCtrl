@@ -11,6 +11,8 @@ import { SkeletonBar, StockValueSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import SupplierDropdown from '../Common/SupplierDropDown';
 import StockDropdown from '../Common/StockDropDown';
+import SearchInput from '../Common/SearchInput';
+import { isViewer, hasNoAccess } from '../../constants/permissions';
 
 export default function InventoryMainSection({
   setShowModal,
@@ -19,6 +21,7 @@ export default function InventoryMainSection({
   setStockFilter,
   searchQuery,
   setSearchQuery,
+  setDebouncedSearch,
   setShowTransfer,
   isProductsFetching,
   selectedSupplier,
@@ -28,7 +31,9 @@ export default function InventoryMainSection({
   isSearching,
 }) {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
-  const isViewOnly = selectedInventory?.permission === 'Viewer';
+  const isViewOnly =
+    isViewer(selectedInventory?.permission) ||
+    hasNoAccess(selectedInventory?.permission);
 
   const [openSupplierDropdown, setOpenSupplierDropdown] = useState(false);
   const [openStockDropdown, setOpenStockDropdown] = useState(false);
@@ -250,21 +255,20 @@ export default function InventoryMainSection({
                 selectedSupplier={selectedSupplier}
                 setSelectedSupplier={setSelectedSupplier}
               />
+
               <StockDropdown
                 stockFilter={stockFilter}
                 setStockFilter={setStockFilter}
                 options={STOCK_OPTIONS}
               />
-              <div className='flex items-center border border-gray-300 rounded-sm px-3 flex-1 mr-5 transition duration-150 focus-within:border-2 focus-within:border-emerald-600'>
-                <FiSearch className='text-gray-950' />
-                <input
-                  type='text'
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Search ${selectedInventory?.name || ''}...`}
-                  className='w-full px-2 py-2 outline-none text-sm'
-                />
-              </div>
+
+              <SearchInput
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onDebouncedChange={setDebouncedSearch}
+                placeholder={`Search ${selectedInventory?.name || ''}...`}
+                className='flex-1 mr-5'
+              />
             </>
           )}
         </div>

@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { fetchInventory } from '../../../services/inventoryService';
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
+import FormInput from '../../Common/FormInput';
 import ExpiryDatePicker from './common/EXpiryDatePicker';
 import { formatPrice } from '../../../utils/format';
 import { addProductToInventory } from '../../../services/manageItemTemplateService';
@@ -115,11 +116,6 @@ export default function AddItemToInventory({
     (sum, r) => sum + (parseFloat(r.quantity) || 0),
     0,
   );
-  // const unitName = item?.purchaseUnit?.name ?? '';
-  // const costPerUnit =
-  //   totalQuantity > 0 && totalCost !== ''
-  //     ? (parseFloat(totalCost) / totalQuantity).toFixed(1)
-  //     : '0.0';
 
   function trySave() {
     setInventoryTouched(true);
@@ -326,52 +322,21 @@ export default function AddItemToInventory({
                       <label className='block text-[11px] font-semibold uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
                         Quantity*
                       </label>
-                      <div
-                        className='flex items-center border rounded-[4px] px-4 py-3 bg-white'
-                        style={{
-                          width: '240px',
-                          height: '48px',
-                          // borderColor:
-                          //   row.touched && !row.quantity
-                          //     ? '#e2232e'
-                          //     : row.quantity
-                          //       ? '#d7d8e0'
-                          //       : '#d7d8e0',
-                          borderColor:
-                            row.touched && !row.quantity
-                              ? '#e2232e'
-                              : row.focused
-                                ? '#23a956'
-                                : '#d7d8e0',
-                        }}
-                      >
-                        <input
-                          type='text'
-                          value={row.quantity}
-                          placeholder='Enter quantity'
-                          onChange={(e) =>
-                            updateRow(row.id, { quantity: e.target.value })
-                          }
-                          onFocus={() =>
-                            updateRow(row.id, { focused: true, touched: false })
-                          }
-                          onBlur={() =>
-                            updateRow(row.id, { focused: false, touched: true })
-                          }
-                          className='w-full text-[14px] text-[#19191c] outline-none bg-transparent border-none'
-                          style={{ caretColor: '#23a956' }}
-                        />
-                        {item?.purchaseUnit?.name && (
-                          <span className='text-[14px] text-[#6b6b6f] ml-2 shrink-0'>
-                            {item.purchaseUnit.name}
-                          </span>
-                        )}
-                      </div>
-                      {row.touched && !row.quantity && (
-                        <span className='text-[13px] text-[#e2232e] mt-1 block'>
-                          Quantity is required
-                        </span>
-                      )}
+
+                      <FormInput
+                        value={row.quantity}
+                        onChange={(e) =>
+                          updateRow(row.id, { quantity: e.target.value })
+                        }
+                        onBlur={() =>
+                          updateRow(row.id, { focused: false, touched: true })
+                        }
+                        placeholder='Enter quantity'
+                        suffix={item?.purchaseUnit?.name}
+                        error={row.touched && !row.quantity}
+                        errorMessage='Quantity is required'
+                        className='w-[240px]'
+                      />
                     </div>
 
                     {/* Expiration date */}
@@ -445,27 +410,16 @@ export default function AddItemToInventory({
                   Total product cost*
                 </label>
 
-                <input
-                  type='text'
+                <FormInput
                   value={totalCost}
                   onChange={(e) => setTotalCost(e.target.value)}
                   onBlur={() => setTouchedCost(true)}
                   placeholder='e.g. 100,00 kr'
-                  className={`border rounded-[4px] px-4 py-3 text-[14px] leading-6 text-[#333] outline-none ${
-                    // touchedCost && !totalCost && rows.some((r) => r.quantity)
-                    //   ? 'border-[#e2232e]'
-                    //   : 'border-[#d7d8e0]';
-                    touchedCost && !totalCost
-                      ? 'border-[#e2232e]'
-                      : 'border-[#d7d8e0]'
-                  }`}
-                  style={{ width: '288px' }}
+                  error={touchedCost && !totalCost}
+                  errorMessage='This field is required'
+                  className='w-[288px]'
                 />
-                {touchedCost && !totalCost && (
-                  <span className='block text-[13px] text-[#e2232e] mt-1'>
-                    This field is required
-                  </span>
-                )}
+
                 <span
                   className='block text-[13px] font-normal leading-4 text-[#6b6b6f] mt-2'
                   style={{ width: '288px' }}

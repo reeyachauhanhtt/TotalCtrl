@@ -13,6 +13,7 @@ import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import FormInput from '../Common/FormInput';
 import DateFields, { emptyDate, emptyDateErrors } from '../Common/DateFields';
 import {
   validateOrderDates,
@@ -34,7 +35,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
   const [orderedOn, setOrderedOn] = useState(emptyDate());
   const [scheduledFor, setScheduledFor] = useState(emptyDate());
   const [showFooterError, setShowFooterError] = useState(false);
-  const [orderNumberError, setOrderNumberError] = useState(false); // ADD
+  const [orderNumberError, setOrderNumberError] = useState(false);
   const [dateErrors, setDateErrors] = useState({
     orderedOn: emptyDateErrors(),
     scheduledFor: emptyDateErrors(),
@@ -84,7 +85,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
     setRows([emptyRow()]);
     setSupplierError(false);
     setShowFooterError(false);
-    setOrderNumberError(false); // ADD
+    setOrderNumberError(false);
     setOrderedOn(emptyDate());
     setScheduledFor(emptyDate());
     setDateErrors({
@@ -189,26 +190,12 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                     />
                   </div>
 
-                  {/* <div className='mb-7' style={{ width: '340px' }}>
-                    <label className='block font-semibold text-[11px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
-                      Order number
-                    </label>
-                    <input
-                      type='text'
-                      placeholder='Enter Order number'
-                      value={orderNumber}
-                      onChange={(e) => setOrderNumber(e.target.value)}
-                      className='border border-[#d7d8e0] rounded px-4 py-3 w-full text-[13px] leading-6 text-[#333] outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600'
-                    />
-                  </div> */}
-
                   <div className='mb-7' style={{ width: '340px' }}>
                     <label className='block font-semibold text-[12px] leading-4 uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
                       Order number*
                     </label>
-                    <input
-                      type='text'
-                      placeholder='Enter Order number'
+
+                    <FormInput
                       value={orderNumber}
                       onChange={(e) => {
                         setOrderNumber(e.target.value);
@@ -217,17 +204,11 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                       onBlur={() => {
                         if (!orderNumber.trim()) setOrderNumberError(true);
                       }}
-                      className={`border rounded px-4 py-3 w-full text-[14px] leading-6 text-[#333] outline-none focus:ring-1 ${
-                        orderNumberError
-                          ? 'bg-[#fff7f7] border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63]'
-                          : 'border-[#d7d8e0] focus:border-green-600 focus:ring-green-600'
-                      }`}
+                      placeholder='Enter Order number'
+                      error={orderNumberError}
+                      errorMessage='This field is required'
+                      className='w-[340px]'
                     />
-                    {orderNumberError && (
-                      <p className='text-[#d93a3f] text-[14px] leading-5 font-semibold pt-2'>
-                        This field is required
-                      </p>
-                    )}
                   </div>
                 </div>
 

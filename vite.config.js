@@ -14,6 +14,11 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,
           secure: false,
+          bypass(req) {
+            if (req.url === '/inventory' || req.url.startsWith('/inventory?')) {
+              return '/index.html';
+            }
+          },
         },
         '/inventory-management': {
           target: env.VITE_API_BASE_URL,

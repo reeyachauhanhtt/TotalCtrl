@@ -3,6 +3,7 @@ import { FiX } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
+import FormInput from '../../Common/FormInput';
 
 export default function AddNewInventory({ open, onClose }) {
   const [inventoryName, setInventoryName] = useState('');
@@ -26,26 +27,13 @@ export default function AddNewInventory({ open, onClose }) {
         {/* Body */}
         <div className='h-[352px] px-12 pt-9 pb-6 text-[#737373] text-base leading-6'>
           <div className='w-[400px]'>
-            <label className='block mb-2 text-[11px] leading-4 font-semibold tracking-[0.08em] uppercase text-[#6b6b6f]'>
+            <label className='block mb-1 text-[11px] leading-4 font-semibold tracking-[0.08em] uppercase text-[#6b6b6f]'>
               Inventory name
             </label>
-
-            <input
-              type='text'
+            <FormInput
               value={inventoryName}
               onChange={(e) => setInventoryName(e.target.value)}
-              className='
-                w-full
-                border border-[#d7d8e0]
-                rounded
-                px-4 py-[11px]
-                text-sm
-                leading-6
-                text-[#333]
-                outline-none
-                focus:border-[#23a956]
-                focus:shadow-[0_0_0_1px_#23a956]
-              '
+              className='w-full'
             />
           </div>
         </div>

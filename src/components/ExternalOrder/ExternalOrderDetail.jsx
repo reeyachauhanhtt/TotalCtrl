@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
+import { canEdit, PERMISSIONS } from '../../constants/permissions';
 import {
   fetchOrderDetail,
   fetchDeliveredOrderDetail,
@@ -374,6 +375,13 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
 
   const isErrorAny = isScheduled ? isError : isDeliveredError;
 
+  // permissioon who can edit the order
+  const currentInventory = inventories.find(
+    (inv) => inv.name === inventoryName,
+  );
+  const userPermission = currentInventory?.permission ?? PERMISSIONS.NO_ACCESS;
+  const hasEditAccess = canEdit(userPermission);
+
   useEffect(() => {
     if (supplierName && orderNumber) {
       dispatch(
@@ -517,19 +525,25 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
           {isScheduled && (
             <div className='flex items-start justify-end gap-1'>
               <button
-                onClick={() => setShowEditModal(true)}
-                className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'
+                onClick={() => hasEditAccess && setShowEditModal(true)}
+                disabled={!hasEditAccess}
+                className={`w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent transition
+        ${hasEditAccess ? 'cursor-pointer hover:bg-[#dcf1e3]' : 'cursor-not-allowed opacity-30'}`}
               >
                 <img src='/icons/dark-edit.svg' alt='edit' />
               </button>
+
               <div className='relative'>
                 <button
-                  onClick={() => setShowDropdown((p) => !p)}
-                  className='w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent cursor-pointer hover:bg-[#dcf1e3] transition'
+                  onClick={() => hasEditAccess && setShowDropdown((p) => !p)}
+                  disabled={!hasEditAccess}
+                  className={`w-12 h-12 flex items-center justify-center rounded-full border border-transparent bg-transparent transition
+          ${hasEditAccess ? 'cursor-pointer hover:bg-[#dcf1e3]' : 'cursor-not-allowed opacity-30'}`}
                 >
                   <img src='/icons/dark-more.svg' alt='more' />
                 </button>
-                {showDropdown && (
+
+                {hasEditAccess && showDropdown && (
                   <div
                     style={{
                       position: 'absolute',
@@ -692,13 +706,6 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
         inventories={inventories}
         suppliers={suppliersData}
         units={units}
-        onSave={(payload) => {
-          // console.log('save payload:', payload);
-
-          setShowEditModal(false);
-          setToastMessage({ type: 'update' });
-          setTimeout(() => setToastMessage(null), 4000);
-        }}
         onSave={async (payload) => {
           try {
             const updatePayload = {
