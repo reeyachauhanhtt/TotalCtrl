@@ -143,7 +143,7 @@ export default function PriceVariations({ inventoryId, dateRange }) {
   const increaseHasMore = increase.length >= 4;
   const decreaseHasMore = decrease.length >= 4;
 
-  console.log('priceVariations raw data:', data);
+  // console.log('priceVariations raw data:', data);
   return (
     <div className='flex w-[95%] mt-2.5'>
       <PriceVariationTable

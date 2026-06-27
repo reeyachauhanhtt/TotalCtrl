@@ -8,15 +8,13 @@ import UploadAnExcelModal from './UploadAnExcelModal';
 import AddItemTemplateModal from './AddItemTemplate';
 
 export default function TemplatePanel({
-  onUploadExcel,
   onUploadOrder,
   onItemAdded,
+  duplicateCount,
 }) {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [showExcelModal, setShowExcelModal] = useState(false);
-  // const [showSuccessToast, setShowSuccessToast] = useState(false);
-  // const toastTimerRef = useRef(null);
 
   return (
     <>
@@ -27,7 +25,7 @@ export default function TemplatePanel({
           </span>
 
           <label className='mt-2.5 inline-block whitespace-nowrap rounded bg-[#ffe3e5] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-[#a71a23]'>
-            Duplicate Templates Found (44)
+            Duplicate Templates Found ({duplicateCount})
           </label>
         </div>
 
@@ -87,27 +85,6 @@ export default function TemplatePanel({
           />
         )}
       </div>
-      {/* 
-      {showSuccessToast && (
-        <div
-          className='fixed bottom-0 z-50'
-          style={{ left: '200px', right: '0' }}
-        >
-          <div className='mx-6 mb-4 bg-[#19191c] text-white text-[14px] leading-6 px-8 py-4 rounded-sm flex items-center gap-3'>
-            <img src='/icons/right.svg' alt='' className='w-5 h-5' />
-            <span>
-              <strong>Products</strong> have been successfully added to your
-              product database
-            </span>
-            <button
-              onClick={() => setShowSuccessToast(false)}
-              className='ml-auto text-white text-[18px] leading-none cursor-pointer bg-transparent border-none'
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )} */}
 
       {showAddItemModal && (
         <AddItemTemplateModal

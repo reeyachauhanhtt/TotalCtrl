@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-// import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import InventoryMainSection from '../components/Inventory/InventoryMainSection';
 import InventoryTable from '../components/Inventory/InventoryTable';
 import { fetchProducts } from '../services/productService';
-import { fetchStockValue } from '../services/inventoryService';
+import { fetchStockValue, fetchInventory } from '../services/inventoryService';
 import AddItemModal from '../components/Inventory/AddItemModal';
 import TransferItemModal from '../components/Inventory/TransferItemModal';
 import {
@@ -14,6 +14,7 @@ import {
   TableRowSkeleton,
 } from '../components/Common/Skeleton';
 import { fetchMeasurementUnits } from '../services/masterDataService';
+import { setSelectedInventory } from '../store/inventorySlice';
 
 export default function InventoryPage({ onTransferSuccess }) {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
@@ -26,16 +27,36 @@ export default function InventoryPage({ onTransferSuccess }) {
   const [showTransfer, setShowTransfer] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(false);
-  // const location = useLocation();
+  const location = useLocation();
 
   const scrollRef = useRef(null);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setShowSkeleton(true);
-  //   const t = setTimeout(() => setShowSkeleton(false), 600);
-  //   return () => clearTimeout(t);
-  // }, [location.pathname]);
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventories'],
+    queryFn: fetchInventory,
+    staleTime: Infinity,
+  });
 
+  // Handle URL params: ?id=inventoryId&productName=product
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const inventoryId = params.get('id');
+    const productName = params.get('productName');
+
+    if (productName) {
+      setSearchQuery(productName);
+      setDebouncedSearch(productName);
+    }
+
+    if (inventoryId && inventoryData) {
+      const list = inventoryData?.Data || inventoryData?.data || [];
+      const match = list.find((inv) => inv.id === inventoryId);
+      if (match) dispatch(setSelectedInventory(match));
+    }
+  }, [location.search, inventoryData]);
+
+  // Show skeleton on inventory switch
   useEffect(() => {
     if (!selectedInventory?.id) return;
     setShowSkeleton(true);
@@ -43,12 +64,17 @@ export default function InventoryPage({ onTransferSuccess }) {
     return () => clearTimeout(t);
   }, [selectedInventory?.id]);
 
+  // Reset filters on inventory switch — but preserve search if coming from URL
   useEffect(() => {
     if (!selectedInventory?.id) return;
+    const params = new URLSearchParams(location.search);
+    const productName = params.get('productName');
     setSelectedSupplier(null);
     setStockFilter('all');
-    setSearchQuery('');
-    setDebouncedSearch('');
+    if (!productName) {
+      setSearchQuery('');
+      setDebouncedSearch('');
+    }
     setHeaderScrolled(false);
   }, [selectedInventory?.id]);
 

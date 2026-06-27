@@ -309,19 +309,6 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
 
   const userId = getUserIdFromToken() || '';
 
-  //   const currencyId = (() => {
-  //     try {
-  //       const raw = localStorage.getItem('currentUser_restaurant');
-  //       if (raw) return JSON.parse(raw)?.user?.currencyId || '';
-  //       return '';
-  //     } catch {
-  //       return '';
-  //     }
-  //   })();
-
-  //   const userId = currentUser?.user?.id || '';
-  //   const currencyId = currentUser?.user?.currencyId || '';
-
   console.log(
     'currentUser_restaurant raw:',
     localStorage.getItem('currentUser_restaurant'),

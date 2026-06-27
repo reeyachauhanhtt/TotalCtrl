@@ -7,7 +7,12 @@ const menuItems = [
   { label: 'Organization Settings', icon: '/icons/suitcase.svg', path: '#' },
   { label: 'Manage Users', icon: '/icons/people.svg', path: '#' },
   { label: 'Manage Roles', icon: '/icons/roles.svg', path: '#' },
-  { label: 'Manage Inventories', icon: '/icons/box.svg', path: '#' },
+  {
+    label: 'Manage Inventories',
+    icon: '/icons/box.svg',
+    path: '#',
+    path: '/manage-storage',
+  },
   {
     label: 'Manage Item Templates',
     icon: '/icons/products.svg',

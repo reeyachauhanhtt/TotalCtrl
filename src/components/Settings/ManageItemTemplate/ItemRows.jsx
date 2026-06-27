@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
+import { Tooltip } from 'react-tooltip';
 
 import EditItemTemplate from './EditItemTemplate';
 import AddItemToInventory from './AddItemToInventory';
@@ -265,21 +266,56 @@ export default function ItemRow({
                   {(inStock || [])
                     .slice(0, MAX_VISIBLE_INVENTORIES)
                     .map((inv) => (
-                      //naviagte to inv page with url
+                      //navigate to inventory page
                       <a
-                        key={inv.id || inv}
+                        key={inv.id}
                         href={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
                       >
-                        {inv.name || inv}
+                        {inv.name}
                       </a>
                     ))}
+
                   {(inStock || []).length - MAX_VISIBLE_INVENTORIES > 0 && (
-                    <span className='text-[13px] font-semibold leading-5 text-[#6b6b6f] underline cursor-pointer mt-1'>
-                      &amp; {inStock.length - MAX_VISIBLE_INVENTORIES} more
-                    </span>
+                    <>
+                      <span
+                        data-tooltip-id={`more-inv-${rowItem.id}`}
+                        className='text-[13px] font-semibold leading-5 text-[#6b6b6f] underline cursor-pointer mt-1'
+                      >
+                        &amp; {inStock.length - MAX_VISIBLE_INVENTORIES} more
+                      </span>
+                      <Tooltip
+                        id={`more-inv-${rowItem.id}`}
+                        place='bottom'
+                        clickable
+                        className='tooltip-light-button'
+                        style={{
+                          backgroundColor: '#fff',
+                          boxShadow: '0 2px 8px 0 rgba(0,0,0,0.12)',
+                          borderRadius: '4px',
+                          padding: '8 px',
+                          width: '207px',
+                          opacity: 1,
+                          zIndex: 999,
+                        }}
+                      >
+                        <div className='flex flex-col gap-1'>
+                          {inStock.slice(MAX_VISIBLE_INVENTORIES).map((inv) => (
+                            <a
+                              key={inv.id}
+                              href={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full block'
+                            >
+                              {inv.name}
+                            </a>
+                          ))}
+                        </div>
+                      </Tooltip>
+                    </>
                   )}
                 </>
               )}
@@ -324,6 +360,7 @@ export default function ItemRow({
               colSpan={10}
               className='p-0 border-b border-[#e6e6ed]'
               style={{
+                borderRadius: '30px',
                 borderLeft: '6px solid #e2232e',
                 borderRight: '6px solid #e2232e',
               }}
@@ -408,6 +445,7 @@ export default function ItemRow({
                     </span>
                   </label>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY} pl-[10px]`}
                   style={{ minWidth: '300px', width: '38%', height: '72px' }}
@@ -424,6 +462,7 @@ export default function ItemRow({
                     {dupItem.sku || ''}
                   </span>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '7%', height: '72px' }}
@@ -439,6 +478,7 @@ export default function ItemRow({
                     )}
                   </div>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '7%', height: '72px' }}
@@ -454,6 +494,7 @@ export default function ItemRow({
                     )}
                   </div>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '7%', height: '72px' }}
@@ -462,6 +503,7 @@ export default function ItemRow({
                     -----
                   </span>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '12%', height: '72px' }}
@@ -470,6 +512,7 @@ export default function ItemRow({
                     {dupItem.category}
                   </span>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '8%', height: '72px' }}
@@ -478,22 +521,44 @@ export default function ItemRow({
                     ----
                   </span>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY}`}
                   style={{ width: '15%', height: '72px' }}
                 >
                   <div className='flex flex-col' style={{ maxWidth: '130px' }}>
-                    {dupItem.inStock &&
-                      dupItem.inStock.map((inv) => (
-                        <span
-                          key={inv}
-                          className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
-                        >
-                          {inv}
-                        </span>
-                      ))}
+                    {!dupItem.inStock || dupItem.inStock.length === 0 ? (
+                      <span className='text-[#6b6b6f] text-[12px] italic font-normal'>
+                        -----
+                      </span>
+                    ) : (
+                      dupItem.inStock
+                        .slice(0, MAX_VISIBLE_INVENTORIES)
+                        .map((inv, idx) => {
+                          const id = inv?.id ?? idx;
+                          const name = inv?.name ?? inv;
+                          return (
+                            <a
+                              key={id}
+                              href={`/?id=${id}&productName=${encodeURIComponent(dupItem.name)}`}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
+                            >
+                              {name}
+                            </a>
+                          );
+                        })
+                    )}
+                    {dupItem.inStock?.length - MAX_VISIBLE_INVENTORIES > 0 && (
+                      <span className='text-[13px] font-semibold leading-5 text-[#6b6b6f] underline cursor-pointer mt-1'>
+                        &amp; {dupItem.inStock.length - MAX_VISIBLE_INVENTORIES}{' '}
+                        more
+                      </span>
+                    )}
                   </div>
                 </td>
+
                 <td
                   className={`${tdBase} ${tdPadY} pr-8`}
                   style={{

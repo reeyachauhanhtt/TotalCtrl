@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import ItemRow from './ItemRows';
+import { SkeletonBar } from '../../Common/Skeleton';
 import {
   fetchItemTemplates,
   fetchStoreProductsSearch,
@@ -50,10 +51,13 @@ export default function ItemTable({
   onItemEdited,
   onItemDeleted,
   onItemAdded,
+  onDuplicateCountChange,
 }) {
   const [sortKey, setSortKey] = useState('name');
   const [sortDir, setSortDir] = useState('desc');
   const [isSorting, setIsSorting] = useState(false);
+  const [prevIssue, setPrevIssue] = useState(filters?.issue);
+  const [isFilteringIssue, setIsFilteringIssue] = useState(false);
 
   const [debouncedSearch, setDebouncedSearch] = useState(search || '');
 
@@ -64,51 +68,68 @@ export default function ItemTable({
     return () => clearTimeout(timer);
   }, [search]);
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: [
-        'itemTemplates',
-        debouncedSearch,
-        filters?.categoryId || '',
-        filters?.subcategoryId || '',
-        filters?.inventoryId || '',
-        filters?.supplierId || '',
-      ],
-      queryFn: ({ pageParam = 0 }) =>
-        fetchItemTemplates({
-          name: debouncedSearch,
-          parentProductGroupId: filters?.categoryId || '',
-          productGroupId: filters?.subcategoryId || '',
-          inventoryId: filters?.inventoryId || '',
-          supplierId: filters?.supplierId || '',
-          offset: pageParam,
-          limit: 20,
-        }),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage, allPages) => {
-        const loaded = allPages.length * 20;
-        return loaded < (lastPage?.total || 0) ? loaded : undefined;
-      },
-    });
-
-  const loaderRef = useRef(null);
-
   useEffect(() => {
-    if (!loaderRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(loaderRef.current);
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+    if (filters?.issue !== prevIssue) {
+      setPrevIssue(filters?.issue);
+      setIsFilteringIssue(true);
+      const t = setTimeout(() => setIsFilteringIssue(false), 900);
+      return () => clearTimeout(t);
+    }
+  }, [filters?.issue]);
+
+  const {
+    data,
+    isLoading,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      'itemTemplates',
+      debouncedSearch,
+      filters?.categoryId || '',
+      filters?.subcategoryId || '',
+      filters?.inventoryId || '',
+      filters?.supplierId || '',
+    ],
+    queryFn: ({ pageParam = 0 }) =>
+      fetchItemTemplates({
+        name: debouncedSearch,
+        parentProductGroupId: filters?.categoryId || '',
+        productGroupId: filters?.subcategoryId || '',
+        inventoryId: filters?.inventoryId || '',
+        supplierId: filters?.supplierId || '',
+        offset: pageParam,
+        limit: 20,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const loaded = allPages.length * 20;
+      return loaded < (lastPage?.total || 0) ? loaded : undefined;
+    },
+    staleTime: 0,
+  });
+
+  const scrollRef = useRef(null);
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    if (el.scrollHeight - el.scrollTop <= el.clientHeight + 150) {
+      if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+    }
+  };
 
   const rawItems =
     data?.pages?.flatMap((page) => page?.Data || page?.data || []) || [];
+
+  // console.log(
+  //   'Total items:',
+  //   rawItems.length,
+  //   'Duplicates:',
+  //   rawItems.filter((p) => p.isDuplicate).length,
+  // );
 
   const items = (rawItems || []).map((p) => ({
     id: p.id,
@@ -156,10 +177,11 @@ export default function ItemTable({
     category: p.productGroup?.parent?.name || p.productGroup?.name || '',
     subcategory: p.productGroup?.parent ? p.productGroup.name : '',
     durabilityDays: p.durabilityDays || '----',
+
     inStock: Array.isArray(p.inventoryQuantities)
       ? p.inventoryQuantities
           .filter((inv) => inv.totalQuantity > 0)
-          .map((inv) => inv.inventoryName)
+          .map((inv) => ({ id: inv.inventoryId, name: inv.inventoryName }))
       : [],
     isDuplicate: p.isDuplicate || false,
     duplicateProducts: (p.duplicateProducts || []).map((dup) => ({
@@ -172,10 +194,15 @@ export default function ItemTable({
       inStock: Array.isArray(dup.inventoryQuantities)
         ? dup.inventoryQuantities
             .filter((inv) => inv.totalQuantity > 0)
-            .map((inv) => inv.inventoryName)
+            .map((inv) => ({ id: inv.inventoryId, name: inv.inventoryName }))
         : [],
     })),
   }));
+
+  useEffect(() => {
+    const count = data?.pages?.[0]?.noOfDuplicateRecords ?? 0;
+    onDuplicateCountChange?.(count);
+  }, [data?.pages?.[0]?.noOfDuplicateRecords]);
 
   const filteredItems = items.filter((item) => {
     if (!filters?.issue || filters.issue === 'All item templates') return true;
@@ -183,37 +210,6 @@ export default function ItemTable({
     if (filters.issue === 'Item templates without SKU') return !item.sku;
     return true;
   });
-
-  // const sortedFilteredItems = sortKey
-  //   ? [...filteredItems].sort((a, b) => {
-  //       let aVal, bVal;
-
-  //       if (
-  //         sortKey === 'purchaseUnit' ||
-  //         sortKey === 'stockTakingUnit' ||
-  //         sortKey === 'basicMeasUnit'
-  //       ) {
-  //         aVal = a[sortKey]?.name ?? '';
-  //         bVal = b[sortKey]?.name ?? '';
-  //       } else if (sortKey === 'inStock') {
-  //         aVal = a.inStock?.length ?? 0;
-  //         bVal = b.inStock?.length ?? 0;
-  //       } else if (sortKey === 'durabilityDays') {
-  //         aVal = a.durabilityDays === '----' ? -1 : Number(a.durabilityDays);
-  //         bVal = b.durabilityDays === '----' ? -1 : Number(b.durabilityDays);
-  //       } else {
-  //         aVal = a[sortKey];
-  //         bVal = b[sortKey];
-  //       }
-
-  //       if (aVal == null || aVal === '') return 1;
-  //       if (bVal == null || bVal === '') return -1;
-
-  //       const cmp =
-  //         typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
-  //       return sortDir === 'asc' ? cmp : -cmp;
-  //     })
-  //   : filteredItems;
 
   const sortedFilteredItems = sortKey
     ? [...filteredItems].sort((a, b) => {
@@ -301,9 +297,15 @@ export default function ItemTable({
     setTimeout(() => setIsSorting(false), 300);
   }
 
+  // console.log('Page 0 raw:', data?.pages?.[0]);
+
   return (
     <div className='flex flex-col h-full'>
-      <div className='flex-1 min-h-0 overflow-y-auto'>
+      <div
+        ref={scrollRef}
+        className='flex-1 min-h-0 overflow-y-auto'
+        onScroll={handleScroll}
+      >
         <table className='w-full border-collapse'>
           <thead>
             <tr className='bg-[#fbfbfc]'>
@@ -400,15 +402,87 @@ export default function ItemTable({
             </tr>
           </thead>
           <tbody>
-            {isLoading || isSorting ? (
-              <tr>
-                <td
-                  colSpan={10}
-                  className='text-center py-10 text-sm text-[#6b6b6f]'
-                >
-                  Loading...
-                </td>
-              </tr>
+            {isLoading ||
+            (isFetching && !isFetchingNextPage) ||
+            isSorting ||
+            isFilteringIssue ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <tr key={i} className='border-b border-[#e6e6ed]'>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-8'
+                    style={{ minWidth: '62px' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 20, borderRadius: 4 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '38%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 220, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '8%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 50, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '12%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 90, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '8%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 50, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '15%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 100, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td className='pt-[26px] pb-[26px] pr-8' />
+                </tr>
+              ))
             ) : filteredItems.length === 0 ? (
               <tr>
                 <td colSpan={10}>
@@ -494,15 +568,90 @@ export default function ItemTable({
                 />
               ))
             )}
+
+            {isFetchingNextPage &&
+              Array.from({ length: 4 }).map((_, i) => (
+                <tr
+                  key={`skeleton-next-${i}`}
+                  className='border-b border-[#e6e6ed]'
+                >
+                  <td
+                    className='pt-[26px] pb-[26px] pl-8'
+                    style={{ minWidth: '62px' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 20, borderRadius: 4 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '38%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 220, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '8%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 50, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '7%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 60, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '12%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 90, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '8%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 50, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td
+                    className='pt-[26px] pb-[26px] pl-[10px]'
+                    style={{ width: '15%' }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 16, width: 100, borderRadius: 20 }}
+                    />
+                  </td>
+                  <td className='pt-[26px] pb-[26px] pr-8' />
+                </tr>
+              ))}
           </tbody>
         </table>
-
-        <div
-          ref={loaderRef}
-          className='py-4 text-center text-sm text-[#6b6b6f]'
-        >
-          {isFetchingNextPage ? 'Loading more...' : ''}
-        </div>
       </div>
     </div>
   );

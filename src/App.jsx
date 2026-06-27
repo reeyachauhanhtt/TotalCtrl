@@ -17,15 +17,20 @@ import ExternalOrderPage from './pages/ExternalOrderPage';
 import InternalOrderPage from './pages/InternalOrderPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import ManageItemTemplatePage from './pages/ManageItemTemplatePage';
+import ManageInventories from './pages/ManageInventoriesPage';
+
 import { HeaderSkeleton } from './components/Common/Skeleton';
+
 import ExternalOrderHeader from './components/ExternalOrder/ExternalOrderHeader';
 import ExternalOrderDetailHeader from './components/ExternalOrder/ExternalOrderDetailHeader';
 import InternalOrderHeader from './components/InternalOrder/InternalOrderHeader';
 import InternalOrderDetailHeader from './components/InternalOrder/InternalOrderDetailHeader';
-import UploadOrderModal from './components/Common/UploadOrderModal';
 import AnalyticsHeader, {
   AnalyticsDetailHeader,
 } from './components/Analytics/AnalyticsHeader';
+
+import UploadOrderModal from './components/Common/UploadOrderModal';
+
 import { undoTransfer } from './services/transferService';
 import { fetchInventory } from './services/inventoryService'; //added
 import { setSelectedInventory } from './store/inventorySlice'; //added
@@ -96,6 +101,10 @@ function Layout() {
   // console.log('JWT Payload:', payload);
 
   function renderHeader() {
+    //no header in manage item template page
+    if (location.pathname === '/product-database') return null;
+    if (location.pathname === '/manage-storage') return null;
+
     //inventory header
     if (!selectedInventory) return <HeaderSkeleton />;
 
@@ -172,9 +181,6 @@ function Layout() {
       );
     if (isAnalytics) return <AnalyticsHeader />;
 
-    //no header in manage item template page
-    if (location.pathname === '/product-database') return null;
-
     return <Header />;
   }
 
@@ -208,7 +214,7 @@ function Layout() {
 
         {renderHeader()}
 
-        <div className='flex-1 overflow-hidden'>
+        <div className='flex-1 overflow-hidden h-full'>
           <UploadOrderModal
             isOpen={showUploadModal}
             onClose={() => setShowUploadModal(false)}
@@ -221,38 +227,49 @@ function Layout() {
               }
             />
             <Route path='/external-orders' element={<ExternalOrderPage />} />
+
             <Route
               path='/external-orders/scheduled-order/:orderId'
               element={<ExternalOrderPage />}
             />
+
             <Route
               path='/external-orders/partially-delivered/:orderId'
               element={<ExternalOrderPage />}
             />
+
             <Route
               path='/external-orders/delivered-order/:orderId'
               element={<ExternalOrderPage />}
             />
+
             <Route path='/internal-orders' element={<InternalOrderPage />} />
+
             <Route
               path='/internal-orders/internal-scheduled-order/:orderId'
               element={<InternalOrderPage />}
             />
+
             <Route
               path='/internal-orders/internal-partially-order/:orderId'
               element={<InternalOrderPage />}
             />
+
             <Route
               path='/internal-orders/internal-delivered-order/:orderId'
               element={<InternalOrderPage />}
             />
+
             <Route path='/analytics-overview' element={<AnalyticsPage />} />
             <Route path='/analytics' element={<AnalyticsPage />} />
             <Route path='/analytics/*' element={<AnalyticsPage />} />
+
             <Route
               path='/product-database'
               element={<ManageItemTemplatePage />}
             />
+
+            <Route path='/manage-storage' element={<ManageInventories />} />
           </Routes>
         </div>
       </div>

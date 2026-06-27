@@ -144,7 +144,7 @@ export default function ExternalOrderPage() {
           : 'delivered-order',
   }));
 
-  console.log('selectedOrder:', selectedOrder, 'isDetailOpen:', isDetailOpen);
+  // console.log('selectedOrder:', selectedOrder, 'isDetailOpen:', isDetailOpen);
 
   if (isDetailOpen && selectedOrder) {
     return (

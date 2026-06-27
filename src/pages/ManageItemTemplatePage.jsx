@@ -9,6 +9,7 @@ import { fetchProductGroups } from '../services/manageItemTemplateService';
 const ManageItemTemplatePage = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search || '');
+  const [duplicateCount, setDuplicateCount] = useState(0);
   const [filters, setFilters] = useState({
     issue: null,
     category: null,
@@ -50,8 +51,9 @@ const ManageItemTemplatePage = () => {
   }
 
   return (
-    <div className='flex flex-col h-full'>
-      <TemplatePanel onItemAdded={showToast} />
+    // <div className='flex flex-col h-full'>
+    <div className='flex flex-col' style={{ height: '100vh' }}>
+      <TemplatePanel onItemAdded={showToast} duplicateCount={duplicateCount} />
 
       <TemplateMainSection
         search={search}
@@ -83,6 +85,7 @@ const ManageItemTemplatePage = () => {
           }
           checkedIds={checkedIds}
           onCheckedChange={setCheckedIds}
+          onDuplicateCountChange={setDuplicateCount}
           onItemEdited={(itemName) => showToast(itemName, 'edited')}
           onItemDeleted={(itemName) => showToast(itemName, 'deleted')}
           onItemAdded={(itemName) => showToast(itemName, 'added')}
