@@ -18,6 +18,7 @@ import {
 } from '../../services/masterDataService';
 import { setSelectedOrder } from '../../store/externalOrderSlice';
 import ConfirmModal from '../Common/ConfirmModal';
+import StatusBadge from '../Common/StatusBadge';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
 import { ExternalOrderDetailSkeleton } from '../Common/Skeleton';
 
@@ -56,19 +57,6 @@ function formatTotal(total, currency) {
   if (currency?.locationOfSymbol === '2')
     return `${formatted} ${currency.symbol}`;
   return `${currency?.symbol ?? ''} ${formatted}`;
-}
-
-function getStatusBadge(status) {
-  switch (status) {
-    case 'Scheduled':
-      return { bg: '#e7e7ec', color: '#57575b' };
-    case 'Partially Delivered':
-      return { bg: '#fff4bd', color: '#a08700' };
-    case 'Delivered':
-      return { bg: '#eaf7ee', color: '#0f6f36' };
-    default:
-      return { bg: '#e7e7ec', color: '#57575b' };
-  }
 }
 
 const SCHEDULED_COLUMNS = [
@@ -339,7 +327,6 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
     : (STATUS_LABEL_MAP[deliveredDetail?.status?.replace('-', ' ')] ??
       order.status);
 
-  const { bg, color } = getStatusBadge(status);
   const products = detail?.products ?? [];
   const isScheduled = isScheduledOrder;
 
@@ -439,11 +426,12 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
               >
                 {supplierName}
               </h2>
+
               <label
-                style={{ backgroundColor: bg, color, marginTop: '-3px' }}
+                style={{ marginTop: '-3px' }}
                 className='inline-block text-[12px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
               >
-                {status}
+                <StatusBadge variant={status} className='mt-[-3px]' />
               </label>
             </div>
 

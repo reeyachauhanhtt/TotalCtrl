@@ -215,7 +215,7 @@ function Layout() {
 
         {renderHeader()}
 
-        <div className='flex-1 overflow-hidden h-full'>
+        <div className='flex-1 overflow-auto h-full'>
           <UploadOrderModal
             isOpen={showUploadModal}
             onClose={() => setShowUploadModal(false)}

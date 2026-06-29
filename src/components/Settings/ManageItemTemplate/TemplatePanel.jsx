@@ -4,6 +4,7 @@ import { FiX } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
+import StatusBadge from '../../Common/StatusBadge';
 import UploadOrderModal from '../../Common/UploadOrderModal';
 import UploadAnExcelModal from './UploadAnExcelModal';
 import AddItemTemplateModal from './AddItemTemplate';
@@ -25,9 +26,11 @@ export default function TemplatePanel({
             Manage Item Templates
           </span>
 
-          <label className='mt-2.5 inline-block whitespace-nowrap rounded bg-[#ffe3e5] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-[#a71a23]'>
-            Duplicate Templates Found ({duplicateCount})
-          </label>
+          <StatusBadge
+            variant='duplicate'
+            label={`Duplicate Templates Found (${duplicateCount})`}
+            className='mt-2.5'
+          />
         </div>
 
         <div className='flex items-center gap-4'>

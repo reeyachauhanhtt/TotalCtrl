@@ -8,6 +8,7 @@ import {
   deleteStoreProduct,
 } from '../../services/productService';
 import ConfirmModal from '../Common/ConfirmModal';
+import StatusBadge from '../Common/StatusBadge';
 import Checkbox from '../Common/Checkbox';
 
 function formatQty(num) {
@@ -31,98 +32,6 @@ function getExpirationStatus(dateStr) {
   if (diffDays < 0) return { type: 'expired' };
   return { type: 'days_left', days: diffDays };
 }
-
-function ExpirationBadge({ dateStr }) {
-  const status = getExpirationStatus(dateStr);
-  if (!status) return null;
-
-  if (status.type === 'expired') {
-    return (
-      <label
-        style={{
-          display: 'inline-block',
-          marginTop: 5,
-          backgroundColor: '#fde8e8',
-          color: '#c0392b',
-          fontSize: 11.5,
-          lineHeight: '16px',
-          fontWeight: 700,
-          fontStyle: 'normal',
-          textTransform: 'uppercase',
-          letterSpacing: '.08em',
-          padding: '2px 8px',
-          borderRadius: 4,
-          textAlign: 'center',
-        }}
-      >
-        Expired
-      </label>
-    );
-  }
-
-  return (
-    <label
-      style={{
-        display: 'inline-block',
-        marginTop: 5,
-        backgroundColor: '#e6e3ff',
-        color: '#362a96',
-        fontSize: 11.5,
-        lineHeight: '16px',
-        fontWeight: 700,
-        fontStyle: 'normal',
-        textTransform: 'uppercase',
-        letterSpacing: '.08em',
-        padding: '2px 8px',
-        borderRadius: 4,
-        textAlign: 'center',
-      }}
-    >
-      {status.days} Days Left
-    </label>
-  );
-}
-
-function ExpirationCell({ dateStr }) {
-  if (!dateStr) {
-    return (
-      <div style={{ display: 'block', margin: '0 0 20px' }}>
-        <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
-      </div>
-    );
-  }
-  const displayDate = formatDate(dateStr);
-  return (
-    <div style={{ display: 'block', margin: '0 0 20px' }}>
-      <span style={{ color: '#6b6b6f', lineHeight: '20px' }}>
-        {displayDate}
-      </span>
-      <br />
-      <ExpirationBadge dateStr={dateStr} />
-    </div>
-  );
-}
-
-const OutOfStockBadge = () => (
-  <label
-    style={{
-      display: 'inline-block',
-      backgroundColor: '#e7e7ec',
-      color: '#57575b',
-      fontSize: 11.5,
-      lineHeight: '16px',
-      fontWeight: 700,
-      fontStyle: 'normal',
-      textTransform: 'uppercase',
-      letterSpacing: '.08em',
-      padding: '2px 8px',
-      borderRadius: 4,
-      textAlign: 'center',
-    }}
-  >
-    Out of stock
-  </label>
-);
 
 const tdStyle = {
   paddingTop: 3,
@@ -191,7 +100,18 @@ function BatchRow({ batch, isEditing, editQty, onQtyChange }) {
           >
             <span style={greyText}>{formatDate(batch.expirationDate)}</span>
             <br />
-            <ExpirationBadge dateStr={batch.expirationDate} />
+            <StatusBadge
+              variant={
+                getExpirationStatus(batch.expirationDate)?.type === 'expired'
+                  ? 'expired'
+                  : 'days_left'
+              }
+              label={
+                getExpirationStatus(batch.expirationDate)?.type === 'expired'
+                  ? 'Expired'
+                  : `${getExpirationStatus(batch.expirationDate)?.days} Days Left`
+              }
+            />
           </div>
         ) : (
           <div style={{ ...multipleDiv, padding: '3px 0 18px' }}>
@@ -304,8 +224,6 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
 
   const queryClient = useQueryClient();
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
-
-  // const isViewOnly = selectedInventory?.permission === 'Viewer';
 
   const updateMutation = useMutation({
     mutationFn: updateStoreProduct,
@@ -428,7 +346,6 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
   }
 
   const isOutOfStock = Number(item.quantity ?? 0) === 0;
-  // const mainRowPadding = isOutOfStock ? { paddingBottom: 24 } : {};
   const mainRowPadding = isOutOfStock
     ? { paddingBottom: 24 }
     : { paddingBottom: 12 };
@@ -498,7 +415,18 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             <div style={multipleDiv}>
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
               <br />
-              <ExpirationBadge dateStr={item.expirationInfo} />
+              <StatusBadge
+                variant={
+                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
+                    ? 'expired'
+                    : 'days_left'
+                }
+                label={
+                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
+                    ? 'Expired'
+                    : `${getExpirationStatus(singleExpDisplay)?.days} Days Left`
+                }
+              />
             </div>
           ) : isMulti ? (
             <div style={multipleDiv}>
@@ -508,7 +436,18 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
             <div style={multipleDiv}>
               <span style={darkText}>{formatDate(singleExpDisplay)}</span>
               <br />
-              <ExpirationBadge dateStr={singleExpDisplay} />
+              <StatusBadge
+                variant={
+                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
+                    ? 'expired'
+                    : 'days_left'
+                }
+                label={
+                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
+                    ? 'Expired'
+                    : `${getExpirationStatus(singleExpDisplay)?.days} Days Left`
+                }
+              />
             </div>
           ) : (
             <div style={multipleDiv}>
@@ -584,7 +523,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
                 </span>
               </>
             ) : item.quantity === 0 ? (
-              <OutOfStockBadge />
+              <StatusBadge variant='out of stock' />
             ) : (
               <>
                 <span style={{ ...darkText, fontWeight: 400 }}>

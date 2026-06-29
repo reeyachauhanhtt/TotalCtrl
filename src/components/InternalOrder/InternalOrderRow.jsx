@@ -1,33 +1,4 @@
-function getStatusBadge(status) {
-  const normalized = status?.toLowerCase();
-
-  switch (normalized) {
-    case 'scheduled':
-      return { bg: '#e7e7ec', color: '#57575b' };
-
-    case 'partially-delivered':
-    case 'partially delivered':
-      return { bg: '#fff4bd', color: '#a08700' };
-
-    case 'delivered':
-      return { bg: '#eaf7ee', color: '#0f6f36' };
-
-    default:
-      return { bg: '#e7e7ec', color: '#57575b' };
-  }
-}
-
-function StatusBadge({ status }) {
-  const { bg, color } = getStatusBadge(status);
-  return (
-    <label
-      style={{ backgroundColor: bg, color }}
-      className='inline-block text-[11px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
-    >
-      {status}
-    </label>
-  );
-}
+import StatusBadge from '../Common/StatusBadge';
 
 export default function InternalOrderRow({ order, onClick }) {
   const tdBase =
@@ -83,7 +54,7 @@ export default function InternalOrderRow({ order, onClick }) {
         className={`${tdBase} ${tdPadding} text-right`}
         style={{ width: '10%' }}
       >
-        <StatusBadge status={order.statusLabel} />
+        <StatusBadge variant={order.statusLabel} />
       </td>
 
       {/* Empty */}

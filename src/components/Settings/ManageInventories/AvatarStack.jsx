@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
+import { getUserIdFromToken } from '../../../services/analyticsService';
+
 function getInitials(firstName, lastName) {
   const first = firstName?.[0] || '';
   const last = lastName?.[0] || '';
   return (first + last).toUpperCase();
 }
-
-function AvatarTooltip({ user, anchorRef }) {
+function AvatarTooltip({ user, anchorRef, isCurrentUser }) {
   const tooltipRef = useRef(null);
   const [pos, setPos] = useState({ top: -9999, left: -9999 });
 
@@ -32,15 +33,18 @@ function AvatarTooltip({ user, anchorRef }) {
         <li className='px-[17px] py-[11px]'>
           <div className='flex items-center gap-3'>
             <div
-              className='w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white text-[10px] font-semibold border border-white'
+              className='w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white text-[12px] font-semibold border border-white'
               style={{ backgroundColor: user.avatarColor }}
             >
               {getInitials(user.firstName, user.lastName)}
             </div>
+
             <div>
               <span className='block text-[14px] font-semibold text-[#19191c] capitalize leading-5'>
                 {user.firstName} {user.lastName}
+                {isCurrentUser ? ' (You)' : ''}
               </span>
+
               <span className='block text-[12px] text-[#6b6b6f] capitalize font-normal'>
                 {user.jobTitle}
               </span>
@@ -52,7 +56,7 @@ function AvatarTooltip({ user, anchorRef }) {
     document.body,
   );
 }
-function Avatar({ user, index, total }) {
+function Avatar({ user, index, total, isCurrentUser }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const ref = useRef(null);
 
@@ -75,7 +79,13 @@ function Avatar({ user, index, total }) {
       >
         {getInitials(user.firstName, user.lastName)}
       </div>
-      {showTooltip && <AvatarTooltip user={user} anchorRef={ref} />}
+      {showTooltip && (
+        <AvatarTooltip
+          user={user}
+          anchorRef={ref}
+          isCurrentUser={isCurrentUser}
+        />
+      )}
     </div>
   );
 }
@@ -86,6 +96,8 @@ export default function AvatarStack({ users = [], maxVisible = 4 }) {
   const visible = users.slice(0, maxVisible);
   const width = (visible.length - 1) * 28 + 32;
 
+  const currentUserId = getUserIdFromToken();
+
   return (
     <div className='relative' style={{ width, height: 32 }}>
       {visible.map((user, index) => (
@@ -94,6 +106,7 @@ export default function AvatarStack({ users = [], maxVisible = 4 }) {
           user={user}
           index={index}
           total={visible.length}
+          isCurrentUser={user.id === currentUserId}
         />
       ))}
     </div>

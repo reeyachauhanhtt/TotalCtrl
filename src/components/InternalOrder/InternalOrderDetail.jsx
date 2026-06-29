@@ -16,6 +16,7 @@ import {
   deleteInternalOrder,
 } from '../../services/internalOrderService';
 import { InternalOrderDetailSkeleton } from '../Common/Skeleton';
+import StatusBadge from '../Common/StatusBadge';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditInternalOrderModal from './EditInternalOrder';
 
@@ -25,25 +26,6 @@ const STATUS_LABEL_MAP = {
   'partially delivered': 'Partially Delivered',
   delivered: 'Delivered',
 };
-
-function getStatusBadge(status) {
-  const normalized = status?.toLowerCase();
-
-  switch (normalized) {
-    case 'scheduled':
-      return { bg: '#e7e7ec', color: '#57575b' };
-
-    case 'partially-delivered':
-    case 'partially delivered':
-      return { bg: '#fff4bd', color: '#a08700' };
-
-    case 'delivered':
-      return { bg: '#eaf7ee', color: '#0f6f36' };
-
-    default:
-      return { bg: '#e7e7ec', color: '#57575b' };
-  }
-}
 
 function formatOrderedDate(dateStr, status) {
   if (!dateStr) return '———';
@@ -264,7 +246,6 @@ export default function InternalOrderDetail({ order }) {
 
   const statusRaw = detail?.status ?? order.status ?? '';
   const status = STATUS_LABEL_MAP[statusRaw] ?? statusRaw;
-  const { bg, color } = getStatusBadge(status);
 
   const isScheduled = status === 'Scheduled';
 
@@ -345,11 +326,12 @@ export default function InternalOrderDetail({ order }) {
               >
                 {fromInventoryName} To {toInventoryName}
               </h2>
+
               <label
-                style={{ backgroundColor: bg, color, marginTop: '-3px' }}
+                style={{ marginTop: '-3px' }}
                 className='inline-block text-[11px] font-bold uppercase tracking-[0.08em] leading-4 px-2 py-0.5 rounded whitespace-nowrap'
               >
-                {status}
+                <StatusBadge variant={status} className='mt-[-3px]' />
               </label>
             </div>
 

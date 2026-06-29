@@ -23,6 +23,15 @@ body {
   }
 }
 
+/* @keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+} */
+
 .skeleton-shimmer {
   background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
   background-size: 600px 100%;
