@@ -45,6 +45,7 @@ export default function EditInventoryModal({ open, onClose, inventory }) {
           >
             Cancel
           </WhiteButton>
+
           <GreenButton
             disabled={!inventoryName.trim()}
             className='h-[38px] px-3 py-1.5'

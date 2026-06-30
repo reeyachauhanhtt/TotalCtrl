@@ -9,6 +9,10 @@
   font-family: 'Inter', sans-serif;
 } */
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   font-family: 'Source Sans 3', sans-serif;
 }

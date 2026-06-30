@@ -143,7 +143,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Editors */}
         <td
           className='text-left align-top'
-          style={{ width: '17%', padding: '20px 0px' }}
+          style={{ width: '17%', padding: '20px 0px', paddingLeft: '0.75rem' }}
         >
           <AvatarStack users={editors} />
         </td>
@@ -151,7 +151,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Viewers */}
         <td
           className='text-left align-top'
-          style={{ width: '17%', padding: '20px 0px' }}
+          style={{ width: '17%', padding: '20px 0px', paddingLeft: '0.75rem' }}
         >
           <AvatarStack users={viewers} />
         </td>
@@ -159,7 +159,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Status */}
         <td
           className='text-left align-top'
-          style={{ width: '17%', paddingTop: 26 }}
+          style={{ width: '17%', paddingTop: 26, paddingLeft: '0.75rem' }}
         >
           <StatusBadge variant={status} />
         </td>
@@ -167,7 +167,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Actions */}
         <td
           className='text-left align-top'
-          style={{ width: '5%', paddingTop: 20 }}
+          style={{ width: '5%', paddingTop: 20, paddingLeft: '0.75rem' }}
         >
           <img
             ref={moreRef}
