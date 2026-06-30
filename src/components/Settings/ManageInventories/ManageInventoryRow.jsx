@@ -1,11 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 
 import AvatarStack from './AvatarStack';
 import EditInventoryModal from './EditInventoryModal';
 import Modal from './Modal';
 import StatusBadge from '../../Common/StatusBadge';
-import { updateInventoryStatus } from '../../../services/manageInventoriesService';
+import {
+  updateInventoryStatus,
+  deleteInventory,
+} from '../../../services/manageInventoriesService';
+import ManageAccessModal from './ManageAccessModal';
+import { showSuccessToast } from '../../../utils/showToast';
+import { getUserIdFromToken } from '../../../services/analyticsService';
+import { fetchInventoryAccessDetails } from '../../../services/manageInventoriesService';
 
 function ActionsDropdown({
   anchorRef,
@@ -13,7 +21,7 @@ function ActionsDropdown({
   onEdit,
   onManageAccess,
   onConfirmAction,
-  isActive,
+  isCurrentlyActive,
 }) {
   const dropdownRef = useRef(null);
   const [pos, setPos] = useState({ top: 0, left: 0 });
@@ -74,14 +82,11 @@ function ActionsDropdown({
         <li
           className='px-5 py-[8px] cursor-pointer hover:bg-[#fafafc]'
           onClick={() => {
-            // onConfirmAction(isActive === 1 ? 'deactivate' : 'activate');
-            onConfirmAction(Number(isActive) === 1 ? 'deactivate' : 'activate');
+            onConfirmAction(isCurrentlyActive ? 'deactivate' : 'activate');
             onClose();
           }}
         >
-          {Number(isActive) === 1
-            ? 'Deactivate Inventory'
-            : 'Activate Inventory'}
+          {isCurrentlyActive ? 'Deactivate Inventory' : 'Activate Inventory'}
         </li>
 
         <li
@@ -100,12 +105,24 @@ function ActionsDropdown({
 }
 
 export default function ManageInventoryRow({ inventory, permissionMap }) {
+  const queryClient = useQueryClient();
+
   const [showActions, setShowActions] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
+  const [showManageAccess, setShowManageAccess] = useState(false);
   const moreRef = useRef(null);
 
+  const { data: accessDetails, isFetching: isAccessLoading } = useQuery({
+    queryKey: ['inventory-access', inventory.id],
+    queryFn: () => fetchInventoryAccessDetails(inventory.id),
+    enabled: showManageAccess,
+    staleTime: 0,
+    gcTime: 0,
+  });
+
   const { name, users = [], status, isActive } = inventory;
+  const isCurrentlyActive = status?.toLowerCase() === 'active';
 
   const editors = users.filter(
     (u) => permissionMap[u.userPermissionId] === 'Editor',
@@ -114,18 +131,25 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
     (u) => permissionMap[u.userPermissionId] === 'Viewer',
   );
 
-  const handleInventoryStatus = async () => {
+  const handleConfirm = async () => {
     try {
-      const isActive = confirmAction === 'activate' ? 1 : 0;
-
-      await updateInventoryStatus(inventory.id, isActive);
+      if (confirmAction === 'delete') {
+        await deleteInventory(inventory.id);
+        showSuccessToast('Inventory deleted successfully');
+      } else {
+        const isActive = confirmAction === 'activate' ? 1 : 0;
+        await updateInventoryStatus(inventory.id, isActive);
+        showSuccessToast(
+          isActive
+            ? 'Inventory activated successfully'
+            : 'Inventory deactivated successfully',
+        );
+      }
 
       setConfirmAction(null);
-
-      // refresh table data here
-      console.log('inventory updated');
+      queryClient.invalidateQueries({ queryKey: ['inventories-with-access'] });
     } catch (error) {
-      console.error('Failed updating inventory status', error);
+      console.error('Failed updating inventory', error);
     }
   };
 
@@ -135,7 +159,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Inventory name */}
         <td
           className='text-left text-[14px] font-medium text-[#19191c] align-top'
-          style={{ width: '18%', paddingTop: 26 }}
+          style={{ width: '18%', paddingTop: 26, paddingLeft: 24 }}
         >
           {name}
         </td>
@@ -167,7 +191,12 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         {/* Actions */}
         <td
           className='text-left align-top'
-          style={{ width: '5%', paddingTop: 20, paddingLeft: '0.75rem' }}
+          style={{
+            width: '5%',
+            paddingTop: 20,
+            paddingLeft: '0.75rem',
+            paddingRight: 24,
+          }}
         >
           <img
             ref={moreRef}
@@ -183,33 +212,69 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
               anchorRef={moreRef}
               onClose={() => setShowActions(false)}
               onEdit={() => setShowEdit(true)}
-              onManageAccess={() => console.log('manage access', name)}
+              onManageAccess={() => setShowManageAccess(true)}
               onConfirmAction={setConfirmAction}
-              isActive={isActive}
+              isCurrentlyActive={isCurrentlyActive}
             />
           )}
         </td>
+      </tr>
 
+      {createPortal(
         <EditInventoryModal
           open={showEdit}
           onClose={() => setShowEdit(false)}
           inventory={inventory}
-        />
+        />,
+        document.body,
+      )}
 
+      {createPortal(
         <Modal
           open={!!confirmAction}
           onClose={() => setConfirmAction(null)}
-          title={`Are you sure you want to ${confirmAction} ${name}?`}
+          title={
+            confirmAction === 'delete'
+              ? `Are you sure you want to delete ${name}?`
+              : `Are you sure you want to ${confirmAction} ${name}?`
+          }
           description={
             confirmAction === 'activate'
               ? 'If you activate this inventory, it will be visible to the users which can see and edit it in the web administration and the mobile app.'
-              : 'If you deactivate this inventory, it won’t be visible to the users anymore.'
+              : confirmAction === 'deactivate'
+                ? 'If you deactivate this inventory, it wont be visible to the users anymore.'
+                : 'This action is irreversible'
           }
-          actionText={confirmAction === 'activate' ? 'Activate' : 'Deactivate'}
+          actionText={
+            confirmAction === 'activate'
+              ? 'Activate'
+              : confirmAction === 'deactivate'
+                ? 'Deactivate'
+                : 'Delete'
+          }
           actionType={confirmAction}
-          onConfirm={handleInventoryStatus}
-        />
-      </tr>
+          onConfirm={handleConfirm}
+        />,
+        document.body,
+      )}
+
+      {createPortal(
+        <ManageAccessModal
+          open={showManageAccess}
+          onClose={() => setShowManageAccess(false)}
+          inventory={inventory}
+          accessDetails={accessDetails}
+          isLoading={isAccessLoading}
+          onSaved={() => {
+            setShowManageAccess(false);
+            showSuccessToast('Permission updated successfully');
+            queryClient.invalidateQueries({
+              queryKey: ['inventories-with-access'],
+            });
+          }}
+        />,
+        document.body,
+      )}
     </>
   );
 }

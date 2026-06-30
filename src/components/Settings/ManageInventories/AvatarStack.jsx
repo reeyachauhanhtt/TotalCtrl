@@ -2,12 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import { getUserIdFromToken } from '../../../services/analyticsService';
+import UserAvatar from './UserAvatar';
 
-function getInitials(firstName, lastName) {
-  const first = firstName?.[0] || '';
-  const last = lastName?.[0] || '';
-  return (first + last).toUpperCase();
-}
 function AvatarTooltip({ user, anchorRef, isCurrentUser }) {
   const tooltipRef = useRef(null);
   const [pos, setPos] = useState({ top: -9999, left: -9999 });
@@ -32,12 +28,7 @@ function AvatarTooltip({ user, anchorRef, isCurrentUser }) {
       <ul className='m-0 p-0 list-none'>
         <li className='px-[17px] py-[11px]'>
           <div className='flex items-center gap-3'>
-            <div
-              className='w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white text-[12px] font-semibold border border-white'
-              style={{ backgroundColor: user.avatarColor }}
-            >
-              {getInitials(user.firstName, user.lastName)}
-            </div>
+            <UserAvatar user={user} size={32} />
 
             <div>
               <span className='block text-[14px] font-semibold text-[#19191c] capitalize leading-5'>
@@ -56,6 +47,7 @@ function AvatarTooltip({ user, anchorRef, isCurrentUser }) {
     document.body,
   );
 }
+
 function Avatar({ user, index, total, isCurrentUser }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const ref = useRef(null);
@@ -73,12 +65,8 @@ function Avatar({ user, index, total, isCurrentUser }) {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <div
-        className='w-8 h-8 rounded-full flex items-center justify-center text-white text-[13px] font-semibold border border-white'
-        style={{ backgroundColor: user.avatarColor }}
-      >
-        {getInitials(user.firstName, user.lastName)}
-      </div>
+      <UserAvatar user={user} size={32} />
+
       {showTooltip && (
         <AvatarTooltip
           user={user}

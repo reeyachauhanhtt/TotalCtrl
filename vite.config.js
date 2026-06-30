@@ -15,7 +15,10 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
           bypass(req) {
-            if (req.url === '/inventory' || req.url.startsWith('/inventory?')) {
+            if (
+              req.method === 'GET' &&
+              (req.url === '/inventory' || req.url.startsWith('/inventory?'))
+            ) {
               return '/index.html';
             }
           },
@@ -61,8 +64,9 @@ export default defineConfig(({ mode }) => {
           secure: false,
           bypass(req) {
             if (
-              req.url === '/internal-orders' ||
-              req.url.startsWith('/internal-orders?')
+              req.method === 'GET' &&
+              (req.url === '/internal-orders' ||
+                req.url.startsWith('/internal-orders?'))
             ) {
               return '/index.html';
             }
@@ -74,11 +78,12 @@ export default defineConfig(({ mode }) => {
           secure: false,
           bypass(req) {
             if (
-              req.url === '/analytics' ||
-              req.url.startsWith('/analytics?') ||
-              req.url.startsWith('/analytics/by') ||
-              req.url === '/analytics-overview' ||
-              req.url.startsWith('/analytics-overview?')
+              req.method === 'GET' &&
+              (req.url === '/analytics' ||
+                req.url.startsWith('/analytics?') ||
+                req.url.startsWith('/analytics/by') ||
+                req.url === '/analytics-overview' ||
+                req.url.startsWith('/analytics-overview?'))
             ) {
               return '/index.html';
             }

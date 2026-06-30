@@ -30,6 +30,15 @@ export default function ManageInventoriesPage() {
     staleTime: Infinity,
   });
 
+  // const allUsers = Object.values(
+  //   inventories.reduce((acc, inv) => {
+  //     inv.users?.forEach((u) => {
+  //       if (!acc[u.id]) acc[u.id] = u;
+  //     });
+  //     return acc;
+  //   }, {}),
+  // );
+
   console.log(
     'inventories',
     inventories,
@@ -48,6 +57,7 @@ export default function ManageInventoriesPage() {
         inventories={inventories}
         isLoading={isLoading}
         permissionMap={permissionMap}
+        // allUsers={allUsers}
       />
       <AddNewInventory
         open={showAddInventory}

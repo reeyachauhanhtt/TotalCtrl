@@ -1,6 +1,4 @@
 import { useState, useRef } from 'react';
-import toast from 'react-hot-toast';
-import { FiX } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
@@ -8,12 +6,9 @@ import StatusBadge from '../../Common/StatusBadge';
 import UploadOrderModal from '../../Common/UploadOrderModal';
 import UploadAnExcelModal from './UploadAnExcelModal';
 import AddItemTemplateModal from './AddItemTemplate';
+import { showSuccessToast } from '../../../utils/showToast';
 
-export default function TemplatePanel({
-  onUploadOrder,
-  onItemAdded,
-  duplicateCount,
-}) {
+export default function TemplatePanel({ onItemAdded, duplicateCount }) {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [showExcelModal, setShowExcelModal] = useState(false);
@@ -62,37 +57,7 @@ export default function TemplatePanel({
             onClose={() => setShowExcelModal(false)}
             onSuccess={() => {
               setShowExcelModal(false);
-              toast.custom(
-                (t) => (
-                  <div
-                    className='flex items-center gap-3 bg-[#19191c] leading-6 px-6 py-4 rounded-lg'
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
-                    <div className='w-5 h-5 rounded-full border-2 border-green-500 flex items-center justify-center shrink-0'>
-                      <svg
-                        width='10'
-                        height='10'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='#22c55e'
-                        strokeWidth='3'
-                      >
-                        <path d='M5 13l4 4L19 7' />
-                      </svg>
-                    </div>
-                    <span className='text-white text-[14px] font-semibold uppercase tracking-[0.08em]'>
-                      Products added successfully
-                    </span>
-                    <button
-                      onClick={() => toast.dismiss(t.id)}
-                      className='text-white opacity-100 ml-2'
-                    >
-                      <FiX size={18} />
-                    </button>
-                  </div>
-                ),
-                { duration: 3500 },
-              );
+              showSuccessToast('Products added successfully');
             }}
           />
         )}

@@ -13,23 +13,24 @@ export default function InventoriesTable({
   inventories = [],
   isLoading,
   permissionMap,
+  // allUsers = [],
 }) {
   return (
     <div className='bg-white border-t border-[#e6e6ed]'>
-      <div style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+      <div
+        className='bg-[#f8f9fa]'
+        style={{ position: 'sticky', top: 0, zIndex: 1 }}
+      >
         <table
           className='text-[13px] border-collapse'
           style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}
         >
-          <thead
-            className='border-b border-[#e6e6ed]'
-            style={{ position: 'sticky', top: 0, zIndex: 1 }}
-          >
+          <thead className='border-b border-[#e6e6ed]'>
             <tr style={{ height: 48 }}>
               {COLUMNS.map((col, i) => (
                 <th
                   key={i}
-                  className='text-left font-semibold text-[12px] tracking-[1px] text-[#737373] uppercase align-middle bg-[#f8f9fa] border-none'
+                  className='text-left font-semibold text-[12px] tracking-[1px] text-[#737373] uppercase align-middle border-none'
                   style={{
                     width: col.width,
                     padding: '0.75rem',
@@ -41,7 +42,13 @@ export default function InventoriesTable({
               ))}
             </tr>
           </thead>
-
+        </table>
+      </div>
+      <div style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+        <table
+          className='text-[13px] border-collapse'
+          style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}
+        >
           <tbody>
             {isLoading
               ? Array.from({ length: 3 }).map((_, i) => (
@@ -50,7 +57,13 @@ export default function InventoriesTable({
                     className='border-b border-[#e6e6ed]'
                     style={{ height: 72 }}
                   >
-                    <td style={{ paddingTop: 24, paddingBottom: 24 }}>
+                    <td
+                      style={{
+                        paddingTop: 24,
+                        paddingBottom: 24,
+                        paddingLeft: 24,
+                      }}
+                    >
                       <SkeletonBar height={16} width='60%' />
                     </td>
 
@@ -102,7 +115,13 @@ export default function InventoriesTable({
                       </div>
                     </td>
 
-                    <td style={{ paddingTop: 24, paddingBottom: 24 }}>
+                    <td
+                      style={{
+                        paddingTop: 24,
+                        paddingBottom: 24,
+                        paddingRight: 24,
+                      }}
+                    >
                       <SkeletonBar height={20} width='50%' />
                     </td>
                     <td />
@@ -113,6 +132,7 @@ export default function InventoriesTable({
                     key={inv.id}
                     inventory={inv}
                     permissionMap={permissionMap}
+                    // allUsers={allUsers}
                   />
                 ))}
           </tbody>
