@@ -5,13 +5,6 @@ import { fetchTransferItemInventories } from '../../../services/transfersTabServ
 import ShowAllDropdown from './ShowAllDropdown';
 import AllInventoriesDropdown from './AllInventoriesDropdown';
 
-// dummy inventories — replace with API later
-const DUMMY_INVENTORIES = [
-  { id: 1, name: 'Main Inventory' },
-  { id: 2, name: 'Pinkesh Inventory' },
-  { id: 3, name: 'Empty Inv 21' },
-];
-
 export default function TransferInformation({
   inventoryId,
   dateRange,
@@ -22,11 +15,6 @@ export default function TransferInformation({
   openDropdown,
   onToggleDropdown,
 }) {
-  // const [showAllValue, setShowAllValue] = useState('all');
-  // const [inventoryValue, setInventoryValue] = useState(null);
-
-  // const [openDropdown, setOpenDropdown] = useState(null);
-
   const enabled = !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate;
 
   const { data: invData } = useQuery({
@@ -46,10 +34,6 @@ export default function TransferInformation({
     staleTime: 0,
   });
   const inventories = invData?.Data?.Data ?? [];
-
-  function toggleDropdown(name) {
-    setOpenDropdown((prev) => (prev === name ? null : name));
-  }
 
   return (
     <div

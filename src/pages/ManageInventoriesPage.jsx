@@ -12,12 +12,18 @@ import {
 export default function ManageInventoriesPage() {
   const [showAddInventory, setShowAddInventory] = useState(false);
 
-  const { data: inventories = [], isLoading } = useQuery({
+  const {
+    data: inventories = [],
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ['inventories-with-access'],
     queryFn: async () => {
-      await new Promise((r) => setTimeout(r, 3000));
+      await new Promise((r) => setTimeout(r, 300));
       return fetchInventoriesWithAccess();
     },
+    staleTime: 0,
+    gcTime: 0,
   });
   const firstInventoryId = inventories[0]?.id;
 
@@ -27,17 +33,8 @@ export default function ManageInventoriesPage() {
     queryKey: ['inventory-permission-map'],
     queryFn: () => fetchInventoryAccessMap(inventoryIds),
     enabled: inventoryIds.length > 0,
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
-
-  // const allUsers = Object.values(
-  //   inventories.reduce((acc, inv) => {
-  //     inv.users?.forEach((u) => {
-  //       if (!acc[u.id]) acc[u.id] = u;
-  //     });
-  //     return acc;
-  //   }, {}),
-  // );
 
   console.log(
     'inventories',

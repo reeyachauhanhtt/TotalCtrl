@@ -278,7 +278,7 @@ export default function ItemRow({
                           {inStock.slice(MAX_VISIBLE_INVENTORIES).map((inv) => (
                             <Link
                               // key={inv.id}
-                              to={`/?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                              to={`${ROUTES.INVENTORY}?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full block'
@@ -486,7 +486,7 @@ export default function ItemRow({
                           return (
                             <Link
                               // key={id}
-                              to={`${ROUTES.INVENTORY}?id=${inv.id}&productName=${encodeURIComponent(rowItem.name)}`}
+                              to={`${ROUTES.INVENTORY}?id=${inv.id}&productName=${encodeURIComponent(dupItem.name)}`}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'

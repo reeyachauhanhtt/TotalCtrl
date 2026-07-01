@@ -310,10 +310,10 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
 
   const userId = getUserIdFromToken() || '';
 
-  console.log(
-    'currentUser_restaurant raw:',
-    localStorage.getItem('currentUser_restaurant'),
-  );
+  // console.log(
+  //   'currentUser_restaurant raw:',
+  //   localStorage.getItem('currentUser_restaurant'),
+  // );
 
   if (!isOpen) return null;
 

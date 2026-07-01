@@ -1,11 +1,20 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 import { FiX, FiChevronDown } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
 import UserAvatar from './UserAvatar';
-import { updateInventoryAccess } from '../../../services/manageInventoriesService';
+import {
+  fetchStoreUserPermissions,
+  updateInventoryAccess,
+} from '../../../services/manageInventoriesService';
+import {
+  PERMISSIONS,
+  hasAnyAccess,
+  hasNoAccess,
+} from '../../../constants/permissions';
 import { getUserIdFromToken } from '../../../services/analyticsService';
 import { TransferProductListSkeleton } from '../../Common/Skeleton';
 import { showErrorToast } from '../../../utils/showToast';
@@ -45,8 +54,8 @@ function RoleDropdown({ anchorRef, currentRole, onSelect, onRemove, onClose }) {
       }}
     >
       <li
-        className={`flex justify-between cursor-default px-5 py-2 ${currentRole === 'Editor' ? 'bg-[#eaf7ee]' : ''}`}
-        onClick={() => onSelect('Editor')}
+        className={`flex justify-between cursor-default px-5 py-2 ${currentRole === PERMISSIONS.EDITOR ? 'bg-[#eaf7ee]' : ''}`}
+        onClick={() => onSelect(PERMISSIONS.EDITOR)}
       >
         <div>
           <p className='m-0 text-[#19191c] font-semibold text-[14px] flex items-center gap-1'>
@@ -63,8 +72,8 @@ function RoleDropdown({ anchorRef, currentRole, onSelect, onRemove, onClose }) {
       </li>
 
       <li
-        className={`flex justify-between cursor-default px-5 py-2 ${currentRole === 'Viewer' ? 'bg-[#eaf7ee]' : ''}`}
-        onClick={() => onSelect('Viewer')}
+        className={`flex justify-between cursor-default px-5 py-2 ${currentRole === PERMISSIONS.VIEWER ? 'bg-[#eaf7ee]' : ''}`}
+        onClick={() => onSelect(PERMISSIONS.VIEWER)}
       >
         <div>
           <p className='m-0 text-[#19191c] font-semibold text-[14px] flex items-center gap-1'>
@@ -105,7 +114,6 @@ function AccessRow({
   const [showDropdown, setShowDropdown] = useState(false);
   const ddRef = useRef(null);
   const isCurrentUser = user.id === currentUserId;
-
   return (
     <div
       className='border-b border-[#dee2e6] flex justify-between items-center w-full'
@@ -185,7 +193,7 @@ function SearchResultRow({ user, hasAccess, onGiveAccess }) {
         className='flex items-center'
         style={{ height: 32, marginBottom: 10 }}
       >
-        <UserAvatar user={user} size={32} />
+        <UserAvatar user={user} size={32} disabled={hasAccess} />
         <div style={{ marginLeft: 12 }}>
           <span
             className='block capitalize font-semibold text-[14px]'
@@ -238,6 +246,21 @@ export default function ManageAccessModal({
 
   const currentUserId = getUserIdFromToken();
   const searchWrapperRef = useRef(null);
+  const queryClient = useQueryClient();
+
+  const { data: permissions = [] } = useQuery({
+    queryKey: ['store-user-permissions'],
+    queryFn: fetchStoreUserPermissions,
+    staleTime: Infinity,
+  });
+
+  const roleIdMap = useMemo(() => {
+    const map = {};
+    permissions.forEach((p) => {
+      map[p.name] = p.id;
+    });
+    return map;
+  }, [permissions]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -267,29 +290,6 @@ export default function ManageAccessModal({
 
   const allUsers = accessDetails?.users ?? [];
 
-  // role -> permissionId, derived from whichever users currently hold that role
-  //   const roleIdMap = useMemo(() => {
-  //     const map = {};
-  //     allUsers.forEach((u) => {
-  //       if (u.permissionName && u.userPermissionId) {
-  //         map[u.permissionName] = u.userPermissionId;
-  //       }
-  //     });
-  //     return map;
-  //   }, [allUsers]);
-  const roleIdMap = useMemo(() => {
-    const map = {};
-
-    allUsers.forEach((u) => {
-      if (u.permissionName && u.userPermissionId) {
-        map[u.permissionName] = u.userPermissionId;
-      }
-    });
-
-    return map;
-  }, [allUsers]);
-
-  // effective role per user: override if present, else their current permissionName
   const getEffectiveRole = (user) =>
     roleOverrides[user.id] !== undefined
       ? roleOverrides[user.id]
@@ -301,18 +301,19 @@ export default function ManageAccessModal({
     );
 
   const usersWithAccess = allUsers
-    .filter((u) => getEffectiveRole(u) && getEffectiveRole(u) !== 'No Access')
+    .filter((u) => hasAnyAccess(getEffectiveRole(u)))
     .sort(sortByName);
+
   const usersWithoutAccess = allUsers.filter(
-    (u) => !getEffectiveRole(u) || getEffectiveRole(u) === 'No Access',
+    (u) => hasNoAccess(getEffectiveRole(u)) || !getEffectiveRole(u),
   );
 
   const noAccessUsers = allUsers
-    .filter((u) => !getEffectiveRole(u) || getEffectiveRole(u) === 'No Access')
+    .filter((u) => hasNoAccess(getEffectiveRole(u)) || !getEffectiveRole(u))
     .sort(sortByName);
 
   const hasAccessUsers = allUsers
-    .filter((u) => getEffectiveRole(u) && getEffectiveRole(u) !== 'No Access')
+    .filter((u) => hasAnyAccess(getEffectiveRole(u)))
     .sort(sortByName);
 
   const sortedAllUsers = [...noAccessUsers, ...hasAccessUsers];
@@ -326,7 +327,10 @@ export default function ManageAccessModal({
     : sortedAllUsers;
 
   const handleGiveAccess = (userId) => {
-    setRoleOverrides((prev) => ({ ...prev, [userId]: 'Viewer' }));
+    setRoleOverrides((prev) => ({
+      ...prev,
+      [userId]: PERMISSIONS.VIEWER,
+    }));
     setSearchInput('');
     setShowSearchResults(false);
   };
@@ -336,31 +340,41 @@ export default function ManageAccessModal({
   };
 
   const handleRemoveAccess = (userId) => {
-    setRoleOverrides((prev) => ({ ...prev, [userId]: 'No Access' }));
+    setRoleOverrides((prev) => ({ ...prev, [userId]: PERMISSIONS.NO_ACCESS }));
   };
 
   const handleSave = async () => {
     try {
       setSaving(true);
       const payloadUsers = allUsers.map((u) => {
-        const role = getEffectiveRole(u) || 'No Access';
+        const role = getEffectiveRole(u) || PERMISSIONS.NO_ACCESS;
         return {
           id: u.id,
           userPermissionId: roleIdMap[role] ?? u.userPermissionId,
         };
       });
 
-      const ids = payloadUsers.map((u) => u.id);
-      const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
-      console.log('duplicate ids:', duplicates);
-      console.log('payloadUsers', payloadUsers);
-      console.log('FINAL PAYLOAD', payloadUsers);
+      console.log(
+        'payload order',
+        payloadUsers.map(
+          (u) => `${u.id.slice(0, 8)}: ${u.userPermissionId.slice(0, 8)}`,
+        ),
+      );
 
       await updateInventoryAccess(inventory.id, payloadUsers);
-      onSaved();
+      setRoleOverrides({});
+      await onSaved();
     } catch (error) {
       console.error('Failed updating access', error);
       showErrorToast?.('Failed to update access — please try again');
+      setRoleOverrides({});
+      await queryClient.refetchQueries({
+        queryKey: ['inventories-with-access'],
+      });
+      await queryClient.refetchQueries({
+        queryKey: ['inventory-access', inventory.id],
+      });
+      onClose();
     } finally {
       setSaving(false);
     }
@@ -423,10 +437,7 @@ export default function ManageAccessModal({
                     <SearchResultRow
                       key={user.id}
                       user={user}
-                      hasAccess={
-                        getEffectiveRole(user) &&
-                        getEffectiveRole(user) !== 'No Access'
-                      }
+                      hasAccess={hasAnyAccess(getEffectiveRole(user))}
                       onGiveAccess={handleGiveAccess}
                     />
                   ))
@@ -437,7 +448,12 @@ export default function ManageAccessModal({
         </div>
 
         <div style={{ padding: '0 48px 24px' }}>
-          <div style={{ overflowY: 'auto', height: 'calc(100vh - 390px)' }}>
+          <div
+            style={{
+              overflowY: 'auto',
+              height: 'calc(100vh - 390px)',
+            }}
+          >
             {isLoading || !accessDetails ? (
               <TransferProductListSkeleton />
             ) : (

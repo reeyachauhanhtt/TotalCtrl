@@ -60,7 +60,7 @@ export const deleteInventory = async (id) => {
 //MANAGE ACCESS
 export const fetchInventoryAccessDetails = async (inventoryId) => {
   const res = await axiosInstance.get(`/inventory/${inventoryId}/access`);
-  return res.data.Data; // { inventoryId, inventoryName, users: [...] }
+  return res.data.Data;
 };
 
 export const updateInventoryAccess = async (inventoryId, users) => {
@@ -68,4 +68,10 @@ export const updateInventoryAccess = async (inventoryId, users) => {
     users,
   });
   return res.data;
+};
+
+//PERMISSION
+export const fetchStoreUserPermissions = async () => {
+  const res = await axiosInstance.get('/store-users/permissions');
+  return res.data.Data;
 };

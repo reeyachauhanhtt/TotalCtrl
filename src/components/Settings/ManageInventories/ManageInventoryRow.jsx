@@ -153,6 +153,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
     }
   };
 
+  // console.log('inventory users', inventory.users);
   return (
     <>
       <tr className='border-b border-[#e6e6ed]' style={{ height: 72 }}>
@@ -265,12 +266,32 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
           inventory={inventory}
           accessDetails={accessDetails}
           isLoading={isAccessLoading}
-          onSaved={() => {
+          // onSaved={() => {
+          //   setShowManageAccess(false);
+          //   showSuccessToast('Permission updated successfully');
+          //   queryClient.invalidateQueries({
+          //     queryKey: ['inventories-with-access'],
+          //   });
+          // }}
+          //   onSaved={() => {
+          //     setShowManageAccess(false);
+          //     showSuccessToast('Permission updated successfully');
+
+          //     queryClient.invalidateQueries({
+          //       queryKey: ['inventories-with-access'],
+          //     });
+
+          //     queryClient.invalidateQueries({
+          //       queryKey: ['inventory-access', inventory.id],
+          //     });
+          //   }}
+          onSaved={async () => {
             setShowManageAccess(false);
-            showSuccessToast('Permission updated successfully');
-            queryClient.invalidateQueries({
+
+            await queryClient.refetchQueries({
               queryKey: ['inventories-with-access'],
             });
+            showSuccessToast('Permission updated successfully');
           }}
         />,
         document.body,

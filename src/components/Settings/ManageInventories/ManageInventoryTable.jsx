@@ -12,6 +12,7 @@ const COLUMNS = [
 export default function InventoriesTable({
   inventories = [],
   isLoading,
+  isFetching,
   permissionMap,
   // allUsers = [],
 }) {
@@ -50,7 +51,7 @@ export default function InventoriesTable({
           style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}
         >
           <tbody>
-            {isLoading
+            {isLoading || isFetching
               ? Array.from({ length: 3 }).map((_, i) => (
                   <tr
                     key={i}

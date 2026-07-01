@@ -10,7 +10,6 @@ const menuItems = [
   {
     label: 'Manage Inventories',
     icon: '/icons/box.svg',
-    path: '#',
     path: '/manage-storage',
   },
   {
@@ -131,6 +130,10 @@ export default function SettingsDropdown({
                 {item.path === '#' ? (
                   <a
                     href='#'
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onClose();
+                    }}
                     style={{
                       margin: '0 0 0 20px',
                       fontSize: '14px',
@@ -146,6 +149,7 @@ export default function SettingsDropdown({
                 ) : (
                   <NavLink
                     to={item.path}
+                    onClick={onClose}
                     style={{
                       margin: '0 0 0 20px',
                       fontSize: '14px',
@@ -174,6 +178,10 @@ export default function SettingsDropdown({
       <div style={{ borderRadius: '0 0 4px 4px' }}>
         <ul style={{ listStyle: 'none', padding: '12px 0', margin: 0 }}>
           <li
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+            }}
             className='settings-menu-item'
             style={{
               padding: '8px 28px',

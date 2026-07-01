@@ -326,7 +326,9 @@ export default function AddItemToInventory({
                       <FormInput
                         value={row.quantity}
                         onChange={(e) =>
-                          updateRow(row.id, { quantity: e.target.value })
+                          updateRow(row.id, {
+                            quantity: e.target.value.replace(/[^\d.]/g, ''),
+                          })
                         }
                         onBlur={() =>
                           updateRow(row.id, { focused: false, touched: true })

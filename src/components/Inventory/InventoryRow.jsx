@@ -414,19 +414,23 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
           {isOutOfStock ? (
             <div style={multipleDiv}>
               <span style={{ color: 'rgb(107,107,111)' }}>-----</span>
-              <br />
-              <StatusBadge
-                variant={
-                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
-                    ? 'expired'
-                    : 'days_left'
-                }
-                label={
-                  getExpirationStatus(singleExpDisplay)?.type === 'expired'
-                    ? 'Expired'
-                    : `${getExpirationStatus(singleExpDisplay)?.days} Days Left`
-                }
-              />
+              {getExpirationStatus(singleExpDisplay) && (
+                <>
+                  <br />
+                  <StatusBadge
+                    variant={
+                      getExpirationStatus(singleExpDisplay).type === 'expired'
+                        ? 'expired'
+                        : 'days_left'
+                    }
+                    label={
+                      getExpirationStatus(singleExpDisplay).type === 'expired'
+                        ? 'Expired'
+                        : `${getExpirationStatus(singleExpDisplay).days} Days Left`
+                    }
+                  />
+                </>
+              )}
             </div>
           ) : isMulti ? (
             <div style={multipleDiv}>
