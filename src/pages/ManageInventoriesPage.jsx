@@ -12,11 +12,7 @@ import {
 export default function ManageInventoriesPage() {
   const [showAddInventory, setShowAddInventory] = useState(false);
 
-  const {
-    data: inventories = [],
-    isLoading,
-    isFetching,
-  } = useQuery({
+  const { data: inventories = [], isLoading } = useQuery({
     queryKey: ['inventories-with-access'],
     queryFn: async () => {
       await new Promise((r) => setTimeout(r, 300));
@@ -33,7 +29,6 @@ export default function ManageInventoriesPage() {
     queryKey: ['inventory-permission-map'],
     queryFn: () => fetchInventoryAccessMap(inventoryIds),
     enabled: inventoryIds.length > 0,
-    // staleTime: Infinity,
   });
 
   console.log(

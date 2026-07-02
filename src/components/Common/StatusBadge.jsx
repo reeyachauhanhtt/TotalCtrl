@@ -17,8 +17,9 @@ const BADGE_VARIANTS = {
   active: { bg: '#dcf1e3', color: '#0f6f36', label: 'Active' },
   deactivated: { bg: '#e7e7ec', color: '#57575b', label: 'Deactivated' },
   deactived: { bg: '#e7e7ec', color: '#57575b', label: 'Deactivated' },
+  inactive: { bg: '#e7e7ec', color: '#57575b', label: 'Deactivated' },
 
-  // Inventory row — expiry
+  // Inventory row — expiry / days left
   expired: { bg: '#fde8e8', color: '#c0392b', label: 'Expired' },
   'out of stock': { bg: '#e7e7ec', color: '#57575b', label: 'Out of Stock' },
   days_left: { bg: '#e6e3ff', color: '#362a96' },
