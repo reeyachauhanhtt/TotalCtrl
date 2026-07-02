@@ -11,6 +11,7 @@ import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
 import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
 import { searchProducts } from '../../services/productService';
+import { MODAL_TITLES, SECTION_TITLES } from '../../constants/titles';
 
 const MONTHS = [
   'January',
@@ -438,7 +439,7 @@ export default function EditOrderModal({
         {/* Header */}
         <div className='flex items-center justify-between px-12 py-6 border-b border-[#e7e7ec]'>
           <h2 className='text-[19px] font-semibold leading-6 tracking-[-0.01em] text-[#19191c] m-0'>
-            Edit scheduled order
+            {MODAL_TITLES.EDIT_SCHEDULED_ORDER}
           </h2>
           <span
             onClick={() => (isDirty ? setShowDiscardModal(true) : onClose())}
@@ -454,7 +455,7 @@ export default function EditOrderModal({
             {/* Order summary heading */}
             <div className='pb-17.5'>
               <h1 className='text-[32px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left m-0'>
-                Order summary
+                {SECTION_TITLES.ORDER_SUMMARY}
               </h1>
             </div>
 
@@ -462,7 +463,7 @@ export default function EditOrderModal({
             <div className='flex items-end gap-6 mb-12.5'>
               <div className='w-1/3'>
                 <h2 className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left mb-3'>
-                  Inventory
+                  {SECTION_TITLES.INVENTORY}
                 </h2>
                 <p className='text-[16px] font-normal leading-6 text-[#6b6b6f] mb-10'>
                   Which inventory should be automatically updated when this
@@ -554,7 +555,7 @@ export default function EditOrderModal({
             {/* Order details section */}
             <div className='pb-12.5'>
               <h2 className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] text-left mb-6'>
-                Order details
+                {SECTION_TITLES.ORDER_DETAILS}
               </h2>
 
               <div className='flex gap-6 max-w-[95%]'>
@@ -684,7 +685,7 @@ export default function EditOrderModal({
           {/* Ordered items table */}
           <div>
             <h1 className='text-[24px] font-semibold leading-8 tracking-[-0.24px] text-[#19191c] pl-12.5 mb-5 text-left'>
-              Ordered items
+              {SECTION_TITLES.ORDERED_ITEMS}
             </h1>
 
             <table className='w-full border-collapse'>
@@ -1042,7 +1043,7 @@ export default function EditOrderModal({
       <ConfirmModal
         open={showDiscardModal}
         onClose={() => setShowDiscardModal(false)}
-        title='Discard changes?'
+        title={MODAL_TITLES.DISCARD_CHANGES}
         description="You've made some changes to this scheduled order. Would you like to discard them?"
         confirmLabel='Discard Changes'
         cancelLabel='Keep Editing'

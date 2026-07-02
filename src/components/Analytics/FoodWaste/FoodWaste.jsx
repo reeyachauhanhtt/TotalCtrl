@@ -18,6 +18,7 @@ import {
   fetchMostWastedItems,
   fetchFoodWasteByCause,
 } from '../../../services/foodWasteService';
+import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
 
 const SLUG_KEY_MAP = {
   WASTE_EXPIRATION: 'expiration',
@@ -122,40 +123,6 @@ export default function FoodWaste({ inventoryId }) {
     value: p.totalWasteValue,
   }));
 
-  // // DETAIL - ALL WASTED ITEMS
-  // const { data: allItemsData, isFetching: isItemsDetailFetching } = useQuery({
-  //   queryKey: ['foodWaste-all-items', inventoryId, dateRange],
-  //   queryFn: () =>
-  //     fetchMostWastedItems({
-  //       inventoryId,
-  //       fromDate: dateRange.fromDate,
-  //       toDate: dateRange.toDate,
-  //       limit: 5,
-  //     }),
-  //   enabled: !!inventoryId && !!dateRange.fromDate && detailView === 'items',
-  //   staleTime: 0,
-  //   gcTime: 0,
-  //   select: (res) => res.Data,
-  // });
-
-  // // DETAIL - ALL CATEGORIES
-  // const { data: allCategoryData, isFetching: isCategoryDetailFetching } =
-  //   useQuery({
-  //     queryKey: ['foodWaste-all-categories', inventoryId, dateRange],
-  //     queryFn: () =>
-  //       fetchFoodWasteByCategory({
-  //         inventoryId,
-  //         fromDate: dateRange.fromDate,
-  //         toDate: dateRange.toDate,
-  //         limit: 10,
-  //       }),
-  //     enabled:
-  //       !!inventoryId && !!dateRange.fromDate && detailView === 'categories',
-  //     staleTime: 0,
-  //     gcTime: 0,
-  //     select: (res) => res.Data,
-  //   });
-
   // DETAIL - ALL WASTED ITEMS
   const { data: allItemsData, isFetching: isItemsDetailFetching } = useQuery({
     queryKey: ['foodWaste-all-items', inventoryId, dateRange],
@@ -201,22 +168,6 @@ export default function FoodWaste({ inventoryId }) {
     col3: `${c.totalWastePercentage?.toFixed(2)}%`,
   }));
 
-  // const itemRows = (allItemsPages?.pages ?? [])
-  //   .flatMap((p) => p?.Data?.products ?? [])
-  //   .map((p) => ({
-  //     col1: p.name,
-  //     col2: `${p.totalWasteQty} ${p.stockTakingUnitPlural}`,
-  //     col3: formatPrice(p.totalWasteValue),
-  //   }));
-
-  // const categoryRows = (allCategoryPages?.pages ?? [])
-  //   .flatMap((p) => p?.Data?.categories ?? [])
-  //   .map((c) => ({
-  //     col1: c.name,
-  //     col2: formatPrice(c.totalWasteValue),
-  //     col3: `${c.totalWastePercentage?.toFixed(2)}%`,
-  //   }));
-
   function handleApply({ startDate, endDate, label }) {
     setDateRange({
       fromDate: format(startDate, 'yyyy-MM-dd'),
@@ -243,23 +194,6 @@ export default function FoodWaste({ inventoryId }) {
         isLoading={detailView === 'items' ? !allItemsData : !allCategoryData}
         onDateApply={handleApply}
       />
-      // <FoodWasteDetailView
-      //   type={detailView}
-      //   onBack={() => setDetailView(null)}
-      //   rows={detailView === 'items' ? itemRows : categoryRows}
-      //   isLoading={
-      //     detailView === 'items'
-      //       ? isItemsDetailFetching && itemRows.length === 0
-      //       : isCategoryDetailFetching && categoryRows.length === 0
-      //   }
-      //   onDateApply={handleApply}
-      //   fetchNextPage={
-      //     detailView === 'items' ? fetchNextItemsPage : fetchNextCategoryPage
-      //   }
-      //   hasNextPage={
-      //     detailView === 'items' ? hasNextItemsPage : hasNextCategoryPage
-      //   }
-      // />
     );
   }
 
@@ -282,7 +216,7 @@ export default function FoodWaste({ inventoryId }) {
           className='font-semibold text-[#19191c]'
           style={{ fontSize: 20, lineHeight: '28px', letterSpacing: '-0.01em' }}
         >
-          Food Waste
+          {ANALYTICS_SECTION_TITLES.FOOD_WASTE}
         </span>
         <div className='flex items-center'>
           <ExportButton onClick={handleExport} />

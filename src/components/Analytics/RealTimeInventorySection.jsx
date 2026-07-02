@@ -11,6 +11,7 @@ import {
   setAnalyticsSelectedInventory,
   setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
+import { ANALYTICS_SECTION_TITLES } from '../../constants/titles';
 
 export default function RealTimeInventorySection() {
   const { data, isFetching, error } = useQuery({
@@ -38,7 +39,7 @@ export default function RealTimeInventorySection() {
   return (
     <div>
       <SectionHeader
-        title='Real time inventory value'
+        title={ANALYTICS_SECTION_TITLES.REAL_TIME_INVENTORY_VALUE}
         lastUpdated={lastUpdatedText}
         hasData={hasData}
       />

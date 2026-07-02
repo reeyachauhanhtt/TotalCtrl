@@ -9,6 +9,11 @@ import Input from '../../Common/Input';
 import ExpiryDatePicker from './common/EXpiryDatePicker';
 import { formatPrice } from '../../../utils/format';
 import { addProductToInventory } from '../../../services/manageItemTemplateService';
+import {
+  ITEM_TEMPLATE_MODAL_TITLES,
+  ITEM_TEMPLATE_SECTION_TITLES,
+  SECTION_TITLES,
+} from '../../../constants/titles';
 
 export default function AddItemToInventory({
   isOpen,
@@ -170,7 +175,7 @@ export default function AddItemToInventory({
         {/* Header */}
         <div className='flex items-center shrink-0 px-[29px] pl-12 py-6 border-b border-[#e7e7ec] rounded-t-[4px]'>
           <h2 className='flex-1 font-semibold text-[#19191c] text-[18px] leading-6 tracking-[-0.01em] m-0 mr-[29px]'>
-            Add new product to inventory
+            {ITEM_TEMPLATE_MODAL_TITLES.ADD_NEW_PRODUCT_TO_INVENTORY}
           </h2>
           <span className='cursor-pointer shrink-0' onClick={onClose}>
             <img src='/icons/closepopup-icon.svg' alt='close' />
@@ -182,7 +187,7 @@ export default function AddItemToInventory({
           {/* Select Inventory section */}
           <div className='pt-[60px]'>
             <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191c] m-0 mb-2'>
-              Select Inventory
+              {SECTION_TITLES.SELECT_INVENTORY}
             </h3>
             <div className='mt-12'>
               <div style={{ width: '288px' }}>
@@ -252,7 +257,7 @@ export default function AddItemToInventory({
           {/* Enter Product Name section */}
           <div>
             <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191c] m-0 mb-2'>
-              Enter product name
+              {ITEM_TEMPLATE_SECTION_TITLES.ENTER_PRODUCT_NAME}
             </h3>
             <div className='mt-12 w-1/2'>
               <label className='block text-[11px] font-semibold uppercase text-[#6b6b6f] tracking-[0.08em] mb-1'>
@@ -286,7 +291,7 @@ export default function AddItemToInventory({
           {/* Setup units and conversions section */}
           <div>
             <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191c] m-0 mb-2'>
-              Setup units and conversions
+              {ITEM_TEMPLATE_SECTION_TITLES.SETUP_UNITS_AND_CONVERSIONS}
             </h3>
             <div className='mt-12 w-1/2'>
               <div className='flex items-start bg-[#f2f1ff] rounded-[4px] p-[21px_24px_21px_30px] text-[14.5px] font-semibold leading-[18px] text-[#362a96] w-full'>
@@ -309,7 +314,7 @@ export default function AddItemToInventory({
           {/* Specify quantity and shelf life section */}
           <div>
             <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191c] m-0 mb-2'>
-              Specify quantity and shelf life
+              {ITEM_TEMPLATE_SECTION_TITLES.SPECIFY_QUANTITY_AND_SHELF_LIFE}
             </h3>
 
             <div className='mt-12 flex flex-col gap-4'>
@@ -404,7 +409,7 @@ export default function AddItemToInventory({
           {/* Total product cost section */}
           <div>
             <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191c] m-0 mb-2'>
-              Total product cost
+              {ITEM_TEMPLATE_SECTION_TITLES.TOTAL_PRODUCT_COST}
             </h3>
             <div className='mt-12 flex items-center gap-12'>
               <div>

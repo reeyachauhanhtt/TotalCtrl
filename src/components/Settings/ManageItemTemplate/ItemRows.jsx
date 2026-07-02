@@ -10,6 +10,7 @@ import ConfirmModal from '../../Common/ConfirmModal';
 import Checkbox from '../../Common/Checkbox';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
 import { inventoryProductLink } from '../../../constants/routes';
+import { ITEM_TEMPLATE_MODAL_TITLES } from '../../../constants/titles';
 
 const MAX_VISIBLE_INVENTORIES = 3;
 
@@ -543,7 +544,7 @@ export default function ItemRow({
         <ConfirmModal
           open={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
-          title='Delete the template?'
+          title={ITEM_TEMPLATE_MODAL_TITLES.DELETE_THE_TEMPLATE}
           description='is currently not listed in any inventory. Please note that deleting the item template is irreversible and all associated data will be permanently deleted.'
           confirmLabel='Delete Item Template'
           cancelLabel='Cancel'

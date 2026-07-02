@@ -12,6 +12,10 @@ import AllUnitDropdown from './common/AllUnitsDropdown';
 import { fetchMeasurementUnits } from '../../../services/masterDataService';
 import { createItemTemplate } from '../../../services/manageItemTemplateService';
 import { formatPrice } from '../../../utils/format';
+import {
+  ITEM_TEMPLATE_MODAL_TITLES,
+  ITEM_TEMPLATE_SECTION_TITLES,
+} from '../../../constants/titles';
 
 export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
@@ -143,7 +147,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
           {/* Header */}
           <div className='flex items-center border-b border-[#E7E7EC] px-12 py-6'>
             <h2 className='w-full text-[18px] font-semibold text-[#19191C]'>
-              Add item template
+              {ITEM_TEMPLATE_MODAL_TITLES.ADD_ITEM_TEMPLATE}
             </h2>
 
             <button onClick={() => setShowCancelConfirm(true)}>
@@ -161,7 +165,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
 
             <section className='pt-[60px] pb-[60px] border-b border-[#e7e7ec]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Basic item info
+                {ITEM_TEMPLATE_SECTION_TITLES.BASIC_ITEM_INFO}
               </h3>
 
               {/* Row 1: Item Name + SKU */}
@@ -270,7 +274,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
 
             <section className='pb-[60px] border-b border-[#e7e7ec]'>
               <h3 className='mb-1 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Units
+                {ITEM_TEMPLATE_SECTION_TITLES.UNITS}
               </h3>
               <span className='block text-[14px] leading-5 text-[#6b6b6f] mb-6'>
                 Define at least one of the following units
@@ -346,7 +350,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
 
             <section className='border-b border-[#e7e7ec]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Conversions
+                {ITEM_TEMPLATE_SECTION_TITLES.CONVERSIONS}
               </h3>
 
               <div className='grid grid-cols-12 gap-4'>
@@ -501,7 +505,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
             <section className='pt-[60px] border-b border-[#e7e7ec]'>
               <div className='flex items-center gap-5 mb-6'>
                 <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                  Subpar level
+                  {ITEM_TEMPLATE_SECTION_TITLES.SUBPAR_LEVEL}
                 </h3>
                 <span
                   data-tooltip-id='subpar-tooltip'
@@ -553,7 +557,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
 
             <section className='pt-[60px] pb-[60px]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Cost
+                {ITEM_TEMPLATE_SECTION_TITLES.COST}
               </h3>
 
               <div className='flex items-start gap-0'>
@@ -632,7 +636,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
               {computedCosts && (
                 <div className='mt-4 w-[65%] rounded-lg bg-[#f7f7f9] p-5'>
                   <h3 className='text-[16px] font-semibold leading-5 text-[#19191c]'>
-                    Cost per unit overview
+                    {ITEM_TEMPLATE_SECTION_TITLES.COST_PER_UNIT_OVERVIEW}
                   </h3>
                   <hr className='my-0 border-[#e7e7ec]' />
                   <div className='pt-4 space-y-4'>
@@ -750,7 +754,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
           setShowCancelConfirm(false);
           handleClose();
         }}
-        title='Discard unsaved changes?'
+        title={ITEM_TEMPLATE_MODAL_TITLES.DISCARD_UNSAVED_CHANGES}
         confirmLabel='Discard'
         cancelLabel='Cancel'
       />

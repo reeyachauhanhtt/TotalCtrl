@@ -14,6 +14,7 @@ import {
   setAnalyticsSelectedInventory,
   setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
+import { ANALYTICS_SECTION_TITLES } from '../../constants/titles';
 
 export default function PurchasesSection() {
   const today = new Date();
@@ -32,10 +33,6 @@ export default function PurchasesSection() {
   const { data, isFetching, error } = useQuery({
     queryKey: ['analyticsPurchases', dateRange],
     queryFn: () => fetchPurchases(dateRange),
-    // queryFn: () =>
-    //   new Promise((r) => setTimeout(r, 5000)).then(() =>
-    //     fetchPurchases(dateRange),
-    //   ),
     staleTime: 0,
     gcTime: 0,
   });
@@ -57,7 +54,7 @@ export default function PurchasesSection() {
   return (
     <div style={{ marginTop: 50 }}>
       <SectionHeader
-        title='Purchases'
+        title={ANALYTICS_SECTION_TITLES.PURCHASES}
         showMonthPicker
         onApplyDateRange={handleApplyDateRange}
         hasData={hasData}

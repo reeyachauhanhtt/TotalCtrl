@@ -25,6 +25,10 @@ import TotalValueTransferredOut from './TotalValueTransferredOut';
 import ItemsTransferredOut from './ItemsTransferredOut';
 import TransferInformation from './TransferInformation';
 import InformationTable from './InformationTable';
+import {
+  ANALYTICS_SECTION_TITLES,
+  EMPTY_STATE_LABELS,
+} from '../../../constants/titles';
 
 const SORT_KEY_MAP = {
   item: 'name',
@@ -57,16 +61,11 @@ export default function TransfersTab() {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [sortKey, setSortKey] = useState('date');
   const [sortDir, setSortDir] = useState('desc');
-  // const [isTableLoading, setIsTableLoading] = useState(false);
 
   const prevQueryKeyRef = useRef(null);
 
   const inventoryId = useSelector((s) => s.analytics.selectedInventory?.id);
   const enabled = !!inventoryId && !!dateRange.fromDate && !!dateRange.toDate;
-
-  // useEffect(() => {
-  //   setIsTableLoading(true);
-  // }, [inventoryId, dateRange, showAllValue, inventoryValue, sortKey, sortDir]);
 
   const { data: inData, isLoading: isInLoading } = useQuery({
     queryKey: ['transferIn', inventoryId, dateRange.fromDate, dateRange.toDate],
@@ -168,20 +167,6 @@ export default function TransfersTab() {
   const showTableSkeleton =
     isItemsLoading && (isFilterChange || allRows.length === 0);
 
-  // useEffect(() => {
-  //   if (itemsData !== undefined) {
-  //     setIsTableLoading(false);
-  //   }
-  // }, [itemsData]);
-
-  // useEffect(() => {
-  //   if (!isItemsLoading) {
-  //     setIsTableLoading(false);
-  //   } else {
-  //     setIsTableLoading(true);
-  //   }
-  // }, [isItemsLoading]);
-
   const inInfo = inData?.Data;
   const outInfo = outData?.Data;
 
@@ -235,7 +220,7 @@ export default function TransfersTab() {
             color: '#19191c',
           }}
         >
-          Transfers
+          {ANALYTICS_SECTION_TITLES.TRANSFERS}
         </span>
 
         <div className='flex items-center gap-5'>
@@ -259,10 +244,10 @@ export default function TransfersTab() {
             style={{ height: 108, width: 151 }}
           />
           <span className='font-semibold text-[24px] leading-8 tracking-[-0.01em] text-[#19191c] text-center mt-6'>
-            No items transferred
+            {EMPTY_STATE_LABELS.NO_ITEMS_TRANSFERRED}
           </span>
           <h3 className='text-[#97979b] text-center text-[16px] font-normal tracking-[-0.16px] mt-2'>
-            There aren't any items transferred into or from this inventory yet.
+            {EMPTY_STATE_LABELS.NO_ITEMS_TRANSFERRED_DESC}
           </h3>
         </div>
       ) : (

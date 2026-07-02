@@ -19,6 +19,7 @@ import {
   validateOrderDates,
   isOrderDatesValid,
 } from '../../utils/orderDateValidation';
+import { MODAL_TITLES, SECTION_TITLES } from '../../constants/titles';
 
 export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
         {/* Header */}
         <div className='shrink-0 flex items-center justify-between border-b border-[#e7e7ec] rounded-t px-7.25 pl-12 py-6'>
           <h2 className='text-[18px] leading-6 font-semibold text-[#19191c] mb-0 tracking-[-0.01em] flex items-center gap-4'>
-            Add order manually
+            {MODAL_TITLES.ADD_ORDER_MANUALLY}
             <span className='text-[18px] leading-6 font-semibold text-[#19191c]'>
               Step {step}/3
             </span>
@@ -125,7 +126,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
             <>
               <div className='ml-12'>
                 <h2 className='text-[24px] leading-8 font-semibold tracking-[-0.01em] text-[#19191c] text-left mb-3'>
-                  Select Inventory
+                  {SECTION_TITLES.SELECT_INVENTORY}
                 </h2>
                 <p className='text-[#6b6b6f] text-[16px] font-normal leading-6 mb-0'>
                   Which inventory should we update when this order is delivered?
@@ -161,7 +162,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
             <>
               <div className='ml-12'>
                 <h2 className='text-[24px] leading-8 font-semibold tracking-[-0.01em] text-[#19191c] text-left mb-6'>
-                  Order details
+                  {SECTION_TITLES.ORDER_DETAILS}
                 </h2>
               </div>
 
@@ -256,7 +257,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                   className='font-semibold tracking-[-0.01em] text-[#19191c] text-left'
                   style={{ fontSize: 24, lineHeight: '32px', marginBottom: 24 }}
                 >
-                  Ordered items
+                  {SECTION_TITLES.ORDERED_ITEMS}
                 </h2>
               </div>
 

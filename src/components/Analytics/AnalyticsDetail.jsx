@@ -1,11 +1,4 @@
-const TABS = [
-  'Inventory Stats',
-  'Food Usage',
-  'Food Waste',
-  'Purchases',
-  'Delivery Stats',
-  'Transfers',
-];
+import { ANALYTICS_TABS } from '../../constants/titles';
 
 export default function AnalyticsDetail({
   activeTab,
@@ -38,7 +31,7 @@ export default function AnalyticsDetail({
           borderBottom: '1px solid #e6e6ed',
         }}
       >
-        {TABS.map((tab) => {
+        {ANALYTICS_TABS.map((tab) => {
           const isActive = activeTab === tab;
           return (
             <div

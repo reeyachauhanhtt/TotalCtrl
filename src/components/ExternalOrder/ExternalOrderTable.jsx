@@ -5,6 +5,7 @@ import ExternalOrderRow from './ExternalOrderRow';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import { ExternalOrderListSkeleton } from '../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../constants/titles';
 
 const COLUMNS = [
   { label: 'Supplier', align: 'left', width: '30%' },
@@ -29,17 +30,6 @@ export default function ExternalOrderTable({
   isReady,
   onReturnComplete,
 }) {
-  //   useEffect(() => {
-  //     if (!isLoading && !isFetching && onReturnComplete) {
-  //       onReturnComplete();
-  //     }
-  //   }, [isLoading, isFetching]);
-
-  //   if (isLoading || !isReady) return <ExternalOrderListSkeleton />;
-
-  //   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
-  // const isViewOnly = selectedInventory?.viewOnly === true;
-
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isViewOnly =
     selectedInventory &&
@@ -105,7 +95,7 @@ export default function ExternalOrderTable({
                   paddingBottom: '20px',
                 }}
               >
-                No {activeTab.toLowerCase()} orders
+                {EMPTY_STATE_LABELS.noOrdersForTab(activeTab)}
               </h4>
 
               {/* Buttons — only for Scheduled tab */}

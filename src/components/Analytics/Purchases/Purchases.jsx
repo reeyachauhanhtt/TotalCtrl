@@ -14,6 +14,7 @@ import BiggestOrders from './BiggestOrders';
 import BiggestSuppliers from './BiggestSuppliers';
 import PriceVariations from './PriceVariations';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
 
 export default function Purchases() {
   const persisted = getPersistedDateRange('analytics_date_range_purchases');
@@ -67,7 +68,7 @@ export default function Purchases() {
       <div className='flex justify-between items-start mt-9.5'>
         <div>
           <span className='text-[20px] font-semibold text-[#19191c] tracking-[-0.01em] leading-7'>
-            Purchases
+            {ANALYTICS_SECTION_TITLES.PURCHASES}
           </span>
         </div>
         <div className='flex items-center gap-5 px-20'>

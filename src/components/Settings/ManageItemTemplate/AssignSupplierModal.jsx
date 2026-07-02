@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import SupplierSearchDropdown from '../../Common/SupplierSearchDropdown';
 import GreenButton from '../../Common/GreenButton';
 import { assignSupplier } from '../../../services/manageItemTemplateService';
+import { ITEM_TEMPLATE_MODAL_TITLES } from '../../../constants/titles';
 
 export default function AssignSupplierModal({
   open,
@@ -48,10 +49,7 @@ export default function AssignSupplierModal({
   if (!open) return null;
 
   return (
-    <div
-      className='fixed inset-0 z-[100] flex items-center justify-center bg-black/40'
-      //   onClick={handleClose}
-    >
+    <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/40'>
       <div
         className='bg-white rounded w-[520px] h-100 shadow-[0_4px_4px_rgba(0,0,0,0.12)]'
         onClick={(e) => e.stopPropagation()}
@@ -73,7 +71,7 @@ export default function AssignSupplierModal({
         {/* Body */}
         <div className='px-12 pt-6 pb-10 text-center'>
           <h2 className='text-[24px] font-semibold leading-8 tracking-[-0.24px] text-[#19191c]'>
-            Selected items will be assigned to the chosen supplier
+            {ITEM_TEMPLATE_MODAL_TITLES.SELECTED_ITEMS_ASSIGN_SUPPLIER}
           </h2>
 
           <div className='py-8 flex justify-center'>

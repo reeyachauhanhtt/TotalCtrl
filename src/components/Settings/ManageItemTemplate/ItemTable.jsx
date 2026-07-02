@@ -11,6 +11,7 @@ import {
   ITEM_TEMPLATE_SORT_KEYS,
   ITEM_TEMPLATE_UNIT_SORT_KEYS,
 } from '../../../constants/sortKeys';
+import { EMPTY_STATE_LABELS, BUTTON_LABELS } from '../../../constants/titles';
 
 const HEADERS = [
   {
@@ -468,10 +469,10 @@ export default function ItemTable({
                           color: '#19191c',
                         }}
                       >
-                        No duplicate item templates
+                        {EMPTY_STATE_LABELS.NO_DUPLICATE_ITEM_TEMPLATES}
                       </h4>
                       <GreenButton onClick={onClearIssueFilter}>
-                        Clear the filter
+                        {BUTTON_LABELS.CLEAR_THE_FILTER}
                       </GreenButton>
                     </div>
                   ) : (
@@ -488,7 +489,7 @@ export default function ItemTable({
                           marginBottom: '0.5rem',
                         }}
                       >
-                        You have no products
+                        {EMPTY_STATE_LABELS.NO_PRODUCTS}
                       </h4>
                       <p
                         className='text-left'
@@ -501,9 +502,7 @@ export default function ItemTable({
                           marginTop: '12px',
                         }}
                       >
-                        To import products in bulk, upload your past orders in
-                        pdf, jpg or png format and we'll extract all the
-                        products for you.
+                        {EMPTY_STATE_LABELS.NO_PRODUCTS_DESC}
                       </p>
                       <GreenButton onClick={onUploadClick}>
                         <img
@@ -511,7 +510,7 @@ export default function ItemTable({
                           alt=''
                           className='w-4 h-4'
                         />
-                        Upload an order to extract products
+                        {BUTTON_LABELS.UPLOAD_ORDER_TO_EXTRACT_PRODUCTS}
                       </GreenButton>
                     </div>
                   )}

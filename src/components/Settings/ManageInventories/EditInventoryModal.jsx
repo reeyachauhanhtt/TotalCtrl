@@ -7,6 +7,7 @@ import GreenButton from '../../Common/GreenButton';
 import Input from '../../Common/Input';
 import { updateInventoryName } from '../../../services/manageInventoriesService';
 import { showSuccessToast } from '../../../utils/showToast';
+import { MANAGE_INVENTORIES_MODAL_TITLES } from '../../../constants/titles';
 
 export default function EditInventoryModal({ open, onClose, inventory }) {
   const [inventoryName, setInventoryName] = useState(inventory?.name ?? '');
@@ -35,7 +36,7 @@ export default function EditInventoryModal({ open, onClose, inventory }) {
       <div className='w-[616px] bg-white rounded shadow-[0_4px_4px_rgba(0,0,0,0.12)]'>
         <div className='flex items-center justify-between px-8 py-6 border-b border-gray-200 bg-transparent rounded-t'>
           <h2 className='text-[18px] leading-6 font-semibold text-[#333]'>
-            Edit inventory info
+            {MANAGE_INVENTORIES_MODAL_TITLES.EDIT_INVENTORY_INFO}
           </h2>
           <button onClick={onClose} className='cursor-pointer'>
             <FiX size={20} className='text-gray-600' />

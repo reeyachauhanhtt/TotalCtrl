@@ -69,7 +69,7 @@ export default function InternalOrderTable({
                   paddingBottom: '20px',
                 }}
               >
-                No {activeTab.toLowerCase()} orders
+                {EMPTY_STATE_LABELS.noOrdersForTab(activeTab)}
               </h4>
             </div>
           </td>

@@ -13,6 +13,10 @@ import {
 import ManageAccessModal from './ManageAccessModal';
 import { showSuccessToast } from '../../../utils/showToast';
 import { fetchInventoryAccessDetails } from '../../../services/manageInventoriesService';
+import {
+  INVENTORY_ACTION_LABELS,
+  INVENTORY_CONFIRM_MODAL,
+} from '../../../constants/titles';
 
 function ActionsDropdown({
   anchorRef,
@@ -65,7 +69,7 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          Edit inventory info
+          {INVENTORY_ACTION_LABELS.EDIT_INVENTORY_INFO}
         </li>
 
         <li
@@ -75,7 +79,7 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          Manage access
+          {INVENTORY_ACTION_LABELS.MANAGE_ACCESS}
         </li>
 
         <li
@@ -85,7 +89,9 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          {isCurrentlyActive ? 'Deactivate Inventory' : 'Activate Inventory'}
+          {isCurrentlyActive
+            ? INVENTORY_ACTION_LABELS.DEACTIVATE_INVENTORY
+            : INVENTORY_ACTION_LABELS.ACTIVATE_INVENTORY}
         </li>
 
         <li
@@ -95,7 +101,7 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          Delete Inventory
+          {INVENTORY_ACTION_LABELS.DELETE_INVENTORY}
         </li>
       </ul>
     </div>,
@@ -233,17 +239,10 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         <Modal
           open={!!confirmAction}
           onClose={() => setConfirmAction(null)}
-          title={
-            confirmAction === 'delete'
-              ? `Are you sure you want to delete ${name}?`
-              : `Are you sure you want to ${confirmAction} ${name}?`
-          }
+          title={INVENTORY_CONFIRM_MODAL.title(confirmAction, name)}
           description={
-            confirmAction === 'activate'
-              ? 'If you activate this inventory, it will be visible to the users which can see and edit it in the web administration and the mobile app.'
-              : confirmAction === 'deactivate'
-                ? 'If you deactivate this inventory, it wont be visible to the users anymore.'
-                : 'This action is irreversible'
+            INVENTORY_CONFIRM_MODAL.description[confirmAction] ??
+            INVENTORY_CONFIRM_MODAL.description.delete
           }
           actionText={
             confirmAction === 'activate'

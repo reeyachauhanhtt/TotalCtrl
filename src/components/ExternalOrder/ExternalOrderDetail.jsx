@@ -21,6 +21,7 @@ import ConfirmModal from '../Common/ConfirmModal';
 import StatusBadge from '../Common/StatusBadge';
 import EditOrderModal from '../ExternalOrder/EditOrderModal';
 import { ExternalOrderDetailSkeleton } from '../Common/Skeleton';
+import { EXTERNAL_ORDER_MODAL_TITLES } from '../../constants/titles';
 
 const STATUS_LABEL_MAP = {
   scheduled: 'Scheduled',
@@ -759,7 +760,10 @@ export default function ExternalOrderDetail({ order, onBack, onUploadClick }) {
       <ConfirmModal
         open={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title={`Delete order #${orderNumber} from ${supplierName}?`}
+        title={EXTERNAL_ORDER_MODAL_TITLES.deleteOrderFromSupplier(
+          orderNumber,
+          supplierName,
+        )}
         description='This action is irreversible and you will lose all the information related to this order.'
         confirmLabel='Delete order'
         cancelLabel='Cancel'

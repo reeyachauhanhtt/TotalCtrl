@@ -16,6 +16,7 @@ import {
 import { fetchSuppliers } from '../../../services/supplierService';
 import { fetchMeasurementUnits } from '../../../services/masterDataService';
 import { getUserIdFromToken } from '../../../services/analyticsService';
+import { UPLOAD_EXCEL_TITLES } from '../../../constants/titles';
 
 const STATES = {
   IDLE: 'idle',
@@ -348,7 +349,7 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
               onDragOver={(e) => e.preventDefault()}
             >
               <h2 className='text-2xl font-semibold tracking-[-0.01em] text-[#19191c] mb-6 text-center'>
-                Upload an order to extract products
+                {UPLOAD_EXCEL_TITLES.UPLOAD_ORDER_TO_EXTRACT_PRODUCTS}
               </h2>
 
               {/* IDLE */}
@@ -416,10 +417,10 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
                       className='mb-[19px]'
                     />
                     <h5 className='text-[16px] font-semibold leading-5 tracking-[-0.01em] text-center mb-[9px]'>
-                      Success
+                      {UPLOAD_EXCEL_TITLES.SUCCESS}
                     </h5>
                     <h5 className='text-[14px] font-normal leading-5 text-center mb-[26px]'>
-                      Your file has been succesfully uploaded
+                      {UPLOAD_EXCEL_TITLES.FILE_UPLOADED_SUCCESS}
                     </h5>
                   </div>
                 </div>
@@ -438,7 +439,7 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
                       className='mb-[19px]'
                     />
                     <h5 className='text-[16px] font-semibold leading-5 tracking-[-0.01em] text-center mb-[9px]'>
-                      Issues found
+                      {UPLOAD_EXCEL_TITLES.ISSUES_FOUND}
                     </h5>
                     <h5 className='text-[14px] font-normal leading-5 text-center mb-[26px]'>
                       {errorMessage}
@@ -496,7 +497,7 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
           {step === 3 && allInDB ? (
             <div className='text-left mt-[100px] ml-12'>
               <h2 className='text-2xl text-center font-semibold tracking-[-0.01em] text-[#19191c] mb-6'>
-                Congratulations!
+                {UPLOAD_EXCEL_TITLES.CONGRATULATIONS}
               </h2>
               <div className='mx-auto mb-10 text-left w-[360px]'>
                 <ul className='list-none m-0 p-0 text-[#737373] text-base text-center leading-6'>
@@ -510,7 +511,7 @@ export default function UploadAnExcelModal({ isOpen, onClose, onSuccess }) {
               <div>
                 <div className='ml-12'>
                   <h2 className='text-2xl font-semibold tracking-[-0.01em] text-[#19191c] mb-2'>
-                    Setup unit conversions
+                    {UPLOAD_EXCEL_TITLES.SETUP_UNIT_CONVERSIONS}
                   </h2>
                   <h5 className='text-[16px] font-medium text-[#6b6b6f]'>
                     We have found {productRows.length} products that are not in

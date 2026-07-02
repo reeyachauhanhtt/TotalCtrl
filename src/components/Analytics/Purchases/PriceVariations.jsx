@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPriceVariations } from '../../../services/purchasesService';
 import { formatPrice } from '../../../utils/format';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
 
 function PriceVariationTable({
   title,
@@ -147,7 +148,7 @@ export default function PriceVariations({ inventoryId, dateRange }) {
   return (
     <div className='flex w-[95%] mt-2.5'>
       <PriceVariationTable
-        title='Price Variations'
+        title={ANALYTICS_SECTION_TITLES.PRICE_VARIATIONS}
         rows={increaseRows}
         isIncrease={true}
         isLoading={isLoading}

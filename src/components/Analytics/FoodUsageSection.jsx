@@ -14,6 +14,7 @@ import {
   setAnalyticsSelectedInventory,
   setAnalyticsSelectedTab,
 } from '../../store/analyticsSlice';
+import { ANALYTICS_SECTION_TITLES } from '../../constants/titles';
 
 export default function FoodUsageSection() {
   const today = new Date();
@@ -32,10 +33,6 @@ export default function FoodUsageSection() {
   const { data, isFetching, error } = useQuery({
     queryKey: ['analyticsFoodUsage', dateRange],
     queryFn: () => fetchFoodUsage(dateRange),
-    // queryFn: () =>
-    //   new Promise((r) => setTimeout(r, 5000)).then(() =>
-    //     fetchFoodUsage(dateRange),
-    //   ),
     staleTime: 0,
     gcTime: 0,
   });
@@ -64,7 +61,7 @@ export default function FoodUsageSection() {
   return (
     <div style={{ marginTop: 50 }}>
       <SectionHeader
-        title='Food usage'
+        title={ANALYTICS_SECTION_TITLES.FOOD_USAGE}
         showMonthPicker
         onApplyDateRange={handleApplyDateRange}
         hasData={hasData}

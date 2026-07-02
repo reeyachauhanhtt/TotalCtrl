@@ -19,6 +19,7 @@ import { InternalOrderDetailSkeleton } from '../Common/Skeleton';
 import StatusBadge from '../Common/StatusBadge';
 import ConfirmModal from '../Common/ConfirmModal';
 import EditInternalOrderModal from './EditInternalOrder';
+import { INTERNAL_ORDER_MODAL_TITLES } from '../../constants/titles';
 
 const STATUS_LABEL_MAP = {
   scheduled: 'Scheduled',
@@ -604,7 +605,10 @@ export default function InternalOrderDetail({ order }) {
       <ConfirmModal
         open={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title={`Delete order # ${orderNumber} from ${fromInventoryName} ?`}
+        title={INTERNAL_ORDER_MODAL_TITLES.deleteOrderFromInventory(
+          orderNumber,
+          fromInventoryName,
+        )}
         description='This action is irreversible and you will lose all the information related to this order.'
         confirmLabel='Delete Order'
         cancelLabel='Cancel'

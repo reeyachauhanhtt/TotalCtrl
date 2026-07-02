@@ -14,6 +14,7 @@ import {
   fetchSupplierRanking,
 } from '../../../services/deliveryStatsService';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
 
 export default function DeliveryStats() {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ export default function DeliveryStats() {
       {/* Header */}
       <div className='flex justify-between items-start mt-9.5'>
         <span className='text-[20px] font-semibold text-[#19191c] tracking-[-0.01em] leading-7'>
-          Delivery Stats
+          {ANALYTICS_SECTION_TITLES.DELIVERY_STATS}
         </span>
         <div className='flex items-center gap-5'>
           <ExportButton disabled={isEmpty} />

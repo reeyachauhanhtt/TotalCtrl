@@ -16,6 +16,10 @@ import {
   updateItemTemplate,
 } from '../../../services/manageItemTemplateService';
 import { formatPrice } from '../../../utils/format';
+import {
+  ITEM_TEMPLATE_MODAL_TITLES,
+  ITEM_TEMPLATE_SECTION_TITLES,
+} from '../../../constants/titles';
 
 function deriveCategory(item) {
   const group = item?.productGroup;
@@ -352,7 +356,7 @@ export default function EditItemTemplateModal({
           {/* Header */}
           <div className='flex items-center border-b border-[#E7E7EC] px-12 py-6'>
             <h2 className='w-full text-[18px] font-semibold text-[#19191C]'>
-              Edit item template
+              {ITEM_TEMPLATE_MODAL_TITLES.EDIT_ITEM_TEMPLATE}
             </h2>
             <button onClick={() => setShowCancelConfirm(true)}>
               <img
@@ -369,7 +373,7 @@ export default function EditItemTemplateModal({
 
             <section className='pt-[60px] pb-[60px] border-b border-[#e7e7ec]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Basic item info
+                {ITEM_TEMPLATE_SECTION_TITLES.BASIC_ITEM_INFO}
               </h3>
 
               {/* Row 1: Item Name + SKU */}
@@ -461,7 +465,7 @@ export default function EditItemTemplateModal({
 
             <section className='pb-[60px] border-b border-[#e7e7ec]'>
               <h3 className='mb-1 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Units
+                {ITEM_TEMPLATE_SECTION_TITLES.UNITS}
               </h3>
               <span className='block text-[14px] leading-5 text-[#6b6b6f] mb-6'>
                 Define at least one of the following units
@@ -537,7 +541,7 @@ export default function EditItemTemplateModal({
 
             <section className='border-b border-[#e7e7ec]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Conversions
+                {ITEM_TEMPLATE_SECTION_TITLES.CONVERSIONS}
               </h3>
 
               <div className='grid grid-cols-12 gap-4'>
@@ -678,7 +682,7 @@ export default function EditItemTemplateModal({
             <section className='pt-[60px] border-b border-[#e7e7ec]'>
               <div className='flex items-center gap-5 mb-6'>
                 <h3 className='text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                  Subpar level
+                  {ITEM_TEMPLATE_SECTION_TITLES.SUBPAR_LEVEL}
                 </h3>
                 <span
                   data-tooltip-id='subpar-tooltip'
@@ -730,7 +734,7 @@ export default function EditItemTemplateModal({
 
             <section className='pt-[60px] pb-[60px]'>
               <h3 className='mb-6 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Cost
+                {ITEM_TEMPLATE_SECTION_TITLES.COST}
               </h3>
 
               <div className='flex items-start gap-0'>
@@ -829,7 +833,7 @@ export default function EditItemTemplateModal({
               {computedCosts && (
                 <div className='mt-4 w-[65%] rounded-lg bg-[#f7f7f9] p-5'>
                   <h3 className='text-[16px] font-semibold leading-5 text-[#19191c]'>
-                    Cost per unit overview
+                    {ITEM_TEMPLATE_SECTION_TITLES.COST_PER_UNIT_OVERVIEW}
                   </h3>
                   <hr className='my-0 border-[#e7e7ec]' />
                   <div className='pt-4 space-y-4'>
@@ -896,7 +900,7 @@ export default function EditItemTemplateModal({
             {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ AFFECTED ITEMS SECTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
             <section className='pt-[60px] pb-[60px]'>
               <h3 className='mb-2 text-[20px] font-semibold leading-7 tracking-[-0.01em] text-[#19191C]'>
-                Affected items
+                {ITEM_TEMPLATE_SECTION_TITLES.AFFECTED_ITEMS}
               </h3>
               <p className='mb-6 text-[14px] leading-5 text-[#6b6b6f] w-2/3'>
                 The changes you've made may affect the item quantity in
@@ -1183,7 +1187,6 @@ export default function EditItemTemplateModal({
           setShowCancelConfirm(false);
           handleClose();
         }}
-        title='Discard unsaved changes?'
         confirmLabel='Discard'
         cancelLabel='Cancel'
       />

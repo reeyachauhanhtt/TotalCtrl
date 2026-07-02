@@ -20,6 +20,7 @@ import {
   fetchInventoryExport,
 } from '../../../services/inventoryStatsService';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { SECTION_TITLES } from '../../../constants/titles';
 
 export default function InventoryStats({ onViewMore }) {
   const selectedInventory = useSelector((s) => s.analytics.selectedInventory);
@@ -127,7 +128,7 @@ export default function InventoryStats({ onViewMore }) {
       <div className='flex items-start justify-between mt-9.5'>
         <div>
           <span className='font-semibold text-[22px] leading-7 tracking-[-0.01em] text-[#19191c]'>
-            Inventory
+            {SECTION_TITLES.INVENTORY}
           </span>
 
           <div className='mt-12'>

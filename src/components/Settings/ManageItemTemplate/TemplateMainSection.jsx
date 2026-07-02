@@ -11,6 +11,7 @@ import { fetchInventory } from '../../../services/inventoryService';
 import ConfirmModal from '../../Common/ConfirmModal';
 import SearchInput from '../../Common/SearchInput';
 import AssignSupplierModal from './AssignSupplierModal';
+import { ITEM_TEMPLATE_DYNAMIC_TITLES } from '../../../constants/titles';
 
 const ISSUE_OPTIONS = [
   'All item templates',
@@ -341,7 +342,9 @@ export default function TemplateMainSection({
       <ConfirmModal
         open={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        title={`Are you sure you want to delete ${checkedIds.length} selected item${checkedIds.length > 1 ? 's' : ''}?`}
+        title={ITEM_TEMPLATE_DYNAMIC_TITLES.deleteSelectedItems(
+          checkedIds.length,
+        )}
         description='Please note that deleting this item template is irreversible, all associated data will be permanently deleted and the item will be removed from all the listed inventories.'
         confirmLabel='Delete All'
         cancelLabel='Cancel'
