@@ -3,9 +3,9 @@ import { FiX } from 'react-icons/fi';
 import { Tooltip } from 'react-tooltip';
 import * as XLSX from 'xlsx';
 
-// import templateFile from '../../assets/TotalCtrl_Item_Import_Template_en.xlsx';
 import { parseExcel } from '../../services/importFileService';
 import GreenButton from '../Common/GreenButton';
+import { SECTION_TITLES } from '../../constants/titles';
 
 const ImportItemsModal = ({
   isOpen,
@@ -121,7 +121,7 @@ const ImportItemsModal = ({
         </button>
 
         <h2 className='text-[22px] font-semibold text-gray-800 text-center mb-5'>
-          Import items using a spreadsheet template
+          {SECTION_TITLES.IMPORT_ITEMS_TEMPLATE}
         </h2>
 
         <ol className='text-[15px] text-gray-500 list-decimal list-insidespace-y-3 mb-6 max-w-90 mx-auto text-left'>

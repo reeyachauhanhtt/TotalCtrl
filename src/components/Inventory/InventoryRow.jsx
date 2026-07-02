@@ -10,6 +10,7 @@ import {
 import ConfirmModal from '../Common/ConfirmModal';
 import StatusBadge from '../Common/StatusBadge';
 import Checkbox from '../Common/Checkbox';
+import { INVENTORY_MODAL_TITLES } from '../../constants/titles';
 
 function formatQty(num) {
   return num.toFixed(2).replace('.', ',');
@@ -714,7 +715,7 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         open={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeleteConfirm}
-        title={`Do you want to delete ${item.name}, from the Inventory`}
+        title={INVENTORY_MODAL_TITLES.deleteItemFromInventory(item.name)}
         description='This action is irreversible and you will lose all the information related to this product.'
         confirmLabel='Delete'
         cancelLabel='Cancel'

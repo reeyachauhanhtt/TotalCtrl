@@ -31,6 +31,7 @@ import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import Checkbox from '../Common/Checkbox';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
+import { SECTION_TITLES } from '../../constants/titles';
 
 export default function TransferItemModal({
   open,
@@ -306,7 +307,7 @@ export default function TransferItemModal({
             <div className='px-15 py-8'>
               <div className='max-w-sm'>
                 <h2 className='text-[20px] font-semibold text-gray-900 mb-6'>
-                  Select location
+                  {SECTION_TITLES.SELECT_LOCATION}
                 </h2>
 
                 <TransferInventoryDropdown
@@ -346,7 +347,7 @@ export default function TransferItemModal({
                 style={{ borderRight: '1px solid #e5e7eb', margin: 0 }}
               >
                 <h2 className='text-[24px] font-semibold text-gray-900 mt-3 mb-4 pl-5 px-6 pt-2'>
-                  Pick items to transfer
+                  {SECTION_TITLES.PICK_ITEMS_TO_TRANSFER}
                 </h2>
 
                 {/* Search input with dropdown */}
@@ -495,7 +496,7 @@ export default function TransferItemModal({
               {/* Right panel — Selected items */}
               <div className='flex flex-col shrink-0 overflow-y-auto bg-gray-50 w-125'>
                 <h2 className='text-[24px] font-semibold text-gray-900 px-10 pt-8 pb-4'>
-                  Selected items
+                  {SECTION_TITLES.SELECTED_ITEMS}
                 </h2>
                 <div className='flex flex-col px-6'>
                   {selectedItems.map((item) => (
@@ -535,7 +536,7 @@ export default function TransferItemModal({
                     marginBottom: 0,
                   }}
                 >
-                  Specify quantities
+                  {SECTION_TITLES.SPECIFY_QUANTITIES}
                 </h2>
               </div>
 
