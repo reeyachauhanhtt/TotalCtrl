@@ -1,10 +1,11 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getUserIdFromToken } from './analyticsService';
 
 // GET inv name + total value
 export async function fetchInventoryTotal({ inventoryId }) {
   const userId = getUserIdFromToken();
-  const res = await axiosInstance.get('/analytics/inventory/total', {
+  const res = await axiosInstance.get(API_ENDPOINTS.ANALYTICS_INVENTORY_TOTAL, {
     params: { inventoryId, userId },
   });
   return res.data;
@@ -16,9 +17,12 @@ export async function fetchValueBySupplier({
   limit = 6,
   offset = 0,
 }) {
-  const res = await axiosInstance.get('/analytics/inventory/value-by-stock', {
-    params: { inventoryId, limit, offset },
-  });
+  const res = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_INVENTORY_VALUE_BY_STOCK,
+    {
+      params: { inventoryId, limit, offset },
+    },
+  );
   return res.data;
 }
 
@@ -29,7 +33,7 @@ export async function fetchValueByCategory({
   offset = 0,
 }) {
   const res = await axiosInstance.get(
-    '/analytics/inventory/value-by-category',
+    API_ENDPOINTS.ANALYTICS_INVENTORY_VALUE_BY_CATEGORY,
     {
       params: { inventoryId, limit, offset },
     },
@@ -46,7 +50,7 @@ export async function fetchCheckInValue({
   offset = 0,
 }) {
   const res = await axiosInstance.get(
-    '/analytics/inventory/check-in-value-by-category',
+    API_ENDPOINTS.ANALYTICS_INVENTORY_CHECK_IN_VALUE,
     {
       params: { inventoryId, fromDate, toDate, limit, offset },
     },
@@ -63,7 +67,7 @@ export async function fetchCheckOutValue({
   offset = 0,
 }) {
   const res = await axiosInstance.get(
-    '/analytics/inventory/check-out-value-by-category',
+    API_ENDPOINTS.ANALYTICS_INVENTORY_CHECK_OUT_VALUE,
     {
       params: { inventoryId, fromDate, toDate, limit, offset },
     },
@@ -79,8 +83,11 @@ export async function fetchInventoryExport({
   language = 'en',
 }) {
   const userId = getUserIdFromToken();
-  const res = await axiosInstance.get('/analytics/inventory/export', {
-    params: { inventoryId, userId, fromDate, toDate, language },
-  });
+  const res = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_INVENTORY_EXPORT,
+    {
+      params: { inventoryId, userId, fromDate, toDate, language },
+    },
+  );
   return res.data;
 }

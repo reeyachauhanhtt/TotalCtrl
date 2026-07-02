@@ -1,5 +1,6 @@
 import axiosInstance from '../api/axiosInstance';
 import * as XLSX from 'xlsx';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 
 export const downloadInventoryCSV = async ({
   inventoryId,
@@ -17,10 +18,9 @@ export const downloadInventoryCSV = async ({
     params.isInStock = stockMap[stockFilter];
   }
 
-  const res = await axiosInstance.get(
-    '/inventory-management/store-products/download-csv',
-    { params },
-  );
+  const res = await axiosInstance.get(API_ENDPOINTS.INVENTORY_DOWNLOAD_CSV, {
+    params,
+  });
 
   const rows = res.data?.Data || [];
 

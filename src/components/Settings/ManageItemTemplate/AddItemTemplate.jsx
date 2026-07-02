@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
 
 import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
 import Input from '../../Common/Input';
 import ConfirmModal from '../../Common/ConfirmModal';
+import Tooltip from '../../Common/Tooltip';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
 import AllUnitDropdown from './common/AllUnitsDropdown';
@@ -522,7 +523,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                   place='bottom'
                   html={true}
                   style={{
-                    backgroundColor: '#333',
+                    // backgroundColor: '#333',
                     borderRadius: 12,
                     fontSize: 14,
                     fontWeight: 300,

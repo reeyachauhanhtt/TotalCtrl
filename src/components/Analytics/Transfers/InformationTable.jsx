@@ -1,4 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { SORT_DIRECTIONS } from '../../../constants/sortKeys';
 import InformationRow from './InformationRow';
 
 const COLUMNS = [
@@ -87,7 +89,7 @@ export default function InformationTable({
                       <img
                         src={
                           isActive
-                            ? sortDir === 'asc'
+                            ? sortDir === SORT_DIRECTIONS.ASC
                               ? '/icons/asc-order-inv-green.svg'
                               : '/icons/desc-order-inv-green.svg'
                             : '/icons/desc-order.svg'

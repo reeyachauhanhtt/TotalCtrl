@@ -33,8 +33,15 @@ export default function Header() {
 
   const inventories = data?.Data || data?.data || [];
 
+  //deactivated inv will be removed from the redu
   useEffect(() => {
-    if (inventories.length > 0 && !selectedInventory) {
+    if (inventories.length === 0) return;
+
+    const stillValid = selectedInventory
+      ? inventories.some((inv) => inv.id === selectedInventory.id)
+      : false;
+
+    if (!stillValid) {
       dispatch(setSelectedInventory(inventories[0]));
     }
   }, [inventories, selectedInventory, dispatch]);

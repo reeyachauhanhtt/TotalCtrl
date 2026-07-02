@@ -1,5 +1,6 @@
 import InternalOrderRow from './InternalOrderRow';
 import { InternalOrderListSkeleton } from '../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../constants/titles';
 
 const COLUMNS = [
   { label: 'From Inventory', align: 'left', width: '21%' },

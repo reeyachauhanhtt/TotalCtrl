@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
 
 import { fetchInventory } from '../../services/inventoryService';
 import { setSelectedInventory } from '../../store/inventorySlice';
@@ -10,6 +10,7 @@ import AddOrderManuallyModal from '../ExternalOrder/AddOrderManuallyModal';
 import InventoryDropdown from '../Common/InventoryDropDown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import Tooltip from '../Common/Tooltip';
 import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
 
 export default function ExternalOrderHeader({ onUploadClick, onError }) {
@@ -104,8 +105,8 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   id='add-order-tooltip'
                   place='bottom'
                   style={{
-                    backgroundColor: '#19191c',
-                    fontSize: 12,
+                    // backgroundColor: '#19191c',
+                    // fontSize: 12,
                     maxWidth: 208,
                   }}
                 />
@@ -135,8 +136,8 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   id='upload-order-tooltip'
                   place='bottom-end'
                   style={{
-                    backgroundColor: '#19191c',
-                    fontSize: 12,
+                    // backgroundColor: '#19191c',
+                    // fontSize: 12,
                     maxWidth: 250,
                     // minHeight: 750,
                   }}

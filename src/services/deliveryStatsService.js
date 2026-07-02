@@ -1,4 +1,5 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 
 export async function fetchTotalReturnedGoods({
   inventoryId,
@@ -6,7 +7,7 @@ export async function fetchTotalReturnedGoods({
   toDate,
 }) {
   const res = await axiosInstance.get(
-    '/analytics/delivery-stats/total-returned-goods',
+    API_ENDPOINTS.ANALYTICS_DELIVERY_TOTAL_RETURNED_GOODS,
     {
       params: { inventoryId, fromDate, toDate },
     },
@@ -22,7 +23,7 @@ export async function fetchSupplierRanking({
   offset = 0,
 }) {
   const res = await axiosInstance.get(
-    '/analytics/delivery-stats/supplier-ranking',
+    API_ENDPOINTS.ANALYTICS_DELIVERY_SUPPLIER_RANKING,
     {
       params: { inventoryId, fromDate, toDate, limit, offset },
     },

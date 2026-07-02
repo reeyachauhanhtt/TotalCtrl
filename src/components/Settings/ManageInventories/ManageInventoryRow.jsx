@@ -153,12 +153,13 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
 
       setConfirmAction(null);
       queryClient.invalidateQueries({ queryKey: ['inventories-with-access'] });
+      queryClient.invalidateQueries({ queryKey: ['inventories'] });
     } catch (error) {
       console.error('Failed updating inventory', error);
     }
   };
 
-  // console.log('inventory users', inventory.users);
+  console.log('inventory users', inventory.users);
   return (
     <>
       <tr className='border-b border-[#e6e6ed]' style={{ height: 72 }}>

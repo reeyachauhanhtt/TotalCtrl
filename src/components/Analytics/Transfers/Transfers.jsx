@@ -29,6 +29,7 @@ import {
   ANALYTICS_SECTION_TITLES,
   EMPTY_STATE_LABELS,
 } from '../../../constants/titles';
+import { SORT_DIRECTIONS } from '../../../constants/sortKeys';
 
 const SORT_KEY_MAP = {
   item: 'name',
@@ -60,7 +61,7 @@ export default function TransfersTab() {
   const [inventoryValue, setInventoryValue] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [sortKey, setSortKey] = useState('date');
-  const [sortDir, setSortDir] = useState('desc');
+  const [sortDir, setSortDir] = useState(SORT_DIRECTIONS.DESC);
 
   const prevQueryKeyRef = useRef(null);
 
@@ -193,10 +194,14 @@ export default function TransfersTab() {
 
   function handleSort(key) {
     if (sortKey === key) {
-      setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDir((prev) =>
+        prev === SORT_DIRECTIONS.ASC
+          ? SORT_DIRECTIONS.DESC
+          : SORT_DIRECTIONS.ASC,
+      );
     } else {
       setSortKey(key);
-      setSortDir('asc');
+      setSortDir(SORT_DIRECTIONS.ASC);
     }
   }
   return (

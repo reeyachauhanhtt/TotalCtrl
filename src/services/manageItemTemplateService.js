@@ -1,4 +1,5 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 
 // Fetch all products (item templates) with pagination + filters
 export const fetchItemTemplates = async ({
@@ -14,7 +15,7 @@ export const fetchItemTemplates = async ({
   inventoryId = '',
   supplierId = '',
 } = {}) => {
-  const { data } = await axiosInstance.get('/products', {
+  const { data } = await axiosInstance.get(API_ENDPOINTS.PRODUCTS, {
     params: {
       name,
       offset,
@@ -34,7 +35,7 @@ export const fetchItemTemplates = async ({
 
 // Fetch product groups (categories) - parents only
 export const fetchProductGroups = async () => {
-  const { data } = await axiosInstance.get('/product-groups', {
+  const { data } = await axiosInstance.get(API_ENDPOINTS.PRODUCT_GROUPS, {
     params: { language: 'en', onlyParents: true },
   });
   return data?.Data || [];
@@ -42,7 +43,7 @@ export const fetchProductGroups = async () => {
 
 // Fetch subcategories by parent group id
 export const fetchSubcategories = async (parentId) => {
-  const { data } = await axiosInstance.get('/product-groups', {
+  const { data } = await axiosInstance.get(API_ENDPOINTS.PRODUCT_GROUPS, {
     params: { language: 'en', parentId, onlyParents: false },
   });
   return data?.Data || [];
@@ -61,7 +62,7 @@ export const fetchStoreProductsSearch = async ({
   offset = 0,
 } = {}) => {
   const { data } = await axiosInstance.get(
-    '/inventory-management/store-products/search',
+    API_ENDPOINTS.STORE_PRODUCTS_SEARCH,
     {
       params: { name, limit, offset },
     },
@@ -73,7 +74,7 @@ export const fetchStoreProductsSearch = async ({
 
 //delete selected product/s from the selected product/s
 export const deleteItemTemplates = async (ids) => {
-  const { data } = await axiosInstance.delete('/products', {
+  const { data } = await axiosInstance.delete(API_ENDPOINTS.PRODUCTS, {
     data: { productIds: ids },
   });
   return data;
@@ -81,28 +82,37 @@ export const deleteItemTemplates = async (ids) => {
 
 //assign supplier to the selected product/s
 export async function assignSupplier({ supplierId, storeId, productIds }) {
-  const res = await axiosInstance.post(`/suppliers/${supplierId}/products`, {
-    storeId,
-    productIds,
-  });
+  const res = await axiosInstance.post(
+    API_ENDPOINTS.SUPPLIER_PRODUCTS(supplierId),
+    {
+      storeId,
+      productIds,
+    },
+  );
   return res.data;
 }
 
 //GET THE INFO ABOUT THE PRODUCS WHEN OPENED AN EDIT MODAL
 export const fetchItemTemplateDetail = async (id) => {
-  const { data } = await axiosInstance.get(`/products/${id}`);
+  const { data } = await axiosInstance.get(API_ENDPOINTS.PRODUCT_DETAIL(id));
   return data?.Data || null;
 };
 
 //parse an excel
 export const parseExcel = async (payload) => {
-  const { data } = await axiosInstance.post('/products/parse-excel', payload);
+  const { data } = await axiosInstance.post(
+    API_ENDPOINTS.PRODUCTS_PARSE_EXCEL,
+    payload,
+  );
   return data;
 };
 
 //UPLOAD AN EXCEL
 export const addInitialProducts = async (payload) => {
-  const { data } = await axiosInstance.post('/products/add-initial', payload);
+  const { data } = await axiosInstance.post(
+    API_ENDPOINTS.PRODUCTS_ADD_INITIAL,
+    payload,
+  );
   return data;
 };
 
@@ -110,26 +120,29 @@ export const addInitialProducts = async (payload) => {
 
 //add item template
 export async function createItemTemplate(payload) {
-  const res = await axiosInstance.post('/products', payload);
+  const res = await axiosInstance.post(API_ENDPOINTS.PRODUCTS, payload);
   return res.data;
 }
 
 //edit item template
 export const updateItemTemplate = async ({ id, payload }) => {
-  const { data } = await axiosInstance.put(`/products/${id}`, payload);
+  const { data } = await axiosInstance.put(
+    API_ENDPOINTS.PRODUCT_DETAIL(id),
+    payload,
+  );
   return data;
 };
 
 // Delete item template
 export const deleteItemTemplate = async (id) => {
-  const { data } = await axiosInstance.delete(`/products/${id}`);
+  const { data } = await axiosInstance.delete(API_ENDPOINTS.PRODUCT_DETAIL(id));
   return data;
 };
 
 //add item to an inventory
 export async function addProductToInventory(payload) {
   const response = await axiosInstance.post(
-    '/inventory-management/store-products',
+    API_ENDPOINTS.STORE_PRODUCTS,
     payload,
   );
   return response.data;

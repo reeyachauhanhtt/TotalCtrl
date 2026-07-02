@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
+
 import ExternalOrderRow from './ExternalOrderRow';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
+import Tooltip from '../Common/Tooltip';
 import { ExternalOrderListSkeleton } from '../Common/Skeleton';
 import { EMPTY_STATE_LABELS } from '../../constants/titles';
 
@@ -129,8 +131,8 @@ export default function ExternalOrderTable({
                       id='table-upload-tooltip'
                       place='top'
                       style={{
-                        backgroundColor: '#19191c',
-                        fontSize: 12,
+                        // backgroundColor: '#19191c',
+                        // fontSize: 12,
                         maxWidth: 248,
                       }}
                     />
@@ -163,8 +165,8 @@ export default function ExternalOrderTable({
                       id='table-add-order-tooltip'
                       place='bottom'
                       style={{
-                        backgroundColor: '#19191c',
-                        fontSize: 12,
+                        // backgroundColor: '#19191c',
+                        // fontSize: 12,
                         maxWidth: 207,
                       }}
                     />

@@ -7,7 +7,7 @@ import Checkbox from '../Common/Checkbox';
 import { TableRowSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import { generateProductsPdf } from '../../services/productService';
-import { INVENTORY_SORT_KEYS } from '../../constants/sortKeys';
+import { INVENTORY_SORT_KEYS, SORT_DIRECTIONS } from '../../constants/sortKeys';
 
 export default function InventoryTable({
   data,
@@ -17,7 +17,7 @@ export default function InventoryTable({
 }) {
   const [selected, setSelected] = useState([]);
   const [sortKey, setSortKey] = useState(null);
-  const [sortDir, setSortDir] = useState('asc');
+  const [sortDir, setSortDir] = useState(SORT_DIRECTIONS.ASC);
   const [isSorting, setIsSorting] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
 
@@ -45,10 +45,14 @@ export default function InventoryTable({
   function handleSort(key) {
     setIsSorting(true);
     if (sortKey === key) {
-      setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDir((prev) =>
+        prev === SORT_DIRECTIONS.ASC
+          ? SORT_DIRECTIONS.DESC
+          : SORT_DIRECTIONS.ASC,
+      );
     } else {
       setSortKey(key);
-      setSortDir('asc');
+      setSortDir(SORT_DIRECTIONS.ASC);
     }
     setTimeout(() => setIsSorting(false), 300);
   }
@@ -61,7 +65,7 @@ export default function InventoryTable({
         if (bVal == null) return -1;
         const cmp =
           typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
-        return sortDir === 'asc' ? cmp : -cmp;
+        return sortDir === SORT_DIRECTIONS.ASC ? cmp : -cmp;
       })
     : data;
 
@@ -108,7 +112,7 @@ export default function InventoryTable({
 
   const SortIcon = ({ col }) =>
     sortKey === col ? (
-      sortDir === 'desc' ? (
+      sortDir === SORT_DIRECTIONS.DESC ? (
         <FiChevronDown size={12} style={{ marginLeft: 4, flexShrink: 0 }} />
       ) : (
         <FiChevronUp size={12} style={{ marginLeft: 4, flexShrink: 0 }} />

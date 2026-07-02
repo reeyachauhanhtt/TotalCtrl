@@ -1,10 +1,11 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 import { getUserIdFromToken } from './analyticsService';
 
 //  transfer IN summary
 export async function fetchTransferIn({ inventoryId, fromDate, toDate }) {
   const userId = getUserIdFromToken();
-  const res = await axiosInstance.get('/analytics/transfer/in', {
+  const res = await axiosInstance.get(API_ENDPOINTS.ANALYTICS_TRANSFER_IN, {
     params: { userId, inventoryId, fromDate, toDate },
   });
   return res.data;
@@ -13,7 +14,7 @@ export async function fetchTransferIn({ inventoryId, fromDate, toDate }) {
 // transfer OUT summary
 export async function fetchTransferOut({ inventoryId, fromDate, toDate }) {
   const userId = getUserIdFromToken();
-  const res = await axiosInstance.get('/analytics/transfer/out', {
+  const res = await axiosInstance.get(API_ENDPOINTS.ANALYTICS_TRANSFER_OUT, {
     params: { userId, inventoryId, fromDate, toDate },
   });
   return res.data;
@@ -32,7 +33,7 @@ export async function fetchTransferItems({
   sortOrder = 'DESC',
 }) {
   const userId = getUserIdFromToken();
-  const res = await axiosInstance.get('/analytics/transfer/items', {
+  const res = await axiosInstance.get(API_ENDPOINTS.ANALYTICS_TRANSFER_ITEMS, {
     params: {
       userId,
       inventoryId,
@@ -55,8 +56,11 @@ export async function fetchTransferItemInventories({
   fromDate,
   toDate,
 }) {
-  const res = await axiosInstance.get('/analytics/transfer/item-inventories', {
-    params: { inventoryId, fromDate, toDate },
-  });
+  const res = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_TRANSFER_ITEM_INVENTORIES,
+    {
+      params: { inventoryId, fromDate, toDate },
+    },
+  );
   return res.data;
 }

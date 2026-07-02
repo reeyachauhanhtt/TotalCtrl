@@ -1,15 +1,19 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 
 //fetch Units
 export const fetchMeasurementUnits = async () => {
-  const res = await axiosInstance.get('/master-data/measurement-units', {
-    params: new URLSearchParams([
-      ['types', 'purchaseUnit'],
-      ['types', 'stockTakingUnit'],
-      ['types', 'basicMeasurementUnit'],
-      ['language', 'en'],
-    ]),
-  });
+  const res = await axiosInstance.get(
+    API_ENDPOINTS.MASTER_DATA_MEASUREMENT_UNITS,
+    {
+      params: new URLSearchParams([
+        ['types', 'purchaseUnit'],
+        ['types', 'stockTakingUnit'],
+        ['types', 'basicMeasurementUnit'],
+        ['language', 'en'],
+      ]),
+    },
+  );
 
   console.log('measurementUnits raw:', res.data);
   const raw = res.data?.Data || [];
@@ -31,6 +35,8 @@ export const fetchMeasurementUnits = async () => {
 
 //fetch quality issues
 export const fetchQualityIssues = async () => {
-  const { data } = await axiosInstance.get('/master-data/quality-issues');
+  const { data } = await axiosInstance.get(
+    API_ENDPOINTS.MASTER_DATA_QUALITY_ISSUES,
+  );
   return data;
 };

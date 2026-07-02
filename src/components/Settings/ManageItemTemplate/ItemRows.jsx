@@ -2,12 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
 
 import EditItemTemplate from './EditItemTemplate';
 import AddItemToInventory from './AddItemToInventory';
 import ConfirmModal from '../../Common/ConfirmModal';
 import Checkbox from '../../Common/Checkbox';
+import Tooltip from '../../Common/Tooltip';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
 import { inventoryProductLink } from '../../../constants/routes';
 import { ITEM_TEMPLATE_MODAL_TITLES } from '../../../constants/titles';

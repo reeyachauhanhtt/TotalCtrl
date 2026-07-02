@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
 
 import { formatNumber } from '../../utils/format';
 import { SkeletonBar } from '../Common/Skeleton';
@@ -9,6 +9,7 @@ import WhiteButton from '../Common/WhiteButton';
 import Input from '../Common/Input';
 import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
+import Tooltip from '../Common/Tooltip';
 import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
 import { searchProducts } from '../../services/productService';
 import { MODAL_TITLES, SECTION_TITLES } from '../../constants/titles';
@@ -1032,7 +1033,7 @@ export default function EditOrderModal({
           style={{
             backgroundColor: '#222',
             color: '#fff',
-            fontSize: '12px',
+            // fontSize: '12px',
             borderRadius: '4px',
             padding: '4px 6px',
             zIndex: 999,

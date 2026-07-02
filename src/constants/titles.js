@@ -118,7 +118,6 @@ export const BUTTON_LABELS = {
 };
 
 //manage inventories
-// Manage Inventories modal titles
 export const MANAGE_INVENTORIES_MODAL_TITLES = {
   ADD_NEW_INVENTORY: 'Add new inventory',
   EDIT_INVENTORY_INFO: 'Edit inventory info',

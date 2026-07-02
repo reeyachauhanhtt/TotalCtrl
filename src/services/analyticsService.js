@@ -1,4 +1,5 @@
 import axiosInstance from '../api/axiosInstance';
+import { API_ENDPOINTS } from '../constants/apiEndpoints';
 
 export const getUserIdFromToken = () => {
   const token = import.meta.env.VITE_API_TOKEN;
@@ -13,25 +14,33 @@ export const getUserIdFromToken = () => {
 
 //FETCH REAL TIME INVENTORY VALUE
 export const fetchAnalyticsStockValue = async () => {
-  const response = await axiosInstance.get('/analytics/inventory/total');
+  const response = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_INVENTORY_TOTAL,
+  );
   return response.data;
 };
 
 //FETCH FOOD USAGE
 export const fetchFoodUsage = async ({ fromDate, toDate }) => {
   const userId = getUserIdFromToken();
-  const response = await axiosInstance.get('/analytics/food-usage/total', {
-    params: { fromDate, toDate, ...(userId && { userId }) },
-  });
+  const response = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_FOOD_USAGE_TOTAL,
+    {
+      params: { fromDate, toDate, ...(userId && { userId }) },
+    },
+  );
   return response.data;
 };
 
 //FETCH PURCHASES
 export const fetchPurchases = async ({ fromDate, toDate }) => {
   const userId = getUserIdFromToken();
-  const response = await axiosInstance.get('/analytics/purchase/total', {
-    params: { fromDate, toDate, ...(userId && { userId }) },
-  });
+  const response = await axiosInstance.get(
+    API_ENDPOINTS.ANALYTICS_PURCHASE_TOTAL,
+    {
+      params: { fromDate, toDate, ...(userId && { userId }) },
+    },
+  );
   return response.data;
 };
 
@@ -39,7 +48,7 @@ export const fetchPurchases = async ({ fromDate, toDate }) => {
 export const fetchTotalFoodCost = async ({ fromDate, toDate }) => {
   const userId = getUserIdFromToken();
   const response = await axiosInstance.get(
-    '/analytics/food-cost/total-food-cost',
+    API_ENDPOINTS.ANALYTICS_TOTAL_FOOD_COST,
     {
       params: { language: 'en', fromDate, toDate, ...(userId && { userId }) },
     },
@@ -55,7 +64,7 @@ export const fetchFoodCostPercentageTime = async ({
 }) => {
   const userId = getUserIdFromToken();
   const response = await axiosInstance.get(
-    '/analytics/food-cost/food-cost-percentage-time',
+    API_ENDPOINTS.ANALYTICS_FOOD_COST_PERCENTAGE_TIME,
     {
       params: { fromDate, toDate, dateRangeType, ...(userId && { userId }) },
     },
@@ -67,7 +76,7 @@ export const fetchFoodCostPercentageTime = async ({
 export const fetchMonthlyCogsMonthList = async () => {
   const userId = getUserIdFromToken();
   const response = await axiosInstance.get(
-    '/analytics/monthly-cogs/month-list',
+    API_ENDPOINTS.ANALYTICS_MONTHLY_COGS_MONTH_LIST,
     {
       params: { ...(userId && { userId }) },
     },

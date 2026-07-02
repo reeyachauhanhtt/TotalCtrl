@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
+
 import GreenButton from './GreenButton';
 import WhiteButton from './WhiteButton';
 import ConfirmModal from './ConfirmModal';
+import Tooltip from './Tooltip';
 
 export default function UploadOrderModal({ isOpen, onClose }) {
   const [file, setFile] = useState(null);
@@ -210,8 +212,8 @@ export default function UploadOrderModal({ isOpen, onClose }) {
                       place='top'
                       positionStrategy='fixed'
                       style={{
-                        backgroundColor: '#19191c',
-                        fontSize: 12,
+                        // backgroundColor: '#19191c',
+                        // fontSize: 12,
                         zIndex: 9999,
                       }}
                     />

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
-import { Tooltip } from 'react-tooltip';
+// import { Tooltip } from 'react-tooltip';
 import * as XLSX from 'xlsx';
 
 import { parseExcel } from '../../services/importFileService';
 import GreenButton from '../Common/GreenButton';
+import Tooltip from '../Common/Tooltip';
 import { SECTION_TITLES } from '../../constants/titles';
 
 const ImportItemsModal = ({
@@ -242,7 +243,7 @@ const ImportItemsModal = ({
                   <Tooltip
                     id='filename-tooltip'
                     place='top'
-                    style={{ backgroundColor: '#000', fontSize: 12 }}
+                    // style={{ backgroundColor: '#000', fontSize: 12 }}
                   />
                 </div>
               </div>

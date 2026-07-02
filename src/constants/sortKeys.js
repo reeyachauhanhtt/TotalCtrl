@@ -1,3 +1,8 @@
+export const SORT_DIRECTIONS = {
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
 export const INVENTORY_SORT_KEYS = {
   NAME: 'name',
   ARRIVAL_INFO: 'arrivalInfo',

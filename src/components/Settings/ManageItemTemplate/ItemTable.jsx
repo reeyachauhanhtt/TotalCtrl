@@ -10,6 +10,7 @@ import Checkbox from '../../Common/Checkbox';
 import {
   ITEM_TEMPLATE_SORT_KEYS,
   ITEM_TEMPLATE_UNIT_SORT_KEYS,
+  SORT_DIRECTIONS,
 } from '../../../constants/sortKeys';
 import { EMPTY_STATE_LABELS, BUTTON_LABELS } from '../../../constants/titles';
 
@@ -58,7 +59,7 @@ export default function ItemTable({
   onUploadClick,
 }) {
   const [sortKey, setSortKey] = useState(ITEM_TEMPLATE_SORT_KEYS.NAME);
-  const [sortDir, setSortDir] = useState('desc');
+  const [sortDir, setSortDir] = useState(SORT_DIRECTIONS.DESC);
   const [isSorting, setIsSorting] = useState(false);
   const [prevIssue, setPrevIssue] = useState(filters?.issue);
   const [isFilteringIssue, setIsFilteringIssue] = useState(false);
@@ -223,15 +224,17 @@ export default function ItemTable({
           const aEmpty = !a.sku;
           const bEmpty = !b.sku;
           if (aEmpty && bEmpty) return 0;
-          if (aEmpty) return sortDir === 'asc' ? -1 : 1;
-          if (bEmpty) return sortDir === 'asc' ? 1 : -1;
+          if (aEmpty) return sortDir === SORT_DIRECTIONS.ASC ? -1 : 1;
+          if (bEmpty) return sortDir === SORT_DIRECTIONS.ASC ? 1 : -1;
 
           const aIsNum = !isNaN(Number(a.sku));
           const bIsNum = !isNaN(Number(b.sku));
 
           // alpha before numeric
-          if (!aIsNum && bIsNum) return sortDir === 'asc' ? -1 : 1;
-          if (aIsNum && !bIsNum) return sortDir === 'asc' ? 1 : -1;
+          if (!aIsNum && bIsNum)
+            return sortDir === SORT_DIRECTIONS.ASC ? -1 : 1;
+          if (aIsNum && !bIsNum)
+            return sortDir === SORT_DIRECTIONS.ASC ? 1 : -1;
 
           if (aIsNum && bIsNum) {
             const cmp = Number(a.sku) - Number(b.sku);
@@ -249,8 +252,8 @@ export default function ItemTable({
         const aEmpty = aVal == null || aVal === '' || aVal === '----';
         const bEmpty = bVal == null || bVal === '' || bVal === '----';
         if (aEmpty && bEmpty) return 0;
-        if (aEmpty) return sortDir === 'asc' ? -1 : 1;
-        if (bEmpty) return sortDir === 'asc' ? 1 : -1;
+        if (aEmpty) return sortDir === SORT_DIRECTIONS.ASC ? -1 : 1;
+        if (bEmpty) return sortDir === SORT_DIRECTIONS.ASC ? 1 : -1;
 
         const cmp =
           typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
@@ -280,10 +283,14 @@ export default function ItemTable({
   function handleSort(key) {
     setIsSorting(true);
     if (sortKey === key) {
-      setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDir((prev) =>
+        prev === SORT_DIRECTIONS.ASC
+          ? SORT_DIRECTIONS.DESC
+          : SORT_DIRECTIONS.ASC,
+      );
     } else {
       setSortKey(key);
-      setSortDir('asc');
+      setSortDir(SORT_DIRECTIONS.ASC);
     }
     setTimeout(() => setIsSorting(false), 300);
   }
