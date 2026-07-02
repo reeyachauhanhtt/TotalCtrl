@@ -13,7 +13,7 @@ import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
-import FormInput from '../Common/FormInput';
+import Input from '../Common/Input';
 import DateFields, { emptyDate, emptyDateErrors } from '../Common/DateFields';
 import {
   validateOrderDates,
@@ -195,7 +195,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
                       Order number*
                     </label>
 
-                    <FormInput
+                    <Input
                       value={orderNumber}
                       onChange={(e) => {
                         setOrderNumber(e.target.value);

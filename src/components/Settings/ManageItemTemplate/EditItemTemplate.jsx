@@ -5,7 +5,7 @@ import { Tooltip } from 'react-tooltip';
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
 import Checkbox from '../../Common/Checkbox';
-import FormInput from '../../Common/FormInput';
+import Input from '../../Common/Input';
 import ConfirmModal from '../../Common/ConfirmModal';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
@@ -380,7 +380,7 @@ export default function EditItemTemplateModal({
                     <span className='ml-1 text-[#e2232e] text-[12px]'>*</span>
                   </label>
 
-                  <FormInput
+                  <Input
                     value={name}
                     onChange={(e) => {
                       setName(e.target.value);
@@ -403,7 +403,7 @@ export default function EditItemTemplateModal({
                     SKU
                   </label>
 
-                  <FormInput
+                  <Input
                     value={sku}
                     onChange={(e) => setSku(e.target.value)}
                     className='col-span-4'
@@ -443,25 +443,7 @@ export default function EditItemTemplateModal({
                     Durability Days
                   </label>
 
-                  {/* <div
-                    className={`flex h-12 w-full items-center rounded border px-4 ${
-                      focusedField === 'durability'
-                        ? 'border-2 border-[#23a956]'
-                        : 'border-[#D7D8E0]'
-                    }`}
-                  >
-                    <input
-                      type='number'
-                      min='0'
-                      value={durabilityDays}
-                      onChange={(e) => setDurabilityDays(e.target.value)}
-                      onFocus={() => setFocusedField('durability')}
-                      onBlur={() => setFocusedField(null)}
-                      className='w-full text-sm text-[#333] outline-none bg-transparent'
-                    />
-                  </div> */}
-
-                  <FormInput
+                  <Input
                     type='number'
                     value={durabilityDays}
                     onChange={(e) => setDurabilityDays(e.target.value)}
@@ -574,7 +556,7 @@ export default function EditItemTemplateModal({
                       =
                     </label>
 
-                    <FormInput
+                    <Input
                       value={puToStu}
                       onChange={(e) => setPuToStu(e.target.value)}
                       onBlur={() =>
@@ -647,7 +629,7 @@ export default function EditItemTemplateModal({
                         =
                       </label>
 
-                      <FormInput
+                      <Input
                         value={stuToBmu}
                         onChange={(e) => setStuToBmu(e.target.value)}
                         onBlur={() =>
@@ -730,7 +712,7 @@ export default function EditItemTemplateModal({
 
               <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-4'>
-                  <FormInput
+                  <Input
                     value={subparLevel}
                     onChange={(e) => setSubparLevel(e.target.value)}
                     placeholder={
@@ -754,7 +736,7 @@ export default function EditItemTemplateModal({
               <div className='flex items-start gap-0'>
                 {/* Cost input */}
                 <div className='w-[25%]'>
-                  <FormInput
+                  <Input
                     value={cost}
                     onChange={(e) => {
                       setCost(e.target.value);

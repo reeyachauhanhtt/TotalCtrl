@@ -12,6 +12,7 @@ import UploadOrderModal from '../components/Common/UploadOrderModal';
 import UploadingOrdersDrawer from '../components/ExternalOrder/UploadingOrderDrawer';
 import { fetchExternalOrders } from '../services/externalOrderService';
 import { setDetailOpen, setSelectedOrder } from '../store/externalOrderSlice';
+import { ROUTES } from '../constants/routes';
 
 const STATUS_LABEL_MAP = {
   scheduled: 'Scheduled',
@@ -62,7 +63,7 @@ export default function ExternalOrderPage() {
 
   useEffect(() => {
     return () => {
-      if (!window.location.pathname.includes('/external-orders/')) {
+      if (!window.location.pathname.includes(`${ROUTES.EXTERNAL_ORDERS}/`)) {
         dispatch(setDetailOpen(false));
         dispatch(setSelectedOrder(null));
       }
@@ -186,10 +187,10 @@ export default function ExternalOrderPage() {
         isFetching={isFetching}
         isError={isError}
         onRowClick={(order) => {
-          console.log('order slug:', order.slug, 'order:', order);
+          // console.log('order slug:', order.slug, 'order:', order);
           dispatch(setDetailOpen(true));
           dispatch(setSelectedOrder(order));
-          navigate(`/external-orders/${order.slug}/${order.id}`);
+          navigate(`${ROUTES.EXTERNAL_ORDERS}/${order.slug}/${order.id}`);
         }}
         activeTab={activeTab}
         onAddOrderClick={() => setShowAddModal(true)}

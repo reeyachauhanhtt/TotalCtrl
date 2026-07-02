@@ -6,10 +6,10 @@ import { createStoreProduct } from '../../services/productService';
 import { fetchMeasurementUnits } from '../../services/masterDataService';
 import ConfirmModal from '../Common/ConfirmModal';
 import ImportItemsModal from './ImportItemModal';
-import { AddItemRowSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import OrderItemsTable, { emptyRow } from '../Common/OrderItemTable';
+import { SECTION_TITLES, INVENTORY_MODAL_TITLES } from '../../constants/titles';
 
 // ─── initial row factory matching the common emptyRow shape ───────────────────
 function newInventoryRow() {
@@ -145,14 +145,15 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-4 border-b border-gray-100'>
           <h2 className='text-[18px] font-semibold text-gray-800 pl-6 pb-3'>
-            Add items to {inventoryName}
+            {INVENTORY_MODAL_TITLES.addItemsTo(inventoryName)}
           </h2>
 
           <div className='flex items-center gap-3'>
             <GreenButton onClick={() => setShowImportModal(true)}>
               <img src='/icons/upload.svg' width={20} height={20} alt='' />
-              Import items using a spreadsheet template
+              {SECTION_TITLES.IMPORT_ITEMS_TEMPLATE}
             </GreenButton>
+
             <button
               onClick={() => {
                 if (isFormEmpty()) {
@@ -235,7 +236,7 @@ export default function AddItemModal({ open, onClose, selectedInventory }) {
         <ConfirmModal
           open={showConfirm}
           onClose={() => setShowConfirm(false)}
-          title={`Cancel adding items to ${inventoryName}?`}
+          title={INVENTORY_MODAL_TITLES.cancelAddingItemsTo(inventoryName)}
           description={`Any unsaved changes will be lost and the items you entered here won't be added to ${inventoryName}.`}
           confirmLabel='Yes, Cancel'
           cancelLabel='No, Continue Adding Items'

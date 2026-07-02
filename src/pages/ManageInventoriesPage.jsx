@@ -25,14 +25,15 @@ export default function ManageInventoriesPage() {
 
   const inventoryIds = inventories.map((inv) => inv.id);
 
-  const { data: permissionMap = {} } = useQuery({
-    queryKey: ['inventory-permission-map'],
-    queryFn: () => fetchInventoryAccessMap(inventoryIds),
-    enabled: inventoryIds.length > 0,
-  });
+  const { data: permissionMap = {}, isLoading: isPermissionMapLoading } =
+    useQuery({
+      queryKey: ['inventory-permission-map'],
+      queryFn: () => fetchInventoryAccessMap(inventoryIds),
+      enabled: inventoryIds.length > 0,
+    });
 
   console.log(
-    'inventories',
+    'invent ories',
     inventories,
     'isLoading',
     isLoading,
@@ -47,10 +48,12 @@ export default function ManageInventoriesPage() {
       <ManageInventoriesHeader onAddClick={() => setShowAddInventory(true)} />
       <ManageInventoryTable
         inventories={inventories}
-        isLoading={isLoading}
+        isLoading={
+          isLoading || (inventoryIds.length > 0 && isPermissionMapLoading)
+        }
         permissionMap={permissionMap}
-        // allUsers={allUsers}
       />
+
       <AddNewInventory
         open={showAddInventory}
         onClose={() => setShowAddInventory(false)}

@@ -4,7 +4,7 @@ import { Tooltip } from 'react-tooltip';
 
 import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
-import FormInput from '../../Common/FormInput';
+import Input from '../../Common/Input';
 import ConfirmModal from '../../Common/ConfirmModal';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
@@ -175,7 +175,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                       <span className='ml-1 text-[#e2232e] text-[12px]'>*</span>
                     </label>
 
-                    <FormInput
+                    <Input
                       value={name}
                       onChange={(e) => {
                         setName(e.target.value);
@@ -201,7 +201,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                       SKU
                     </label>
 
-                    <FormInput
+                    <Input
                       value={sku}
                       onChange={(e) => setSku(e.target.value)}
                       className='col-span-4'
@@ -251,7 +251,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                       Durability Days
                     </label>
 
-                    <FormInput
+                    <Input
                       type='number'
                       value={durabilityDays}
                       onChange={(e) => setDurabilityDays(e.target.value)}
@@ -364,7 +364,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                       =
                     </label>
 
-                    <FormInput
+                    <Input
                       value={puToStu}
                       onChange={(e) => setPuToStu(e.target.value)}
                       onBlur={() =>
@@ -445,7 +445,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                         =
                       </label>
 
-                      <FormInput
+                      <Input
                         value={stuToBmu}
                         onChange={(e) => setStuToBmu(e.target.value)}
                         onBlur={() =>
@@ -535,7 +535,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
 
               <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-4'>
-                  <FormInput
+                  <Input
                     value={subparLevel}
                     onChange={(e) => setSubparLevel(e.target.value)}
                     placeholder={
@@ -559,7 +559,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
               <div className='flex items-start gap-0'>
                 {/* Cost input */}
                 <div className='w-[25%]'>
-                  <FormInput
+                  <Input
                     value={cost}
                     onChange={(e) => {
                       setCost(e.target.value);

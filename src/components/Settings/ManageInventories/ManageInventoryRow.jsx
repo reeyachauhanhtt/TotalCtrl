@@ -12,7 +12,6 @@ import {
 } from '../../../services/manageInventoriesService';
 import ManageAccessModal from './ManageAccessModal';
 import { showSuccessToast } from '../../../utils/showToast';
-import { getUserIdFromToken } from '../../../services/analyticsService';
 import { fetchInventoryAccessDetails } from '../../../services/manageInventoriesService';
 
 function ActionsDropdown({
@@ -266,25 +265,6 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
           inventory={inventory}
           accessDetails={accessDetails}
           isLoading={isAccessLoading}
-          // onSaved={() => {
-          //   setShowManageAccess(false);
-          //   showSuccessToast('Permission updated successfully');
-          //   queryClient.invalidateQueries({
-          //     queryKey: ['inventories-with-access'],
-          //   });
-          // }}
-          //   onSaved={() => {
-          //     setShowManageAccess(false);
-          //     showSuccessToast('Permission updated successfully');
-
-          //     queryClient.invalidateQueries({
-          //       queryKey: ['inventories-with-access'],
-          //     });
-
-          //     queryClient.invalidateQueries({
-          //       queryKey: ['inventory-access', inventory.id],
-          //     });
-          //   }}
           onSaved={async () => {
             setShowManageAccess(false);
 

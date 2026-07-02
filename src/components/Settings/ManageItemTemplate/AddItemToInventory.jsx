@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { fetchInventory } from '../../../services/inventoryService';
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
-import FormInput from '../../Common/FormInput';
+import Input from '../../Common/Input';
 import ExpiryDatePicker from './common/EXpiryDatePicker';
 import { formatPrice } from '../../../utils/format';
 import { addProductToInventory } from '../../../services/manageItemTemplateService';
@@ -323,7 +323,7 @@ export default function AddItemToInventory({
                         Quantity*
                       </label>
 
-                      <FormInput
+                      <Input
                         value={row.quantity}
                         onChange={(e) =>
                           updateRow(row.id, {
@@ -412,7 +412,7 @@ export default function AddItemToInventory({
                   Total product cost*
                 </label>
 
-                <FormInput
+                <Input
                   value={totalCost}
                   onChange={(e) => setTotalCost(e.target.value)}
                   onBlur={() => setTouchedCost(true)}

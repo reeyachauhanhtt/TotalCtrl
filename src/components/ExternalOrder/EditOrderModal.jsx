@@ -6,7 +6,7 @@ import { formatNumber } from '../../utils/format';
 import { SkeletonBar } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
-import FormInput from '../Common/FormInput';
+import Input from '../Common/Input';
 import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
 import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
@@ -625,7 +625,7 @@ export default function EditOrderModal({
                     <label className='block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6b6b6f] mb-1'>
                       Order number *
                     </label>
-                    <FormInput
+                    <Input
                       value={orderNumber}
                       onChange={(e) => {
                         setOrderNumber(e.target.value);

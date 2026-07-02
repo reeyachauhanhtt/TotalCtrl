@@ -10,7 +10,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ROUTES } from './constants/routes';
+import {
+  ROUTES,
+  EXTERNAL_ORDER_DETAIL_REGEX,
+  INTERNAL_ORDER_DETAIL_REGEX,
+} from './constants/routes';
 import Sidebar from './components/Sidebar';
 import Header from './components/Inventory/Header';
 import InventoryPage from './pages/InventoryPage';
@@ -110,10 +114,13 @@ function Layout() {
     if (!selectedInventory) return <HeaderSkeleton />;
 
     //external header
-    const isExternalOrders = location.pathname.includes('external-order');
+    const isExternalOrders = location.pathname.includes(
+      ROUTES.EXTERNAL_ORDER_SEGMENT,
+    );
     const isFromAnalytics = location.state?.from === 'analytics';
     const isExternalDetail =
-      isDetailOpen || /\/external-order\/.+\/.+/.test(location.pathname);
+      isDetailOpen || EXTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
+
     if (isExternalOrders && isExternalDetail) {
       return isFromAnalytics ? (
         <ExternalOrderDetailHeader fromAnalytics />
@@ -133,23 +140,27 @@ function Layout() {
       );
 
     //internal header
-    const isInternalOrders = location.pathname.includes('internal-order');
+    const isInternalOrders = location.pathname.includes(
+      ROUTES.INTERNAL_ORDER_SEGMENT,
+    );
     const isInternalDetail =
       isInternalDetailOpen ||
-      /\/internal-order\/.+\/.+/.test(location.pathname);
+      INTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
+
     if (isInternalOrders && isInternalDetail)
       return <InternalOrderDetailHeader />;
     if (isInternalOrders) return <InternalOrderHeader />;
 
     //analytics header
-    const isAnalytics = location.pathname.includes('analytics');
+    const isAnalytics = location.pathname.includes(ROUTES.ANALYTICS_SEGMENT);
 
-    const isStatsDetail = location.pathname.includes('/analytics/by');
+    const isStatsDetail = location.pathname.includes(ROUTES.ANALYTICS_BY);
     const isPurchaseDetail = [
-      '/analytics/biggestorders',
-      '/analytics/biggestsuppliers',
-      '/analytics/pricevariation',
+      ROUTES.ANALYTICS_BIGGEST_ORDERS,
+      ROUTES.ANALYTICS_BIGGEST_SUPPLIERS,
+      ROUTES.ANALYTICS_PRICE_VARIATION,
     ].includes(location.pathname);
+
     if (isAnalytics && (isStatsDetail || isPurchaseDetail))
       return (
         <AnalyticsHeader
@@ -163,7 +174,7 @@ function Layout() {
     if (
       isAnalytics &&
       analyticsIsDetailOpen &&
-      location.pathname === '/analytics'
+      location.pathname === ROUTES.ANALYTICS
     )
       return (
         <AnalyticsDetailHeader
@@ -222,7 +233,7 @@ function Layout() {
           />
           <Routes>
             <Route
-              path='/'
+              path={ROUTES.ROOT}
               element={<Navigate to={ROUTES.INVENTORY} replace />}
             />
 

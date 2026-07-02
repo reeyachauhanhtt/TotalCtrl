@@ -372,6 +372,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 20, borderRadius: 4 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '38%' }}
@@ -380,6 +381,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 220, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '8%' }}
@@ -388,6 +390,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 50, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '7%' }}
@@ -396,6 +399,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 60, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '7%' }}
@@ -404,6 +408,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 60, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '7%' }}
@@ -412,6 +417,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 60, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '12%' }}
@@ -420,6 +426,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 90, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '8%' }}
@@ -428,6 +435,7 @@ export default function ItemTable({
                       style={{ height: 16, width: 50, borderRadius: 20 }}
                     />
                   </td>
+
                   <td
                     className='pt-[26px] pb-[26px] pl-[10px]'
                     style={{ width: '15%' }}

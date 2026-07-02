@@ -19,4 +19,24 @@ export const ROUTES = {
 
   PRODUCT_DATABASE: '/product-database',
   MANAGE_STORAGE: '/manage-storage',
+
+  ROOT: '/',
+
+  // Path segments used for substring/header-switching checks (App.jsx)
+  EXTERNAL_ORDER_SEGMENT: 'external-order',
+  INTERNAL_ORDER_SEGMENT: 'internal-order',
+  ANALYTICS_SEGMENT: 'analytics',
+  ANALYTICS_BY: '/analytics/by',
+  ANALYTICS_BIGGEST_ORDERS: '/analytics/biggestorders',
+  ANALYTICS_BIGGEST_SUPPLIERS: '/analytics/biggestsuppliers',
+  ANALYTICS_PRICE_VARIATION: '/analytics/pricevariation',
 };
+
+// Regexes used to detect "inside a detail view" for the header switcher
+export const EXTERNAL_ORDER_DETAIL_REGEX = /\/external-order\/.+\/.+/;
+export const INTERNAL_ORDER_DETAIL_REGEX = /\/internal-order\/.+\/.+/;
+
+//manage item template, inventory page navigation route
+export function inventoryProductLink(inventoryId, productName) {
+  return `${ROUTES.INVENTORY}?id=${inventoryId}&productName=${encodeURIComponent(productName)}`;
+}

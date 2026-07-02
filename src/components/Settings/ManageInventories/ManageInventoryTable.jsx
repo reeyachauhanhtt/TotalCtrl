@@ -14,7 +14,6 @@ export default function InventoriesTable({
   isLoading,
   isFetching,
   permissionMap,
-  // allUsers = [],
 }) {
   return (
     <div className='bg-white border-t border-[#e6e6ed]'>
@@ -50,7 +49,7 @@ export default function InventoriesTable({
           className='text-[13px] border-collapse'
           style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}
         >
-          <tbody>
+          {/* <tbody>
             {isLoading || isFetching
               ? Array.from({ length: 3 }).map((_, i) => (
                   <tr
@@ -65,7 +64,9 @@ export default function InventoriesTable({
                         paddingLeft: 24,
                       }}
                     >
-                      <SkeletonBar height={16} width='60%' />
+                      <SkeletonBar
+                        style={{ height: 16, width: 100, borderRadius: 4 }}
+                      />
                     </td>
 
                     <td style={{ paddingTop: 24, paddingBottom: 24 }}>
@@ -134,6 +135,121 @@ export default function InventoriesTable({
                     inventory={inv}
                     permissionMap={permissionMap}
                     // allUsers={allUsers}
+                  />
+                ))}
+          </tbody> */}
+          <tbody>
+            {isLoading || isFetching
+              ? Array.from({ length: 3 }).map((_, i) => (
+                  <tr
+                    key={i}
+                    className='border-b border-[#e6e6ed]'
+                    style={{ height: 72 }}
+                  >
+                    {/* Inventory name */}
+                    <td
+                      style={{ width: '18%', paddingTop: 26, paddingLeft: 24 }}
+                    >
+                      <SkeletonBar
+                        style={{ height: 16, width: 250, borderRadius: 20 }}
+                      />
+                    </td>
+
+                    {/* Editors */}
+                    <td
+                      style={{
+                        width: '17%',
+                        padding: '20px 0px',
+                        paddingLeft: '0.75rem',
+                      }}
+                    >
+                      <div className='flex items-center'>
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              marginLeft: i === 0 ? 0 : -8,
+                              border: '2px solid white',
+                              borderRadius: '50%',
+                            }}
+                          >
+                            <SkeletonBar
+                              style={{
+                                width: 32,
+                                height: 32,
+                                display: 'block',
+                              }}
+                              borderRadius='50%'
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+
+                    {/* Viewers */}
+                    <td
+                      style={{
+                        width: '17%',
+                        padding: '20px 0px',
+                        paddingLeft: '0.75rem',
+                      }}
+                    >
+                      <div className='flex items-center'>
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              marginLeft: i === 0 ? 0 : -8,
+                              border: '2px solid white',
+                              borderRadius: '50%',
+                            }}
+                          >
+                            <SkeletonBar
+                              style={{
+                                width: 32,
+                                height: 32,
+                                display: 'block',
+                              }}
+                              borderRadius='50%'
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+
+                    {/* Status */}
+                    <td
+                      style={{
+                        width: '17%',
+                        paddingTop: 26,
+                        paddingLeft: '0.75rem',
+                      }}
+                    >
+                      <SkeletonBar
+                        style={{ height: 16, width: '50%', borderRadius: 20 }}
+                      />
+                    </td>
+
+                    {/* Actions */}
+                    <td
+                      style={{
+                        width: '5%',
+                        paddingTop: 20,
+                        paddingLeft: '0.75rem',
+                        paddingRight: 24,
+                      }}
+                    >
+                      <SkeletonBar
+                        style={{ height: 16, width: 50, borderRadius: 4 }}
+                      />
+                    </td>
+                  </tr>
+                ))
+              : inventories.map((inv) => (
+                  <ManageInventoryRow
+                    key={inv.id}
+                    inventory={inv}
+                    permissionMap={permissionMap}
                   />
                 ))}
           </tbody>

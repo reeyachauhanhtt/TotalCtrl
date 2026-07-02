@@ -4,7 +4,7 @@ import { FiX } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
-import FormInput from '../../Common/FormInput';
+import Input from '../../Common/Input';
 import { createInventory } from '../../../services/manageInventoriesService';
 import { showSuccessToast } from '../../../utils/showToast';
 
@@ -48,7 +48,7 @@ export default function AddNewInventory({ open, onClose }) {
             <label className='block mb-1 text-[11px] leading-4 font-semibold tracking-[0.08em] uppercase text-[#6b6b6f]'>
               Inventory name
             </label>
-            <FormInput
+            <Input
               value={inventoryName}
               onChange={(e) => setInventoryName(e.target.value)}
               className='w-full'
