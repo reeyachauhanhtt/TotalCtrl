@@ -1,6 +1,6 @@
 import { Tooltip } from 'react-tooltip';
 
-export default function Tooltip({
+export default function AppTooltip({
   id,
   place = 'top',
   className,

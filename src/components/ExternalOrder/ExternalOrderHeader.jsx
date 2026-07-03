@@ -10,7 +10,7 @@ import AddOrderManuallyModal from '../ExternalOrder/AddOrderManuallyModal';
 import InventoryDropdown from '../Common/InventoryDropDown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
-import Tooltip from '../Common/Tooltip';
+import AppTooltip from '../Common/Tooltip';
 import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
 
 export default function ExternalOrderHeader({ onUploadClick, onError }) {
@@ -101,7 +101,7 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   />
                   <span>Add order manually</span>
                 </WhiteButton>
-                <Tooltip
+                <AppTooltip
                   id='add-order-tooltip'
                   place='bottom'
                   style={{
@@ -132,14 +132,11 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
                   <img src='/icons/upload.svg' alt='' width={20} height={20} />
                   <span>Upload order</span>
                 </GreenButton>
-                <Tooltip
+                <AppTooltip
                   id='upload-order-tooltip'
                   place='bottom-end'
                   style={{
-                    // backgroundColor: '#19191c',
-                    // fontSize: 12,
                     maxWidth: 250,
-                    // minHeight: 750,
                   }}
                 />
               </div>

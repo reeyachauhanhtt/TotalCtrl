@@ -9,7 +9,7 @@ import WhiteButton from '../Common/WhiteButton';
 import Input from '../Common/Input';
 import ConfirmModal from '../Common/ConfirmModal';
 import UnitDropdown from '../Common/UnitDropdown';
-import Tooltip from '../Common/Tooltip';
+import AppTooltip from '../Common/Tooltip';
 import SupplierSearchDropdown from '../Common/SupplierSearchDropdown';
 import { searchProducts } from '../../services/productService';
 import { MODAL_TITLES, SECTION_TITLES } from '../../constants/titles';
@@ -1026,14 +1026,13 @@ export default function EditOrderModal({
           </GreenButton>
         </div>
 
-        <Tooltip
+        <AppTooltip
           id='add-item-tooltip'
           place='top'
           positionStrategy='fixed'
           style={{
             backgroundColor: '#222',
             color: '#fff',
-            // fontSize: '12px',
             borderRadius: '4px',
             padding: '4px 6px',
             zIndex: 999,

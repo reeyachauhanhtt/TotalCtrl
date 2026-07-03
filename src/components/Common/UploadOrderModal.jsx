@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react';
 import { FiX } from 'react-icons/fi';
-// import { Tooltip } from 'react-tooltip';
 
 import GreenButton from './GreenButton';
 import WhiteButton from './WhiteButton';
 import ConfirmModal from './ConfirmModal';
-import Tooltip from './Tooltip';
+import AppTooltip from './Tooltip';
 
 export default function UploadOrderModal({ isOpen, onClose }) {
   const [file, setFile] = useState(null);
@@ -207,13 +206,11 @@ export default function UploadOrderModal({ isOpen, onClose }) {
                         ({(file.size / 1024).toFixed(2)} KB)
                       </span>
                     </span>
-                    <Tooltip
+                    <AppTooltip
                       id='upload-filename-tooltip'
                       place='top'
                       positionStrategy='fixed'
                       style={{
-                        // backgroundColor: '#19191c',
-                        // fontSize: 12,
                         zIndex: 9999,
                       }}
                     />

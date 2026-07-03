@@ -2,13 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-// import { Tooltip } from 'react-tooltip';
 
 import EditItemTemplate from './EditItemTemplate';
 import AddItemToInventory from './AddItemToInventory';
 import ConfirmModal from '../../Common/ConfirmModal';
 import Checkbox from '../../Common/Checkbox';
-import Tooltip from '../../Common/Tooltip';
+import AppTooltip from '../../Common/Tooltip';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
 import { inventoryProductLink } from '../../../constants/routes';
 import { ITEM_TEMPLATE_MODAL_TITLES } from '../../../constants/titles';
@@ -261,7 +260,7 @@ export default function ItemRow({
                       >
                         &amp; {inStock.length - MAX_VISIBLE_INVENTORIES} more
                       </span>
-                      <Tooltip
+                      <AppTooltip
                         id={`more-inv-${rowItem.id}`}
                         place='bottom'
                         clickable
@@ -288,7 +287,7 @@ export default function ItemRow({
                             </Link>
                           ))}
                         </div>
-                      </Tooltip>
+                      </AppTooltip>
                     </>
                   )}
                 </>

@@ -7,7 +7,7 @@ import GreenButton from '../../Common/GreenButton';
 import Checkbox from '../../Common/Checkbox';
 import Input from '../../Common/Input';
 import ConfirmModal from '../../Common/ConfirmModal';
-import Tooltip from '../../Common/Tooltip';
+import AppTooltip from '../../Common/Tooltip';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
 import AllUnitDropdown from './common/AllUnitsDropdown';
@@ -695,12 +695,11 @@ export default function EditItemTemplateModal({
                     style={{ width: 18, height: 18 }}
                   />
                 </span>
-                <Tooltip
+                <AppTooltip
                   id='subpar-tooltip'
                   place='bottom'
                   html={true}
                   style={{
-                    // backgroundColor: '#333',
                     borderRadius: 12,
                     fontSize: 14,
                     fontWeight: 300,
@@ -1096,12 +1095,11 @@ export default function EditItemTemplateModal({
                       )}
                     </tbody>
                   </table>
-                  <Tooltip
+                  <AppTooltip
                     id='remove-inv-tooltip'
                     place='top'
                     positionStrategy='fixed'
                     style={{
-                      // backgroundColor: '#19191c',
                       borderRadius: 4,
                       fontSize: 13,
                       fontWeight: 300,

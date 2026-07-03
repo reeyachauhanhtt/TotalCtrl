@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-// import { Tooltip } from 'react-tooltip';
 
 import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
 import Input from '../../Common/Input';
 import ConfirmModal from '../../Common/ConfirmModal';
-import Tooltip from '../../Common/Tooltip';
+import AppTooltip from '../../Common/Tooltip';
 import CategoryDropdown from './common/CategoryDropdown';
 import SubcategoryDropdown from './common/SubcategoryDropdown';
 import AllUnitDropdown from './common/AllUnitsDropdown';
@@ -518,7 +517,7 @@ export default function AddItemTemplateModal({ isOpen, onClose, onSuccess }) {
                     style={{ width: 18, height: 18 }}
                   />
                 </span>
-                <Tooltip
+                <AppTooltip
                   id='subpar-tooltip'
                   place='bottom'
                   html={true}
