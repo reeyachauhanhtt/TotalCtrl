@@ -174,7 +174,7 @@ export default function InventoryMainSection({
           </div>
         </div>
 
-        {/* STATS — hidden when scrolled */}
+        {/* STATS */}
         <div
           style={{
             maxHeight: headerScrolled ? 0 : 80,

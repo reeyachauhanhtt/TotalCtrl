@@ -6,6 +6,7 @@ import { fetchPriceVariations } from '../../../services/purchasesService';
 import { formatPrice } from '../../../utils/format';
 import { SkeletonBar } from '../../Common/Skeleton';
 import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
+import { ROUTES } from '../../../constants/routes';
 
 function PriceVariationTable({
   title,
@@ -153,7 +154,9 @@ export default function PriceVariations({ inventoryId, dateRange }) {
         isIncrease={true}
         isLoading={isLoading}
         onViewMore={
-          increaseHasMore ? () => navigate('/analytics/pricevariation') : null
+          increaseHasMore
+            ? () => navigate(ROUTES.ANALYTICS_PRICE_VARIATION)
+            : null
         }
       />
       <PriceVariationTable
@@ -162,7 +165,9 @@ export default function PriceVariations({ inventoryId, dateRange }) {
         isIncrease={false}
         isLoading={isLoading}
         onViewMore={
-          decreaseHasMore ? () => navigate('/analytics/pricevariation') : null
+          decreaseHasMore
+            ? () => navigate(ROUTES.ANALYTICS_PRICE_VARIATION)
+            : null
         }
       />
     </div>

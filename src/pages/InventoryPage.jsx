@@ -38,7 +38,6 @@ export default function InventoryPage({ onTransferSuccess }) {
     staleTime: Infinity,
   });
 
-  // Handle URL params: ?id=inventoryId&productName=product
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const inventoryId = params.get('id');
@@ -64,7 +63,7 @@ export default function InventoryPage({ onTransferSuccess }) {
     return () => clearTimeout(t);
   }, [selectedInventory?.id]);
 
-  // Reset filters on inventory switch — but preserve search if coming from URL
+  // Reset filters on inventory switch
   useEffect(() => {
     if (!selectedInventory?.id) return;
     const params = new URLSearchParams(location.search);
@@ -200,7 +199,6 @@ export default function InventoryPage({ onTransferSuccess }) {
       debouncedSearch.trim() === '' ||
       item.name.toLowerCase().includes(debouncedSearch.toLowerCase());
 
-    // return matchesStock && matchesSearch;
     return matchesSearch;
   });
 

@@ -13,6 +13,7 @@ import {
   fetchBiggestSuppliers,
 } from '../../../services/purchasesService';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 const LIMIT = 10;
 
@@ -197,7 +198,7 @@ export default function ViewMoreDetail({ type }) {
                         colSpan={3}
                         className='text-center py-14 text-[#939397] text-[14px]'
                       >
-                        No data found
+                        {EMPTY_STATE_LABELS.NO_DATA_FOUND}
                       </td>
                     </tr>
                   )}

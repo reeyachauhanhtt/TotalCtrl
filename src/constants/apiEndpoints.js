@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
   INVENTORY_DETAIL: (id) => `/inventory/${id}`,
   INVENTORY_ACCESS: (id) => `/inventory/${id}/access`,
   INVENTORY_STOCK_VALUE: '/inventory-management/store-products/stock-value',
+  INVENTORY_DOWNLOAD_CSV: '/inventory-management/store-products/download-csv',
   STORE_USERS_PERMISSIONS: '/store-users/permissions',
 
   // ── PRODUCTS ──

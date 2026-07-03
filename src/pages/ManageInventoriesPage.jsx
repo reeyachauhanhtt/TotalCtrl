@@ -33,7 +33,7 @@ export default function ManageInventoriesPage() {
     });
 
   console.log(
-    'invent ories',
+    'inventories',
     inventories,
     'isLoading',
     isLoading,

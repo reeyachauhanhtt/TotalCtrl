@@ -13,6 +13,7 @@ import Purchases from '../components/Analytics/Purchases/Purchases';
 import DeliveryStats from '../components/Analytics/DeliveryStats/DeliveryStats';
 import TransfersTab from '../components/Analytics/Transfers/Transfers';
 import { setAnalyticsSelectedTab } from '../store/analyticsSlice';
+import { ROUTES } from '../constants/routes';
 
 export default function AnalyticsDetailPage() {
   const selectedTab = useSelector((s) => s.analytics.selectedTab);
@@ -24,30 +25,31 @@ export default function AnalyticsDetailPage() {
   const location = useLocation();
 
   const routeTypeMap = {
-    '/analytics/bystock': 'supplier',
-    '/analytics/bycategory': 'category',
-    '/analytics/bycheckin': 'checkIn',
-    '/analytics/bycheckout': 'checkOut',
-    '/analytics/biggestorders': 'biggestorders',
-    '/analytics/biggestsuppliers': 'biggestsuppliers',
-    '/analytics/pricevariation': 'pricevariation',
+    [ROUTES.ANALYTICS_BY_STOCK]: 'supplier',
+    [ROUTES.ANALYTICS_BY_CATEGORY]: 'category',
+    [ROUTES.ANALYTICS_BY_CHECKIN]: 'checkIn',
+    [ROUTES.ANALYTICS_BY_CHECKOUT]: 'checkOut',
+    [ROUTES.ANALYTICS_BIGGEST_ORDERS]: 'biggestorders',
+    [ROUTES.ANALYTICS_BIGGEST_SUPPLIERS]: 'biggestsuppliers',
+    [ROUTES.ANALYTICS_PRICE_VARIATION]: 'pricevariation',
   };
 
   const routeMap = {
-    supplier: '/analytics/bystock',
-    category: '/analytics/bycategory',
-    checkIn: '/analytics/bycheckin',
-    checkOut: '/analytics/bycheckout',
-    biggestorders: '/analytics/biggestorders',
-    biggestsuppliers: '/analytics/biggestsuppliers',
-    pricevariation: '/analytics/pricevariations',
+    supplier: ROUTES.ANALYTICS_BY_STOCK,
+    category: ROUTES.ANALYTICS_BY_CATEGORY,
+    checkIn: ROUTES.ANALYTICS_BY_CHECKIN,
+    checkOut: ROUTES.ANALYTICS_BY_CHECKOUT,
+    biggestorders: ROUTES.ANALYTICS_BIGGEST_ORDERS,
+    biggestsuppliers: ROUTES.ANALYTICS_BIGGEST_SUPPLIERS,
+    pricevariation: ROUTES.ANALYTICS_PRICE_VARIATION,
   };
 
   const statsDetailType = routeTypeMap[location.pathname] ?? null;
+
   const isPurchaseDetail = [
-    '/analytics/biggestorders',
-    '/analytics/biggestsuppliers',
-    '/analytics/pricevariation',
+    ROUTES.ANALYTICS_BIGGEST_ORDERS,
+    ROUTES.ANALYTICS_BIGGEST_SUPPLIERS,
+    ROUTES.ANALYTICS_PRICE_VARIATION,
   ].includes(location.pathname);
 
   const handleTabChange = (tab) => {
@@ -89,11 +91,11 @@ export default function AnalyticsDetailPage() {
         )}
 
         {activeTab === 'Purchases' &&
-          (location.pathname === '/analytics/biggestorders' ? (
+          (location.pathname === ROUTES.ANALYTICS_BIGGEST_ORDERS ? (
             <ViewMoreDetail type='orders' />
-          ) : location.pathname === '/analytics/biggestsuppliers' ? (
+          ) : location.pathname === ROUTES.ANALYTICS_BIGGEST_SUPPLIERS ? (
             <ViewMoreDetail type='suppliers' />
-          ) : location.pathname === '/analytics/pricevariation' ? (
+          ) : location.pathname === ROUTES.ANALYTICS_PRICE_VARIATION ? (
             <PriceVariationDetail />
           ) : (
             <Purchases inventoryId={selectedInventory?.id} />

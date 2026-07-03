@@ -7,6 +7,7 @@ import WhiteButton from '../Common/WhiteButton';
 import AppTooltip from '../Common/Tooltip';
 import { ExternalOrderListSkeleton } from '../Common/Skeleton';
 import { EMPTY_STATE_LABELS } from '../../constants/titles';
+import { PERMISSIONS } from '../../constants/permissions';
 
 const COLUMNS = [
   { label: 'Supplier', align: 'left', width: '30%' },
@@ -34,8 +35,8 @@ export default function ExternalOrderTable({
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isViewOnly =
     selectedInventory &&
-    selectedInventory.permission?.toLowerCase() !== 'editor' &&
-    selectedInventory.permission?.toLowerCase() !== 'owner';
+    selectedInventory.permission?.toLowerCase() !==
+      PERMISSIONS.EDITOR.toLowerCase();
 
   useEffect(() => {
     if (!isLoading && !isFetching && onReturnComplete) {

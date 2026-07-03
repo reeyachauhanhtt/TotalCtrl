@@ -14,7 +14,10 @@ import {
   fetchSupplierRanking,
 } from '../../../services/deliveryStatsService';
 import { SkeletonBar } from '../../Common/Skeleton';
-import { ANALYTICS_SECTION_TITLES } from '../../../constants/titles';
+import {
+  ANALYTICS_SECTION_TITLES,
+  EMPTY_STATE_LABELS,
+} from '../../../constants/titles';
 
 export default function DeliveryStats() {
   const navigate = useNavigate();
@@ -188,7 +191,7 @@ export default function DeliveryStats() {
               </div>
             ) : suppliers.length === 0 ? (
               <p className='text-center text-[#6b6b6f] text-[16px] mt-2'>
-                No data found
+                {EMPTY_STATE_LABELS.NO_DATA_FOUND}
               </p>
             ) : (
               <table className='w-full'>

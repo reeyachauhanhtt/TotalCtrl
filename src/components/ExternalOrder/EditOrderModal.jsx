@@ -641,7 +641,6 @@ export default function EditOrderModal({
                       errorMessage='This field is required'
                       className='w-full'
                     />
-                    {/* {orderNumberError && errHighlight('This field is required')} */}
                   </div>
 
                   {/* Scheduled for */}

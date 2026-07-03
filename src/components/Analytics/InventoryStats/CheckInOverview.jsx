@@ -21,7 +21,7 @@ export default function CheckInOverview({
         <MonthPicker
           onApply={onApplyDateRange}
           singleMonth
-          storageKey='analytics_date_range_inventory_stats'
+          storageKey='analytics_date_range_inventory_checkin'
         />
       </div>
 

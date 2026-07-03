@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
+import { createPortal } from 'react-dom';
 
 import { formatDate, formatPrice } from '../../utils/format';
 import {
@@ -711,15 +712,18 @@ export default function InventoryRow({ item, selected, onSelect, isViewOnly }) {
         ))}
 
       {/* ── DELETE MODAL ── */}
-      <ConfirmModal
-        open={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDeleteConfirm}
-        title={INVENTORY_MODAL_TITLES.deleteItemFromInventory(item.name)}
-        description='This action is irreversible and you will lose all the information related to this product.'
-        confirmLabel='Delete'
-        cancelLabel='Cancel'
-      />
+      {createPortal(
+        <ConfirmModal
+          open={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteConfirm}
+          title={INVENTORY_MODAL_TITLES.deleteItemFromInventory(item.name)}
+          description='This action is irreversible and you will lose all the information related to this product.'
+          confirmLabel='Delete'
+          cancelLabel='Cancel'
+        />,
+        document.body,
+      )}
     </>
   );
 }

@@ -1,26 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  useQuery,
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FiX, FiSearch, FiChevronDown, FiArrowLeft } from 'react-icons/fi';
 
 import { fetchInventory } from '../../services/inventoryService';
-import { fetchProducts } from '../../services/productService';
 import { createInternalOrder } from '../../services/internalOrderService';
 import { TransferProductListSkeleton } from '../Common/Skeleton';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import Checkbox from '../Common/Checkbox';
-import { SECTION_TITLES } from '../../constants/titles';
+import {
+  SECTION_TITLES,
+  VALIDATION_LABELS,
+  EMPTY_STATE_LABELS,
+} from '../../constants/titles';
+import { useProductPicker } from '../../hooks/useProductPicker';
+import { PERMISSIONS, canEdit } from '../../constants/permissions';
 
 export default function AddInternalOrder({ open, onClose, onSuccess }) {
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
-  const queryClient = useQueryClient();
 
   const [step, setStep] = useState(1);
   const [fromInventory, setFromInventory] = useState(null);
@@ -33,12 +32,33 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
   const [locationError, setLocationError] = useState(false);
   const [selectionError, setSelectionError] = useState(false);
   const [showFooterError, setShowFooterError] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
-  const [isDebouncing, setIsDebouncing] = useState(false);
-  const searchRef = useRef(null);
+
+  // Fetch products for step 2
+  const inventoryId =
+    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
+
+  const {
+    filteredProducts,
+    loadingProducts,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    handleScroll,
+    searchFocused,
+    setSearchFocused,
+    searchInputValue,
+    handleSearchInputChange,
+    searchDropdownOpen,
+    setSearchDropdownOpen,
+    isDebouncing,
+    searchRef,
+    resetSearch,
+  } = useProductPicker(inventoryId, {
+    enabled: step === 2,
+    isInStock: '1,2',
+    searchQuery,
+    onSearchChange: setSearchQuery,
+  });
 
   useEffect(() => {
     if (!open) {
@@ -53,20 +73,15 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
       setLocationError(false);
       setSelectionError(false);
       setShowFooterError(false);
-      setSearchInputValue('');
-      setDebouncedSearch('');
-      setSearchDropdownOpen(false);
-      setSearchFocused(false);
+
+      resetSearch();
     }
   }, [open]);
 
   useEffect(() => {
     if (!open) return;
-    const isViewOnly =
-      selectedInventory?.permission?.toLowerCase() !== 'editor' &&
-      selectedInventory?.permission?.toLowerCase() !== 'owner';
 
-    if (selectedInventory && !isViewOnly) {
+    if (selectedInventory && canEdit(selectedInventory.permission)) {
       setFromInventory(selectedInventory);
     } else {
       setFromInventory(null);
@@ -81,13 +96,12 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
 
   useEffect(() => {
     if (!open) return;
+
     setSelectedItems([]);
     setQuantities({});
-    setSearchInputValue('');
-    setDebouncedSearch('');
-    setSearchDropdownOpen(false);
-    setSearchFocused(false);
-  }, [fromInventory, toInventory]);
+    setSearchQuery('');
+    resetSearch();
+  }, [fromInventory, toInventory, open]);
 
   // Fetch inventories
   const { data: inventoriesData } = useQuery({
@@ -97,63 +111,14 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
     select: (data) => {
       const list = data.Data || data.data || [];
       return list.filter(
-        (inv) => inv.permission === 'Editor' || inv.accessType === 'Editor',
+        (inv) => canEdit(inv.permission) || canEdit(inv.accessType),
       );
     },
   });
+
   const inventories = inventoriesData || [];
 
-  // Fetch products for step 2
-  const inventoryId =
-    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
-
-  const {
-    data: productsData,
-    isFetching: loadingProducts,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['products', inventoryId],
-    queryFn: ({ pageParam = 0 }) =>
-      fetchProducts({
-        inventoryId,
-        offset: pageParam,
-        limit: 20,
-        isInStock: '1,2',
-      }),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length === 20) return allPages.length * 20;
-      return undefined;
-    },
-    enabled: step === 2 && !!inventoryId,
-    staleTime: 0,
-  });
-
-  const products = productsData?.pages?.flat() ?? [];
-
-  //  Debounce search
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchInputValue);
-      setSearchQuery(searchInputValue);
-      setIsDebouncing(false);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [searchInputValue]);
-
-  // Close search dropdown on outside click
-  useEffect(() => {
-    function handleClick(e) {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setSearchFocused(false);
-        setSearchDropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
-
+  const queryClient = useQueryClient();
   //  Create internal order mutation
   const createMutation = useMutation({
     mutationFn: (payload) => createInternalOrder(payload),
@@ -171,10 +136,6 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
 
   const fromName = fromInventory?.name || '---';
   const toName = toInventory?.name || '';
-
-  const filteredProducts = products.filter((p) =>
-    p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   function toggleItem(product) {
     setSelectedItems((prev) => {
@@ -308,7 +269,7 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
 
                 {locationError && (
                   <p className='text-red-700 text-sm pl-5'>
-                    Please select 'From' and 'To' location.
+                    {VALIDATION_LABELS.SELECT_FROM_TO_LOCATION}
                   </p>
                 )}
               </div>
@@ -346,11 +307,9 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
                           setSearchFocused(true);
                           setSearchDropdownOpen(true);
                         }}
-                        onChange={(e) => {
-                          setSearchInputValue(e.target.value);
-                          setIsDebouncing(true);
-                          setSearchDropdownOpen(true);
-                        }}
+                        onChange={(e) =>
+                          handleSearchInputChange(e.target.value)
+                        }
                         className='w-full py-2 text-sm outline-none bg-transparent text-gray-700 placeholder-gray-400'
                       />
                       <FiChevronDown
@@ -391,6 +350,7 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
                                   }`}
                                 >
                                   <Checkbox
+                                    className='pb-5'
                                     checked={sel}
                                     onChange={() => toggleItem(product)}
                                   />
@@ -412,16 +372,7 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
                 {/* Product list */}
                 <div
                   className='flex-1 overflow-y-auto px-6 pt-10'
-                  onScroll={(e) => {
-                    const { scrollTop, scrollHeight, clientHeight } = e.target;
-                    if (
-                      scrollHeight - scrollTop - clientHeight < 150 &&
-                      hasNextPage &&
-                      !isFetchingNextPage
-                    ) {
-                      fetchNextPage();
-                    }
-                  }}
+                  onScroll={handleScroll}
                 >
                   {loadingProducts && !isFetchingNextPage ? (
                     <TransferProductListSkeleton />
@@ -550,7 +501,7 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
                         margin: 0,
                       }}
                     >
-                      Sorry no product found
+                      {EMPTY_STATE_LABELS.NO_PRODUCT_FOUND}
                     </p>
                   </div>
                 ) : (

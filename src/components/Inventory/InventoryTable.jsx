@@ -8,6 +8,7 @@ import { TableRowSkeleton } from '../Common/Skeleton';
 import GreenButton from '../Common/GreenButton';
 import { generateProductsPdf } from '../../services/productService';
 import { INVENTORY_SORT_KEYS, SORT_DIRECTIONS } from '../../constants/sortKeys';
+import { PERMISSIONS } from '../../constants/permissions';
 
 export default function InventoryTable({
   data,
@@ -24,8 +25,8 @@ export default function InventoryTable({
   const selectedInventory = useSelector((s) => s.inventory.selectedInventory);
   const isViewOnly =
     selectedInventory &&
-    selectedInventory.permission?.toLowerCase() !== 'editor' &&
-    selectedInventory.permission?.toLowerCase() !== 'owner';
+    selectedInventory.permission?.toLowerCase() !==
+      PERMISSIONS.EDITOR.toLowerCase();
 
   const selectedBarRef = useRef(null);
   const [selectedBarHeight, setSelectedBarHeight] = useState(44);

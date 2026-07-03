@@ -2,6 +2,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { SORT_DIRECTIONS } from '../../../constants/sortKeys';
 import InformationRow from './InformationRow';
+import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 const COLUMNS = [
   { key: 'type', label: 'TYPE', width: '10%', align: 'left', sortable: false },
@@ -125,7 +126,9 @@ export default function InformationTable({
           </table>
         ) : isEmpty ? (
           <div className='w-full flex justify-center items-center py-16'>
-            <p className='text-[18px] text-[#97979b]'>No result found</p>
+            <p className='text-[18px] text-[#97979b]'>
+              {EMPTY_STATE_LABELS.NO_RESULT_FOUND}
+            </p>
           </div>
         ) : (
           <div style={{ height: 'auto' }}>

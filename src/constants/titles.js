@@ -34,7 +34,7 @@ export const EXTERNAL_ORDER_MODAL_TITLES = {
   deleteOrderFromSupplier: (orderNumber, supplierName) =>
     `Delete order #${orderNumber} from ${supplierName}?`,
 };
-//empty state labels
+// empty state labels
 export const EMPTY_STATE_LABELS = {
   noOrdersForTab: (tab) => `No ${tab.toLowerCase()} orders`,
   NO_ITEMS_TRANSFERRED: 'No items transferred',
@@ -44,15 +44,18 @@ export const EMPTY_STATE_LABELS = {
   NO_PRODUCTS: 'You have no products',
   NO_PRODUCTS_DESC:
     "To import products in bulk, upload your past orders in pdf, jpg or png format and we'll extract all the products for you.",
+  NO_RESULT_FOUND: 'No result found',
+  NO_DATA_FOUND: 'No data found',
+  NO_PRODUCT_FOUND: 'Sorry no product found',
 };
 
-//internal order
+// internal order
 export const INTERNAL_ORDER_MODAL_TITLES = {
   deleteOrderFromInventory: (orderNumber, fromInventoryName) =>
     `Delete order # ${orderNumber} from ${fromInventoryName} ?`,
 };
 
-//analytics page
+// analytics page
 export const ANALYTICS_SECTION_TITLES = {
   DELIVERY_STATS: 'Delivery Stats',
   FOOD_WASTE: 'Food Waste',
@@ -73,7 +76,7 @@ export const ANALYTICS_TABS = [
   'Transfers',
 ];
 
-//manage item templates
+// manage item templates
 export const ITEM_TEMPLATE_MODAL_TITLES = {
   ADD_ITEM_TEMPLATE: 'Add item template',
   EDIT_ITEM_TEMPLATE: 'Edit item template',
@@ -96,6 +99,8 @@ export const ITEM_TEMPLATE_SECTION_TITLES = {
   SETUP_UNITS_AND_CONVERSIONS: 'Setup units and conversions',
   SPECIFY_QUANTITY_AND_SHELF_LIFE: 'Specify quantity and shelf life',
   TOTAL_PRODUCT_COST: 'Total product cost',
+  PURCHASE_TO_STOCKTAKING_UNIT: 'Purchase unit to stocktaking unit',
+  STOCKTAKING_TO_BASIC_UNIT: 'Stocktaking unit to basic measurement unit',
 };
 
 export const ITEM_TEMPLATE_DYNAMIC_TITLES = {
@@ -117,7 +122,7 @@ export const BUTTON_LABELS = {
   UPLOAD_ORDER_TO_EXTRACT_PRODUCTS: 'Upload an order to extract products',
 };
 
-//manage inventories
+// manage inventories
 export const MANAGE_INVENTORIES_MODAL_TITLES = {
   ADD_NEW_INVENTORY: 'Add new inventory',
   EDIT_INVENTORY_INFO: 'Edit inventory info',
@@ -143,4 +148,9 @@ export const INVENTORY_CONFIRM_MODAL = {
       'If you deactivate this inventory, it wont be visible to the users anymore.',
     delete: 'This action is irreversible',
   },
+};
+
+export const VALIDATION_LABELS = {
+  FIELD_REQUIRED: 'This field is required',
+  SELECT_FROM_TO_LOCATION: "Please select 'From' and 'To' location.",
 };

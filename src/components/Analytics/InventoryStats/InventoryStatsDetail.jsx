@@ -15,6 +15,7 @@ import {
 } from '../../../services/inventoryStatsService';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 const LIMIT = 20;
 
@@ -32,6 +33,11 @@ function fetchFn(type) {
   return fetchCheckOutValue;
 }
 
+const STORAGE_KEY_MAP = {
+  checkIn: 'analytics_date_range_inventory_checkin',
+  checkOut: 'analytics_date_range_inventory_checkout',
+};
+
 export default function InventoryStatsDetail({ type }) {
   const selectedInventory = useSelector((s) => s.analytics.selectedInventory);
 
@@ -44,9 +50,9 @@ export default function InventoryStatsDetail({ type }) {
     fromDate: format(startOfMonth(today), 'yyyy-MM-dd'),
     toDate: format(endOfMonth(today), 'yyyy-MM-dd'),
   };
+
   const [dateRange, setDateRange] = useState(
-    getPersistedDateRange('analytics_date_range_inventory_stats_detail') ??
-      defaultRange,
+    getPersistedDateRange(STORAGE_KEY_MAP[type]) ?? defaultRange,
   );
 
   const { title, hasDatePicker } = CONFIG[type];
@@ -123,7 +129,7 @@ export default function InventoryStatsDetail({ type }) {
           <div className='flex items-center'>
             <MonthPicker
               onApply={handleApplyDate}
-              storageKey='analytics_date_range_inventory_stats_detail'
+              storageKey={STORAGE_KEY_MAP[type]}
             />
           </div>
         )}
@@ -162,7 +168,7 @@ export default function InventoryStatsDetail({ type }) {
                     colSpan={3}
                     className='text-center py-12 text-[#939397] text-[14px]'
                   >
-                    No data found
+                    {EMPTY_STATE_LABELS.NO_DATA_FOUND}
                   </td>
                 </tr>
               )}

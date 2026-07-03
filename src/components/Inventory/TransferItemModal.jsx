@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useInfiniteQuery,
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FiX, FiSearch, FiChevronDown } from 'react-icons/fi';
 
 import { fetchInventory } from '../../services/inventoryService';
-import { fetchProducts } from '../../services/productService';
 import { transferItems } from '../../services/transferService';
 import { TransferProductListSkeleton } from '../Common/Skeleton';
 import {
@@ -31,7 +25,13 @@ import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import Checkbox from '../Common/Checkbox';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
-import { SECTION_TITLES } from '../../constants/titles';
+import {
+  SECTION_TITLES,
+  VALIDATION_LABELS,
+  EMPTY_STATE_LABELS,
+} from '../../constants/titles';
+import { PERMISSIONS, canEdit } from '../../constants/permissions';
+import { useProductPicker } from '../../hooks/useProductPicker';
 
 export default function TransferItemModal({
   open,
@@ -53,24 +53,46 @@ export default function TransferItemModal({
     selectionError,
   } = useSelector((s) => s.transfer);
 
+  // Fetch products for step 2
+  const inventoryId =
+    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
+
+  const {
+    filteredProducts,
+    loadingProducts,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    handleScroll,
+    searchFocused,
+    setSearchFocused,
+    searchInputValue,
+    handleSearchInputChange,
+    searchDropdownOpen,
+    setSearchDropdownOpen,
+    isDebouncing,
+    searchRef,
+    resetSearch,
+  } = useProductPicker(inventoryId, {
+    enabled: step === 2,
+    isInStock: '1,2',
+    searchQuery,
+    onSearchChange: (value) => dispatch(setSearchQuery(value)),
+  });
+
   // Reset on close
   useEffect(() => {
     if (!open) {
       dispatch(resetTransfer());
-      setSearchInputValue('');
-      setDebouncedSearch('');
-      setSearchDropdownOpen(false);
-      setSearchFocused(false);
+      resetSearch();
     }
   }, [open]);
 
-  // Default fromInventory to currently selected
   useEffect(() => {
     if (open && selectedInventory)
       dispatch(setFromInventory(selectedInventory));
   }, [open, selectedInventory]);
 
-  // Fetch inventories
   const { data: inventoriesData } = useQuery({
     queryKey: ['inventories'],
     queryFn: fetchInventory,
@@ -78,13 +100,13 @@ export default function TransferItemModal({
     select: (data) => {
       const list = data.Data || data.data || [];
       return list.filter(
-        (inv) => inv.permission === 'Editor' || inv.accessType === 'Editor',
+        (inv) => canEdit(inv.permission) || canEdit(inv.accessType),
       );
     },
   });
+
   const inventories = inventoriesData || [];
 
-  // If fromInventory changes to same as toInventory, reset toInventory
   useEffect(() => {
     if (fromInventory && toInventory && fromInventory.id === toInventory.id) {
       dispatch(setToInventory(null));
@@ -94,57 +116,19 @@ export default function TransferItemModal({
   useEffect(() => {
     if (!open) return;
 
-    // whenever inventory changes → reset step 2 data
-    dispatch(toggleItem([])); //  this won't work (explained below)
+    dispatch(toggleItem([]));
   }, [fromInventory, toInventory]);
 
   useEffect(() => {
     if (!open) return;
-
-    // reset items when inventory changes
     dispatch(clearSelection());
-
-    // also reset local search states
-    setSearchInputValue('');
-    setDebouncedSearch('');
-    setSearchDropdownOpen(false);
-    setSearchFocused(false);
+    resetSearch();
   }, [fromInventory, toInventory]);
-
-  // Fetch products for step 2
-  const inventoryId =
-    fromInventory?.id || fromInventory?._id || fromInventory?.inventoryId;
-
-  const {
-    data: productsData,
-    isFetching: loadingProducts,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ['products', inventoryId],
-    queryFn: ({ pageParam = 0 }) =>
-      fetchProducts({
-        inventoryId,
-        offset: pageParam,
-        limit: 20,
-        isInStock: '1,2',
-      }),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length === 20) return allPages.length * 20;
-      return undefined;
-    },
-    enabled: step === 2 && !!inventoryId,
-    staleTime: 0,
-  });
-
-  const products = productsData?.pages?.flat() ?? [];
 
   const queryClient = useQueryClient();
 
   const transferMutation = useMutation({
     mutationFn: async (payload) => {
-      // console.log('Transfer payload:', payload);
       return transferItems(payload);
     },
 
@@ -177,48 +161,13 @@ export default function TransferItemModal({
     },
   });
 
-  // console.log('products sample:', products[0]);
-
-  // Search input state for debounce & dropdown
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
   const [showFooterError, setShowFooterError] = useState(false);
-  const [isDebouncing, setIsDebouncing] = useState(false);
-  const searchRef = useRef(null);
-
-  // Debounce search input
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchInputValue);
-      dispatch(setSearchQuery(searchInputValue));
-      setIsDebouncing(false);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [searchInputValue]);
-
-  // Close search dropdown on outside click
-  useEffect(() => {
-    function handleClick(e) {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setSearchFocused(false);
-        setSearchDropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
 
   if (!open) return null;
 
   const fromName = fromInventory?.name || '---';
   const toName = toInventory?.name || '';
   const progress = (step / 3) * 100;
-
-  const filteredProducts = products.filter((p) =>
-    p.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   function handleStep1Continue() {
     if (!fromInventory || !toInventory) {
@@ -249,11 +198,7 @@ export default function TransferItemModal({
     const hasInvalidQty = selectedItems.some((item) => {
       const qty = Number(quantities[item.id]);
 
-      return (
-        !qty || // empty / undefined
-        qty <= 0 || // zero or negative
-        qty > item.totalQuantity // exceeds available
-      );
+      return !qty || qty <= 0 || qty > item.totalQuantity;
     });
 
     if (hasInvalidQty) {
@@ -331,7 +276,7 @@ export default function TransferItemModal({
 
                 {locationError && (
                   <p className='text-red-700 text-sm '>
-                    Please select 'From' and 'To' location.
+                    {VALIDATION_LABELS.SELECT_FROM_TO_LOCATION}
                   </p>
                 )}
               </div>
@@ -369,11 +314,9 @@ export default function TransferItemModal({
                           setSearchFocused(true);
                           setSearchDropdownOpen(true);
                         }}
-                        onChange={(e) => {
-                          setSearchInputValue(e.target.value);
-                          setIsDebouncing(true);
-                          setSearchDropdownOpen(true);
-                        }}
+                        onChange={(e) =>
+                          handleSearchInputChange(e.target.value)
+                        }
                         className='w-full py-2 text-sm outline-none bg-transparent text-gray-700 placeholder-gray-400'
                       />
                       <FiChevronDown
@@ -415,6 +358,7 @@ export default function TransferItemModal({
                                   }`}
                                 >
                                   <Checkbox
+                                    className='pb-5'
                                     checked={sel}
                                     onChange={() =>
                                       dispatch(toggleItem(product))
@@ -437,19 +381,9 @@ export default function TransferItemModal({
                 <div className='border-b border-gray-200 mt-7.5' />
 
                 {/* Product list */}
-                {/* <div className='flex-1 overflow-y-auto px-6 pt-10'> */}
                 <div
                   className='flex-1 overflow-y-auto px-6 pt-10'
-                  onScroll={(e) => {
-                    const { scrollTop, scrollHeight, clientHeight } = e.target;
-                    if (
-                      scrollHeight - scrollTop - clientHeight < 150 &&
-                      hasNextPage &&
-                      !isFetchingNextPage
-                    ) {
-                      fetchNextPage();
-                    }
-                  }}
+                  onScroll={handleScroll}
                 >
                   {loadingProducts && !isFetchingNextPage ? (
                     <TransferProductListSkeleton />
@@ -583,7 +517,7 @@ export default function TransferItemModal({
                         margin: 0,
                       }}
                     >
-                      Sorry no product found
+                      {EMPTY_STATE_LABELS.NO_PRODUCT_FOUND}
                     </p>
                   </div>
                 ) : (

@@ -12,6 +12,7 @@ import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
 import AppTooltip from '../Common/Tooltip';
 import { SkeletonBar, ExternalOrderHeaderSkeleton } from '../Common/Skeleton';
+import { PERMISSIONS } from '../../constants/permissions';
 
 export default function ExternalOrderHeader({ onUploadClick, onError }) {
   const dispatch = useDispatch();
@@ -24,8 +25,8 @@ export default function ExternalOrderHeader({ onUploadClick, onError }) {
 
   const isViewOnly =
     selectedInventory &&
-    selectedInventory.permission?.toLowerCase() !== 'editor' &&
-    selectedInventory.permission?.toLowerCase() !== 'owner';
+    selectedInventory.permission?.toLowerCase() !==
+      PERMISSIONS.EDITOR.toLowerCase();
 
   useEffect(() => {
     setShowSkeleton(true);

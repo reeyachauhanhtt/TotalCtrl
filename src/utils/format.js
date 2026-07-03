@@ -12,7 +12,7 @@ export const formatDate = (dateStr) => {
   });
 };
 
-// PRICE → "124,50 kr"
+// PRICE → "124,50 kr" -> 124.50
 export const formatPrice = (value) => {
   if (value === null || value === undefined || value === '') return '--';
   const num = typeof value === 'string' ? parseFloat(value) : value;
@@ -25,6 +25,7 @@ export const formatPrice = (value) => {
   );
 };
 
+// NUMBER → "124,50" -> 124.50
 export const formatNumber = (value) => {
   const num = typeof value === 'string' ? parseFloat(value) : value;
   if (isNaN(num)) return '';

@@ -1,8 +1,3 @@
-/**
- * Validates a date object with { day, month, year } fields.
- * Returns an errors object: { day?: string, month?: string, year?: string }
- * An empty object means the date is valid.
- */
 export function validateDate(date) {
   const errors = {};
   const day = Number(date.day);
@@ -27,7 +22,7 @@ export function validateDate(date) {
     errors.year = 'Invalid year';
   }
 
-  // Cross-field: check the day is valid for the given month/year
+  // check the day is valid for the given month/year
   if (!errors.day && !errors.month && !errors.year) {
     const testDate = new Date(year, month - 1, day);
     if (
@@ -42,10 +37,6 @@ export function validateDate(date) {
   return errors;
 }
 
-/**
- * Validates both orderedOn and scheduledFor.
- * Returns { orderedOn: {}, scheduledFor: {} } — empty sub-objects = valid.
- */
 export function validateOrderDates({ orderedOn, scheduledFor }) {
   return {
     orderedOn: validateDate(orderedOn),
@@ -53,9 +44,6 @@ export function validateOrderDates({ orderedOn, scheduledFor }) {
   };
 }
 
-/**
- * Returns true if the validation result from validateOrderDates has no errors.
- */
 export function isOrderDatesValid(validationResult) {
   return (
     Object.keys(validationResult.orderedOn).length === 0 &&

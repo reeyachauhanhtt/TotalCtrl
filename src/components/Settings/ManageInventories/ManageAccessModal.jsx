@@ -60,7 +60,7 @@ function RoleDropdown({ anchorRef, currentRole, onSelect, onRemove, onClose }) {
         <div>
           <p className='m-0 text-[#19191c] font-semibold text-[14px] flex items-center gap-1'>
             Editor
-            {currentRole === 'Editor' && (
+            {currentRole === PERMISSIONS.EDITOR && (
               <img src='/icons/check-small.svg' alt='' />
             )}
           </p>
@@ -78,7 +78,7 @@ function RoleDropdown({ anchorRef, currentRole, onSelect, onRemove, onClose }) {
         <div>
           <p className='m-0 text-[#19191c] font-semibold text-[14px] flex items-center gap-1'>
             Viewer
-            {currentRole === 'Viewer' && (
+            {currentRole === PERMISSIONS.VIEWER && (
               <img src='/icons/check-small.svg' alt='' />
             )}
           </p>

@@ -20,6 +20,7 @@ import {
   isOrderDatesValid,
 } from '../../utils/orderDateValidation';
 import { MODAL_TITLES, SECTION_TITLES } from '../../constants/titles';
+import { PERMISSIONS } from '../../constants/permissions';
 
 export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
   const dispatch = useDispatch();
@@ -64,9 +65,7 @@ export default function AddOrderManuallyModal({ isOpen, onClose, onError }) {
 
   const inventories = data?.Data || data?.data || [];
   const editorInventories = inventories.filter(
-    (inv) =>
-      inv.permission?.toLowerCase() === 'editor' ||
-      inv.permission?.toLowerCase() === 'owner',
+    (inv) => inv.permission?.toLowerCase() === PERMISSIONS.EDITOR.toLowerCase(),
   );
 
   const units =

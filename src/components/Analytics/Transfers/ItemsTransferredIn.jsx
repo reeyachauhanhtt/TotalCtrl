@@ -1,5 +1,6 @@
 import ProgressBar from '../common/ProgressBar';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 export default function ItemsTransferredIn({
   inventories = [],
@@ -42,7 +43,10 @@ export default function ItemsTransferredIn({
           </div>
         ))
       ) : inventories.length === 0 ? (
-        <p className='text-[16px] text-[#97979b]'>No result found</p>
+        <p className='text-[16px] text-[#97979b]'>
+          {' '}
+          {EMPTY_STATE_LABELS.NO_RESULT_FOUND}
+        </p>
       ) : (
         inventories.map((inv, i) => (
           <div key={i} className='w-[85%] mt-6'>

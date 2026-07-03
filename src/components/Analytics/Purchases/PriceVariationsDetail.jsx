@@ -9,6 +9,7 @@ import { formatPrice } from '../../../utils/format';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { fetchPriceVariations } from '../../../services/purchasesService';
 import { SkeletonBar } from '../../Common/Skeleton';
+import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 function PriceVariationDetailTable({ rows, isIncrease }) {
   return (
@@ -187,7 +188,7 @@ export default function PriceVariationDetail() {
           </div>
         ) : increaseRows.length === 0 && decreaseRows.length === 0 ? (
           <p className='text-center text-[16px] text-[#939397] py-12'>
-            No data found
+            {EMPTY_STATE_LABELS.NO_DATA_FOUND}
           </p>
         ) : (
           <div className='flex mt-4'>

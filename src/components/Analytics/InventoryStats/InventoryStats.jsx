@@ -33,8 +33,14 @@ export default function InventoryStats({ onViewMore }) {
   };
   const persistedRange = getPersistedDateRange() ?? defaultRange;
 
-  const [checkInRange, setCheckInRange] = useState(persistedRange);
-  const [checkOutRange, setCheckOutRange] = useState(persistedRange);
+  const [checkInRange, setCheckInRange] = useState(
+    getPersistedDateRange('analytics_date_range_inventory_checkin') ??
+      defaultRange,
+  );
+  const [checkOutRange, setCheckOutRange] = useState(
+    getPersistedDateRange('analytics_date_range_inventory_checkout') ??
+      defaultRange,
+  );
 
   const { data: totalData, isLoading: isTotalLoading } = useQuery({
     queryKey: ['inventoryTotal', inventoryId],

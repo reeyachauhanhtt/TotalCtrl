@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { VALIDATION_LABELS } from '../../constants/titles';
 
 export default function SupplierSearchDropdown({
   suppliers = [],
@@ -82,7 +83,7 @@ export default function SupplierSearchDropdown({
 
         {supplierError && (
           <p className='text-[#d93a3f] text-[14px] leading-5 font-semibold pt-2'>
-            This field is required
+            {VALIDATION_LABELS.FIELD_REQUIRED}
           </p>
         )}
       </div>

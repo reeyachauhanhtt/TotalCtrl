@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { PERMISSIONS } from '../../constants/permissions';
 
 export default function InventoryDropdown({
   inventories = [],
@@ -112,8 +113,8 @@ export default function InventoryDropdown({
               {/* EDIT SECTION */}
               {filteredInventories.filter(
                 (inv) =>
-                  inv.permission?.toLowerCase() === 'editor' ||
-                  inv.permission?.toLowerCase() === 'owner',
+                  inv.permission?.toLowerCase() ===
+                  PERMISSIONS.EDITOR.toLowerCase(),
               ).length > 0 && (
                 <>
                   <div className='px-8 py-10 pt-6 pb-1 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-default'>
@@ -124,8 +125,8 @@ export default function InventoryDropdown({
                   {filteredInventories
                     .filter(
                       (inv) =>
-                        inv.permission?.toLowerCase() === 'editor' ||
-                        inv.permission?.toLowerCase() === 'owner',
+                        inv.permission?.toLowerCase() ===
+                        PERMISSIONS.EDITOR.toLowerCase(),
                     )
                     .map((inv) => (
                       <InventoryItem key={inv.id} inv={inv} />
@@ -136,8 +137,8 @@ export default function InventoryDropdown({
               {/* VIEW SECTION */}
               {filteredInventories.filter(
                 (inv) =>
-                  inv.permission?.toLowerCase() !== 'editor' &&
-                  inv.permission?.toLowerCase() !== 'owner',
+                  inv.permission?.toLowerCase() !==
+                  PERMISSIONS.EDITOR.toLowerCase(),
               ).length > 0 && (
                 <>
                   <div className='px-8 py-10 pt-6 pb-1 text-[12px] font-bold text-gray-400 uppercase tracking-wider cursor-default'>
@@ -148,8 +149,8 @@ export default function InventoryDropdown({
                   {filteredInventories
                     .filter(
                       (inv) =>
-                        inv.permission?.toLowerCase() !== 'editor' &&
-                        inv.permission?.toLowerCase() !== 'owner',
+                        inv.permission?.toLowerCase() !==
+                        PERMISSIONS.EDITOR.toLowerCase(),
                     )
                     .map((inv) => (
                       <InventoryItem key={inv.id} inv={inv} />

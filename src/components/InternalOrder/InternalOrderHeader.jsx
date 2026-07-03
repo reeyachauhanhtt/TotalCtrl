@@ -9,6 +9,7 @@ import InventoryDropdown from '../Common/InventoryDropDown';
 import WhiteButton from '../Common/WhiteButton';
 import { SkeletonBar } from '../Common/Skeleton';
 import AddInternalOrder from './AddInternalOrder';
+import { PERMISSIONS } from '../../constants/permissions';
 
 export default function InternalOrderHeader({ onAddClick }) {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ export default function InternalOrderHeader({ onAddClick }) {
   const isDetailOpen = useSelector((s) => s.internalOrder.isDetailOpen);
   const isViewOnly =
     selectedInventory &&
-    selectedInventory.permission?.toLowerCase() !== 'editor' &&
-    selectedInventory.permission?.toLowerCase() !== 'owner';
+    selectedInventory.permission?.toLowerCase() !==
+      PERMISSIONS.EDITOR.toLowerCase();
 
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);

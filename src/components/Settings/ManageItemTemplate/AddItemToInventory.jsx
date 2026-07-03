@@ -13,7 +13,9 @@ import {
   ITEM_TEMPLATE_MODAL_TITLES,
   ITEM_TEMPLATE_SECTION_TITLES,
   SECTION_TITLES,
+  VALIDATION_LABELS,
 } from '../../../constants/titles';
+import { PERMISSIONS } from '../../../constants/permissions';
 
 export default function AddItemToInventory({
   isOpen,
@@ -39,7 +41,6 @@ export default function AddItemToInventory({
 
   const inventoryError = inventoryTouched && !selectedInventory;
 
-  // const unitPrice = parseFloat(item?.purchaseUnit?.price) || 0;
   const unitPrice =
     parseFloat(
       String(item?.purchaseUnit?.price ?? '')
@@ -70,7 +71,7 @@ export default function AddItemToInventory({
   });
 
   const editableInventories = (inventoryData?.Data ?? []).filter(
-    (inv) => inv.permission === 'Editor' || inv.permission === 'Owner',
+    (inv) => inv.permission === PERMISSIONS.EDITOR,
   );
 
   useEffect(() => {
@@ -220,7 +221,7 @@ export default function AddItemToInventory({
 
                   {inventoryError && (
                     <p className='text-[13px] font-normal text-[#e2232e] mt-1'>
-                      This field is required
+                      {VALIDATION_LABELS.FIELD_REQUIRED}
                     </p>
                   )}
 

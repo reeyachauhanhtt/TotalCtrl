@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-// import { Tooltip } from 'react-tooltip';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
@@ -20,6 +19,7 @@ import { formatPrice } from '../../../utils/format';
 import {
   ITEM_TEMPLATE_MODAL_TITLES,
   ITEM_TEMPLATE_SECTION_TITLES,
+  VALIDATION_LABELS,
 } from '../../../constants/titles';
 
 function deriveCategory(item) {
@@ -549,7 +549,7 @@ export default function EditItemTemplateModal({
                 {/* Col 1: Purchase → Stocktaking */}
                 <div className='col-span-4'>
                   <p className='mb-6 text-[14px] font-semibold leading-5 text-[#19191c]'>
-                    Purchase unit to stocktaking unit
+                    {ITEM_TEMPLATE_SECTION_TITLES.PURCHASE_TO_STOCKTAKING_UNIT}
                   </p>
 
                   <div className='mb-2'>
@@ -580,7 +580,6 @@ export default function EditItemTemplateModal({
                         !!purchaseUnit &&
                         !!stockTakingUnit
                       }
-                      // errorMessage='This field is required'
                     />
 
                     <span className='mt-2 block text-[13px] leading-4 text-[#6b6b6f]'>
@@ -600,7 +599,7 @@ export default function EditItemTemplateModal({
                       purchaseUnit &&
                       stockTakingUnit && (
                         <span className='mt-1 block text-[13px] text-[#d93a3f]'>
-                          This field is required
+                          {VALIDATION_LABELS.FIELD_REQUIRED}
                         </span>
                       )}
 
@@ -620,7 +619,7 @@ export default function EditItemTemplateModal({
                 {!(stockTakingUnit && bmu && stockTakingUnit.id === bmu.id) && (
                   <div className='col-span-4'>
                     <p className='mb-6 text-[14px] font-semibold leading-5 text-[#19191c]'>
-                      Stocktaking unit to basic measurement unit
+                      {ITEM_TEMPLATE_SECTION_TITLES.STOCKTAKING_TO_BASIC_UNIT}
                     </p>
                     <div className='mb-2'>
                       <label className='mb-1 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6B6F]'>

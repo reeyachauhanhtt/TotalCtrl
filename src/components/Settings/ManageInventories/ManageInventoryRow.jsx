@@ -17,6 +17,7 @@ import {
   INVENTORY_ACTION_LABELS,
   INVENTORY_CONFIRM_MODAL,
 } from '../../../constants/titles';
+import { PERMISSIONS } from '../../../constants/permissions';
 
 function ActionsDropdown({
   anchorRef,
@@ -130,10 +131,10 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
   const isCurrentlyActive = status?.toLowerCase() === 'active';
 
   const editors = users.filter(
-    (u) => permissionMap[u.userPermissionId] === 'Editor',
+    (u) => permissionMap[u.userPermissionId] === PERMISSIONS.EDITOR,
   );
   const viewers = users.filter(
-    (u) => permissionMap[u.userPermissionId] === 'Viewer',
+    (u) => permissionMap[u.userPermissionId] === PERMISSIONS.VIEWER,
   );
 
   const handleConfirm = async () => {
@@ -159,7 +160,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
     }
   };
 
-  console.log('inventory users', inventory.users);
+  // console.log('inventory users', inventory.users);
   return (
     <>
       <tr className='border-b border-[#e6e6ed]' style={{ height: 72 }}>
