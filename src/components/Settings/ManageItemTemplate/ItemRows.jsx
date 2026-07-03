@@ -532,7 +532,6 @@ export default function ItemRow({
             item={item}
             onClose={() => setShowEditModal(false)}
             onSuccess={(itemName) => {
-              // lift to parent for toast — same as AddItemTemplateModal pattern
               setShowEditModal(false);
               onItemEdited?.(itemName);
             }}
