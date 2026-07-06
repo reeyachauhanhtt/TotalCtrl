@@ -44,6 +44,7 @@ export default function InventoriesTable({
           </thead>
         </table>
       </div>
+
       <div style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
         <table
           className='text-[13px] border-collapse'

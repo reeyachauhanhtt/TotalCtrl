@@ -1,29 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 
-import AvatarStack from './AvatarStack';
-import EditInventoryModal from './EditInventoryModal';
-import Modal from './Modal';
+import UserAvatar from '../ManageInventories/UserAvatar';
 import StatusBadge from '../../Common/StatusBadge';
-import {
-  updateInventoryStatus,
-  deleteInventory,
-} from '../../../services/manageInventoriesService';
-import ManageAccessModal from './ManageAccessModal';
+import Modal from '../ManageInventories/Modal';
+// import EditUserModal from './EditUserModal';
+// import ManagePermissionModal from './ManagePermissionModal';
+// import {
+//   updateUserStatus,
+//   deleteUser,
+// } from '../../../services/manageUserService';
 import { showSuccessToast } from '../../../utils/showToast';
-import { fetchInventoryAccessDetails } from '../../../services/manageInventoriesService';
-import {
-  INVENTORY_ACTION_LABELS,
-  INVENTORY_CONFIRM_MODAL,
-} from '../../../constants/titles';
-import { PERMISSIONS } from '../../../constants/permissions';
+import { USER_ACTION_LABELS } from '../../../constants/titles';
 
 function ActionsDropdown({
   anchorRef,
   onClose,
   onEdit,
-  onManageAccess,
+  onManagePermission,
   onConfirmAction,
   isCurrentlyActive,
 }) {
@@ -52,10 +47,6 @@ function ActionsDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // console.log('permissionMap', permissionMap);
-  // console.log('users', users);
-  // console.log('editors', editors, 'viewers', viewers);
-
   return createPortal(
     <div
       ref={dropdownRef}
@@ -70,17 +61,17 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          {INVENTORY_ACTION_LABELS.EDIT_INVENTORY_INFO}
+          {USER_ACTION_LABELS.EDIT_USER_INFO}
         </li>
 
         <li
           className='px-5 py-[8px] cursor-pointer hover:bg-[#fafafc]'
           onClick={() => {
-            onManageAccess();
+            onManagePermission();
             onClose();
           }}
         >
-          {INVENTORY_ACTION_LABELS.MANAGE_ACCESS}
+          {USER_ACTION_LABELS.MANAGE_PERMISSION}
         </li>
 
         <li
@@ -91,8 +82,8 @@ function ActionsDropdown({
           }}
         >
           {isCurrentlyActive
-            ? INVENTORY_ACTION_LABELS.DEACTIVATE_INVENTORY
-            : INVENTORY_ACTION_LABELS.ACTIVATE_INVENTORY}
+            ? USER_ACTION_LABELS.DEACTIVATE_USER
+            : USER_ACTION_LABELS.ACTIVATE_USER}
         </li>
 
         <li
@@ -102,7 +93,7 @@ function ActionsDropdown({
             onClose();
           }}
         >
-          {INVENTORY_ACTION_LABELS.DELETE_INVENTORY}
+          {USER_ACTION_LABELS.DELETE_USER}
         </li>
       </ul>
     </div>,
@@ -110,90 +101,92 @@ function ActionsDropdown({
   );
 }
 
-export default function ManageInventoryRow({ inventory, permissionMap }) {
+export default function ManageUserRow({ user }) {
   const queryClient = useQueryClient();
 
   const [showActions, setShowActions] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
-  const [showManageAccess, setShowManageAccess] = useState(false);
+  const [showManagePermission, setShowManagePermission] = useState(false);
   const moreRef = useRef(null);
 
-  const { data: accessDetails, isFetching: isAccessLoading } = useQuery({
-    queryKey: ['inventory-access', inventory.id],
-    queryFn: () => fetchInventoryAccessDetails(inventory.id),
-    enabled: showManageAccess,
-    staleTime: 0,
-    gcTime: 0,
-  });
+  const {
+    firstName,
+    lastName,
+    jobTitle,
+    email,
+    userName,
+    userRoleName,
+    status,
+  } = user;
 
-  const { name, users = [], status, isActive } = inventory;
-  const isCurrentlyActive = status?.toLowerCase() === 'active';
-
-  const editors = users.filter(
-    (u) => permissionMap[u.userPermissionId] === PERMISSIONS.EDITOR,
-  );
-  const viewers = users.filter(
-    (u) => permissionMap[u.userPermissionId] === PERMISSIONS.VIEWER,
-  );
+  const isCurrentlyActive = !!status;
 
   const handleConfirm = async () => {
     try {
       if (confirmAction === 'delete') {
-        await deleteInventory(inventory.id);
-        showSuccessToast('Inventory deleted successfully');
+        await deleteUser(user.id);
+        showSuccessToast('User deleted successfully');
       } else {
-        const isActive = confirmAction === 'activate' ? 1 : 0;
-        await updateInventoryStatus(inventory.id, isActive);
+        const nextStatus = confirmAction === 'activate';
+        await updateUserStatus(user.id, nextStatus);
         showSuccessToast(
-          isActive
-            ? 'Inventory activated successfully'
-            : 'Inventory deactivated successfully',
+          nextStatus
+            ? 'User activated successfully'
+            : 'User deactivated successfully',
         );
       }
 
       setConfirmAction(null);
-      queryClient.invalidateQueries({ queryKey: ['inventories-with-access'] });
-      queryClient.invalidateQueries({ queryKey: ['inventories'] });
+      queryClient.invalidateQueries({ queryKey: ['store-users'] });
     } catch (error) {
-      console.error('Failed updating inventory', error);
+      console.error('Failed updating user', error);
     }
   };
 
-  // console.log('inventory users', inventory.users);
   return (
     <>
       <tr className='border-b border-[#e6e6ed]' style={{ height: 72 }}>
-        {/* Inventory name */}
+        {/* Full name */}
         <td
-          className='text-left text-[14px] font-medium text-[#19191c] align-top'
+          className='text-left align-top'
           style={{ width: '18%', paddingTop: 26 }}
         >
-          {name}
+          <div className='flex'>
+            <UserAvatar user={user} disabled={!isCurrentlyActive} />
+            <div style={{ marginLeft: 12, marginBottom: 25 }}>
+              <span className='block font-semibold text-[14px] leading-5 text-[#19191c] capitalize'>
+                {firstName} {lastName}
+              </span>
+              <span className='block text-[13px] leading-4 text-[#6b6b6f] capitalize'>
+                {jobTitle}
+              </span>
+            </div>
+          </div>
         </td>
 
-        {/* Editors */}
+        {/* Email / Username */}
         <td
-          className='text-left align-top'
-          style={{ width: '17%', padding: '20px 0px', paddingLeft: '0.75rem' }}
+          className='text-left align-top text-[14px] text-[#19191c]'
+          style={{ width: '30%', paddingTop: 35, paddingLeft: '0.75rem' }}
         >
-          <AvatarStack users={editors} />
+          {email ?? userName}
         </td>
 
-        {/* Viewers */}
+        {/* User Role */}
         <td
-          className='text-left align-top'
-          style={{ width: '17%', padding: '20px 0px', paddingLeft: '0.75rem' }}
+          className='text-left align-top text-[14px] text-[#19191c] capitalize'
+          style={{ width: '8%', paddingTop: 35, paddingLeft: '1.5rem' }}
         >
-          <AvatarStack users={viewers} />
+          {userRoleName}
         </td>
 
         {/* Status */}
         <td
           className='text-left align-top'
-          style={{ width: '17%', paddingTop: 26, paddingLeft: '0.75rem' }}
+          style={{ width: '14%', paddingTop: 35, paddingLeft: '0.75rem' }}
         >
-          <StatusBadge variant={status} />
+          <StatusBadge variant={isCurrentlyActive ? 'active' : 'inactive'} />
         </td>
 
         {/* Actions */}
@@ -211,7 +204,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
             src='/img/more_verticle_icon.png'
             alt=''
             className='cursor-pointer hover:brightness-0'
-            style={{ marginLeft: 16, padding: '4px 10px' }}
+            style={{ padding: '4px 10px' }}
             onClick={() => setShowActions((p) => !p)}
           />
 
@@ -220,7 +213,7 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
               anchorRef={moreRef}
               onClose={() => setShowActions(false)}
               onEdit={() => setShowEdit(true)}
-              onManageAccess={() => setShowManageAccess(true)}
+              onManagePermission={() => setShowManagePermission(true)}
               onConfirmAction={setConfirmAction}
               isCurrentlyActive={isCurrentlyActive}
             />
@@ -228,23 +221,26 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
         </td>
       </tr>
 
-      {createPortal(
-        <EditInventoryModal
+      {/* {createPortal(
+        <EditUserModal
           open={showEdit}
           onClose={() => setShowEdit(false)}
-          inventory={inventory}
+          user={user}
         />,
         document.body,
-      )}
+      )} */}
 
-      {createPortal(
+      {/* {createPortal(
         <Modal
           open={!!confirmAction}
           onClose={() => setConfirmAction(null)}
-          title={INVENTORY_CONFIRM_MODAL.title(confirmAction, name)}
+          title={USER_CONFIRM_MODAL.title(
+            confirmAction,
+            `${firstName} ${lastName}`,
+          )}
           description={
-            INVENTORY_CONFIRM_MODAL.description[confirmAction] ??
-            INVENTORY_CONFIRM_MODAL.description.delete
+            USER_CONFIRM_MODAL.description[confirmAction] ??
+            USER_CONFIRM_MODAL.description.delete
           }
           actionText={
             confirmAction === 'activate'
@@ -257,26 +253,21 @@ export default function ManageInventoryRow({ inventory, permissionMap }) {
           onConfirm={handleConfirm}
         />,
         document.body,
-      )}
+      )} */}
 
-      {createPortal(
-        <ManageAccessModal
-          open={showManageAccess}
-          onClose={() => setShowManageAccess(false)}
-          inventory={inventory}
-          accessDetails={accessDetails}
-          isLoading={isAccessLoading}
+      {/* {createPortal(
+        <ManagePermissionModal
+          open={showManagePermission}
+          onClose={() => setShowManagePermission(false)}
+          user={user}
           onSaved={async () => {
-            setShowManageAccess(false);
-
-            await queryClient.refetchQueries({
-              queryKey: ['inventories-with-access'],
-            });
+            setShowManagePermission(false);
+            await queryClient.refetchQueries({ queryKey: ['store-users'] });
             showSuccessToast('Permission updated successfully');
           }}
         />,
         document.body,
-      )}
+      )} */}
     </>
   );
 }

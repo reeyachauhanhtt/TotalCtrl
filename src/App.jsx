@@ -12,8 +12,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   ROUTES,
-  EXTERNAL_ORDER_DETAIL_REGEX,
-  INTERNAL_ORDER_DETAIL_REGEX,
+  // EXTERNAL_ORDER_DETAIL_REGEX,
+  // INTERNAL_ORDER_DETAIL_REGEX,
 } from './constants/routes';
 import Sidebar from './components/Sidebar';
 import Header from './components/Inventory/Header';
@@ -23,6 +23,7 @@ import InternalOrderPage from './pages/InternalOrderPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import ManageItemTemplatePage from './pages/ManageItemTemplatePage';
 import ManageInventories from './pages/ManageInventoriesPage';
+import ManageUser from './pages/ManageUserPage';
 
 import { HeaderSkeleton } from './components/Common/Skeleton';
 
@@ -106,9 +107,10 @@ function Layout() {
   // console.log('JWT Payload:', payload);
 
   function renderHeader() {
-    //no header in manage item template page
+    //no header in manage item template, inventories page
     if (location.pathname === ROUTES.PRODUCT_DATABASE) return null;
     if (location.pathname === ROUTES.MANAGE_STORAGE) return null;
+    if (location.pathname === ROUTES.MANAGE_USER) return null;
 
     //inventory header
     if (!selectedInventory) return <HeaderSkeleton />;
@@ -119,7 +121,8 @@ function Layout() {
     );
     const isFromAnalytics = location.state?.from === 'analytics';
     const isExternalDetail =
-      isDetailOpen || EXTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
+      isDetailOpen ||
+      ROUTES.EXTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
 
     if (isExternalOrders && isExternalDetail) {
       return isFromAnalytics ? (
@@ -145,7 +148,7 @@ function Layout() {
     );
     const isInternalDetail =
       isInternalDetailOpen ||
-      INTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
+      ROUTES.INTERNAL_ORDER_DETAIL_REGEX.test(location.pathname);
 
     if (isInternalOrders && isInternalDetail)
       return <InternalOrderDetailHeader />;
@@ -292,6 +295,7 @@ function Layout() {
               path={ROUTES.MANAGE_STORAGE}
               element={<ManageInventories />}
             />
+            <Route path={ROUTES.MANAGE_USER} element={<ManageUser />} />
           </Routes>
         </div>
       </div>

@@ -19,6 +19,7 @@ export const ROUTES = {
 
   PRODUCT_DATABASE: '/product-database',
   MANAGE_STORAGE: '/manage-storage',
+  MANAGE_USER: '/manage-user',
 
   ROOT: '/',
 
@@ -33,11 +34,11 @@ export const ROUTES = {
   ANALYTICS_BIGGEST_ORDERS: '/analytics/biggestorders',
   ANALYTICS_BIGGEST_SUPPLIERS: '/analytics/biggestsuppliers',
   ANALYTICS_PRICE_VARIATION: '/analytics/pricevariation',
+
+  EXTERNAL_ORDER_DETAIL_REGEX: /\/external-order\/.+\/.+/,
+  INTERNAL_ORDER_DETAIL_REGEX: /\/internal-order\/.+\/.+/,
+
+  inventoryProductLink(inventoryId, productName) {
+    return `${ROUTES.INVENTORY}?id=${inventoryId}&productName=${encodeURIComponent(productName)}`;
+  },
 };
-
-export const EXTERNAL_ORDER_DETAIL_REGEX = /\/external-order\/.+\/.+/;
-export const INTERNAL_ORDER_DETAIL_REGEX = /\/internal-order\/.+\/.+/;
-
-export function inventoryProductLink(inventoryId, productName) {
-  return `${ROUTES.INVENTORY}?id=${inventoryId}&productName=${encodeURIComponent(productName)}`;
-}

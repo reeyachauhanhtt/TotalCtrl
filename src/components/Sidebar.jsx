@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import SettingsDropdown from './Common/SettingsDropdown';
+import { ROUTES } from '../constants/routes';
 
 export default function Sidebar() {
   const location = useLocation();
@@ -43,8 +44,9 @@ export default function Sidebar() {
 
   const isSettingsActive =
     settingsOpen ||
-    location.pathname === '/product-database' ||
-    location.pathname === '/manage-storage';
+    location.pathname === ROUTES.PRODUCT_DATABASE ||
+    location.pathname === ROUTES.MANAGE_STORAGE ||
+    location.pathname === ROUTES.MANAGE_USER;
 
   return (
     <div

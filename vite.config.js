@@ -10,11 +10,16 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       proxy: {
-        '/store-users/permissions': {
+        '/store-users': {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,
           secure: false,
         },
+        // '/store-users/permissions': {
+        //   target: env.VITE_API_BASE_URL,
+        //   changeOrigin: true,
+        //   secure: false,
+        // },
         '/inventory': {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,

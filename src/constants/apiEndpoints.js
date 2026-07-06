@@ -95,4 +95,11 @@ export const API_ENDPOINTS = {
   ANALYTICS_TRANSFER_OUT: '/analytics/transfer/out',
   ANALYTICS_TRANSFER_ITEMS: '/analytics/transfer/items',
   ANALYTICS_TRANSFER_ITEM_INVENTORIES: '/analytics/transfer/item-inventories',
+
+  // ── MANAGE USERS ──
+  MANAGE_USERS: {
+    LIST: '/store-users',
+    ROLES: '/store-users/roles',
+    ADMINS: '/store-users/admins',
+  },
 };

@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 const menuItems = [
   { label: 'Personal Settings', icon: '/icons/Account.svg', path: '#' },
   { label: 'Organization Settings', icon: '/icons/suitcase.svg', path: '#' },
-  { label: 'Manage Users', icon: '/icons/people.svg', path: '#' },
+  { label: 'Manage Users', icon: '/icons/people.svg', path: '/manage-user' },
   { label: 'Manage Roles', icon: '/icons/roles.svg', path: '#' },
   {
     label: 'Manage Inventories',

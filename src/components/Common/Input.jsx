@@ -18,9 +18,9 @@ export default function FormInput({
 
   const wrapperClass = (() => {
     if (disabled) return 'border-[#D7D8E0] bg-[#f1f1f5]';
-    if (focused) return 'border-2 border-[#23a956]';
     if (error)
       return 'border-[#fc5c63] shadow-[0_0_0_1px_#fc5c63] bg-[#fff7f7]';
+    if (focused) return 'border-2 border-[#23a956]';
     return 'border-[#D7D8E0]';
   })();
 

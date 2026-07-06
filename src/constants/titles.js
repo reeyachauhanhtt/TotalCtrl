@@ -28,25 +28,9 @@ export const MODAL_TITLES = {
   DISCARD_CHANGES: 'Discard changes?',
 };
 
-// export const SECTION_TITLES = {};
-
 export const EXTERNAL_ORDER_MODAL_TITLES = {
   deleteOrderFromSupplier: (orderNumber, supplierName) =>
     `Delete order #${orderNumber} from ${supplierName}?`,
-};
-// empty state labels
-export const EMPTY_STATE_LABELS = {
-  noOrdersForTab: (tab) => `No ${tab.toLowerCase()} orders`,
-  NO_ITEMS_TRANSFERRED: 'No items transferred',
-  NO_ITEMS_TRANSFERRED_DESC:
-    "There aren't any items transferred into or from this inventory yet.",
-  NO_DUPLICATE_ITEM_TEMPLATES: 'No duplicate item templates',
-  NO_PRODUCTS: 'You have no products',
-  NO_PRODUCTS_DESC:
-    "To import products in bulk, upload your past orders in pdf, jpg or png format and we'll extract all the products for you.",
-  NO_RESULT_FOUND: 'No result found',
-  NO_DATA_FOUND: 'No data found',
-  NO_PRODUCT_FOUND: 'Sorry no product found',
 };
 
 // internal order
@@ -148,6 +132,35 @@ export const INVENTORY_CONFIRM_MODAL = {
       'If you deactivate this inventory, it wont be visible to the users anymore.',
     delete: 'This action is irreversible',
   },
+};
+
+// manage users
+export const MANAGE_USER_MODAL_TITLES = {
+  ADD_NEW_USER: 'Add new user',
+  EDIT_NEW_USER: 'Edit new user',
+};
+
+export const USER_ACTION_LABELS = {
+  EDIT_USER_INFO: 'Edit user info',
+  MANAGE_PERMISSION: 'Manage permission',
+  ACTIVATE_USER: 'Activate user',
+  DEACTIVATE_USER: 'Deactivate user',
+  DELETE_USER: 'Delete user',
+};
+
+// empty state labels
+export const EMPTY_STATE_LABELS = {
+  noOrdersForTab: (tab) => `No ${tab.toLowerCase()} orders`,
+  NO_ITEMS_TRANSFERRED: 'No items transferred',
+  NO_ITEMS_TRANSFERRED_DESC:
+    "There aren't any items transferred into or from this inventory yet.",
+  NO_DUPLICATE_ITEM_TEMPLATES: 'No duplicate item templates',
+  NO_PRODUCTS: 'You have no products',
+  NO_PRODUCTS_DESC:
+    "To import products in bulk, upload your past orders in pdf, jpg or png format and we'll extract all the products for you.",
+  NO_RESULT_FOUND: 'No result found',
+  NO_DATA_FOUND: 'No data found',
+  NO_PRODUCT_FOUND: 'Sorry no product found',
 };
 
 export const VALIDATION_LABELS = {

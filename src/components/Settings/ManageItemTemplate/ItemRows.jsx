@@ -9,7 +9,7 @@ import ConfirmModal from '../../Common/ConfirmModal';
 import Checkbox from '../../Common/Checkbox';
 import AppTooltip from '../../Common/Tooltip';
 import { deleteItemTemplate } from '../../../services/manageItemTemplateService';
-import { inventoryProductLink } from '../../../constants/routes';
+import { ROUTES } from '../../../constants/routes';
 import { ITEM_TEMPLATE_MODAL_TITLES } from '../../../constants/titles';
 
 const MAX_VISIBLE_INVENTORIES = 3;
@@ -243,7 +243,7 @@ export default function ItemRow({
                       //navigate to inventory page
                       <a
                         key={inv.id}
-                        href={inventoryProductLink(inv.id, rowItem.name)}
+                        href={ROUTES.inventoryProductLink(inv.id, rowItem.name)}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
@@ -278,7 +278,10 @@ export default function ItemRow({
                         <div className='flex flex-col gap-1'>
                           {inStock.slice(MAX_VISIBLE_INVENTORIES).map((inv) => (
                             <Link
-                              to={inventoryProductLink(inv.id, rowItem.name)}
+                              to={ROUTES.inventoryProductLink(
+                                inv.id,
+                                rowItem.name,
+                              )}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full block'
@@ -485,7 +488,10 @@ export default function ItemRow({
                           const name = inv?.name ?? inv;
                           return (
                             <Link
-                              to={inventoryProductLink(inv.id, dupItem.name)}
+                              to={ROUTES.inventoryProductLink(
+                                inv.id,
+                                dupItem.name,
+                              )}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='text-[13px] font-semibold leading-5 text-[#23a956] underline cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap w-full'
