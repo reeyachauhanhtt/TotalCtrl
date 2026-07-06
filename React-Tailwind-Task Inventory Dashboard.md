@@ -6,12 +6,12 @@ Build a **Main Inventory Dashboard UI** using **React.js and Tailwind CSS**, the
 
 This assignment evaluates your understanding of:
 
-* React component structure
-* Reusable components
-* Tailwind CSS styling
-* State management
-* API integration
-* Clean folder structure
+- React component structure
+- Reusable components
+- Tailwind CSS styling
+- State management
+- API integration
+- Clean folder structure
 
 ---
 
@@ -25,19 +25,19 @@ Create a page similar to the **Main Inventory Dashboard**.
 
 Create a fixed left sidebar with the following menu items:
 
-* Inventories
-* External Orders
-* Internal Orders
-* Analytics
-* Inventory Count
-* COGS Calculator
-* Settings
+- Inventories
+- External Orders
+- Internal Orders
+- Analytics
+- Inventory Count
+- COGS Calculator
+- Settings
 
 ### Requirements
 
-* Highlight **Inventories** as active
-* Icons can be placeholders
-* Sidebar should remain fixed on the left side
+- Highlight **Inventories** as active
+- Icons can be placeholders
+- Sidebar should remain fixed on the left side
 
 **Estimated Time:** 45 min
 
@@ -47,15 +47,15 @@ Create a fixed left sidebar with the following menu items:
 
 Create a header containing:
 
-* Page title: **Inventories**
-* Inventory selector dropdown
-* Notification icon
+- Page title: **Inventories**
+- Inventory selector dropdown
+- Notification icon
 
 Buttons:
 
-* Download CSV
-* Transfer Items
-* Add Items
+- Download CSV
+- Transfer Items
+- Add Items
 
 **Estimated Time:** 30 min
 
@@ -79,9 +79,9 @@ Add filters above the table.
 
 Filters should include:
 
-* Supplier dropdown
-* Items dropdown
-* Search input
+- Supplier dropdown
+- Items dropdown
+- Search input
 
 The **search input should filter table data locally**.
 
@@ -93,18 +93,18 @@ The **search input should filter table data locally**.
 
 Create a table with the following columns:
 
-* Item
-* Arrival Info
-* Expiration Info
-* Quantity
-* Unit Price
-* Total Value
-* Actions
+- Item
+- Arrival Info
+- Expiration Info
+- Quantity
+- Unit Price
+- Total Value
+- Actions
 
 ### Actions
 
-* Edit icon
-* More options icon
+- Edit icon
+- More options icon
 
 **Estimated Time:** 1.5 hour
 
@@ -131,26 +131,26 @@ Example:
 ```javascript
 const inventory = [
   {
-    name: "1 L LETTMELK 0,5%",
+    name: '1 L LETTMELK 0,5%',
     quantity: 0,
-    unitPrice: "Bundle",
+    unitPrice: 'Bundle',
     price: 50,
-    currency: "kr", 
+    currency: 'kr',
     total: 0,
     arraivalInfo: '02-03-2026',
     expirationInfo: '02-03-2026',
-    status: "out_of_stock"
+    status: 'out_of_stock',
   },
   {
-    name: "GRØNNSAKSBL JULIENNE",
+    name: 'GRØNNSAKSBL JULIENNE',
     quantity: 75,
-    unit: "Kilogram",
+    unit: 'Kilogram',
     unitPrice: 73.5,
-    currency: "kr", 
+    currency: 'kr',
     arraivalInfo: null,
     expirationInfo: null,
-    total: 5512.5
-  }
+    total: 5512.5,
+  },
 ];
 ```
 
@@ -163,7 +163,6 @@ const inventory = [
 After completing the UI using dummy data, integrate the **Inventory Table with API data**.
 
 ---
-
 
 ## 1. API Documentation
 
@@ -192,9 +191,9 @@ src
 
 ### Task
 
-* Create a function to fetch inventory data from an API
-* Use Axios to make the request
-* Export the function so it can be used in the page component
+- Create a function to fetch inventory data from an API
+- Use Axios to make the request
+- Export the function so it can be used in the page component
 
 ---
 
@@ -204,9 +203,9 @@ Fetch inventory data when the **Inventory page loads**.
 
 ### Requirements
 
-* Use `useEffect`
-* Store API response using `useState`
-* Pass the fetched data to the **InventoryTable component**
+- Use `useEffect`
+- Store API response using `useState`
+- Pass the fetched data to the **InventoryTable component**
 
 ---
 
@@ -226,8 +225,8 @@ Handle API errors properly.
 
 ### Requirements
 
-* Display an error message if the request fails
-* Log the error in the console
+- Display an error message if the request fails
+- Log the error in the console
 
 Example:
 
@@ -247,7 +246,7 @@ The search input should filter **items received from the API**.
 
 Search should work based on:
 
-* Item Name
+- Item Name
 
 ---
 
@@ -290,9 +289,14 @@ Submit the following:
 
 | Task            | Expected Time |
 | --------------- | ------------- |
-| UI Development  | 4 – 5 hours  |
-| API Integration | 2 – 3 hours  |
+| UI Development  | 4 – 5 hours   |
+| API Integration | 2 – 3 hours   |
 
 ### Total Expected Time
 
 **7 – 9 hours**
+
+pattern for env file
+VITE_API_BASE_URL='https://dev.totalctrl.com:2053'
+VITE_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzNjODJhNy0xMzY4LTRlZTMtOGI5OC0zNmYyNzM1YjJkNmEiLCJlbWFpbCI6ImRldkB0b3RhbGN0cmwubm8iLCJzdG9yZUlkIjoiYWQxZjM5NTQtYjhjNS00N2IyLThiOWMtMzMzN2E3OWRkMzIwIiwidXNlclJvbGVJZCI6IjhjN2I5NDVlLTI1YTctNGNjYS04ZjU0LTZlMGNiYjM5YWYzMyIsIm9hdXRoUHJvdmlkZXIiOm51bGwsImlhdCI6MTc4MzMxMDk3MSwiZXhwIjoxNzgzMzk3MzcxfQ.KifOMZUpqaiVSLOsSPI8G1n_KIfzab8M3ZdGKFdc2-U
+VITE_CURRENCY_ID=06299196-0cf5-4d99-a1ea-934b9e730640
