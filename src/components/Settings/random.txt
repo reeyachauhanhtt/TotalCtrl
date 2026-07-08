@@ -1,1086 +1,377 @@
-<div class="card card-table">
-   <div style="border-bottom: 1px solid rgb(230, 230, 237); border-top: 1px solid rgb(230, 230, 237); background-color: rgb(248, 249, 250);">
-      <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto;">
-         <thead style="margin: 0px 48px;">
-            <tr height="48px">
-               <th class="pd-y-5 tx-left" style="width: 18%;">FULL NAME</th>
-               <th class="pd-y-5 tx-left" style="width: 30%;">E-MAIL / USERNAME</th>
-               <th class="pd-y-5 tx-left pl-0" style="width: 8%;">USER ROLE</th>
-               <th class="pd-y-5 tx-left pl-0" style="width: 14%;">STATUS</th>
-               <th class="pd-y-5 tx-left " style="width: 5%;"></th>
-            </tr>
-         </thead>
-      </table>
-   </div>
-   <div id="scrollableDiv">
-      <div>
-         <div class="infinite-scroll-component scrollClassUsers" style="height: calc(100% - 100px); overflow: auto;">
-            <table class="table mg-b-0 tx-13 inventorytbl" style="width: 95%; margin: auto; table-layout: fixed;">
-               <tbody>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Test dev" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(31, 142, 78); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>TD</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Test dev <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">rahulcpavarhtt@gmail.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;e7d2db87-2959-41eb-9b6c-a773e847a579&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Test&quot;,&quot;lastName&quot;:&quot;dev&quot;,&quot;email&quot;:&quot;rahulcpavarhtt@gmail.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Developer&quot;,&quot;avatarColor&quot;:&quot;#1F8E4E&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2026-06-02T06:24:26.158Z&quot;,&quot;updatedAt&quot;:&quot;2026-06-02T04:24:26.159Z&quot;,&quot;emailVerified&quot;:true}" data-for="moree7d2db87-2959-41eb-9b6c-a773e847a579" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="moree7d2db87-2959-41eb-9b6c-a773e847a579" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Test user" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(236, 86, 95); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>TU</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Test user <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">webdev7399@gmail.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">User</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;7d7f46a5-24ec-4d42-8783-edbd77cec630&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Test&quot;,&quot;lastName&quot;:&quot;user&quot;,&quot;email&quot;:&quot;webdev7399@gmail.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;85f7af90-79ee-4ffe-bc5d-8d29b9b02ef6&quot;,&quot;userRoleName&quot;:&quot;User&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Developer&quot;,&quot;avatarColor&quot;:&quot;#EC565F&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2026-05-01T09:32:24.616Z&quot;,&quot;updatedAt&quot;:&quot;2026-05-01T07:32:24.617Z&quot;,&quot;emailVerified&quot;:true}" data-for="more7d7f46a5-24ec-4d42-8783-edbd77cec630" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more7d7f46a5-24ec-4d42-8783-edbd77cec630" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Test User" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(239, 154, 220); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>TU</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Test User <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">manager</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">test@user.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">clerk</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;a8db6a35-9409-4665-aa3f-507760fae96d&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Test&quot;,&quot;lastName&quot;:&quot;User&quot;,&quot;email&quot;:&quot;test@user.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;141728cd-fccd-4a72-9b67-66d721443e2e&quot;,&quot;userRoleName&quot;:&quot;clerk&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;manager&quot;,&quot;avatarColor&quot;:&quot;#EF9ADC&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2026-04-01T12:24:25.118Z&quot;,&quot;updatedAt&quot;:&quot;2026-04-01T10:24:25.119Z&quot;,&quot;emailVerified&quot;:true}" data-for="morea8db6a35-9409-4665-aa3f-507760fae96d" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="morea8db6a35-9409-4665-aa3f-507760fae96d" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Tanvi Upadhyay" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(231, 196, 12); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>TU</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Tanvi Upadhyay <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Manager</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">tanvi.handstogethertech@gmail.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;51e81b03-0a6e-4579-bcac-f817da29f33a&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Tanvi&quot;,&quot;lastName&quot;:&quot;Upadhyay&quot;,&quot;email&quot;:&quot;tanvi.handstogethertech@gmail.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Manager&quot;,&quot;avatarColor&quot;:&quot;#E7C40C&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2026-03-17T05:48:20.395Z&quot;,&quot;updatedAt&quot;:&quot;2026-03-17T06:44:56.642Z&quot;,&quot;emailVerified&quot;:true}" data-for="more51e81b03-0a6e-4579-bcac-f817da29f33a" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more51e81b03-0a6e-4579-bcac-f817da29f33a" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Vikas patel" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(77, 178, 221); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>VP</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Vikas patel <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">dev</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vikas888</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Doctor</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;d7d5efb4-be15-44d5-a24a-4a516e5d53e5&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Vikas&quot;,&quot;lastName&quot;:&quot;patel&quot;,&quot;email&quot;:null,&quot;userName&quot;:&quot;vikas888&quot;,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;1ea94098-48db-4544-a8d4-9806b4cc37ea&quot;,&quot;userRoleName&quot;:&quot;Doctor&quot;,&quot;referenceUserId&quot;:&quot;74d66466-e906-4f7c-bb9d-45dca17ab0ea&quot;,&quot;referenceUserEmail&quot;:&quot;vikas@totalctrl.no&quot;,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;dev&quot;,&quot;avatarColor&quot;:&quot;#4DB2DD&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-08-17T23:31:20.000Z&quot;,&quot;updatedAt&quot;:&quot;2026-02-27T13:38:54.901Z&quot;,&quot;emailVerified&quot;:true}" data-for="mored7d5efb4-be15-44d5-a24a-4a516e5d53e5" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="mored7d5efb4-be15-44d5-a24a-4a516e5d53e5" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Test User" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(239, 154, 220); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>TU</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Test User <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Tester</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">testusr</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Nurse</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;d26a4d8c-1c55-4a52-86ae-c33b86e4e24a&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Test&quot;,&quot;lastName&quot;:&quot;User&quot;,&quot;email&quot;:null,&quot;userName&quot;:&quot;testusr&quot;,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;569e13dd-f375-4a50-b963-067a15cbbf39&quot;,&quot;userRoleName&quot;:&quot;Nurse&quot;,&quot;referenceUserId&quot;:&quot;74d66466-e906-4f7c-bb9d-45dca17ab0ea&quot;,&quot;referenceUserEmail&quot;:&quot;vikas@totalctrl.no&quot;,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Tester&quot;,&quot;avatarColor&quot;:&quot;#EF9ADC&quot;,&quot;priorityId&quot;:&quot;409be492-26c7-4e22-bca0-84747ed13dfb&quot;,&quot;isOnboardingFilled&quot;:1,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-08-12T01:43:40.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-08-28T23:27:05.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="mored26a4d8c-1c55-4a52-86ae-c33b86e4e24a" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="mored26a4d8c-1c55-4a52-86ae-c33b86e4e24a" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="vikas patel" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(198, 187, 253); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>VP</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">vikas patel <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vikas2244</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Guardian of Goods</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;856cb39b-c7dd-44fd-9a9f-14f9fe35be12&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;vikas&quot;,&quot;lastName&quot;:&quot;patel&quot;,&quot;email&quot;:null,&quot;userName&quot;:&quot;vikas2244&quot;,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;9d2dd1e5-ec6f-49d1-a9a8-16b36b4a36ce&quot;,&quot;userRoleName&quot;:&quot;Guardian of Goods&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;developer&quot;,&quot;avatarColor&quot;:&quot;#C6BBFD&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-08-12T01:03:55.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-08-13T03:42:48.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more856cb39b-c7dd-44fd-9a9f-14f9fe35be12" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more856cb39b-c7dd-44fd-9a9f-14f9fe35be12" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="vikas patel" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(32, 78, 196); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>VP</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">vikas patel <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vkyptl</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;b18f4d15-c352-4fab-b85e-e04b8f95e6d9&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;vikas&quot;,&quot;lastName&quot;:&quot;patel&quot;,&quot;email&quot;:null,&quot;userName&quot;:&quot;vkyptl&quot;,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;developer&quot;,&quot;avatarColor&quot;:&quot;#204EC4&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-08-11T09:00:39.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-08-11T07:00:39.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="moreb18f4d15-c352-4fab-b85e-e04b8f95e6d9" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="moreb18f4d15-c352-4fab-b85e-e04b8f95e6d9" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="vikas patel" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(32, 78, 196); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>VP</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">vikas patel <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vkyptl@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;11772ea4-7a29-48f9-a90d-375240898b67&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;vikas&quot;,&quot;lastName&quot;:&quot;patel&quot;,&quot;email&quot;:&quot;vkyptl@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;developer&quot;,&quot;avatarColor&quot;:&quot;#204EC4&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-08-11T08:59:56.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-08-11T06:59:56.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more11772ea4-7a29-48f9-a90d-375240898b67" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more11772ea4-7a29-48f9-a90d-375240898b67" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="vikas " style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(173, 50, 57); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>V</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">vikas <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Manager</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vikashtt2244+1@gmail.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;44e8479b-3137-4ae5-a970-7b72c3dc6fec&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;vikas&quot;,&quot;lastName&quot;:null,&quot;email&quot;:&quot;vikashtt2244+1@gmail.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Manager&quot;,&quot;avatarColor&quot;:&quot;#AD3239&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-05-15T04:51:48.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-05-15T02:51:48.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more44e8479b-3137-4ae5-a970-7b72c3dc6fec" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more44e8479b-3137-4ae5-a970-7b72c3dc6fec" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Patel sweety" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(173, 50, 57); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>PS</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Patel sweety <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">CEO</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">patelsweety86@gmail.com</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">User</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;3989b181-e905-4967-af37-e29ee68a5bb3&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Patel&quot;,&quot;lastName&quot;:&quot;sweety&quot;,&quot;email&quot;:&quot;patelsweety86@gmail.com&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;85f7af90-79ee-4ffe-bc5d-8d29b9b02ef6&quot;,&quot;userRoleName&quot;:&quot;User&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;CEO&quot;,&quot;avatarColor&quot;:&quot;#AD3239&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-04-25T07:03:18.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-04-25T05:03:18.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more3989b181-e905-4967-af37-e29ee68a5bb3" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more3989b181-e905-4967-af37-e29ee68a5bb3" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Vikas Patel" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(31, 142, 78); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>VP</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Vikas Patel <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Dev</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vikas@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;74d66466-e906-4f7c-bb9d-45dca17ab0ea&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Vikas&quot;,&quot;lastName&quot;:&quot;Patel&quot;,&quot;email&quot;:&quot;vikas@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Dev&quot;,&quot;avatarColor&quot;:&quot;#1F8E4E&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:1,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-04-25T06:48:53.000Z&quot;,&quot;updatedAt&quot;:&quot;2026-05-19T06:43:04.627Z&quot;,&quot;emailVerified&quot;:true}" data-for="more74d66466-e906-4f7c-bb9d-45dca17ab0ea" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more74d66466-e906-4f7c-bb9d-45dca17ab0ea" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Patel Sweety" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(231, 196, 12); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>PS</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Patel Sweety <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">CEO</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">patel+4417@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;37d99d52-a65c-44d1-8638-ccc06f85b402&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Patel&quot;,&quot;lastName&quot;:&quot;Sweety&quot;,&quot;email&quot;:&quot;patel+4417@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;CEO&quot;,&quot;avatarColor&quot;:&quot;#E7C40C&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:0,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-04-25T06:19:44.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-04-25T04:19:44.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more37d99d52-a65c-44d1-8638-ccc06f85b402" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more37d99d52-a65c-44d1-8638-ccc06f85b402" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="vikas " style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(66, 58, 141); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>V</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">vikas <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">vikasssss@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">User</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;bca35d2c-85a5-4792-91e2-ceb0bb6affcc&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;vikas&quot;,&quot;lastName&quot;:null,&quot;email&quot;:&quot;vikasssss@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;85f7af90-79ee-4ffe-bc5d-8d29b9b02ef6&quot;,&quot;userRoleName&quot;:&quot;User&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Developer&quot;,&quot;avatarColor&quot;:&quot;#423A8D&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:1,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-04-03T01:09:40.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-04-25T06:48:18.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="morebca35d2c-85a5-4792-91e2-ceb0bb6affcc" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="morebca35d2c-85a5-4792-91e2-ceb0bb6affcc" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Gardians of goods" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(26, 113, 61); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>GO</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Gardians of goods <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">stockcountdev@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Guardian of Goods</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;d4707ead-b131-47f1-bc26-11e330443fa2&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Gardians&quot;,&quot;lastName&quot;:&quot;of goods&quot;,&quot;email&quot;:&quot;stockcountdev@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;9d2dd1e5-ec6f-49d1-a9a8-16b36b4a36ce&quot;,&quot;userRoleName&quot;:&quot;Guardian of Goods&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Developer&quot;,&quot;avatarColor&quot;:&quot;#1A713D&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2025-01-03T02:01:47.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-03-03T06:16:56.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="mored4707ead-b131-47f1-bc26-11e330443fa2" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="mored4707ead-b131-47f1-bc26-11e330443fa2" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="user333 totalctrl" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(77, 178, 221); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>UT</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">user333 totalctrl <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Tester</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">user333@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;5114faff-a4dd-42ef-8df1-61909a783add&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;user333&quot;,&quot;lastName&quot;:&quot;totalctrl&quot;,&quot;email&quot;:&quot;user333@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Tester&quot;,&quot;avatarColor&quot;:&quot;#4DB2DD&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2024-12-09T04:41:02.000Z&quot;,&quot;updatedAt&quot;:&quot;2024-12-09T03:41:02.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more5114faff-a4dd-42ef-8df1-61909a783add" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more5114faff-a4dd-42ef-8df1-61909a783add" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="user444 totalctrl" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(243, 146, 32); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>UT</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">user444 totalctrl <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Tester</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">user444@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;c6547aeb-1b7f-4401-8c63-9386f1c9498a&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;user444&quot;,&quot;lastName&quot;:&quot;totalctrl&quot;,&quot;email&quot;:&quot;user444@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Tester&quot;,&quot;avatarColor&quot;:&quot;#F39220&quot;,&quot;priorityId&quot;:&quot;409be492-26c7-4e22-bca0-84747ed13dfb&quot;,&quot;isOnboardingFilled&quot;:1,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2024-12-09T04:38:51.000Z&quot;,&quot;updatedAt&quot;:&quot;2025-04-03T00:01:09.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="morec6547aeb-1b7f-4401-8c63-9386f1c9498a" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="morec6547aeb-1b7f-4401-8c63-9386f1c9498a" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="sagar totalctrl" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(67, 190, 113); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>ST</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">sagar totalctrl <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">manager</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">sagar@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;0f4db8fd-2838-4753-916c-29a61c38ec12&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;sagar&quot;,&quot;lastName&quot;:&quot;totalctrl&quot;,&quot;email&quot;:&quot;sagar@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;manager&quot;,&quot;avatarColor&quot;:&quot;#43BE71&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2024-12-09T04:31:56.000Z&quot;,&quot;updatedAt&quot;:&quot;2024-12-09T03:31:56.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="more0f4db8fd-2838-4753-916c-29a61c38ec12" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="more0f4db8fd-2838-4753-916c-29a61c38ec12" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Sweety totalctrl" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(198, 187, 253); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>ST</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Sweety totalctrl <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Manager</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">sweety@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;d646f7e7-087c-436b-a6b4-eebaecb70b11&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Sweety&quot;,&quot;lastName&quot;:&quot;totalctrl&quot;,&quot;email&quot;:&quot;sweety@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Manager&quot;,&quot;avatarColor&quot;:&quot;#C6BBFD&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2024-12-09T04:31:30.000Z&quot;,&quot;updatedAt&quot;:&quot;2024-12-09T03:31:30.000Z&quot;,&quot;emailVerified&quot;:true}" data-for="mored646f7e7-087c-436b-a6b4-eebaecb70b11" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-bottom type-dark allow_click" id="mored646f7e7-087c-436b-a6b4-eebaecb70b11" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-                  <tr height="72px">
-                     <td class="pd-y-5 tx-left" style="width: 18%;">
-                        <div style="display: -webkit-flex;">
-                           <div class="avtar_users">
-                              <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 32px; height: 32px; border-radius: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: 600; border: 1px solid white;">
-                                 <div class=" sb-avatar__text" title="Manish Totalctrl" style="width: 32px; height: 32px; line-height: initial; text-align: center; color: rgb(255, 255, 255); background: rgb(198, 187, 253); border-radius: 20px;">
-                                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 10px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>MT</span></span></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="multiple" style="margin-left: 12px;"><span class="dark-text text-capitalize" style="width: 100%; font-weight: bold;">Manish Totalctrl <label class="grey-text" style="font-weight: lighter; color: rgb(107, 107, 111);"></label></span><br><span class="grey-text text-capitalize">Developer</span></div>
-                        </div>
-                     </td>
-                     <td class="pd-y-5 tx-left" style="width: 30%; padding-top: 35px;"><span class="dark-text">manish@totalctrl.no</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 8%; padding-top: 35px;"><span class="dark-text text-capitalize">Admin</span></td>
-                     <td class="pd-y-5 tx-left" style="width: 14%; padding-top: 35px;"><label class="neutral-lbl highlightedstock" style="background-color: rgb(220, 241, 227); color: rgb(15, 111, 54);">Active</label></td>
-                     <td class="pd-y-5 tx-left" style="width: 5%; padding-top: 35px;">
-                        <img class="moreOption" src="./img/more_verticle_icon.png" data-tip="{&quot;id&quot;:&quot;74d4f4ff-499f-468b-b9a4-2dc06605259d&quot;,&quot;storeId&quot;:&quot;ad1f3954-b8c5-47b2-8b9c-3337a79dd320&quot;,&quot;firstName&quot;:&quot;Manish&quot;,&quot;lastName&quot;:&quot;Totalctrl&quot;,&quot;email&quot;:&quot;manish@totalctrl.no&quot;,&quot;userName&quot;:null,&quot;phoneCode&quot;:null,&quot;phoneNumber&quot;:null,&quot;userRoleId&quot;:&quot;8c7b945e-25a7-4cca-8f54-6e0cbb39af33&quot;,&quot;userRoleName&quot;:&quot;Admin&quot;,&quot;referenceUserId&quot;:null,&quot;referenceUserEmail&quot;:null,&quot;status&quot;:true,&quot;jobTitle&quot;:&quot;Developer&quot;,&quot;avatarColor&quot;:&quot;#C6BBFD&quot;,&quot;priorityId&quot;:null,&quot;isOnboardingFilled&quot;:0,&quot;isFirstUser&quot;:0,&quot;isLoginWithMobile&quot;:1,&quot;isActive&quot;:1,&quot;isDeleted&quot;:0,&quot;createdAt&quot;:&quot;2024-12-09T04:30:15.000Z&quot;,&quot;updatedAt&quot;:&quot;2026-06-23T13:04:35.151Z&quot;,&quot;emailVerified&quot;:true}" data-for="more74d4f4ff-499f-468b-b9a4-2dc06605259d" data-event="click" alt="" currentitem="false" style="padding: 4px 10px; cursor: pointer;">
-                        <div class="__react_component_tooltip place-top type-dark allow_click" id="more74d4f4ff-499f-468b-b9a4-2dc06605259d" data-id="tooltip"></div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <div>
-               <table class="table mg-b-0 tx-13" style="width: 95%; margin: auto; table-layout: fixed;">
-                  <tbody>
-                     <tr>
-                        <td class="pd-y-5 tx-left" style="width: 18%;">
-                           <svg aria-labelledby="oqylqhg-aria" role="img" width="100%" height="100%" count="3">
-                              <title id="oqylqhg-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#oqylqhg-diff)" style="fill: url(&quot;#oqylqhg-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="oqylqhg-diff">
-                                    <circle cx="17" cy="30" r="16"></circle>
-                                    <rect x="48" y="20" rx="3" ry="3" width="40%" height="6"></rect>
-                                    <rect x="48" y="35" rx="3" ry="3" width="52" height="6"></rect>
-                                 </clipPath>
-                                 <linearGradient id="oqylqhg-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.2; -0.2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.1; -0.1; 1.1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 1.2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 30%;">
-                           <svg aria-labelledby="gtu5wab-aria" role="img" width="100%" height="100%">
-                              <title id="gtu5wab-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#gtu5wab-diff)" style="fill: url(&quot;#gtu5wab-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="gtu5wab-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="gtu5wab-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 8%; padding-left: 0px;">
-                           <svg aria-labelledby="922rlh-aria" role="img" width="100%" height="100%">
-                              <title id="922rlh-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#922rlh-diff)" style="fill: url(&quot;#922rlh-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="922rlh-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="922rlh-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 14%; padding-left: 0px;">
-                           <svg aria-labelledby="5ggu0i-aria" role="img" width="100%" height="100%">
-                              <title id="5ggu0i-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#5ggu0i-diff)" style="fill: url(&quot;#5ggu0i-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="5ggu0i-diff">
-                                    <rect y="20" width="20%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="5ggu0i-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 5%; padding-left: 0px;">
-                           <svg aria-labelledby="tcc62ld-aria" role="img" width="100%" height="100%">
-                              <title id="tcc62ld-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#tcc62ld-diff)" style="fill: url(&quot;#tcc62ld-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="tcc62ld-diff">
-                                    <rect y="20" width="40%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="tcc62ld-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="pd-y-5 tx-left" style="width: 18%;">
-                           <svg aria-labelledby="oax3lak-aria" role="img" width="100%" height="100%" count="3">
-                              <title id="oax3lak-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#oax3lak-diff)" style="fill: url(&quot;#oax3lak-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="oax3lak-diff">
-                                    <circle cx="17" cy="30" r="16"></circle>
-                                    <rect x="48" y="20" rx="3" ry="3" width="40%" height="6"></rect>
-                                    <rect x="48" y="35" rx="3" ry="3" width="52" height="6"></rect>
-                                 </clipPath>
-                                 <linearGradient id="oax3lak-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.2; -0.2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.1; -0.1; 1.1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 1.2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 30%;">
-                           <svg aria-labelledby="h2ia27m-aria" role="img" width="100%" height="100%">
-                              <title id="h2ia27m-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#h2ia27m-diff)" style="fill: url(&quot;#h2ia27m-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="h2ia27m-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="h2ia27m-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 8%; padding-left: 0px;">
-                           <svg aria-labelledby="ifj3ph-aria" role="img" width="100%" height="100%">
-                              <title id="ifj3ph-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#ifj3ph-diff)" style="fill: url(&quot;#ifj3ph-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="ifj3ph-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="ifj3ph-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 14%; padding-left: 0px;">
-                           <svg aria-labelledby="dtebf98-aria" role="img" width="100%" height="100%">
-                              <title id="dtebf98-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#dtebf98-diff)" style="fill: url(&quot;#dtebf98-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="dtebf98-diff">
-                                    <rect y="20" width="20%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="dtebf98-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 5%; padding-left: 0px;">
-                           <svg aria-labelledby="i8ouzy9-aria" role="img" width="100%" height="100%">
-                              <title id="i8ouzy9-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#i8ouzy9-diff)" style="fill: url(&quot;#i8ouzy9-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="i8ouzy9-diff">
-                                    <rect y="20" width="40%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="i8ouzy9-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="pd-y-5 tx-left" style="width: 18%;">
-                           <svg aria-labelledby="7p78re-aria" role="img" width="100%" height="100%" count="3">
-                              <title id="7p78re-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#7p78re-diff)" style="fill: url(&quot;#7p78re-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="7p78re-diff">
-                                    <circle cx="17" cy="30" r="16"></circle>
-                                    <rect x="48" y="20" rx="3" ry="3" width="40%" height="6"></rect>
-                                    <rect x="48" y="35" rx="3" ry="3" width="52" height="6"></rect>
-                                 </clipPath>
-                                 <linearGradient id="7p78re-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.2; -0.2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-0.1; -0.1; 1.1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 1.2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 30%;">
-                           <svg aria-labelledby="v00rok-aria" role="img" width="100%" height="100%">
-                              <title id="v00rok-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#v00rok-diff)" style="fill: url(&quot;#v00rok-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="v00rok-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="v00rok-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 8%; padding-left: 0px;">
-                           <svg aria-labelledby="bxfnm6f-aria" role="img" width="100%" height="100%">
-                              <title id="bxfnm6f-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#bxfnm6f-diff)" style="fill: url(&quot;#bxfnm6f-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="bxfnm6f-diff">
-                                    <rect y="20" width="50%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="bxfnm6f-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 14%; padding-left: 0px;">
-                           <svg aria-labelledby="zmd7y0j-aria" role="img" width="100%" height="100%">
-                              <title id="zmd7y0j-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#zmd7y0j-diff)" style="fill: url(&quot;#zmd7y0j-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="zmd7y0j-diff">
-                                    <rect y="20" width="20%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="zmd7y0j-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                        <td class="pd-y-5 tx-left" style="width: 5%; padding-left: 0px;">
-                           <svg aria-labelledby="1j2asje-aria" role="img" width="100%" height="100%">
-                              <title id="1j2asje-aria">Loading...</title>
-                              <rect role="presentation" x="0" y="0" width="100%" height="100%" clip-path="url(#1j2asje-diff)" style="fill: url(&quot;#1j2asje-animated-diff&quot;);"></rect>
-                              <defs role="presentation">
-                                 <clipPath id="1j2asje-diff">
-                                    <rect y="20" width="40%" rx="5" ry="5" height="12"></rect>
-                                 </clipPath>
-                                 <linearGradient id="1j2asje-animated-diff">
-                                    <stop offset="0%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="-2; -2; 1" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="50%" stop-color="#B3B3B7" stop-opacity="1">
-                                       <animate attributeName="offset" values="-1; -1; 2" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                    <stop offset="100%" stop-color="#E7E7EC" stop-opacity="1">
-                                       <animate attributeName="offset" values="0; 0; 3" keyTimes="0; 0.25; 1" dur="1s" repeatCount="indefinite"></animate>
-                                    </stop>
-                                 </linearGradient>
-                              </defs>
-                           </svg>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
 
-
-
-element.style {
-    height: calc(100% - 100px);
-    overflow: auto;
-}
-.infinite-scroll-component.scrollFullClassUsers {
-    overflow: auto !important;
-    height: calc(100% - 100px) !important;
-    position: fixed;
-    width: calc(100% - 200px);
-}
-element.style {
-    width: 95%;
-    margin: auto;
-    table-layout: fixed;
-}
-.card-table .table {
-    /* min-width: 500px; */
+.popupbody {
+    font-size: 16px;
+    line-height: 24px;
+    color: #737373;
+    padding: 36px 48px 24px;
 }
 
-.tx-13 {
-    font-size: 13px;
+.pl-0, .px-0 {
+    padding-left: 0 !important;
 }
-.mg-b-0 {
-.table {
-    width: 100%;
+.pr-0, .px-0 {
+    padding-right: 0 !important;
+}
+
+.col-12 {
+    flex: 0 0 100%;
     max-width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
 }
-table {
-    border-collapse: collapse;
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 element.style {
-    width: 18%;
-}
-table td:first-child, table th:first-child {
-    padding-left: 0;
-}
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
     font-size: 14px;
-    line-height: 16px;
+    height: 64px;
+    align-items: center;
+    font-weight: 600;
+}
+.CategoryStep, .CategoryStepRigth {
+    height: 48px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    color: #19191c;
+}
+.CategoryStep {
+.border-bottom {
+.p-0 {
+    padding: 0 !important;
+}
+.m-0 {
+    margin: 0 !important;
+}
+.w-100 {
+    width: 100% !important;
+}
+.justify-content-between {
+    justify-content: space-between !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
 }
 element.style {
     display: -webkit-flex;
+    height: 32px;
+    margin-bottom: 20px;
 }
-reusable user avatar component 
+element.style {
+    display: inline-block;
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+REUSABLE USER AVATAR COMPONENT 
 element.style {
     margin-left: 12px;
 }
-.inventorytbl td .multiple {
-    display: block;
-    margin: 0 0 20px;
+element.style {
+    text-transform: capitalize;
+    width: 100%;
+    font-weight: 600;
+    font-size: 20px;
+}
+.dark-text {
+    color: #19191c;
 }
 element.style {
+    text-transform: capitalize;
     width: 100%;
-    font-weight: bold;
+    font-weight: 400;
+    color: rgb(107, 107, 111);
 }
-.inventorytbl td .multiple span {
-.inventorytbl span.dark-text {
-    font-style: normal;
+
+element.style {
+    overflow-y: auto;
+    height: calc(-300px + 100vh);
+}
+.pl-0, .px-0 {
+    padding-left: 0 !important;
+}
+.pr-0, .px-0 {
+    padding-right: 0 !important;
+}
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+element.style {
     font-size: 14px;
+    height: 72px;
+    align-items: center;
+    font-weight: 600;
+}
+.CategoryStep, .CategoryStepRigth {
+    height: 48px;
+    margin: 0;
+    font-size: 16px;
     line-height: 20px;
     color: #19191c;
 }
 
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
+.CategoryStep {
+.border-bottom {
+.p-0 {
+    padding: 0 !important;
 }
-.inventorytbl span {
-    d
-    element.style {
-    font-weight: lighter;
-    color: rgb(107, 107, 111);
+.m-0 {
+    margin: 0 !important;
+}
+.w-100 {
+    width: 100% !important;
+}
+.justify-content-between {
+    justify-content: space-between !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
 }
 label {
     display: inline-block;
 }
-.inventorytbl td .multiple span {
-    width: 108px;
+
+element.style {
+    width: 100px;
 }
-.inventorytbl span.grey-text {
-    font-style: normal;
-    font-size: 13px;
-    line-height: 16px;
-    color: #6b6b6f;
+.dd-wrapper {
+    -webkit-user-select: none;
+    user-select: none;
+    position: relative;
+    width: 160px;
 }
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
-}
-.inventorytbl span {
-    display: unset;
-}
-.text-capitalize {
-    text-transform: capitalize !important;
+
+.mr-4, .mx-4 {
+    margin-right: 1.5rem !important;
 }
 
 element.style {
-    width: 30%;
-    padding-top: 35px;
+    height: 36px;
+    width: 100px;
 }
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
+.dd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 38px;
+    border: 1px solid #dfdfdf;
+    border-radius: 3px;
+    cursor: default;
+    position: relative;
+    transition: all .1s;
+    background-color: #f1f1f5;
 }
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
+.dd-header-title {
+    font-weight: 300;
+    margin: 2px 30px 2px 20px;
+    line-height: 20px;
 }
-
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
+.ml-3, .mx-3 {
+    margin-left: 1rem !important;
+}
+.m-0 {
+    margin: 0 !important;
+}
+img {
     vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
+    border-style: none;
 }
 
+<ul class="dd-list" style="width: 274px; right: 0px; max-height: none; overflow-y: auto;"><li class="dd-list-item" style="white-space: normal;"><div><p style="color: rgb(25, 25, 28); font-weight: 600; font-size: 14px;">Editor</p><p style="color: rgb(107, 107, 111); font-weight: 400; font-size: 12px;">Can do all that the viewer can do, plus check items in and out of the inventory, add new products, adjust product quantity</p></div></li><li class="dd-list-item selected" style="white-space: normal;"><div><p style="color: rgb(25, 25, 28); font-weight: 600; font-size: 14px;">No Access<img src="./img/check-small.svg"></p><p style="color: rgb(107, 107, 111); font-weight: 400; font-size: 12px;">Doesn’t have access to this inventory</p></div></li><li class="dd-list-item" style="white-space: normal;"><div><p style="color: rgb(25, 25, 28); font-weight: 600; font-size: 14px;">Viewer</p><p style="color: rgb(107, 107, 111); font-weight: 400; font-size: 12px;">Can view the inventory and inventory analytics</p></div></li></ul>
 element.style {
+    width: 274px;
+    right: 0px;
+    max-height: none;
+    overflow-y: auto;
 }
-.inventorytbl span.dark-text {
+@media (max-height: 800px) {
+    
+.dd-list, .dd-list-prod {
+}
+
+.dd-list {
+.dd-list, .dd-list-prod {
+    z-index: 10;
+    position: absolute;
+    box-shadow: 0 2px 5px -1px #e8e8e8;
+    font-weight: 700;
+    padding: 15px 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+    border: 1px solid #d7d7db;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+li, ul {
+    list-style: none;
+}
+body, li, ul {
+    margin: 0;
+    padding: 0;
+}
+element.style {
+    white-space: normal;
+}
+.dd-wrapper .dd-list-item {
+    display: flex !important;
+    justify-content: space-between;
     font-style: normal;
+    font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     color: #19191c;
-}
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
+    padding: 8px 20px !important;
 }
 
-.inventorytbl span {
-    display: unset;
+.dd-list-item {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 8px 10px;
+    line-height: 1.6rem;
+    cursor: default;
+    display: inline-block;
+    white-space: break-spaces;
+    text-overflow: ellipsis;
+}
+li, ul {
+    list-style: none;
+}
+body, li, ul {
+    margin: 0;
+    padding: 0;
+}
+
+element.style {
+    color: rgb(25, 25, 28);
+    font-weight: 600;
+    font-size: 14px;
+}
+p {
+    margin: 0;
+    padding: 0;
 }
 element.style {
-    width: 8%;
-    padding-top: 35px;
+    white-space: normal;
 }
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
+.dd-list-item-template:hover, .dd-wrapper .dd-list-item:hover {
+    color: #19191c !important;
+    background-color: #f1f1f5 !important;
 }
-
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-.inventorytbl span.dark-text {
+.dd-wrapper .dd-list-item {
+    display: flex !important;
+    justify-content: space-between;
     font-style: normal;
+    font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     color: #19191c;
+    padding: 8px 20px !important;
 }
-.table td span {
-    border-top-color: #dee2e6;
-    color: #5b636a;
+.dd-list-item:hover {
+.dd-list-item {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 8px 10px;
+    line-height: 1.6rem;
+    cursor: default;
+    display: inline-block;
+    white-space: break-spaces;
+    text-overflow: ellipsis;
+}
+li, ul {
+    list-style: none;
+}
+body, li, ul {
+    margin: 0;
+    padding: 0;
 }
 
-.inventorytbl span {
-    display: unset;
+element.style {
+    color: rgb(25, 25, 28);
+    font-weight: 600;
+    font-size: 14px;
 }
-.dark-text {
-.text-capitalize {
-    text-transform: capitalize !important;
+p {
+    margin: 0;
+    padding: 0;
 }
 element.style {
-    width: 14%;
-    padding-top: 35px;
+    color: rgb(107, 107, 111);
+    font-weight: 400;
+    font-size: 12px;
 }
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
+p {
+    margin: 0;
+    padding: 0;
 }
-
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
-}
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
-}
-.tx-left {
-    text-align: left;
-}
-.pd-y-5 {
-table td {
-    height: 72px;
-}
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
-    font-size: 14px;
-    line-height: 16px;
-}
-reuswable status badge component 
 element.style {
-    width: 5%;
-    padding-top: 35px;
+    white-space: normal;
 }
-table td:last-child, table th:last-child {
-    padding-right: 0;
-}
-.inventorytbl td {
-    vertical-align: top;
-    padding-top: 26px;
-}
-.table td {
-    border-top-color: #dee2e6;
-    color: #333333;
+.dd-wrapper .dd-list-item {
+    display: flex !important;
+    justify-content: space-between;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #19191c;
+    padding: 8px 20px !important;
 }
 
-.table th, .table td {
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: middle;
-    /* vertical-align: top; */
-    /* border-top: 1px solid #dee2e6; */
+.dd-list-item.selected {
+    background-color: #eaf7ee;
 }
-.tx-left {
-    text-align: left;
+.dd-list-item {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 8px 10px;
+    line-height: 1.6rem;
+    cursor: default;
+    display: inline-block;
+    white-space: break-spaces;
+    text-overflow: ellipsis;
 }
-.pd-y-5 {
-table td {
-    height: 72px;
+li, ul {
+    list-style: none;
 }
-.tablepopup td, table td {
-    border-bottom: 1px solid #e6e6ed;
+body, li, ul {
+    margin: 0;
+    padding: 0;
+}
+element.style {
+    color: rgb(25, 25, 28);
+    font-weight: 600;
     font-size: 14px;
-    line-height: 16px;
 }
-Action Menu Dropdown 
+p {
+    margin: 0;
+    padding: 0;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+element.style {
+    color: rgb(107, 107, 111);
+    font-weight: 400;
+    font-size: 12px;
+}
+p {
+    margin: 0;
+    padding: 0;
+}

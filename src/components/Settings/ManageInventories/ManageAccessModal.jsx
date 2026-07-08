@@ -5,7 +5,7 @@ import { FiX, FiChevronDown } from 'react-icons/fi';
 
 import WhiteButton from '../../Common/WhiteButton';
 import GreenButton from '../../Common/GreenButton';
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../common/UserAvatar';
 import {
   fetchStoreUserPermissions,
   updateInventoryAccess,

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import { getUserIdFromToken } from '../../../services/analyticsService';
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../common/UserAvatar';
 
 function AvatarTooltip({ user, anchorRef, isCurrentUser }) {
   const tooltipRef = useRef(null);

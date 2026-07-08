@@ -137,7 +137,8 @@ export const INVENTORY_CONFIRM_MODAL = {
 // manage users
 export const MANAGE_USER_MODAL_TITLES = {
   ADD_NEW_USER: 'Add new user',
-  EDIT_NEW_USER: 'Edit new user',
+  EDIT_USER_INFO: 'Edit user info',
+  MANAGE_STORAGE_ACCESS: 'Manage storage access',
 };
 
 export const USER_ACTION_LABELS = {
@@ -146,6 +147,20 @@ export const USER_ACTION_LABELS = {
   ACTIVATE_USER: 'Activate user',
   DEACTIVATE_USER: 'Deactivate user',
   DELETE_USER: 'Delete user',
+};
+
+export const USER_CONFIRM_MODAL = {
+  title: (action, fullName) =>
+    action === 'delete'
+      ? `Are you sure you want to delete ${fullName}?`
+      : `Are you sure you want to ${action} ${fullName}?`,
+  description: {
+    activate:
+      'If you activate this user, they will be able to sign in to the mobile app and web administration.',
+    deactivate:
+      'If you deactivate this user, they won’t be able to sign in to the mobile app and web administration.',
+    delete: 'This action is irreversible',
+  },
 };
 
 // empty state labels

@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import AvatarStack from './AvatarStack';
 import EditInventoryModal from './EditInventoryModal';
-import Modal from './Modal';
+import Modal from '../common/Modal';
 import StatusBadge from '../../Common/StatusBadge';
 import {
   updateInventoryStatus,

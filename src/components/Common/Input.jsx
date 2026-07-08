@@ -12,6 +12,10 @@ export default function FormInput({
   className = '',
   autoFocus = false,
   onBlur,
+  onFocus,
+  readOnly = false,
+  onClick,
+  onKeyDown,
   inputClassName = '',
 }) {
   const [focused, setFocused] = useState(false);
@@ -36,12 +40,20 @@ export default function FormInput({
           placeholder={placeholder}
           disabled={disabled}
           autoFocus={autoFocus}
-          onFocus={() => setFocused(true)}
+          readOnly={readOnly}
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+          onFocus={() => {
+            setFocused(true);
+            onFocus?.();
+          }}
           onBlur={() => {
             setFocused(false);
             onBlur?.();
           }}
           className={`min-w-0 shrink w-full text-[14px] text-[#333] outline-none bg-transparent disabled:cursor-not-allowed ${
+            readOnly ? 'cursor-pointer caret-transparent' : ''
+          } ${
             type === 'number'
               ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
               : ''

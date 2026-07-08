@@ -2,17 +2,30 @@ import { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
 
-import UserAvatar from '../ManageInventories/UserAvatar';
+import UserAvatar from '../common/UserAvatar';
 import StatusBadge from '../../Common/StatusBadge';
-import Modal from '../ManageInventories/Modal';
-// import EditUserModal from './EditUserModal';
-// import ManagePermissionModal from './ManagePermissionModal';
-// import {
-//   updateUserStatus,
-//   deleteUser,
-// } from '../../../services/manageUserService';
-import { showSuccessToast } from '../../../utils/showToast';
-import { USER_ACTION_LABELS } from '../../../constants/titles';
+import Modal from '../common/Modal';
+import EditUserInfoModal from './EditUserInfoModal';
+import ManagePermissionModal from './ManagePermissionModal';
+import {
+  updateUserStatus,
+  deleteUser,
+} from '../../../services/manageUserService';
+import { showSuccessToast, showErrorToast } from '../../../utils/showToast';
+import {
+  USER_ACTION_LABELS,
+  USER_CONFIRM_MODAL,
+} from '../../../constants/titles';
+import { PERMISSIONS } from '../../../constants/permissions';
+
+const DUMMY_USER = { name: 'vikas', role: 'Developer' };
+
+const DUMMY_INVENTORIES = [
+  { id: 1, name: 'Pinkesh Inventory', access: PERMISSIONS.NO_ACCESS },
+  { id: 2, name: 'Temp Empty Inventory', access: PERMISSIONS.NO_ACCESS },
+  { id: 3, name: 'Main Inventory', access: PERMISSIONS.NO_ACCESS },
+  { id: 4, name: 'Manish Inventory', access: PERMISSIONS.EDITOR },
+];
 
 function ActionsDropdown({
   anchorRef,
@@ -107,7 +120,8 @@ export default function ManageUserRow({ user }) {
   const [showActions, setShowActions] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
-  const [showManagePermission, setShowManagePermission] = useState(false);
+  const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
+
   const moreRef = useRef(null);
 
   const {
@@ -141,6 +155,7 @@ export default function ManageUserRow({ user }) {
       queryClient.invalidateQueries({ queryKey: ['store-users'] });
     } catch (error) {
       console.error('Failed updating user', error);
+      showErrorToast(error?.response?.data?.message ?? 'Failed to update user');
     }
   };
 
@@ -154,11 +169,20 @@ export default function ManageUserRow({ user }) {
         >
           <div className='flex'>
             <UserAvatar user={user} disabled={!isCurrentlyActive} />
+
             <div style={{ marginLeft: 12, marginBottom: 25 }}>
-              <span className='block font-semibold text-[14px] leading-5 text-[#19191c] capitalize'>
+              <span
+                className={`block font-semibold text-[14px] leading-5 capitalize ${
+                  isCurrentlyActive ? 'text-[#19191c]' : 'text-[#a3a3a8]'
+                }`}
+              >
                 {firstName} {lastName}
               </span>
-              <span className='block text-[13px] leading-4 text-[#6b6b6f] capitalize'>
+              <span
+                className={`block text-[13px] leading-4 capitalize ${
+                  isCurrentlyActive ? 'text-[#6b6b6f]' : 'text-[#a3a3a8]'
+                }`}
+              >
                 {jobTitle}
               </span>
             </div>
@@ -167,7 +191,9 @@ export default function ManageUserRow({ user }) {
 
         {/* Email / Username */}
         <td
-          className='text-left align-top text-[14px] text-[#19191c]'
+          className={`text-left align-top text-[14px] ${
+            isCurrentlyActive ? 'text-[#19191c]' : 'text-[#a3a3a8]'
+          }`}
           style={{ width: '30%', paddingTop: 35, paddingLeft: '0.75rem' }}
         >
           {email ?? userName}
@@ -175,7 +201,9 @@ export default function ManageUserRow({ user }) {
 
         {/* User Role */}
         <td
-          className='text-left align-top text-[14px] text-[#19191c] capitalize'
+          className={`text-left align-top text-[14px] capitalize ${
+            isCurrentlyActive ? 'text-[#19191c]' : 'text-[#a3a3a8]'
+          }`}
           style={{ width: '8%', paddingTop: 35, paddingLeft: '1.5rem' }}
         >
           {userRoleName}
@@ -213,7 +241,7 @@ export default function ManageUserRow({ user }) {
               anchorRef={moreRef}
               onClose={() => setShowActions(false)}
               onEdit={() => setShowEdit(true)}
-              onManagePermission={() => setShowManagePermission(true)}
+              onManagePermission={() => setIsPermissionModalOpen(true)}
               onConfirmAction={setConfirmAction}
               isCurrentlyActive={isCurrentlyActive}
             />
@@ -221,16 +249,16 @@ export default function ManageUserRow({ user }) {
         </td>
       </tr>
 
-      {/* {createPortal(
-        <EditUserModal
+      {createPortal(
+        <EditUserInfoModal
           open={showEdit}
           onClose={() => setShowEdit(false)}
           user={user}
         />,
         document.body,
-      )} */}
+      )}
 
-      {/* {createPortal(
+      {createPortal(
         <Modal
           open={!!confirmAction}
           onClose={() => setConfirmAction(null)}
@@ -253,21 +281,31 @@ export default function ManageUserRow({ user }) {
           onConfirm={handleConfirm}
         />,
         document.body,
-      )} */}
+      )}
 
       {/* {createPortal(
         <ManagePermissionModal
-          open={showManagePermission}
-          onClose={() => setShowManagePermission(false)}
-          user={user}
-          onSaved={async () => {
-            setShowManagePermission(false);
-            await queryClient.refetchQueries({ queryKey: ['store-users'] });
-            showSuccessToast('Permission updated successfully');
-          }}
+          isOpen={isPermissionModalOpen}
+          onClose={() => setIsPermissionModalOpen(false)}
+          user={DUMMY_USER}
+          inventories={DUMMY_INVENTORIES}
+          onSave={(updated) =>
+            console.log('Saved permissions (static, no API yet):', updated)
+          }
         />,
         document.body,
       )} */}
+      {isPermissionModalOpen && (
+        <ManagePermissionModal
+          isOpen={isPermissionModalOpen}
+          onClose={() => setIsPermissionModalOpen(false)}
+          user={user}
+          inventories={DUMMY_INVENTORIES}
+          onSave={(updated) =>
+            console.log('Saved permissions (static, no API yet):', updated)
+          }
+        />
+      )}
     </>
   );
 }

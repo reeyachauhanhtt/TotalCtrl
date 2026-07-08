@@ -1,109 +1,21 @@
-import { useState } from 'react';
-import Select, { components } from 'react-select';
+import { useState, useMemo } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
 import FormInput from '../../Common/Input';
+import { showSuccessToast, showErrorToast } from '../../../utils/showToast';
+import RoleSelect from './RoleSelectDropdown';
 import {
   VALIDATION_LABELS,
   MANAGE_USER_MODAL_TITLES,
 } from '../../../constants/titles';
-
-const selectClassNames = {
-  container: () => 'relative box-border',
-  control: (state) =>
-    `flex items-center justify-between h-12 min-h-12 border rounded box-border cursor-default transition-[100ms] outline-none
-     ${state.isDisabled ? 'bg-[#f7f7f9] border-[#d7d8e0] cursor-not-allowed' : 'border-[#d7d8e0]'}
-     ${state.isFocused ? 'border-[#333]' : ''}`,
-  valueContainer: () =>
-    'flex flex-1 flex-wrap items-center gap-0.5 px-2 py-0.5 relative overflow-hidden box-border capitalize',
-  placeholder: () => 'text-[#808080] mx-0.5 text-sm',
-  input: () => 'text-sm text-[#333]',
-  singleValue: () => 'text-sm text-[#333] capitalize',
-  indicatorsContainer: () =>
-    'flex items-center self-stretch shrink-0 box-border',
-  indicatorSeparator: () => 'hidden',
-  dropdownIndicator: () =>
-    'flex p-2 text-[#d7d8e0] transition-colors duration-150',
-  menu: () =>
-    'mt-5` w-[100px] border border-[#d7d8e0] rounded shadow-md bg-white z-10',
-  menuList: () => 'max-h-[100px] overflow-y-auto py-1',
-  option: (state) =>
-    `px-4 py-3 text-sm cursor-pointer
-   ${state.isSelected ? 'bg-[#e5ede7]' : state.isFocused ? 'bg-[#f5f5f7]' : 'bg-white'}`,
-};
-
-const roleOptions = [
-  {
-    value: 'admin',
-    label: 'Admin',
-    description:
-      'Can do all that the user can, plus access the web administration, invite people, create inventories and manage access to them, upload orders and manage the product database.',
-  },
-  { value: 'clerk', label: 'Clerk', description: 'Role Clerk' },
-  { value: 'doctor', label: 'Doctor', description: 'Test Doctor role' },
-  {
-    value: 'guardian_of_goods',
-    label: 'Guardian Of Goods',
-    description:
-      'A steward of inventory integrity, dedicated to overseeing the condition and consistency of stock without the distraction of pricing data. This role is key for maintaining operational standards and ensuring inventory accuracy across the board.',
-  },
-  {
-    value: 'nurse',
-    label: 'Nurse',
-    description:
-      "Can download the mobile app and manage inventories they're given access to. Doesn't have access to the web administration.",
-  },
-  { value: 'super_admin', label: 'Super Admin', description: '' },
-  {
-    value: 'user',
-    label: 'User',
-    description:
-      "Can download the mobile app and manage inventories they're given access to. Doesn't have access to the web administration.",
-  },
-];
-
-const RoleOption = (props) => {
-  const { data, isSelected } = props;
-  return (
-    <components.Option {...props}>
-      <div className='flex items-start justify-between gap-2'>
-        <span className='font-semibold text-[#333]'>{data.label}</span>
-        {isSelected && (
-          <svg
-            className='mt-0.5 shrink-0'
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            fill='none'
-          >
-            <path
-              d='M13.5 4L6 11.5L2.5 8'
-              stroke='#2f7a4d'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </svg>
-        )}
-      </div>
-      {data.description && (
-        <p className='mt-1 text-xs leading-4 text-[#6b6b6f] normal-case'>
-          {data.description}
-        </p>
-      )}
-    </components.Option>
-  );
-};
-
-const RoleSingleValue = (props) => (
-  <components.SingleValue {...props}>{props.data.label}</components.SingleValue>
-);
-
-const adminEmailOptions = [
-  { value: 'admin1@totalctrl.com', label: 'admin1@totalctrl.com' },
-  { value: 'admin2@totalctrl.com', label: 'admin2@totalctrl.com' },
-];
+import { REGEX } from '../../../constants/regex';
+import {
+  fetchUserRoles,
+  fetchAdminEmails,
+  createUser,
+} from '../../../services/manageUserService';
 
 export default function AddNewUserModal({ isOpen, onClose }) {
   const [fullName, setFullName] = useState('');
@@ -112,7 +24,57 @@ export default function AddNewUserModal({ isOpen, onClose }) {
   const [role, setRole] = useState(null);
   const [adminEmail, setAdminEmail] = useState(null);
   const [errors, setErrors] = useState({});
-  const [saving, setSaving] = useState(false);
+  const [touched, setTouched] = useState({ fullName: false });
+
+  const queryClient = useQueryClient();
+
+  const { data: rolesData } = useQuery({
+    queryKey: ['userRoles'],
+    queryFn: fetchUserRoles,
+    staleTime: 60_000,
+    enabled: isOpen,
+  });
+
+  const { data: adminsData } = useQuery({
+    queryKey: ['adminEmails'],
+    queryFn: fetchAdminEmails,
+    staleTime: 60_000,
+    enabled: isOpen,
+  });
+
+  const createUserMutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
+      showSuccessToast('User invited successfully');
+      queryClient.invalidateQueries({ queryKey: ['store-users'] });
+      handleClose();
+    },
+    onError: (error) => {
+      console.error('createUser mutation error:', error);
+      showErrorToast(error?.response?.data?.message ?? 'Failed to invite user');
+    },
+  });
+
+  const roleOptions = useMemo(
+    () =>
+      (rolesData ?? []).map((r) => ({
+        value: r.id,
+        label: r.name,
+        description: r.description ?? '',
+      })),
+    [rolesData],
+  );
+
+  const adminEmailOptions = useMemo(
+    () =>
+      (adminsData ?? [])
+        .filter((a) => a.email)
+        .map((a) => ({
+          value: a.id,
+          label: `${a.email} (${[a.firstName, a.lastName].filter(Boolean).join(' ')})`,
+        })),
+    [adminsData],
+  );
 
   if (!isOpen) return null;
 
@@ -123,6 +85,7 @@ export default function AddNewUserModal({ isOpen, onClose }) {
     setRole(null);
     setAdminEmail(null);
     setErrors({});
+    setTouched({ fullName: false });
   };
 
   const handleClose = () => {
@@ -130,13 +93,14 @@ export default function AddNewUserModal({ isOpen, onClose }) {
     onClose();
   };
 
+  const isEmailEntered = REGEX.EMAIL.test(emailOrUsername.trim());
+
   const validateEmailOrUsername = (value) => {
     const trimmed = value.trim();
     if (trimmed.length < 3) return true;
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidEmail = emailRegex.test(trimmed);
-    const isValidUsername = /^[a-zA-Z0-9._-]{3,}$/.test(trimmed);
+    const isValidEmail = REGEX.EMAIL.test(trimmed);
+    const isValidUsername = REGEX.USERNAME.test(trimmed);
 
     return !(isValidEmail || isValidUsername);
   };
@@ -154,19 +118,28 @@ export default function AddNewUserModal({ isOpen, onClose }) {
   const handleSave = () => {
     if (!validate()) return;
 
-    setSaving(true);
-    console.log('Dummy invite payload:', {
-      fullName: fullName.trim(),
-      emailOrUsername: emailOrUsername.trim(),
+    const [firstName, ...rest] = fullName.trim().split(/\s/);
+    const lastName = rest.join(' ') || null;
+
+    console.log('Invite payload:', {
+      firstName,
+      lastName,
+      email: isEmailEntered ? emailOrUsername.trim() : null,
+      userName: isEmailEntered ? null : emailOrUsername.trim(),
       jobTitle: jobTitle.trim(),
-      roleId: role.value,
-      adminEmailId: adminEmail?.value ?? null,
+      referenceUserId: adminEmail?.value ?? null,
+      userRoleId: role.value,
     });
 
-    setTimeout(() => {
-      setSaving(false);
-      handleClose();
-    }, 600);
+    createUserMutation.mutate({
+      firstName,
+      lastName,
+      email: isEmailEntered ? emailOrUsername.trim() : null,
+      userName: isEmailEntered ? null : emailOrUsername.trim(),
+      jobTitle: jobTitle.trim(),
+      referenceUserId: adminEmail?.value ?? null,
+      userRoleId: role.value,
+    });
   };
 
   const isFormValid =
@@ -204,9 +177,15 @@ export default function AddNewUserModal({ isOpen, onClose }) {
                 value={fullName}
                 onChange={(e) => {
                   const value = e.target.value;
+                  if (touched.fullName)
+                    setFullName((p) => ({ ...p, fullName: false }));
                   setFullName(value);
                   setErrors((prev) => ({ ...prev, fullName: !value.trim() }));
                 }}
+                onBlur={() => {
+                  setTouched((p) => ({ ...p, fullName: true }));
+                }}
+                autoFocus
                 error={errors.fullName}
               />
             </div>
@@ -234,6 +213,9 @@ export default function AddNewUserModal({ isOpen, onClose }) {
                     ...prev,
                     emailOrUsername: validateEmailOrUsername(value),
                   }));
+                  if (REGEX.EMAIL.test(value.trim())) {
+                    setAdminEmail(null);
+                  }
                 }}
                 error={errors.emailOrUsername}
               />
@@ -262,37 +244,30 @@ export default function AddNewUserModal({ isOpen, onClose }) {
               />
             </div>
 
-            <Select
-              unstyled
-              classNames={selectClassNames}
-              styles={{
-                menu: (base) => ({
-                  ...base,
-                  width: 250,
-                }),
-                menuList: (base) => ({ ...base, maxHeight: 280 }),
-              }}
-              components={{ Option: RoleOption, SingleValue: RoleSingleValue }}
-              options={roleOptions}
-              value={role}
-              onChange={setRole}
-              placeholder='Select user role...'
-              getOptionValue={(opt) => opt.value}
-              getOptionLabel={(opt) => opt.label}
-              menuPlacement='top'
-            />
+            <div className='relative mt-7'>
+              <label className='mb-2 block text-[11px] font-semibold uppercase leading-4 tracking-[.08em] text-[#6b6b6f]'>
+                User Role*
+              </label>
+              <RoleSelect
+                options={roleOptions}
+                value={role}
+                onChange={setRole}
+                menuWidth={280}
+              />
+            </div>
 
             <div className='relative mt-7'>
               <label className='mb-2 block text-[11px] font-semibold uppercase leading-4 tracking-[.08em] text-[#6b6b6f]'>
                 Primary email for communication
               </label>
-              <Select
-                unstyled
-                classNames={selectClassNames}
+              <RoleSelect
+                menuWidth={265}
                 options={adminEmailOptions}
                 value={adminEmail}
                 onChange={setAdminEmail}
                 placeholder='Select admin email...'
+                variant='compact'
+                disabled={isEmailEntered}
               />
             </div>
           </form>
@@ -308,11 +283,11 @@ export default function AddNewUserModal({ isOpen, onClose }) {
           </WhiteButton>
 
           <GreenButton
-            disabled={!isFormValid || saving}
+            disabled={!isFormValid || createUserMutation.isPending}
             onClick={handleSave}
             className='h-[38px] px-3 py-1.5'
           >
-            {saving ? 'Sending...' : 'Send Invite'}
+            {createUserMutation.isPending ? 'Sending...' : 'Send Invite'}
           </GreenButton>
         </div>
       </div>
