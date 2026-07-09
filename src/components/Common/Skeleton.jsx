@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-// Wrapper to match previous shimmer colors
+// Wrapper to match  shimmer colors
 export function SkeletonBar({ className = '', style = {}, borderRadius = {} }) {
   return (
     <Skeleton

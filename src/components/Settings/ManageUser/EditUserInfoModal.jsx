@@ -5,6 +5,7 @@ import GreenButton from '../../Common/GreenButton';
 import WhiteButton from '../../Common/WhiteButton';
 import FormInput from '../../Common/Input';
 import RoleSelect from './RoleSelectDropdown';
+import { TransferProductListSkeleton } from '../../Common/Skeleton';
 import { showSuccessToast, showErrorToast } from '../../../utils/showToast';
 import {
   VALIDATION_LABELS,
@@ -193,7 +194,7 @@ export default function EditUserInfoModal({ open, onClose, user: userRow }) {
         <div className='px-12 pt-9 pb-6 text-base leading-6 text-[#737373]'>
           {isUserLoading || !user ? (
             <div className='flex h-[400px] items-center justify-center text-sm text-[#6b6b6f]'>
-              Loading user...
+              <TransferProductListSkeleton />
             </div>
           ) : (
             <form className='w-[400px]'>

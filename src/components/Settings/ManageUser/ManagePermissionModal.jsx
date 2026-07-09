@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { FiChevronDown, FiX, FiCheck } from 'react-icons/fi';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { FiX, FiCheck } from 'react-icons/fi';
 
 import UserAvatar from '../common/UserAvatar';
 import GreenButton from '../../Common/GreenButton';
@@ -10,6 +11,12 @@ import {
   PERMISSION_DESCRIPTIONS,
 } from '../../../constants/permissions';
 import { MANAGE_USER_MODAL_TITLES } from '../../../constants/titles';
+import { fetchStoreUserPermissions } from '../../../services/manageInventoriesService';
+import {
+  fetchUserInventoryPermissions,
+  saveUserInventoryPermissions,
+} from '../../../services/manageUserService';
+import { showSuccessToast, showErrorToast } from '../../../utils/showToast';
 
 const DEFAULT_ROLE_OPTIONS = [
   PERMISSIONS.EDITOR,
@@ -35,11 +42,11 @@ function AccessDropdown({ value, options, onChange }) {
   return (
     <div ref={wrapperRef} className='relative select-none w-[100px] mr-6'>
       <div
-        className='flex items-center justify-between h-9 w-[100px] rounded border border-[#dfdfdf] bg-[#f1f1f5] cursor-default'
+        className='flex items-center justify-between h-9 w-[110px] rounded border border-[#dfdfdf] bg-[#f1f1f5] cursor-default'
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className='ml-4 font-light text-sm leading-5'>{value}</span>
-        <FiChevronDown size={14} className='mr-2 text-gray-500' />
+        <span className='ml-4 font-medium text-[13px] leading-5'>{value}</span>
+        <img src='/icons/chevron-down-small.svg' alt='' className='mr-2' />
       </div>
 
       {isOpen && (
@@ -78,33 +85,82 @@ function AccessDropdown({ value, options, onChange }) {
   );
 }
 
-export default function ManagePermissionModal({
-  isOpen,
-  onClose,
-  user, // { name, role }
-  inventories, // [{ id, name, access }]
-  roleOptions = DEFAULT_ROLE_OPTIONS,
-  onSave,
-}) {
+export default function ManagePermissionModal({ isOpen, onClose, user }) {
+  const queryClient = useQueryClient();
+  const [roleOverrides, setRoleOverrides] = useState({});
+  const [saving, setSaving] = useState(false);
   const [permissions, setPermissions] = useState([]);
 
+  const { data: permissionTypes = [] } = useQuery({
+    queryKey: ['store-user-permissions'],
+    queryFn: fetchStoreUserPermissions,
+    staleTime: Infinity,
+  });
+
+  const { data: inventoryPermissions = [], isFetching: loadingInventories } =
+    useQuery({
+      queryKey: ['user-inventory-permissions', user?.id],
+      queryFn: () => fetchUserInventoryPermissions(user.id),
+      enabled: isOpen && !!user?.id,
+    });
+
+  const idToRoleMap = useMemo(() => {
+    const map = {};
+    permissionTypes.forEach((p) => {
+      map[p.id] = p.name;
+    });
+    return map;
+  }, [permissionTypes]);
+
+  const roleToIdMap = useMemo(() => {
+    const map = {};
+    permissionTypes.forEach((p) => {
+      map[p.name] = p.id;
+    });
+    return map;
+  }, [permissionTypes]);
+
   useEffect(() => {
-    if (isOpen) setPermissions(inventories);
-  }, [isOpen, inventories]);
+    if (isOpen) setRoleOverrides({});
+  }, [isOpen, user?.id]);
 
   if (!isOpen) return null;
 
-  const handleAccessChange = (inventoryId, newAccess) => {
-    setPermissions((prev) =>
-      prev.map((inv) =>
-        inv.id === inventoryId ? { ...inv, access: newAccess } : inv,
-      ),
-    );
+  const getEffectiveRole = (inv) =>
+    roleOverrides[inv.inventoryId] ??
+    idToRoleMap[inv.userPermissionId] ??
+    PERMISSIONS.NO_ACCESS;
+
+  const handleAccessChange = (inventoryId, newRole) => {
+    setRoleOverrides((prev) => ({ ...prev, [inventoryId]: newRole }));
   };
 
-  const handleSave = () => {
-    onSave(permissions);
-    onClose();
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const payload = inventoryPermissions.map((inv) => {
+        const role = getEffectiveRole(inv);
+        return {
+          inventoryId: inv.inventoryId,
+          userPermissionId: roleToIdMap[role] ?? inv.userPermissionId,
+        };
+      });
+
+      await saveUserInventoryPermissions(user.id, payload);
+      showSuccessToast('Permissions updated successfully');
+      queryClient.invalidateQueries({
+        queryKey: ['user-inventory-permissions', user.id],
+      });
+      queryClient.invalidateQueries({ queryKey: ['inventories'] });
+      onClose();
+    } catch (error) {
+      console.error('Failed updating permissions', error);
+      showErrorToast(
+        error?.response?.data?.message ?? 'Failed to update permissions',
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   return createPortal(
@@ -116,12 +172,12 @@ export default function ManagePermissionModal({
             {MANAGE_USER_MODAL_TITLES.MANAGE_STORAGE_ACCESS}
           </h2>
           <span className='cursor-pointer' onClick={onClose}>
-            <FiX size={18} className='text-gray-500' />
+            <FiX size={20} className='text-gray-900' />
           </span>
         </div>
 
         {/* User info */}
-        <div className='flex items-center px-11 mt-10 border-b border-[#eee]'>
+        <div className='flex items-center px-11 mt-10'>
           <UserAvatar user={user} size={40} />
           <div className='ml-3'>
             <span className='block text-[20px] font-semibold capitalize text-[#333]'>
@@ -138,28 +194,41 @@ export default function ManagePermissionModal({
           className='overflow-y-auto px-12 pt-2 pb-6'
           style={{ height: 'calc(100vh - 300px)' }}
         >
-          {permissions.map((inv) => (
-            <div className='border-t border-[#dee2e6]'>
-              <div
-                key={inv.id}
-                className='flex justify-between items-center h-[72px] border-b border-[#dee2e6] text-sm font-semibold text-[#19191c]'
-              >
-                <label>{inv.name}</label>
-                <AccessDropdown
-                  value={inv.access}
-                  options={roleOptions}
-                  onChange={(newAccess) =>
-                    handleAccessChange(inv.id, newAccess)
-                  }
-                />
+          {loadingInventories ? (
+            <div className='text-sm text-[#6b6b6f]'>Loading...</div>
+          ) : (
+            inventoryPermissions.map((inv) => (
+              <div className='border-t border-[#dee2e6]' key={inv.inventoryId}>
+                <div
+                  key={inv.inventoryId}
+                  className='flex justify-between items-center h-[72px] text-sm font-semibold text-[#19191c]'
+                >
+                  <label>{inv.inventory}</label>
+                  <AccessDropdown
+                    value={getEffectiveRole(inv)}
+                    options={[
+                      PERMISSIONS.EDITOR,
+                      PERMISSIONS.VIEWER,
+                      PERMISSIONS.NO_ACCESS,
+                    ]}
+                    onChange={(newRole) =>
+                      handleAccessChange(inv.inventoryId, newRole)
+                    }
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Footer */}
         <div className='flex justify-between border-t border-[#dee2e6] px-8 py-[10px]'>
-          <WhiteButton size='small' onClick={onClose}>
+          <WhiteButton
+            size='small'
+            className='hover:border-gray-900 hover:text-gray-900
+'
+            onClick={onClose}
+          >
             Cancel
           </WhiteButton>
           <GreenButton size='small' onClick={handleSave}>

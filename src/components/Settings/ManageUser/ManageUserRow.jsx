@@ -140,7 +140,7 @@ export default function ManageUserRow({ user }) {
     try {
       if (confirmAction === 'delete') {
         await deleteUser(user.id);
-        showSuccessToast('User deleted successfully');
+        showSuccessToast(`User ${firstName} ${lastName} deleted successfully`);
       } else {
         const nextStatus = confirmAction === 'activate';
         await updateUserStatus(user.id, nextStatus);
@@ -283,27 +283,11 @@ export default function ManageUserRow({ user }) {
         document.body,
       )}
 
-      {/* {createPortal(
-        <ManagePermissionModal
-          isOpen={isPermissionModalOpen}
-          onClose={() => setIsPermissionModalOpen(false)}
-          user={DUMMY_USER}
-          inventories={DUMMY_INVENTORIES}
-          onSave={(updated) =>
-            console.log('Saved permissions (static, no API yet):', updated)
-          }
-        />,
-        document.body,
-      )} */}
       {isPermissionModalOpen && (
         <ManagePermissionModal
           isOpen={isPermissionModalOpen}
           onClose={() => setIsPermissionModalOpen(false)}
           user={user}
-          inventories={DUMMY_INVENTORIES}
-          onSave={(updated) =>
-            console.log('Saved permissions (static, no API yet):', updated)
-          }
         />
       )}
     </>

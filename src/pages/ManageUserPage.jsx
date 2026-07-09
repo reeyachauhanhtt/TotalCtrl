@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useManageUsers } from '../hooks/useManageUsers';
 
+import { useManageUsers } from '../hooks/useManageUsers';
 import ManageUserHeader from '../components/Settings/ManageUser/ManageUserHeader';
 import AddNewUserModal from '../components/Settings/ManageUser/AddNewUser';
 import ManageUserTable from '../components/Settings/ManageUser/ManageUserTable';
@@ -9,8 +9,14 @@ export default function ManageUser() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useManageUsers(searchTerm);
+  const {
+    data,
+    isLoading,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useManageUsers(searchTerm);
 
   const users = data?.pages.flatMap((page) => page.users ?? []) ?? [];
 
@@ -26,6 +32,8 @@ export default function ManageUser() {
       />
       <ManageUserTable
         users={users}
+        isLoading={isLoading}
+        isFetching={isFetching}
         onFetchNext={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}

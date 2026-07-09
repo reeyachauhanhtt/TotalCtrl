@@ -70,3 +70,20 @@ export async function updateUserStatus(id, isActive) {
   );
   return data.Data;
 }
+
+//fetch user inventory permission
+export async function fetchUserInventoryPermissions(userId) {
+  const { data } = await axiosInstance.get(
+    API_ENDPOINTS.GET_USER_INVENTORY_PERMISSIONS(userId),
+  );
+  return data.Data;
+}
+
+//save user inventory permission
+export async function saveUserInventoryPermissions(userId, permissions) {
+  const { data } = await axiosInstance.post(
+    API_ENDPOINTS.SAVE_USER_INVENTORY_PERMISSIONS(userId),
+    { permissions },
+  );
+  return data.Data;
+}
