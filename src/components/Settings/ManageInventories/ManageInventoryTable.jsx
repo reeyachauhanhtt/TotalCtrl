@@ -18,7 +18,7 @@ export default function InventoriesTable({
   return (
     <div className='bg-white border-t border-[#e6e6ed]'>
       <div
-        className='bg-[#f8f9fa]'
+        className='bg-[#f8f9fa] border-b border-[#e6e6ed]'
         style={{ position: 'sticky', top: 0, zIndex: 1 }}
       >
         <table
@@ -45,7 +45,7 @@ export default function InventoriesTable({
         </table>
       </div>
 
-      <div style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+      <div style={{ maxHeight: 'calc(100vh - 150px)', overflowY: 'auto' }}>
         <table
           className='text-[13px] border-collapse'
           style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}

@@ -20,9 +20,9 @@ export default function ManageUserTable({
   const showSkeleton = (isLoading || isFetching) && !isFetchingNextPage;
 
   return (
-    <div className='border-t border-b border-[#e6e6ed] bg-[#f8f9fa]'>
+    <div className='border-t border-b border-[#e6e6ed] bg-white'>
       <div
-        className='bg-[#f8f9fa]'
+        className='bg-[#f8f9fa] border-b border-[#e6e6ed]'
         style={{ position: 'sticky', top: 0, zIndex: 1 }}
       >
         <table
@@ -50,7 +50,7 @@ export default function ManageUserTable({
       </div>
 
       <div
-        style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}
+        style={{ maxHeight: 'calc(100vh - 150px)', overflowY: 'auto' }}
         onScroll={(e) => {
           const { scrollTop, scrollHeight, clientHeight } = e.target;
           if (
