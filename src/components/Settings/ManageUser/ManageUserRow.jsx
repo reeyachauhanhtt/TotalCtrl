@@ -18,15 +18,6 @@ import {
 } from '../../../constants/titles';
 import { PERMISSIONS } from '../../../constants/permissions';
 
-const DUMMY_USER = { name: 'vikas', role: 'Developer' };
-
-const DUMMY_INVENTORIES = [
-  { id: 1, name: 'Pinkesh Inventory', access: PERMISSIONS.NO_ACCESS },
-  { id: 2, name: 'Temp Empty Inventory', access: PERMISSIONS.NO_ACCESS },
-  { id: 3, name: 'Main Inventory', access: PERMISSIONS.NO_ACCESS },
-  { id: 4, name: 'Manish Inventory', access: PERMISSIONS.EDITOR },
-];
-
 function ActionsDropdown({
   anchorRef,
   onClose,

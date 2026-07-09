@@ -63,7 +63,7 @@ export default function InventoriesTable({
                       style={{ width: '18%', paddingTop: 26, paddingLeft: 24 }}
                     >
                       <SkeletonBar
-                        style={{ height: 16, width: 250, borderRadius: 20 }}
+                        style={{ height: 14, width: 250, borderRadius: 20 }}
                       />
                     </td>
 
@@ -138,7 +138,7 @@ export default function InventoriesTable({
                       }}
                     >
                       <SkeletonBar
-                        style={{ height: 16, width: '50%', borderRadius: 20 }}
+                        style={{ height: 14, width: '30%', borderRadius: 20 }}
                       />
                     </td>
 
@@ -152,7 +152,7 @@ export default function InventoriesTable({
                       }}
                     >
                       <SkeletonBar
-                        style={{ height: 16, width: 50, borderRadius: 4 }}
+                        style={{ height: 14, width: 60, borderRadius: 4 }}
                       />
                     </td>
                   </tr>
@@ -166,6 +166,7 @@ export default function InventoriesTable({
                 ))}
           </tbody>
         </table>
+        <div className='h-20' />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import SettingsDropdown from './Common/SettingsDropdown';
 import { ROUTES } from '../constants/routes';
+import { SIDEBAR_LINKS } from '../constants/titles';
 
 export default function Sidebar() {
   const location = useLocation();
@@ -11,34 +12,34 @@ export default function Sidebar() {
   const settingsBtnRef = useRef(null);
 
   const navItems = [
-    { name: 'Inventories', icon: '/icons/box.svg', path: '/inventory' },
+    { name: 'Inventories', icon: '/icons/box.svg', path: ROUTES.INVENTORY },
     {
       name: 'External Orders',
       icon: '/icons/transport.svg',
-      path: '/external-orders',
-      matchPaths: ['/external-orders'],
+      path: ROUTES.EXTERNAL_ORDERS,
+      matchPaths: [ROUTES.EXTERNAL_ORDERS],
     },
     {
       name: 'Internal Orders',
       icon: '/icons/transport.svg',
-      path: '/internal-orders',
-      matchPaths: ['/internal-orders'],
+      path: ROUTES.INTERNAL_ORDERS,
+      matchPaths: [ROUTES.INTERNAL_ORDERS],
     },
     {
       name: 'Analytics',
       icon: '/icons/chart.svg',
-      path: '/analytics-overview',
-      matchPaths: ['/analytics-overview', '/analytics'],
+      path: ROUTES.ANALYTICS_OVERVIEW,
+      matchPaths: [ROUTES.ANALYTICS_OVERVIEW, ROUTES.ANALYTICS],
     },
     {
       name: 'Inventory Count',
       icon: '/icons/inbox.svg',
-      path: '/inventory-count',
+      path: ROUTES.INVENTORY_COUNT,
     },
     {
       name: 'COGS Calculator',
       icon: '/icons/cogs-calculator.svg',
-      path: '/cogs-calculator',
+      path: ROUTES.COGS_CALCULATOR,
     },
   ];
 
@@ -145,7 +146,7 @@ export default function Sidebar() {
           {/* App Store */}
 
           <a
-            href='https://apps.apple.com/us/app/totalctrl-restaurant/id1484776237'
+            href={SIDEBAR_LINKS.APP_STORE}
             target='_blank'
             rel='noreferrer'
             style={{ textDecoration: 'none' }}
@@ -176,7 +177,7 @@ export default function Sidebar() {
           {/* Google Play */}
 
           <a
-            href='https://play.google.com/store/apps/details?id=totalctrl.restaurant.manager'
+            href={SIDEBAR_LINKS.GOOGLE_PLAYSTORE}
             target='_blank'
             rel='noreferrer'
             style={{ textDecoration: 'none' }}
@@ -208,7 +209,7 @@ export default function Sidebar() {
         {/* Video Library */}
 
         <a
-          href='https://www.youtube.com/watch?v=dHJzsYbJbrE'
+          href={SIDEBAR_LINKS.VIDEO_LIBRARY}
           target='_blank'
           rel='noreferrer'
           style={{
@@ -259,7 +260,7 @@ export default function Sidebar() {
         {/* Refer a Friend */}
         <div style={{ display: 'flex', width: '100%' }}>
           <a
-            href='https://totalctrl.getrewardful.com/signup?campaign=refer-a-friend-earn-rewards'
+            href={SIDEBAR_LINKS.REFER_A_FRIEND}
             target='_blank'
             rel='noreferrer'
             style={{

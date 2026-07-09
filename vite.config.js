@@ -15,11 +15,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
-        // '/store-users/permissions': {
-        //   target: env.VITE_API_BASE_URL,
-        //   changeOrigin: true,
-        //   secure: false,
-        // },
+
         '/inventory': {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import InternalOrderRow from './InternalOrderRow';
 import { InternalOrderListSkeleton } from '../Common/Skeleton';
 import { EMPTY_STATE_LABELS } from '../../constants/titles';
@@ -16,12 +18,20 @@ const COLUMNS = [
 export default function InternalOrderTable({
   orders = [],
   isLoading,
+  isFetching,
   isError,
   onRowClick,
   activeTab,
   onAddOrderClick,
   isReady,
+  onReturnComplete,
 }) {
+  useEffect(() => {
+    if (!isLoading && !isFetching && onReturnComplete) {
+      onReturnComplete();
+    }
+  }, [isLoading, isFetching, onReturnComplete]);
+
   if (isLoading || !isReady) return <InternalOrderListSkeleton />;
 
   function renderBody() {

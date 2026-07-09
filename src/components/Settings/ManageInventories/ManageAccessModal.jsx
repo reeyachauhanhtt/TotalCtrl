@@ -16,7 +16,7 @@ import {
   hasNoAccess,
 } from '../../../constants/permissions';
 import { getUserIdFromToken } from '../../../services/analyticsService';
-import { TransferProductListSkeleton } from '../../Common/Skeleton';
+import { GreenDotSkeleton } from '../../Common/Skeleton';
 import { showErrorToast } from '../../../utils/showToast';
 
 function RoleDropdown({ anchorRef, currentRole, onSelect, onRemove, onClose }) {
@@ -455,7 +455,7 @@ export default function ManageAccessModal({
             }}
           >
             {isLoading || !accessDetails ? (
-              <TransferProductListSkeleton />
+              <GreenDotSkeleton />
             ) : (
               usersWithAccess.map((user) => (
                 <AccessRow

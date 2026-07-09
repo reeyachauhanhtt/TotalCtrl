@@ -68,95 +68,106 @@ export default function ManageUserTable({
           style={{ width: '95%', margin: 'auto', tableLayout: 'fixed' }}
         >
           <tbody className='bg-white'>
-            {showSkeleton
-              ? Array.from({ length: 3 }).map((_, i) => (
-                  <tr
-                    key={i}
-                    className='border-b border-[#e6e6ed]'
-                    style={{ height: 72 }}
-                  >
-                    {/* Full name (avatar + name + job title) */}
-                    <td style={{ width: '18%', paddingTop: 26 }}>
-                      <div className='flex'>
+            {showSkeleton ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <tr
+                  key={i}
+                  className='border-b border-[#e6e6ed]'
+                  style={{ height: 72 }}
+                >
+                  {/* Full name (avatar + name + job title) */}
+                  <td style={{ width: '18%', paddingTop: 26 }}>
+                    <div className='flex'>
+                      <SkeletonBar
+                        style={{ width: 32, height: 32 }}
+                        borderRadius='50%'
+                      />
+                      <div style={{ marginLeft: 12 }}>
                         <SkeletonBar
-                          style={{ width: 32, height: 32 }}
-                          borderRadius='50%'
+                          style={{
+                            height: 6,
+                            width: 160,
+                            borderRadius: 20,
+                            marginBottom: 0,
+                          }}
                         />
-                        <div style={{ marginLeft: 12 }}>
-                          <SkeletonBar
-                            style={{
-                              height: 6,
-                              width: 160,
-                              borderRadius: 20,
-                              marginBottom: 0,
-                            }}
-                          />
-                          <SkeletonBar
-                            style={{ height: 6, width: 60, borderRadius: 20 }}
-                          />
-                        </div>
+                        <SkeletonBar
+                          style={{ height: 6, width: 60, borderRadius: 20 }}
+                        />
                       </div>
-                    </td>
+                    </div>
+                  </td>
 
-                    {/* Email / Username */}
-                    <td
-                      style={{
-                        width: '30%',
-                        paddingTop: 35,
-                        paddingLeft: '0.75rem',
-                      }}
-                    >
-                      <SkeletonBar
-                        style={{ height: 12, width: '70%', borderRadius: 20 }}
-                      />
-                    </td>
+                  {/* Email / Username */}
+                  <td
+                    style={{
+                      width: '30%',
+                      paddingTop: 35,
+                      paddingLeft: '0.75rem',
+                    }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 12, width: '70%', borderRadius: 20 }}
+                    />
+                  </td>
 
-                    {/* User Role */}
-                    <td
-                      style={{
-                        width: '8%',
-                        paddingTop: 35,
-                        paddingLeft: '0.75rem',
-                      }}
-                    >
-                      <SkeletonBar
-                        style={{ height: 12, width: 80, borderRadius: 20 }}
-                      />
-                    </td>
+                  {/* User Role */}
+                  <td
+                    style={{
+                      width: '8%',
+                      paddingTop: 35,
+                      paddingLeft: '0.75rem',
+                    }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 12, width: 80, borderRadius: 20 }}
+                    />
+                  </td>
 
-                    {/* Status */}
-                    <td
-                      style={{
-                        width: '14%',
-                        paddingTop: 35,
-                        paddingLeft: '0.75rem',
-                      }}
-                    >
-                      <SkeletonBar
-                        style={{ height: 12, width: '30%', borderRadius: 20 }}
-                      />
-                    </td>
+                  {/* Status */}
+                  <td
+                    style={{
+                      width: '14%',
+                      paddingTop: 35,
+                      paddingLeft: '0.75rem',
+                    }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 12, width: '30%', borderRadius: 20 }}
+                    />
+                  </td>
 
-                    {/* Actions */}
-                    <td
-                      style={{
-                        width: '5%',
-                        paddingTop: 20,
-                        paddingLeft: '0.75rem',
-                        paddingRight: 24,
-                      }}
-                    >
-                      <SkeletonBar
-                        style={{ height: 12, width: 50, borderRadius: 4 }}
-                      />
-                    </td>
-                  </tr>
-                ))
-              : users.map((user) => (
-                  <ManageUserRow key={user.id} user={user} />
-                ))}
+                  {/* Actions */}
+                  <td
+                    style={{
+                      width: '5%',
+                      paddingTop: 20,
+                      paddingLeft: '0.75rem',
+                      paddingRight: 24,
+                    }}
+                  >
+                    <SkeletonBar
+                      style={{ height: 12, width: 50, borderRadius: 4 }}
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : users.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={COLUMNS.length}
+                  className='text-center text-[16px] text-[#737373]'
+                  style={{ padding: '2rem 0' }}
+                >
+                  No results found 😒
+                </td>
+              </tr>
+            ) : (
+              users.map((user) => <ManageUserRow key={user.id} user={user} />)
+            )}
           </tbody>
         </table>
+        <div className='h-10' />
       </div>
     </div>
   );

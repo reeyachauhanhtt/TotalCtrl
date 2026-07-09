@@ -178,13 +178,6 @@ export default function FoodWaste({ inventoryId }) {
 
   function handleExport() {}
 
-  // console.log('allCategoryPages', allCategoryPages);
-  // console.log('categoryRows', categoryRows);
-  // console.log(
-  //   'pages raw',
-  //   allCategoryPages?.pages?.map((p) => p?.Data?.categories?.length),
-  // );
-
   if (detailView) {
     return (
       <FoodWasteDetailView

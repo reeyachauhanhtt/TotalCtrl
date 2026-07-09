@@ -24,5 +24,5 @@ export const PERMISSION_DESCRIPTIONS = {
   [PERMISSIONS.EDITOR]:
     'Can do all that the viewer can do, plus check items in and out of the inventory, add new products, adjust product quantity',
   [PERMISSIONS.VIEWER]: 'Can view the inventory and inventory analytics',
-  [PERMISSIONS.NO_ACCESS]: 'Doesn\u2019t have access to this inventory',
+  [PERMISSIONS.NO_ACCESS]: "Doesn't have access to this inventory",
 };

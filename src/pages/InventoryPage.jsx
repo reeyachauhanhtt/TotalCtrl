@@ -243,8 +243,14 @@ export default function InventoryPage({ onTransferSuccess }) {
             data={filteredProducts}
             stockFilter={stockFilter}
             debouncedSearch={debouncedSearch}
+            hasActiveFilters={
+              stockFilter !== 'all' ||
+              debouncedSearch.trim() !== '' ||
+              !!selectedSupplier
+            }
             onAddClick={() => setShowModal(true)}
           />
+
           {isFetchingNextPage && (
             <div className='p-4'>
               {Array.from({ length: 3 }).map((_, i) => (

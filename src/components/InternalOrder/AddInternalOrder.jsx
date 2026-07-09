@@ -5,7 +5,7 @@ import { FiX, FiSearch, FiChevronDown, FiArrowLeft } from 'react-icons/fi';
 
 import { fetchInventory } from '../../services/inventoryService';
 import { createInternalOrder } from '../../services/internalOrderService';
-import { TransferProductListSkeleton } from '../Common/Skeleton';
+import { GreenDotSkeleton } from '../Common/Skeleton';
 import TransferInventoryDropdown from '../Common/TransferInvDropdown';
 import GreenButton from '../Common/GreenButton';
 import WhiteButton from '../Common/WhiteButton';
@@ -375,7 +375,7 @@ export default function AddInternalOrder({ open, onClose, onSuccess }) {
                   onScroll={handleScroll}
                 >
                   {loadingProducts && !isFetchingNextPage ? (
-                    <TransferProductListSkeleton />
+                    <GreenDotSkeleton />
                   ) : (
                     <div>
                       {filteredProducts.map((product) => {

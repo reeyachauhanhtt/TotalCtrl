@@ -14,6 +14,7 @@ export default function InventoryTable({
   data,
   stockFilter,
   debouncedSearch,
+  hasActiveFilters,
   onAddClick,
 }) {
   const [selected, setSelected] = useState([]);
@@ -318,43 +319,55 @@ export default function InventoryTable({
                 <TableRowSkeleton key={i} asTr />
               ))
             ) : !data?.length ? (
-              <tr>
-                <td colSpan={8}>
-                  <div className='flex justify-center pt-20'>
-                    <div className='text-center px-12 py-9'>
-                      <div className='mb-5'>
-                        <img
-                          src='/icons/empty-state-NotFound.svg'
-                          alt=''
-                          className='mx-auto'
-                        />
-                      </div>
-                      <div className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] w-135 mx-auto'>
-                        There's nothing in this inventory yet
-                      </div>
-                      <p className='text-sm text-[#97979b] text-center w-135 mx-auto mt-4 mb-8'>
-                        Start by counting and adding your current stock.
-                        <br />
-                        Use the mobile app to do it, or{' '}
-                        <span
-                          className='border-b border-[#6b6b6f] cursor-pointer'
-                          onClick={handlePrintTemplate}
-                        >
-                          print a paper template
-                        </span>{' '}
-                        to help you note down all the required information. When
-                        you're done counting, hit the button below to add the
-                        initial stock in bulk.
+              hasActiveFilters ? (
+                <tr>
+                  <td colSpan={8}>
+                    <div className='flex justify-center pt-20'>
+                      <p className='text-[16px] text-[#97979b] text-center'>
+                        No result found.
                       </p>
-                      <GreenButton onClick={onAddClick}>
-                        <span className='font-semibold'>
-                          Set up initial stock
-                        </span>
-                      </GreenButton>
                     </div>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan={8}>
+                    <div className='flex justify-center pt-20'>
+                      <div className='text-center px-12 py-9'>
+                        <div className='mb-5'>
+                          <img
+                            src='/icons/empty-state-NotFound.svg'
+                            alt=''
+                            className='mx-auto'
+                          />
+                        </div>
+                        <div className='text-[24px] font-semibold leading-8 tracking-[-0.01em] text-[#19191c] w-135 mx-auto'>
+                          There's nothing in this inventory yet
+                        </div>
+                        <p className='text-sm text-[#97979b] text-center w-135 mx-auto mt-4 mb-8'>
+                          Start by counting and adding your current stock.
+                          <br />
+                          Use the mobile app to do it, or{' '}
+                          <span
+                            className='border-b border-[#6b6b6f] cursor-pointer'
+                            onClick={handlePrintTemplate}
+                          >
+                            print a paper template
+                          </span>{' '}
+                          to help you note down all the required information.
+                          When you're done counting, hit the button below to add
+                          the initial stock in bulk.
+                        </p>
+                        <GreenButton onClick={onAddClick}>
+                          <span className='font-semibold'>
+                            Set up initial stock
+                          </span>
+                        </GreenButton>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )
             ) : (
               sortedData.map((item, index) => (
                 <InventoryRow

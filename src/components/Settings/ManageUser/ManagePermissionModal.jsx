@@ -17,7 +17,7 @@ import {
   saveUserInventoryPermissions,
 } from '../../../services/manageUserService';
 import { showSuccessToast, showErrorToast } from '../../../utils/showToast';
-import { TransferProductListSkeleton } from '../../Common/Skeleton';
+import { GreenDotSkeleton } from '../../Common/Skeleton';
 
 const DEFAULT_ROLE_OPTIONS = [
   PERMISSIONS.EDITOR,
@@ -197,7 +197,7 @@ export default function ManagePermissionModal({ isOpen, onClose, user }) {
         >
           {loadingInventories ? (
             <div className='flex h-full items-center justify-center'>
-              <TransferProductListSkeleton />
+              <GreenDotSkeleton />
             </div>
           ) : (
             inventoryPermissions.map((inv) => (

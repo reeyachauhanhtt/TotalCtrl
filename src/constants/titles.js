@@ -182,3 +182,13 @@ export const VALIDATION_LABELS = {
   FIELD_REQUIRED: 'This field is required',
   SELECT_FROM_TO_LOCATION: "Please select 'From' and 'To' location.",
 };
+
+// sidebar links
+export const SIDEBAR_LINKS = {
+  APP_STORE: 'https://apps.apple.com/us/app/totalctrl-restaurant/id1484776237',
+  GOOGLE_PLAYSTORE:
+    'https://play.google.com/store/apps/details?id=totalctrl.restaurant.manager',
+  VIDEO_LIBRARY: 'https://www.youtube.com/watch?v=dHJzsYbJbrE',
+  REFER_A_FRIEND:
+    'https://totalctrl.getrewardful.com/signup?campaign=refer-a-friend-earn-rewards',
+};

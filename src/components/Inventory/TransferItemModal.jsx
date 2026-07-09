@@ -5,7 +5,7 @@ import { FiX, FiSearch, FiChevronDown } from 'react-icons/fi';
 
 import { fetchInventory } from '../../services/inventoryService';
 import { transferItems } from '../../services/transferService';
-import { TransferProductListSkeleton } from '../Common/Skeleton';
+import { GreenDotSkeleton } from '../Common/Skeleton';
 import {
   setStep,
   setFromInventory,
@@ -386,7 +386,7 @@ export default function TransferItemModal({
                   onScroll={handleScroll}
                 >
                   {loadingProducts && !isFetchingNextPage ? (
-                    <TransferProductListSkeleton />
+                    <GreenDotSkeleton />
                   ) : (
                     <div>
                       {filteredProducts.map((product) => {

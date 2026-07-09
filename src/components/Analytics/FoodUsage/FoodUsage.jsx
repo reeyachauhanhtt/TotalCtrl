@@ -103,7 +103,7 @@ export default function FoodUsage({ inventoryId, onTabChange }) {
   }
 
   function handleExport() {
-    // TODO: wire to export endpoint when available
+    // wire to export endpoint when available
   }
 
   const totalCheckout = formatPrice(totalData?.totalCheckoutValue ?? 0);

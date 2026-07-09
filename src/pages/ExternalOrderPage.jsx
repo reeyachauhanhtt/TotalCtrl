@@ -190,7 +190,7 @@ export default function ExternalOrderPage() {
           // console.log('order slug:', order.slug, 'order:', order);
           dispatch(setDetailOpen(true));
           dispatch(setSelectedOrder(order));
-          navigate(`${ROUTES.EXTERNAL_ORDERS}/${order.slug}/${order.id}`);
+          navigate(ROUTES.EXTERNAL_ORDER_DETAIL_SLUG);
         }}
         activeTab={activeTab}
         onAddOrderClick={() => setShowAddModal(true)}

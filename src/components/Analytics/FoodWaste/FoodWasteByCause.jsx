@@ -39,11 +39,6 @@ export default function FoodWasteByCause({
     otherCause?.otherReasons?.reduce((sum, r) => sum + r.foodWasteValue, 0) ||
     0;
 
-  // const tooltipReasons = (otherCause?.otherReasons ?? []).map((r) => ({
-  //   label: r.label,
-  //   value: formatPrice(r.foodWasteValue),
-  //   percent: r.foodWastePercentage,
-  // }));
   const tooltipReasons = (otherCause?.otherReasons ?? []).map((r) => ({
     label: r.label,
     value: formatPrice(r.foodWasteValue),
@@ -60,12 +55,6 @@ export default function FoodWasteByCause({
     dateLabel: dateLabel ?? '',
     insightName: otherCause?.otherReasons?.[0]?.label ?? '',
     insightText: `account for ${otherCause?.otherReasons?.[0]?.foodWastePercentage?.toFixed(1)}% of all 'other' waste. Export the full log to see exact dates and items.`,
-    // reasons: (otherCause?.otherReasons ?? []).map((r) => ({
-    //   label: r.label,
-    //   value: r.foodWasteValue,
-    //   percent: r.foodWastePercentage,
-    //   logs: r.lineCount,
-    // })),
     reasons: (otherCause?.otherReasons ?? []).map((r) => ({
       label: r.label,
       value: r.foodWasteValue,

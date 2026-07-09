@@ -143,7 +143,11 @@ export default function AddNewUserModal({ isOpen, onClose }) {
   };
 
   const isFormValid =
-    fullName.trim() && emailOrUsername.trim() && jobTitle.trim() && role;
+    fullName.trim() &&
+    emailOrUsername.trim() &&
+    jobTitle.trim() &&
+    role &&
+    (isEmailEntered || adminEmail);
 
   return (
     <div className='fixed inset-0 z-50 flex items-center overflow-auto bg-black/40'>

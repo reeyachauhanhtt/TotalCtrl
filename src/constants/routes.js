@@ -5,6 +5,8 @@ export const ROUTES = {
   EXTERNAL_ORDER_SCHEDULED: '/external-orders/scheduled-order/:orderId',
   EXTERNAL_ORDER_PARTIAL: '/external-orders/partially-delivered/:orderId',
   EXTERNAL_ORDER_DELIVERED: '/external-orders/delivered-order/:orderId',
+  EXTERNAL_ORDER_DETAIL_SLUG: (order) =>
+    `/external-orders/${order.slug}/${order.id}`,
 
   INTERNAL_ORDERS: '/internal-orders',
   INTERNAL_ORDER_SCHEDULED:

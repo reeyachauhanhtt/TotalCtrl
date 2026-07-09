@@ -8,7 +8,7 @@ import { format, startOfMonth, endOfMonth } from 'date-fns';
 import MonthPicker from '../common/MonthPicker';
 import { getPersistedDateRange } from '../../../utils/analyticsDateRange';
 import { fetchFoodWasteOverview } from '../../../services/foodWasteService';
-import { TransferProductListSkeleton } from '../../Common/Skeleton';
+import { GreenDotSkeleton } from '../../Common/Skeleton';
 
 export default function OverviewOfWastedFood({ inventoryId }) {
   const persisted = getPersistedDateRange(
@@ -282,7 +282,7 @@ export default function OverviewOfWastedFood({ inventoryId }) {
         `}</style>
 
         {isLoading ? (
-          <TransferProductListSkeleton />
+          <GreenDotSkeleton />
         ) : (
           <ReactApexChart
             key={`${dateRange.fromDate}-${dateRange.toDate}-${xAxis.length}-${yAxis.length}`}

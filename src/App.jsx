@@ -10,11 +10,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-  ROUTES,
-  // EXTERNAL_ORDER_DETAIL_REGEX,
-  // INTERNAL_ORDER_DETAIL_REGEX,
-} from './constants/routes';
+import { ROUTES } from './constants/routes';
 import Sidebar from './components/Sidebar';
 import Header from './components/Inventory/Header';
 import InventoryPage from './pages/InventoryPage';

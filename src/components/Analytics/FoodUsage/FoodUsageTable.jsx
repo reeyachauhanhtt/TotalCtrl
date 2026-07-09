@@ -86,7 +86,6 @@ export default function FoodUsageTable({
             dataLength={data.length}
             next={fetchNextPage}
             hasMore={!!hasNextPage}
-            // loader={null}
             loader={
               <table
                 className='w-[95%] mx-auto border-collapse text-[13px]'

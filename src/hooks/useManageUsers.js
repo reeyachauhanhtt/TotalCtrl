@@ -6,15 +6,12 @@ const LIMIT = 20;
 export function useManageUsers(search) {
   return useInfiniteQuery({
     queryKey: ['store-users', search],
-    queryFn: ({ pageParam = 0 }) =>
-      fetchStoreUsers({ search, offset: pageParam, limit: LIMIT }),
-    // queryFn: async () => {
-    //   await new Promise((r) => setTimeout(r, 10000));
-    //   return fetchStoreUsers({ search, offset: 0, limit: LIMIT });
-    // },
+    queryFn: async ({ pageParam = 0 }) => {
+      await new Promise((r) => setTimeout(r, 300));
+      return fetchStoreUsers({ search, offset: pageParam, limit: LIMIT });
+    },
     getNextPageParam: (lastPage) => {
       if (!lastPage?.meta) return undefined;
-
       return lastPage.meta.hasNext
         ? lastPage.meta.offset + lastPage.meta.limit
         : undefined;
@@ -22,5 +19,16 @@ export function useManageUsers(search) {
     initialPageParam: 0,
     staleTime: 0,
     gcTime: 0,
+    select: (data) => {
+      const seen = new Set();
+      const users = data.pages
+        .flatMap((page) => page.users)
+        .filter((u) => {
+          if (seen.has(u.id)) return false;
+          seen.add(u.id);
+          return true;
+        });
+      return { ...data, users };
+    },
   });
 }

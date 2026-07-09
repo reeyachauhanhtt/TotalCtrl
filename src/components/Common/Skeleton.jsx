@@ -1,7 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-// Wrapper to match  shimmer colors
 export function SkeletonBar({ className = '', style = {}, borderRadius = {} }) {
   return (
     <Skeleton
@@ -13,6 +12,31 @@ export function SkeletonBar({ className = '', style = {}, borderRadius = {} }) {
       highlightColor='#d4d4d8'
       borderRadius={borderRadius}
     />
+  );
+}
+
+export function GreenDotSkeleton() {
+  return (
+    <div className='flex items-center justify-center py-16'>
+      <div className='flex items-center gap-4'>
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className='w-3 h-3 rounded-full bg-emerald-600'
+            style={{
+              animation: 'dotBounce 0.8s ease-in-out infinite',
+              animationDelay: `${i * 0.15}s`,
+            }}
+          />
+        ))}
+      </div>
+      <style>{`
+        @keyframes dotBounce {
+          0%, 100% { transform: scale(1); opacity: 0.7; }
+          50% { transform: scale(1.5); opacity: 1; }
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -287,31 +311,6 @@ export function InventoryPageSkeleton() {
 
 export function StockValueSkeleton() {
   return <SkeletonBar style={{ height: 20, width: 112, marginTop: 4 }} />;
-}
-
-export function TransferProductListSkeleton() {
-  return (
-    <div className='flex items-center justify-center py-16'>
-      <div className='flex items-center gap-4'>
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className='w-3 h-3 rounded-full bg-emerald-600'
-            style={{
-              animation: 'dotBounce 0.8s ease-in-out infinite',
-              animationDelay: `${i * 0.15}s`,
-            }}
-          />
-        ))}
-      </div>
-      <style>{`
-        @keyframes dotBounce {
-          0%, 100% { transform: scale(1); opacity: 0.7; }
-          50% { transform: scale(1.5); opacity: 1; }
-        }
-      `}</style>
-    </div>
-  );
 }
 
 export function AddItemRowSkeleton() {
