@@ -17,6 +17,8 @@ export default function FormInput({
   onClick,
   onKeyDown,
   inputClassName = '',
+  multiline = false,
+  rows = 4,
 }) {
   const [focused, setFocused] = useState(false);
 
@@ -31,35 +33,60 @@ export default function FormInput({
   return (
     <div className={className}>
       <div
-        className={`flex h-12 w-full items-center rounded border px-4 gap-1 ${wrapperClass}`}
+        className={`flex w-full rounded border px-4 gap-1 ${
+          multiline ? 'items-start py-3' : 'h-12 items-center'
+        } ${wrapperClass}`}
       >
-        <input
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          disabled={disabled}
-          autoFocus={autoFocus}
-          readOnly={readOnly}
-          onKeyDown={onKeyDown}
-          onClick={onClick}
-          onFocus={() => {
-            setFocused(true);
-            onFocus?.();
-          }}
-          onBlur={() => {
-            setFocused(false);
-            onBlur?.();
-          }}
-          className={`min-w-0 shrink w-full text-[14px] text-[#333] outline-none bg-transparent disabled:cursor-not-allowed ${
-            readOnly ? 'cursor-pointer caret-transparent' : ''
-          } ${
-            type === 'number'
-              ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-              : ''
-          } ${inputClassName}`}
-        />
-        {suffix && value && (
+        {multiline ? (
+          <textarea
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            disabled={disabled}
+            autoFocus={autoFocus}
+            readOnly={readOnly}
+            onKeyDown={onKeyDown}
+            onClick={onClick}
+            rows={rows}
+            onFocus={() => {
+              setFocused(true);
+              onFocus?.();
+            }}
+            onBlur={() => {
+              setFocused(false);
+              onBlur?.();
+            }}
+            className={`min-w-0 shrink w-full text-[14px] text-[#333] outline-none bg-transparent resize-y disabled:cursor-not-allowed ${inputClassName}`}
+          />
+        ) : (
+          <input
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            disabled={disabled}
+            autoFocus={autoFocus}
+            readOnly={readOnly}
+            onKeyDown={onKeyDown}
+            onClick={onClick}
+            onFocus={() => {
+              setFocused(true);
+              onFocus?.();
+            }}
+            onBlur={() => {
+              setFocused(false);
+              onBlur?.();
+            }}
+            className={`min-w-0 shrink w-full text-[14px] text-[#333] outline-none bg-transparent disabled:cursor-not-allowed ${
+              readOnly ? 'cursor-pointer caret-transparent' : ''
+            } ${
+              type === 'number'
+                ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+                : ''
+            } ${inputClassName}`}
+          />
+        )}
+        {!multiline && suffix && value && (
           <span className='shrink-0 text-[14px] text-[#19191c] whitespace-nowrap'>
             {suffix}
           </span>

@@ -14,6 +14,7 @@ export const fetchInventoriesWithAccess = async () => {
     },
   );
   return res.data.Data;
+  console.log(res.data.Data);
 };
 
 export const fetchInventoryAccessMap = async (inventoryIds) => {

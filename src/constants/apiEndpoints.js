@@ -107,4 +107,10 @@ export const API_ENDPOINTS = {
     `/store-users/${userId}/inventory-permission`,
   SAVE_USER_INVENTORY_PERMISSIONS: (userId) =>
     `/store-users/${userId}/inventory-permissions/bulk`,
+
+  // ── MANAGE ROLES ──
+  GET_STORE_ROLES: '/store-users/roles',
+  ADD_STORE_ROLE: '/store-users/roles',
+  UPDATE_STORE_ROLE: (roleId) => `/store-users/roles/${roleId}`,
+  DELETE_STORE_ROLE: (roleId) => `/store-users/roles/${roleId}`,
 };

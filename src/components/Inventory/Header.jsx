@@ -33,16 +33,18 @@ export default function Header() {
 
   const inventories = data?.Data || data?.data || [];
 
-  //deactivated inv will be removed from the redu
+  //deactivated inv will be removed from the redux state & also gets updated when user permissions are changed
   useEffect(() => {
     if (inventories.length === 0) return;
 
-    const stillValid = selectedInventory
-      ? inventories.some((inv) => inv.id === selectedInventory.id)
-      : false;
+    const freshMatch = selectedInventory
+      ? inventories.find((inv) => inv.id === selectedInventory.id)
+      : null;
 
-    if (!stillValid) {
+    if (!freshMatch) {
       dispatch(setSelectedInventory(inventories[0]));
+    } else if (freshMatch.permission !== selectedInventory.permission) {
+      dispatch(setSelectedInventory(freshMatch));
     }
   }, [inventories, selectedInventory, dispatch]);
 

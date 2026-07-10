@@ -47,7 +47,8 @@ export default function Sidebar() {
     settingsOpen ||
     location.pathname === ROUTES.PRODUCT_DATABASE ||
     location.pathname === ROUTES.MANAGE_STORAGE ||
-    location.pathname === ROUTES.MANAGE_USER;
+    location.pathname === ROUTES.MANAGE_USER ||
+    location.pathname === ROUTES.MANAGE_ROLES;
 
   return (
     <div

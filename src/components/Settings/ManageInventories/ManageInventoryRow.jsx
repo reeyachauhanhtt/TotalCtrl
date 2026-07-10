@@ -33,8 +33,16 @@ function ActionsDropdown({
   useEffect(() => {
     if (anchorRef.current && dropdownRef.current) {
       const rect = anchorRef.current.getBoundingClientRect();
+      const dropdownHeight = dropdownRef.current.offsetHeight;
+      const spaceBelow = window.innerHeight - rect.bottom;
+
+      const top =
+        spaceBelow < dropdownHeight
+          ? rect.top - dropdownHeight - 4
+          : rect.bottom + 4;
+
       setPos({
-        top: rect.bottom + 4,
+        top,
         left: rect.left - 120,
       });
     }

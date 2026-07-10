@@ -5,7 +5,7 @@ import ManageUserHeader from '../components/Settings/ManageUser/ManageUserHeader
 import AddNewUserModal from '../components/Settings/ManageUser/AddNewUser';
 import ManageUserTable from '../components/Settings/ManageUser/ManageUserTable';
 
-export default function ManageUser() {
+export default function ManageUserPage() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 

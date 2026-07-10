@@ -22,6 +22,7 @@ export const ROUTES = {
   PRODUCT_DATABASE: '/product-database',
   MANAGE_STORAGE: '/manage-storage',
   MANAGE_USER: '/manage-user',
+  MANAGE_ROLES: '/manage-roles',
 
   ROOT: '/',
 

@@ -32,8 +32,15 @@ function ActionsDropdown({
   useEffect(() => {
     if (anchorRef.current && dropdownRef.current) {
       const rect = anchorRef.current.getBoundingClientRect();
+      const dropdownHeight = dropdownRef.current.offsetHeight;
+      const spaceBelow = window.innerHeight - rect.bottom;
+
+      const top =
+        spaceBelow < dropdownHeight
+          ? rect.top - dropdownHeight - 4
+          : rect.bottom + 4;
       setPos({
-        top: rect.bottom + 4,
+        top,
         left: rect.left - 120,
       });
     }
@@ -126,6 +133,8 @@ export default function ManageUserRow({ user }) {
   } = user;
 
   const isCurrentlyActive = !!status;
+  const CURRENT_USER_EMAIL = 'dev@totalctrl.no';
+  const isCurrentUser = email === CURRENT_USER_EMAIL;
 
   const handleConfirm = async () => {
     try {
@@ -149,7 +158,7 @@ export default function ManageUserRow({ user }) {
       showErrorToast(error?.response?.data?.message ?? 'Failed to update user');
     }
   };
-
+  // console.log('row email:', email, 'row username:', userName);
   return (
     <>
       <tr className='border-b border-[#e6e6ed]' style={{ height: 72 }}>
@@ -168,6 +177,9 @@ export default function ManageUserRow({ user }) {
                 }`}
               >
                 {firstName} {lastName}
+                {isCurrentUser && (
+                  <span className='font-normal text-[#6b6b6f]'> (You)</span>
+                )}
               </span>
               <span
                 className={`block text-[13px] leading-4 capitalize ${

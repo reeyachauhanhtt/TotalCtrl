@@ -13,7 +13,7 @@ const BADGE_VARIANTS = {
   },
   delivered: { bg: '#eaf7ee', color: '#0f6f36', label: 'Delivered' },
 
-  // Inventory statuses
+  // Inventory, Users, Roles statuses
   active: { bg: '#dcf1e3', color: '#0f6f36', label: 'Active' },
   deactivated: { bg: '#e7e7ec', color: '#57575b', label: 'Deactivated' },
   deactived: { bg: '#e7e7ec', color: '#57575b', label: 'Deactivated' },

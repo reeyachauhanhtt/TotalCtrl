@@ -2,27 +2,45 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 
+import { ROUTES } from '../../constants/routes';
+
 const menuItems = [
   { label: 'Personal Settings', icon: '/icons/Account.svg', path: '#' },
+
   { label: 'Organization Settings', icon: '/icons/suitcase.svg', path: '#' },
-  { label: 'Manage Users', icon: '/icons/people.svg', path: '/manage-user' },
-  { label: 'Manage Roles', icon: '/icons/roles.svg', path: '#' },
+
+  {
+    label: 'Manage Users',
+    icon: '/icons/people.svg',
+    path: ROUTES.MANAGE_USER,
+  },
+
+  {
+    label: 'Manage Roles',
+    icon: '/icons/roles.svg',
+    path: ROUTES.MANAGE_ROLES,
+  },
+
   {
     label: 'Manage Inventories',
     icon: '/icons/box.svg',
-    path: '/manage-storage',
+    path: ROUTES.MANAGE_STORAGE,
   },
+
   {
     label: 'Manage Item Templates',
     icon: '/icons/products.svg',
-    path: '/product-database',
+    path: ROUTES.PRODUCT_DATABASE,
   },
+
   { label: 'Roles & Permissions', icon: '/icons/roles.svg', path: '#' },
+
   {
     label: 'Manage Integrations',
     icon: '/icons/manageIntegration.svg',
     path: '#',
   },
+
   { label: 'General Reports', icon: '/icons/inbox.svg', path: '#' },
 ];
 

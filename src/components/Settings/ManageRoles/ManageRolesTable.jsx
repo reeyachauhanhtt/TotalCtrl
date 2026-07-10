@@ -1,17 +1,16 @@
-import ManageUserRow from './ManageUserRow';
+import ManageRolesRow from './ManageRolesRows';
 import { SkeletonBar } from '../../Common/Skeleton';
 import { EMPTY_STATE_LABELS } from '../../../constants/titles';
 
 const COLUMNS = [
-  { label: 'Full Name', width: '18%' },
-  { label: 'E-mail / Username', width: '30%' },
-  { label: 'User Role', width: '8%' },
+  { label: 'Role Name', width: '18%' },
+  { label: 'Description', width: '38%' },
   { label: 'Status', width: '14%' },
   { label: '', width: '5%' },
 ];
 
-export default function ManageUserTable({
-  users = [],
+export default function ManageRolesTable({
+  roles = [],
   isLoading,
   isFetching,
   onFetchNext,
@@ -76,7 +75,7 @@ export default function ManageUserTable({
                   className='border-b border-[#e6e6ed]'
                   style={{ height: 72 }}
                 >
-                  {/* Full name (avatar + name + job title) */}
+                  {/* Role name */}
                   <td style={{ width: '18%', paddingTop: 26 }}>
                     <div className='flex'>
                       <SkeletonBar
@@ -99,29 +98,16 @@ export default function ManageUserTable({
                     </div>
                   </td>
 
-                  {/* Email / Username */}
+                  {/* Description */}
                   <td
                     style={{
-                      width: '30%',
+                      width: '38%',
                       paddingTop: 35,
                       paddingLeft: '0.75rem',
                     }}
                   >
                     <SkeletonBar
-                      style={{ height: 12, width: '70%', borderRadius: 20 }}
-                    />
-                  </td>
-
-                  {/* User Role */}
-                  <td
-                    style={{
-                      width: '8%',
-                      paddingTop: 35,
-                      paddingLeft: '0.75rem',
-                    }}
-                  >
-                    <SkeletonBar
-                      style={{ height: 12, width: 80, borderRadius: 20 }}
+                      style={{ height: 12, width: '90%', borderRadius: 20 }}
                     />
                   </td>
 
@@ -142,9 +128,8 @@ export default function ManageUserTable({
                   <td
                     style={{
                       width: '5%',
-                      paddingTop: 20,
+                      paddingTop: 35,
                       paddingLeft: '0.75rem',
-                      paddingRight: 24,
                     }}
                   >
                     <SkeletonBar
@@ -153,7 +138,7 @@ export default function ManageUserTable({
                   </td>
                 </tr>
               ))
-            ) : users.length === 0 ? (
+            ) : roles.length === 0 ? (
               <tr>
                 <td
                   colSpan={COLUMNS.length}
@@ -164,7 +149,7 @@ export default function ManageUserTable({
                 </td>
               </tr>
             ) : (
-              users.map((user) => <ManageUserRow key={user.id} user={user} />)
+              roles.map((role) => <ManageRolesRow key={role.id} role={role} />)
             )}
           </tbody>
         </table>

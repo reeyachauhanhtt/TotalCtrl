@@ -163,6 +163,28 @@ export const USER_CONFIRM_MODAL = {
   },
 };
 
+// manage roles
+export const MANAGE_ROLES_MODAL_TITLES = {
+  ADD_NEW_ROLE: 'Add New Role',
+  EDIT_ROLE: 'Edit Role',
+};
+
+export const ROLE_ACTION_LABELS = {
+  EDIT_ROLE: 'Edit Role',
+  DELETE_ROLE: 'Delete Role',
+};
+
+export const ROLE_CONFIRM_MODAL = {
+  title: (action, roleName) =>
+    action === 'delete'
+      ? `Confirm Delete Role ${roleName}?`
+      : `Are you sure you want to ${action} ${roleName}?`,
+  description: {
+    delete:
+      'Deleting this role will remove all associated permissions and cannot be undone. Are you sure you want to proceed?',
+  },
+};
+
 // empty state labels
 export const EMPTY_STATE_LABELS = {
   noOrdersForTab: (tab) => `No ${tab.toLowerCase()} orders`,

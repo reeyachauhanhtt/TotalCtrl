@@ -1,0 +1,84 @@
+ADD ROLE 
+
+ENDPOINT: POST : /store-users/roles
+REQUEST URL : https://dev.totalctrl.com:2053/store-users/roles
+PAYLOAD : {
+    "name": "Crewmate",
+    "description": "Complete your tasks",
+    "isActive": "1"
+}
+PREVIEW : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role added successfully.",
+    "Data": {
+        "id": "f7dbc45f-34e5-475f-a520-efeaa0f7a1ee"
+    }
+}
+RESPONSE : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role added successfully.",
+    "Data": {
+        "id": "f7dbc45f-34e5-475f-a520-efeaa0f7a1ee"
+    }
+}
+
+EDIT ROLE : 
+
+ENDPOINT : PUT : /store-users/roles/{roleId}
+REQUEST URL : https://dev.totalctrl.com:2053/store-users/roles/0a04947a-6931-41a3-81bf-3fd9e7f7c0f5
+PAYLOAD : {
+    "name": "Shapeshifter",
+    "description": "disguise yourself as crewmate",
+    "isActive": "1"
+}
+PREVIEW : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role updated successfully.",
+    "Data": {
+        "id": "0a04947a-6931-41a3-81bf-3fd9e7f7c0f5"
+    }
+}
+RESPONSE : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role updated successfully.",
+    "Data": {
+        "id": "0a04947a-6931-41a3-81bf-3fd9e7f7c0f5"
+    }
+}
+
+DEACTIVATE ROLE : 
+
+ENDPOINT : PUT : /store-users/roles/{roleId}
+REQUEST URL : https://dev.totalctrl.com:2053/store-users/roles/f7dbc45f-34e5-475f-a520-efeaa0f7a1ee
+PAYLOAD : {"name":"Crewmate","description":"Complete your tasks","isActive":"0"}
+PREVIEW : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role updated successfully.",
+    "Data": {
+        "id": "f7dbc45f-34e5-475f-a520-efeaa0f7a1ee"
+    }
+}
+RESPONSE : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role updated successfully.",
+    "Data": {
+        "id": "f7dbc45f-34e5-475f-a520-efeaa0f7a1ee"
+    }
+}
+
+DELETE A ROLE 
+
+ENDPOINT : DELETE : /store-users/roles/{roleId}
+REQUEST URL : https://dev.totalctrl.com:2053/store-users/roles/f7dbc45f-34e5-475f-a520-efeaa0f7a1ee
+PREVIEW : {
+    "Status": true,
+    "StatusCode": 200,
+    "Message": "User Role deleted successfully."
+}
+RESPONSE : {"Status":true,"StatusCode":200,"Message":"User Role deleted successfully."}

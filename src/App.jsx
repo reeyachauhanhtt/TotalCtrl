@@ -18,8 +18,9 @@ import ExternalOrderPage from './pages/ExternalOrderPage';
 import InternalOrderPage from './pages/InternalOrderPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import ManageItemTemplatePage from './pages/ManageItemTemplatePage';
-import ManageInventories from './pages/ManageInventoriesPage';
-import ManageUser from './pages/ManageUserPage';
+import ManageInventoriesPage from './pages/ManageInventoriesPage';
+import ManageUserPage from './pages/ManageUserPage';
+import ManageRolesPage from './pages/ManageRolesPage';
 
 import { HeaderSkeleton } from './components/Common/Skeleton';
 
@@ -107,6 +108,7 @@ function Layout() {
     if (location.pathname === ROUTES.PRODUCT_DATABASE) return null;
     if (location.pathname === ROUTES.MANAGE_STORAGE) return null;
     if (location.pathname === ROUTES.MANAGE_USER) return null;
+    if (location.pathname === ROUTES.MANAGE_ROLES) return null;
 
     //inventory header
     if (!selectedInventory) return <HeaderSkeleton />;
@@ -289,9 +291,10 @@ function Layout() {
             />
             <Route
               path={ROUTES.MANAGE_STORAGE}
-              element={<ManageInventories />}
+              element={<ManageInventoriesPage />}
             />
-            <Route path={ROUTES.MANAGE_USER} element={<ManageUser />} />
+            <Route path={ROUTES.MANAGE_USER} element={<ManageUserPage />} />
+            <Route path={ROUTES.MANAGE_ROLES} element={<ManageRolesPage />} />
           </Routes>
         </div>
       </div>
